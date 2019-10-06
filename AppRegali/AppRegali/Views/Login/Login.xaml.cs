@@ -19,8 +19,17 @@ namespace AppRegali.Views.Login
 
         private void btnAccedi_Clicked(object sender, EventArgs e)
         {
-
             Application.Current.MainPage = new MainPage();
+        }
+
+        private void TapGestureRecognizer_Tapped(object sender, EventArgs e)
+        {
+            Navigation.PushAsync(new PasswordDimenticata());
+        }
+
+        private void TapGestureRecognizer_lblRegistrati(object sender, EventArgs e)
+        {
+            Navigation.PushAsync(new Registrazione());
         }
     }
 }

@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="AppRegali.Views.Login.Registrazione">
+    <ContentPage.Content>
+        <StackLayout  Margin="30" VerticalOptions="CenterAndExpand">
+            <Label FontSize="40" FontAttributes="Bold" TextColor="Black" Margin="0,0,0,50" Text="Registrati"></Label>
+
+            <Entry Visual="Material" Placeholder="Email" VerticalOptions="Center"></Entry>
+
+            <Entry Visual="Material" IsPassword="True" Placeholder="Password" VerticalOptions="Center"></Entry>
+
+            <Entry Visual="Material" IsPassword="True" Placeholder="Ripeti password" VerticalOptions="Center"></Entry>
+
+            <Button x:Name="btnRegistrati" Text="Registrati" Visual="Material" VerticalOptions="Center"></Button>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

@@ -38,7 +38,7 @@ namespace AppRegali.Views
                 //Se l'item selezionato è "LogOut" allora torno alla pagina di Login
                 if (id == 2)
                 {
-                    Application.Current.MainPage = new Login.Login();
+                    Application.Current.MainPage = new NavigationPage(new Login.Login());
                 }
                 else
                 {
