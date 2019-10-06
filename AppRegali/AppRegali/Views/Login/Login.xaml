@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="AppRegali.Views.Login.Login"
+             NavigationPage.HasNavigationBar="False">
+    <ContentPage.Content>
+            <StackLayout VerticalOptions="CenterAndExpand" Margin="30">
+
+            <Entry Visual="Material" Placeholder="Username"></Entry>
+
+            <Entry Visual="Material" Placeholder="Password" IsPassword="True"></Entry>
+
+            <Button Visual="Material" Text="Accedi" x:Name="btnAccedi"  Clicked="btnAccedi_Clicked"></Button>
+
+            <Label Text="Passowrd dimenticata?" HorizontalTextAlignment="End" TextColor="#1e73be"></Label>
+
+            <Label Text="Oppure" HorizontalTextAlignment="Center" Margin="0,10,0,10"></Label>
+
+            <Button Visual="Material" Text="Accedi con facebook" x:Name="btnAccediFacebook"  Clicked="btnAccedi_Clicked" BackgroundColor="#1e73be" TextColor="White"></Button>
+
+            <Label Text="Non hai ancora un account? Registrati" HorizontalTextAlignment="Center" Margin="0,10,0,0" TextColor="#1e73be"></Label>
+
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
