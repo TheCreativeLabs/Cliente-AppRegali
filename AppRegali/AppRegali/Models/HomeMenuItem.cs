@@ -8,7 +8,6 @@ namespace AppRegali.Models
     {
         Browse,
         About,
-        Test,
         LogOut
     }
     public class HomeMenuItem
