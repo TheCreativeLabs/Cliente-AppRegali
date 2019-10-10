@@ -5,6 +5,7 @@ using Xamarin.Forms.Xaml;
 using AppRegali.Services;
 using AppRegali.Views;
 using AppRegali.Views.Login;
+using Plugin.Multilingual;
 
 namespace AppRegali
 {
@@ -20,6 +21,7 @@ namespace AppRegali
         public App()
         {
             InitializeComponent();
+            //AppResources.Culture = CrossMultilingual.Current.DeviceCultureInfo;
 
             if (UseMockDataStore)
                 DependencyService.Register<MockDataStore>();
