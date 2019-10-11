@@ -1,5 +1,7 @@
-﻿using System;
+﻿using AppRegali.Api;
+using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,10 +17,23 @@ namespace AppRegali.Views.Login
         public Login()
         {
             InitializeComponent();
+            //kkk();
         }
 
-        private void btnAccedi_Clicked(object sender, EventArgs e)
+        //public async void kkk()
+        //{
+
+        //    string action = await DisplayActionSheet("ActionSheet: SavePhoto?", "Cancel", "Delete", "Photo Roll", "Email");
+        //    Debug.WriteLine("Action: " + action);
+        //}
+
+        private async void btnAccedi_ClickedAsync(object sender, EventArgs e)
         {
+            ApiHelper apiHelper = new ApiHelper();
+            await apiHelper.SetTokenAsync(entUsername.Text, entPassword.Text, new Uri("https://www.appregaliapitest.com/Token"));
+
+
+            var i = apiHelper.GetToken();
             Application.Current.MainPage = new MainPage();
         }
 
