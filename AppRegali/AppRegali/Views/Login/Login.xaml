@@ -3,29 +3,30 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:translator="clr-namespace:AppRegali.Helpers"
              mc:Ignorable="d"
              x:Class="AppRegali.Views.Login.Login"
              NavigationPage.HasNavigationBar="False">
     <ContentPage.Content>
         <StackLayout VerticalOptions="CenterAndExpand" Margin="30">
 
-            <Entry Visual="Material" Placeholder="Username"></Entry>
+            <Entry x:Name="entUsername" Visual="Material" Placeholder="{translator:Translate Login.Username}"></Entry>
 
-            <Entry Visual="Material" Placeholder="Password" IsPassword="True"></Entry>
+            <Entry x:Name="entPassword" Visual="Material" Placeholder="{translator:Translate Login.Password}" IsPassword="True"></Entry>
 
-            <Button Visual="Material" Text="Accedi" x:Name="btnAccedi"  Clicked="btnAccedi_Clicked"></Button>
+            <Button  Visual="Material" Text="{translator:Translate Login.SignIn}" x:Name="btnAccedi" Clicked="btnAccedi_ClickedAsync"></Button>
 
-            <Label Text="Passowrd dimenticata?" HorizontalTextAlignment="End" TextColor="#1e73be">
+            <Label Text="{translator:Translate Login.ForgotPassword}" HorizontalTextAlignment="End" TextColor="#1e73be">
                 <Label.GestureRecognizers>
                     <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped"/> 
                 </Label.GestureRecognizers>
             </Label>
 
-            <Label Text="Oppure" HorizontalTextAlignment="Center" Margin="0,10,0,10"></Label>
+            <Label Text="{translator:Translate Login.Or}" HorizontalTextAlignment="Center" Margin="0,10,0,10"></Label>
 
-            <Button Visual="Material" Text="Accedi con facebook" x:Name="btnAccediFacebook"  Clicked="btnAccedi_Clicked" BackgroundColor="#1e73be" TextColor="White"></Button>
+            <Button Visual="Material" Text="{translator:Translate Login.FacebookSignIn}" x:Name="btnAccediFacebook"  Clicked="btnAccedi_ClickedAsync" BackgroundColor="#1e73be" TextColor="White"></Button>
 
-            <Label x:Name="lblRegistrati" Text="Non hai ancora un account? Registrati" HorizontalTextAlignment="Center" Margin="0,10,0,0" TextColor="#1e73be">
+            <Label x:Name="lblRegistrati" Text="{translator:Translate Login.RegisterIfNoAccount}" HorizontalTextAlignment="Center" Margin="0,10,0,0" TextColor="#1e73be">
                 <Label.GestureRecognizers>
                     <TapGestureRecognizer Tapped="TapGestureRecognizer_lblRegistrati"/>
                 </Label.GestureRecognizers>

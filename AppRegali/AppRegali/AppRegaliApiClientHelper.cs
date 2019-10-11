@@ -31,7 +31,7 @@ namespace AppRegali.Api
             public string Expires { get; set; }
         }
 
-        public void SetToken(string Username, string Password, Uri Endpoint)
+        public async Task SetTokenAsync(string Username, string Password, Uri Endpoint)
         {
             using (var httpClient = new HttpClient())
             {
@@ -45,7 +45,7 @@ namespace AppRegali.Api
 
                 HttpContent encodedRequest = new FormUrlEncodedContent(tokenRequest);
 
-                HttpResponseMessage response = httpClient.PostAsync(Endpoint, encodedRequest).Result;
+                HttpResponseMessage response = await httpClient.PostAsync(Endpoint, encodedRequest);
 
                 if (response != null && response.StatusCode == System.Net.HttpStatusCode.OK)
                 {
