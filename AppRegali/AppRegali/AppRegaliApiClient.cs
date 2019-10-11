@@ -14,14 +14,14 @@ using System.Text;
 #pragma warning disable 1573 // Disable "CS1573 Parameter '...' has no matching param tag in the XML comment for ...
 #pragma warning disable 1591 // Disable "CS1591 Missing XML comment for publicly visible type or member ..."
 
-namespace MyNamespace
+namespace Api
 {
     using System = global::System;
 
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "13.1.2.0 (NJsonSchema v10.0.24.0 (Newtonsoft.Json v11.0.0.0))")]
     public partial class AccountClient
     {
-        private string _baseUrl = "https://localhost:44373";
+        private string _baseUrl = "https://appregaliapitest.com";
         private System.Net.Http.HttpClient _httpClient;
         private System.Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings;
 
@@ -929,7 +929,7 @@ namespace MyNamespace
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "13.1.2.0 (NJsonSchema v10.0.24.0 (Newtonsoft.Json v11.0.0.0))")]
     public partial class ValuesClient
     {
-        private string _baseUrl = "https://localhost:44373";
+        private string _baseUrl = "https://appregaliapitest.com";
         private System.Net.Http.HttpClient _httpClient;
         private System.Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings;
 

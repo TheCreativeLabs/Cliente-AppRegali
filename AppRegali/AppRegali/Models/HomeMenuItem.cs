@@ -7,7 +7,7 @@ namespace AppRegali.Models
     public enum MenuItemType
     {
         Browse,
-        About,
+        Account,
         LogOut
     }
     public class HomeMenuItem

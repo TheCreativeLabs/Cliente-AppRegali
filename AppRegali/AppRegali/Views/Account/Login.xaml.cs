@@ -17,24 +17,36 @@ namespace AppRegali.Views.Login
         public Login()
         {
             InitializeComponent();
-            //kkk();
         }
-
-        //public async void kkk()
-        //{
-
-        //    string action = await DisplayActionSheet("ActionSheet: SavePhoto?", "Cancel", "Delete", "Photo Roll", "Email");
-        //    Debug.WriteLine("Action: " + action);
-        //}
 
         private async void btnAccedi_ClickedAsync(object sender, EventArgs e)
         {
-            ApiHelper apiHelper = new ApiHelper();
-            await apiHelper.SetTokenAsync(entUsername.Text, entPassword.Text, new Uri("https://www.appregaliapitest.com/Token"));
+            try
+            {
+                bool formIsValid = true;
 
+                if (String.IsNullOrEmpty(entUsername.Text))
+                {
+                    formIsValid = false;
+                    lblValidatorUsername.IsVisible = true;
+                }
 
-            var i = apiHelper.GetToken();
-            Application.Current.MainPage = new MainPage();
+                if (String.IsNullOrEmpty(entPassword.Text))
+                {
+                    formIsValid = false;
+                    lblValidatorPassword.IsVisible = true;
+                }
+
+                if (formIsValid)
+                {
+                    await ApiHelper.SetTokenAsync(entUsername.Text, entPassword.Text, new Uri("https://www.appregaliapitest.com/Token"));
+                    Application.Current.MainPage = new MainPage();
+                }
+            }
+            catch (Exception ex)
+            {
+               //Gestione errore;
+            }
         }
 
         private void TapGestureRecognizer_Tapped(object sender, EventArgs e)

@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="AppRegali.Views.Login.Registrazione"
+             xmlns:translator="clr-namespace:AppRegali.Helpers">
+    <ContentPage.Content>
+        <StackLayout  Margin="30" VerticalOptions="CenterAndExpand">
+            <StackLayout x:Name="stkFormRegistrazione" IsVisible="True">
+                <Label FontSize="40" FontAttributes="Bold" TextColor="Black" Margin="0,0,0,10" Text="{translator:Translate Registrazione.Titolo}"></Label>
+
+                <Entry x:Name="entEmail" Visual="Material" Placeholder="{translator:Translate Login.Email}" VerticalOptions="Center"></Entry>
+                <Label Text="{translator:Translate Login.MessaggioValidazioneEmail}" FontSize="Small" TextColor="Red" IsVisible="False" x:Name="lblValidatorEntEmail"></Label>
+
+                <Entry x:Name="entPassword" Visual="Material" IsPassword="True" Placeholder="{translator:Translate Login.Password}" VerticalOptions="Center"></Entry>
+                <Label Text="{translator:Translate Login.MessaggioValidazionePassword}" FontSize="Small" TextColor="Red" IsVisible="False" x:Name="lblValidatorEntPassword"></Label>
+
+                <Entry x:Name="entConfermaPassword" Visual="Material" IsPassword="True" Placeholder="{translator:Translate Login.ConfermaPassword}" VerticalOptions="Center"></Entry>
+                <Label Text="{translator:Translate Login.MessaggioValidazioneConfermaPassword}" FontSize="Small" TextColor="Red" IsVisible="False" x:Name="lblValidatorEntConfermaPassword"></Label>
+
+                <Button x:Name="btnRegistrati" Text="{translator:Translate Registrazione.Bottone}" Visual="Material" VerticalOptions="Center" Clicked="btnRegistrati_Clicked"></Button>
+            </StackLayout>
+            
+            <StackLayout x:Name="stkRegistrazioneAvvenuta" IsVisible="False">
+                <Label FontSize="40" FontAttributes="Bold" TextColor="Black" Margin="0,0,0,10" Text="{translator:Translate Registrazione.TitoloSuccesso}"></Label>
+                <Label FontSize="20" FontAttributes="Bold" TextColor="Black" Margin="0,0,0,10" Text="{translator:Translate Registrazione.SottotitoloSuccesso}"></Label>
+
+                <Button x:Name="btnLogin" Text="{translator:Translate Registrazione.TornaAlLogin}" Visual="Material" VerticalOptions="Center" Clicked="btnLogin_Clicked"></Button>
+            </StackLayout>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

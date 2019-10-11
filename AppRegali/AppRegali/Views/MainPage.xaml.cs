@@ -33,8 +33,8 @@ namespace AppRegali.Views
                     case (int)MenuItemType.Browse:
                         MenuPages.Add(id, new NavigationPage(new ItemsPage()));
                         break;
-                    case (int)MenuItemType.About:
-                        MenuPages.Add(id, new NavigationPage(new AboutPage()));
+                    case (int)MenuItemType.Account:
+                        MenuPages.Add(id, new NavigationPage(new Account.Account()));
                         break;
                 }
             }

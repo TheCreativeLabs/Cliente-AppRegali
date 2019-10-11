@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Api;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +9,7 @@ using Xamarin.Forms;
 
 namespace AppRegali.Api
 {
-    public class ApiHelper
+    public static class ApiHelper
     {
         public class BearerToken
         {
@@ -31,7 +32,7 @@ namespace AppRegali.Api
             public string Expires { get; set; }
         }
 
-        public async Task SetTokenAsync(string Username, string Password, Uri Endpoint)
+        public static async Task SetTokenAsync(string Username, string Password, Uri Endpoint)
         {
             using (var httpClient = new HttpClient())
             {
@@ -56,14 +57,39 @@ namespace AppRegali.Api
                 }
                 else
                 {
-                    throw new Exception("Non autorizzato.");
+                    throw new Exception("Si è verificato un errore");
                 }
             }
         }
 
-        public string GetToken()
+        public static string GetToken()
         {
             return Application.Current.Properties["Access_Token"].ToString() ;
+        }
+
+        public static async Task RegisterAsync(string Email, string Password, string ConfermaPassword)
+        {
+            using (var httpClient = new HttpClient())
+            {
+                AccountClient accountClient = new AccountClient(httpClient);
+
+                //Creo il modello dei dati per la registrazione
+                RegisterBindingModel registerBindingModel = new RegisterBindingModel()
+                {
+                    Email = Email,
+                    Password = Password,
+                    ConfirmPassword = ConfermaPassword
+                };
+
+                try
+                {
+                    await accountClient.RegisterAsync(registerBindingModel);
+                }
+                catch (ApiException ex)
+                {
+                    throw new Exception("Si è verificato un errore" + ex.StatusCode);
+                }
+            }
         }
     }
 }

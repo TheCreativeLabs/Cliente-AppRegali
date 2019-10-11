@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Account.CambiaPassword" xml:space="preserve">
+    <value>Cambia Password</value>
+  </data>
   <data name="ChangePassword.ConfirmNewPassword" xml:space="preserve">
     <value>Confirm new password</value>
   </data>
@@ -129,11 +132,32 @@
   <data name="ChangePassword.NewPassword" xml:space="preserve">
     <value>New password</value>
   </data>
+  <data name="Login.ConfermaPassword" xml:space="preserve">
+    <value>Conferma Password</value>
+  </data>
+  <data name="Login.Email" xml:space="preserve">
+    <value>Email</value>
+  </data>
   <data name="Login.FacebookSignIn" xml:space="preserve">
     <value>Sign in with Facebook</value>
   </data>
   <data name="Login.ForgotPassword" xml:space="preserve">
     <value>Forgot your password?</value>
+  </data>
+  <data name="Login.MessaggioPasswordObbligatoria" xml:space="preserve">
+    <value>Inserire una password</value>
+  </data>
+  <data name="Login.MessaggioUsernameObbligatorio" xml:space="preserve">
+    <value>Inserire uno username</value>
+  </data>
+  <data name="Login.MessaggioValidazioneConfermaPassword" xml:space="preserve">
+    <value>Le due password non corrispondono.</value>
+  </data>
+  <data name="Login.MessaggioValidazioneEmail" xml:space="preserve">
+    <value>Inserire una email valida.</value>
+  </data>
+  <data name="Login.MessaggioValidazionePassword" xml:space="preserve">
+    <value>Inserire una password valida, almeno 8 caratteri comprendenti lettere minuscole, maiuscole, numeri e caratteri speciali.</value>
   </data>
   <data name="Login.Or" xml:space="preserve">
     <value>or</value>
@@ -149,5 +173,20 @@
   </data>
   <data name="Login.Username" xml:space="preserve">
     <value>Username</value>
+  </data>
+  <data name="Registrazione.Bottone" xml:space="preserve">
+    <value>Registrati</value>
+  </data>
+  <data name="Registrazione.SottotitoloSuccesso" xml:space="preserve">
+    <value>Riceverà una email con il link di conferma</value>
+  </data>
+  <data name="Registrazione.Titolo" xml:space="preserve">
+    <value>Registrazione</value>
+  </data>
+  <data name="Registrazione.TitoloSuccesso" xml:space="preserve">
+    <value>Registrazione avvenuta con successo</value>
+  </data>
+  <data name="Registrazione.TornaAlLogin" xml:space="preserve">
+    <value>Vai alla pagina di login</value>
   </data>
 </root>

@@ -7,12 +7,12 @@ using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-namespace AppRegali.Views.Login
+namespace AppRegali.Views.Account
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class Registrazione : ContentPage
+    public partial class Account : ContentPage
     {
-        public Registrazione()
+        public Account()
         {
             InitializeComponent();
         }

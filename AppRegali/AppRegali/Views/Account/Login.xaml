@@ -11,8 +11,10 @@
         <StackLayout VerticalOptions="CenterAndExpand" Margin="30">
 
             <Entry x:Name="entUsername" Visual="Material" Placeholder="{translator:Translate Login.Username}"></Entry>
+            <Label Text="{translator:Translate Login.MessaggioUsernameObbligatorio}" FontSize="Small" TextColor="Red" IsVisible="False" x:Name="lblValidatorUsername"></Label>
 
             <Entry x:Name="entPassword" Visual="Material" Placeholder="{translator:Translate Login.Password}" IsPassword="True"></Entry>
+            <Label Text="{translator:Translate Login.MessaggioPasswordObbligatoria}" FontSize="Small" TextColor="Red" IsVisible="False" x:Name="lblValidatorPassword"></Label>
 
             <Button  Visual="Material" Text="{translator:Translate Login.SignIn}" x:Name="btnAccedi" Clicked="btnAccedi_ClickedAsync"></Button>
 

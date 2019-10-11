@@ -10,6 +10,7 @@ using Microsoft.Owin.Security.OAuth;
 using Owin;
 using AppRegaliApi.Providers;
 using AppRegaliApi.Models;
+using Microsoft.Owin.Security.Facebook;
 
 namespace AppRegaliApi
 {
@@ -55,9 +56,23 @@ namespace AppRegaliApi
             //    consumerKey: "",
             //    consumerSecret: "");
 
+
+            var facebookOption = new FacebookAuthenticationOptions()
+            {
+                AppId =  "971997736480952",
+                AppSecret=  "483348891fbc0f94cf3a6e40cdbbaf1d",
+                BackchannelHttpHandler = new FacebookBackChannelHandler(),
+                UserInformationEndpoint = "https//graph.facebook.com/v2.4/me?fields=id,email"
+            };
+
+            facebookOption.Scope.Add("email");
+
+            app.UseFacebookAuthentication(facebookOption);
+
             //app.UseFacebookAuthentication(
-            //    appId: "",
-            //    appSecret: "");
+            //    appId: "971997736480952",
+            //    appSecret: "483348891fbc0f94cf3a6e40cdbbaf1d")
+            //    ;
 
             //app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
             //{
