@@ -1,8 +1,10 @@
-﻿using AppRegali.Api;
+﻿using Api;
+using AppRegali.Api;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -57,6 +59,30 @@ namespace AppRegali.Views.Login
         private void TapGestureRecognizer_lblRegistrati(object sender, EventArgs e)
         {
             Navigation.PushAsync(new Registrazione());
+        }
+
+        private void btnAccediFacebook_Clicked(object sender, EventArgs e)
+        {
+            try
+            {
+                bool formIsValid = true;
+
+                HttpClient httpClient = new HttpClient();
+                AccountClient accountClient = new AccountClient(httpClient);
+
+                AddExternalLoginBindingModel addExternalLoginBindingModel = new AddExternalLoginBindingModel()
+                {
+                    ExternalAccessToken = null
+                };
+
+                var i = accountClient.GetExternalLoginAsync("facebook",null);
+
+                var i2 = 0;
+            }
+            catch (Exception ex)
+            {
+                //Gestione errore;
+            }
         }
     }
 }
