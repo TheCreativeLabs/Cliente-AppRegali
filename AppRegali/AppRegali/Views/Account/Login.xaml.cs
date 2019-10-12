@@ -1,8 +1,11 @@
-﻿using AppRegali.Api;
+﻿using Api;
+using AppRegali.Api;
+using AppRegali.Views.Account;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -57,6 +60,18 @@ namespace AppRegali.Views.Login
         private void TapGestureRecognizer_lblRegistrati(object sender, EventArgs e)
         {
             Navigation.PushAsync(new Registrazione());
+        }
+
+        private void btnAccediFacebook_Clicked(object sender, EventArgs e)
+        {
+            try
+            {
+                Navigation.PushAsync(new Account.FacebookLogin());
+            }
+            catch (Exception ex)
+            {
+                //Gestione errore;
+            }
         }
     }
 }
