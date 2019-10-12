@@ -16,6 +16,7 @@ using Microsoft.Owin.Security.OAuth;
 using AppRegaliApi.Models;
 using AppRegaliApi.Providers;
 using AppRegaliApi.Results;
+using System.Linq;
 
 namespace AppRegaliApi.Controllers
 {
@@ -125,7 +126,7 @@ namespace AppRegaliApi.Controllers
 
             IdentityResult result = await UserManager.ChangePasswordAsync(User.Identity.GetUserId(), model.OldPassword,
                 model.NewPassword);
-            
+
             if (!result.Succeeded)
             {
                 return GetErrorResult(result);
@@ -258,9 +259,9 @@ namespace AppRegaliApi.Controllers
             if (hasRegistered)
             {
                 Authentication.SignOut(DefaultAuthenticationTypes.ExternalCookie);
-                
-                 ClaimsIdentity oAuthIdentity = await user.GenerateUserIdentityAsync(UserManager,
-                    OAuthDefaults.AuthenticationType);
+
+                ClaimsIdentity oAuthIdentity = await user.GenerateUserIdentityAsync(UserManager,
+                   OAuthDefaults.AuthenticationType);
                 ClaimsIdentity cookieIdentity = await user.GenerateUserIdentityAsync(UserManager,
                     CookieAuthenticationDefaults.AuthenticationType);
 
@@ -269,6 +270,7 @@ namespace AppRegaliApi.Controllers
             }
             else
             {
+               // IEnumerable<Claim> claims = externalLogin.Claims;
                 IEnumerable<Claim> claims = externalLogin.GetClaims();
                 ClaimsIdentity identity = new ClaimsIdentity(claims, OAuthDefaults.AuthenticationType);
                 Authentication.SignIn(identity);
@@ -353,7 +355,7 @@ namespace AppRegaliApi.Controllers
 
             //var info = await Authentication.GetExternalLoginInfoAsync();
             var info = await AuthenticationManager_GetExternalLoginInfoAsync_WithExternalBearer();
-            
+
             if (info == null)
             {
                 return InternalServerError();
@@ -370,7 +372,7 @@ namespace AppRegaliApi.Controllers
             result = await UserManager.AddLoginAsync(user.Id, info.Login);
             if (!result.Succeeded)
             {
-                return GetErrorResult(result); 
+                return GetErrorResult(result);
             }
             return Ok();
         }
@@ -443,11 +445,14 @@ namespace AppRegaliApi.Controllers
             return null;
         }
 
+
+
         private class ExternalLoginData
         {
             public string LoginProvider { get; set; }
             public string ProviderKey { get; set; }
             public string UserName { get; set; }
+            public IList<Claim> Claims { get; private set; }
 
             public IList<Claim> GetClaims()
             {
@@ -486,7 +491,7 @@ namespace AppRegaliApi.Controllers
                 {
                     LoginProvider = providerKeyClaim.Issuer,
                     ProviderKey = providerKeyClaim.Value,
-                    UserName = identity.FindFirstValue(ClaimTypes.Name)
+                    UserName = identity.FindFirstValue(ClaimTypes.Email),
                 };
             }
         }
