@@ -21,7 +21,7 @@ namespace AppRegali.Views.Account
             AccountClient accountClient = new AccountClient(new System.Net.Http.HttpClient());
             ExternalLoginViewModel externalLoginViewModel = accountClient.GetExternalLoginsAsync("/", true).Result.First();
 
-            var apiRequest = "https://localhost:44373" + externalLoginViewModel.Url;
+            var apiRequest = "https://appregaliapitest.com" + externalLoginViewModel.Url;
                 //"https://www.facebook.com/v4.0/dialog/oauth?client_id="
                 //+ "971997736480952"
                 //+ "&display=popup&response_type=token&redirect_uri=https://www.facebook.com/connect/login_success.html";
@@ -61,14 +61,14 @@ namespace AppRegali.Views.Account
         {
             if (url.Contains("access_token") && url.Contains("&expires_in="))
             {
-                var at = url.Replace("https://www.facebook.com/connect/login_success.html#access_token=", "");
+                var at = url.Replace("https://appregaliapitest.com/#access_token=", "");
 
                 if (Device.OS == TargetPlatform.WinPhone || Device.OS == TargetPlatform.Windows)
                 {
-                    at = url.Replace("http://www.facebook.com/connect/login_success.html#access_token=", "");
+                    at = url.Replace("https://appregaliapitest.com/#access_token=", "");
                 }
 
-                var accessToken = at.Remove(at.IndexOf("&data_access_expiration_time="));
+                var accessToken = at.Remove(at.IndexOf("&token_type=bearer&expires_in="));
 
                 return accessToken;
             }

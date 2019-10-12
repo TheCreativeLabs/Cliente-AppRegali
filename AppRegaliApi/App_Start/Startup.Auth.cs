@@ -62,7 +62,7 @@ namespace AppRegaliApi
                 AppId = "971997736480952",
                 AppSecret = "483348891fbc0f94cf3a6e40cdbbaf1d",
                 BackchannelHttpHandler = new FacebookBackChannelHandler(),
-                UserInformationEndpoint = "https://graph.facebook.com/me/?fields=name"
+                UserInformationEndpoint = "https://graph.facebook.com/v2.4/me/?fields=id,email,name"
             };
 
             facebookOption.Scope.Add("email");
