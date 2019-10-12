@@ -1,5 +1,6 @@
 ﻿using Api;
 using AppRegali.Api;
+using AppRegali.Views.Account;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -65,19 +66,7 @@ namespace AppRegali.Views.Login
         {
             try
             {
-                bool formIsValid = true;
-
-                HttpClient httpClient = new HttpClient();
-                AccountClient accountClient = new AccountClient(httpClient);
-
-                AddExternalLoginBindingModel addExternalLoginBindingModel = new AddExternalLoginBindingModel()
-                {
-                    ExternalAccessToken = null
-                };
-
-                var i = accountClient.GetExternalLoginAsync("facebook",null);
-
-                var i2 = 0;
+                Navigation.PushAsync(new Account.FacebookLogin());
             }
             catch (Exception ex)
             {

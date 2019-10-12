@@ -57,10 +57,22 @@ namespace AppRegaliApi
             //    consumerSecret: "");
 
 
-            app.UseFacebookAuthentication(
-                appId: "971997736480952",
-                appSecret: "483348891fbc0f94cf3a6e40cdbbaf1d")
-                ;
+            var facebookOption = new FacebookAuthenticationOptions()
+            {
+                AppId = "971997736480952",
+                AppSecret = "483348891fbc0f94cf3a6e40cdbbaf1d",
+                BackchannelHttpHandler = new FacebookBackChannelHandler(),
+                UserInformationEndpoint = "https://graph.facebook.com/me/?fields=name"
+            };
+
+            facebookOption.Scope.Add("email");
+
+            app.UseFacebookAuthentication(facebookOption);
+
+            //app.UseFacebookAuthentication(
+            //    appId: "971997736480952",
+            //    appSecret: "483348891fbc0f94cf3a6e40cdbbaf1d")
+            //    ;
 
             //app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
             //{
