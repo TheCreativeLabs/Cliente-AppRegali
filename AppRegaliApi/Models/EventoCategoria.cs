@@ -12,7 +12,7 @@ namespace AppRegaliApi.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public EventoCategoria()
         {
-            Eventoes = new HashSet<Evento>();
+            Evento = new HashSet<Evento>();
         }
 
         public Guid Id { get; set; }
@@ -25,6 +25,6 @@ namespace AppRegaliApi.Models
         public string Descrizione { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Evento> Eventoes { get; set; }
+        public virtual ICollection<Evento> Evento { get; set; }
     }
 }

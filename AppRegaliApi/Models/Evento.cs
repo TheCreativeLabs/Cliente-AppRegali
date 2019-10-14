@@ -12,7 +12,7 @@ namespace AppRegaliApi.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Evento()
         {
-            ImmagineEventoes = new HashSet<ImmagineEvento>();
+            Regalo = new HashSet<Regalo>();
         }
 
         public Guid Id { get; set; }
@@ -43,6 +43,6 @@ namespace AppRegaliApi.Models
         public virtual ImmagineEvento ImmagineEvento { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ImmagineEvento> ImmagineEventoes { get; set; }
+        public virtual ICollection<Regalo> Regalo { get; set; }
     }
 }
