@@ -34,6 +34,21 @@ namespace AppRegaliApi.Models
         public string LoginProvider { get; set; }
     }
 
+    public class UserDetailViewModel
+    {
+        public string Email { get; set; }
+
+        public string Name { get; set; }
+
+        public string Surname { get; set; }
+
+        public DateTime BirthDate { get; set; }
+
+        public byte[] ProfilePhoto { get; set; }
+
+        public string LoginProvider { get; set; }
+    }
+
     public class UserLoginInfoViewModel
     {
         public string LoginProvider { get; set; }

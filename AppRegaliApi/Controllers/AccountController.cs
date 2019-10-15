@@ -441,6 +441,15 @@ namespace AppRegaliApi.Controllers
             return Ok();
         }
 
+
+        // GET api/Account/UserInfo
+        [HttpGet]
+        [Route("UserDetail")]
+        public UserDetailViewModel GetUserDetail()
+        {
+            return new UserDetailViewModel();
+        }
+
         private async Task<ExternalLoginInfo> AuthenticationManager_GetExternalLoginInfoAsync_WithExternalBearer()
         {
             ExternalLoginInfo loginInfo = null;

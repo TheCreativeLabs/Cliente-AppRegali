@@ -16,7 +16,8 @@ namespace AppRegaliApi.Controllers
     {
         private DbDataContext dbDataContext = new DbDataContext();
 
-        public class ModelloEvento{
+        public class ModelloEvento
+        {
             public string titolo { get; set; }
         }
 
@@ -25,10 +26,9 @@ namespace AppRegaliApi.Controllers
             public List<ModelloEvento> Eventi { get; set; }
         }
 
-
-    // GET: api/Evento
-    [HttpGet]
-        public ModelloTest  GetEventoesAsync()
+        // GET: api/Evento
+        [HttpGet]
+        public ModelloTest GetEventoesAsync()
         {
             //List<Evento> eventi = await db.Eventoes.ToListAsync();
             // return new ModelloTest() { Eventi = eventi };
@@ -40,7 +40,7 @@ namespace AppRegaliApi.Controllers
             mt.Eventi = new List<ModelloEvento>();
             mt.Eventi.Add(mev);
             return mt;
-                //FindLast().Titolo;
+            //FindLast().Titolo;
         }
 
         // GET: api/Evento/5
@@ -53,7 +53,7 @@ namespace AppRegaliApi.Controllers
                 return NotFound();
             }
 
-           var i = await dbDataContext.Evento.Where(x => x.Id == id).ToListAsync();
+            var i = await dbDataContext.Evento.Where(x => x.Id == id).ToListAsync();
 
             return Ok(evento);
         }

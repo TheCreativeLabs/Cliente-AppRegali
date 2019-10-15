@@ -48,6 +48,18 @@ namespace AppRegaliApi.Models
         [Display(Name = "Confirm password")]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
+
+        [Required]
+        [Display(Name = "Name")]
+        public string Name;
+
+        [Required]
+        [Display(Name = "Surname")]
+        public string Surname;
+
+        [Required]
+        [Display(Name = "BirthName")]
+        public string BirthName;
     }
 
     public class ConfirmRegistrationBindingModel

@@ -20,6 +20,13 @@ namespace AppRegali.Views.Login
         public Login()
         {
             InitializeComponent();
+
+            //Se ho il token allora vado direttamente alla home
+            if (ApiHelper.GetToken() != null)
+            {
+                Application.Current.MainPage = new MainPage();
+            }
+
         }
 
         private async void btnAccedi_ClickedAsync(object sender, EventArgs e)
