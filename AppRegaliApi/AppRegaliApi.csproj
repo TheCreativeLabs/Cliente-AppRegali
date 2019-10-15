@@ -299,6 +299,7 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\EventoController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="FacebookBackChannelHandler.cs" />
@@ -312,7 +313,16 @@
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\Evento.cs" />
+    <Compile Include="Models\EventoCategoria.cs" />
     <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\ImmagineEvento.cs" />
+    <Compile Include="Models\ImmagineRegalo.cs" />
+    <Compile Include="Models\ImmagineUser.cs" />
+    <Compile Include="Models\DbDataContext.cs" />
+    <Compile Include="Models\Regalo.cs" />
+    <Compile Include="Models\RegaloUserPartecipazione.cs" />
+    <Compile Include="Models\UserAmicizia.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\ApplicationOAuthProvider.cs" />
     <Compile Include="Providers\EmailService.cs" />
