@@ -6,30 +6,33 @@
              mc:Ignorable="d"
              x:Class="AppRegali.Views.MenuPage"
              Title="Menu">
-             
+
     <StackLayout VerticalOptions="FillAndExpand">
-        <StackLayout>
-            <Label Text="CIAO CIAO CIAO "></Label>
+        <StackLayout HeightRequest="100" VerticalOptions="Center" Margin="0,30,0,0">
+            <Label x:Name="lblNome" FontSize="25" FontAttributes="Bold" TextColor="Black" HorizontalOptions="Center"></Label>
+            <Label x:Name="lblCognome" FontSize="17" HorizontalOptions="Center"></Label>
         </StackLayout>
-        
-        <ListView x:Name="ListViewMenu"
-                    HasUnevenRows="True">
-            <d:ListView.ItemsSource>
-                <x:Array Type="{x:Type x:String}">
-                    <x:String>Item 1</x:String>
-                    <x:String>Item 2</x:String>
-                </x:Array>
-            </d:ListView.ItemsSource>
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <ViewCell>
-                        <Grid Padding="10">
-                            <Label Text="{Binding Title}" d:Text="{Binding .}" FontSize="20"/>
-                        </Grid>
-                    </ViewCell>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
+
+        <StackLayout >
+            <ListView x:Name="ListViewMenu"
+                    HasUnevenRows="true">
+                <d:ListView.ItemsSource>
+                    <x:Array Type="{x:Type x:String}">
+                        <x:String>Item 1</x:String>
+                        <x:String>Item 2</x:String>
+                    </x:Array>
+                </d:ListView.ItemsSource>
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Grid Padding="10">
+                                <Label Text="{Binding Title}" d:Text="{Binding .}" FontSize="20" TextColor="Black" FontAttributes="Bold"/>
+                            </Grid>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackLayout>
     </StackLayout>
 
 </ContentPage>

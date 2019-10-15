@@ -34,6 +34,7 @@ namespace AppRegaliApi
                 RequireLowercase = true,
                 RequireUppercase = true,
             };
+
             var dataProtectionProvider = options.DataProtectionProvider;
             if (dataProtectionProvider != null)
             {
