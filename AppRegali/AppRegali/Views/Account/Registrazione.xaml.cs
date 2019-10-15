@@ -26,22 +26,36 @@ namespace AppRegali.Views.Login
             {
                 bool formIsValid = true;
 
+                //Controllo validità del nome.
+                if (String.IsNullOrEmpty(entNome.Text))
+                {
+                    formIsValid = false;
+                    lblValidatorEntNome.IsVisible = true;
+                }
+
+                //Controllo validità del cognome.
+                if (String.IsNullOrEmpty(entCognome.Text))
+                {
+                    formIsValid = false;
+                    lblValidatorEntCognome.IsVisible = true;
+                }
+
                 //Controllo validità della mail.
-                if (!Regex.IsMatch(entEmail.Text, Utility.Utility.EmailRegex))
+                if (String.IsNullOrEmpty(entEmail.Text) || !Regex.IsMatch(entEmail.Text, Utility.Utility.EmailRegex))
                 {
                     formIsValid = false;
                     lblValidatorEntEmail.IsVisible = true;
                 }
 
                 //Controllo validità della password.
-                if (!Regex.IsMatch(entPassword.Text, Utility.Utility.PasswordRegex))
+                if (String.IsNullOrEmpty(entPassword.Text) ||  !Regex.IsMatch(entPassword.Text, Utility.Utility.PasswordRegex))
                 {
                     formIsValid = false;
                     lblValidatorEntPassword.IsVisible = true;
                 }
 
                 //Controllo che le due password siano uguali.
-                if (!(entPassword.Text == entConfermaPassword.Text))
+                if (String.IsNullOrEmpty(entConfermaPassword.Text) || !(entPassword.Text == entConfermaPassword.Text))
                 {
                     formIsValid = false;
                     lblValidatorEntConfermaPassword.IsVisible = true;
@@ -60,7 +74,6 @@ namespace AppRegali.Views.Login
                 //TODO Gestire l'errore navigando alla pagina specifica.
             }
         }
-
         private void btnLogin_Clicked(object sender, EventArgs e)
         {
             Application.Current.MainPage = new NavigationPage(new Login());

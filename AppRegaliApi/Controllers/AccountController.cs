@@ -80,7 +80,7 @@ namespace AppRegaliApi.Controllers
         public async Task<ManageInfoViewModel> GetManageInfo(string returnUrl, bool generateState = false)
         {
             IdentityUser user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
-
+            
             if (user == null)
             {
                 return null;
@@ -339,6 +339,70 @@ namespace AppRegaliApi.Controllers
                 return GetErrorResult(result);
             }
 
+            var code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+          
+            var callbackUrl = Url.Link("Default", new { Controller = "Api/Account", Action = "ConfirmEmail", UserId = user.Id, Code = code });
+            
+            await EmailService.SendAsync(user.Email,
+               "Confirm your account",
+               "Please confirm your account by clicking this link: <a href=\""
+                                               + callbackUrl + "\">link</a>");
+
+            return Ok();
+        }
+
+        //Get api/Account/ConfirmEmail
+        [HttpGet]
+        [AllowAnonymous]
+        [Route("ConfirmEmail")]
+        public async Task<IHttpActionResult> ConfirmEmail(string UserId, string Code)
+        {
+            if (String.IsNullOrEmpty(UserId) || String.IsNullOrEmpty(Code))
+            {
+                return BadRequest(ModelState);
+            }
+
+            var result = await UserManager.ConfirmEmailAsync(UserId,Code);
+
+            if (!result.Succeeded)
+            {
+                return GetErrorResult(result);
+            }
+
+            return Ok();
+        }
+
+        //GET api/Account/RestorePassword
+        [HttpGet]
+        [AllowAnonymous]
+        [Route("RestorePassword")]
+        public async Task<IHttpActionResult> RestorePassword(string Email)
+        {
+            if (String.IsNullOrEmpty(Email))
+            {
+                return BadRequest(ModelState);
+            }
+
+            List<ApplicationUser> listaUtenti = UserManager.Users.Where(users => users.Email == Email).ToList();
+
+            if (listaUtenti != null && listaUtenti.Count > 0)
+            {
+              ApplicationUser user =  listaUtenti[0];
+                string userId = user.Id;
+                string  code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
+                string newPassword = System.Web.Security.Membership.GeneratePassword(8, 2);
+                var result = UserManager.ResetPassword(userId, code, newPassword);
+
+                if (!result.Succeeded)
+                {
+                    return GetErrorResult(result);
+                }
+
+                await EmailService.SendAsync(user.Email,
+                 "Password reset",
+                 "La tua nuova password è:" + newPassword);
+                }
+            
             return Ok();
         }
 

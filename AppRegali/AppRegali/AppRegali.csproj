@@ -6,6 +6,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Models\FacebookModel.cs" />
+    <Compile Remove="Services\FacebookService.cs" />
+    <Compile Remove="ViewModels\FacebookViewModel.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="FakeItEasy" Version="5.2.0" />
     <PackageReference Include="Plugin.Multilingual" Version="1.0.2" />
     <PackageReference Include="Xamarin.Forms" Version="4.2.0.709249" />  

@@ -11,6 +11,9 @@ namespace AppRegali.Api
 {
     public static class ApiHelper
     {
+
+        public const string AccessTokenKey = "Access_Token";
+
         public class BearerToken
         {
             [JsonProperty("access_token")]
@@ -53,7 +56,7 @@ namespace AppRegali.Api
                     var o = response.Content.ReadAsStringAsync().Result;
                     BearerToken token2 = JsonConvert.DeserializeObject<BearerToken>(o);
 
-                    Application.Current.Properties["Access_Token"] = token2.AccessToken;
+                    Application.Current.Properties[AccessTokenKey] = token2.AccessToken;
                 }
                 else
                 {
@@ -64,7 +67,7 @@ namespace AppRegali.Api
 
         public static string GetToken()
         {
-            return Application.Current.Properties["Access_Token"].ToString() ;
+            return Application.Current.Properties[AccessTokenKey].ToString();
         }
 
         public static async Task RegisterAsync(string Email, string Password, string ConfermaPassword)

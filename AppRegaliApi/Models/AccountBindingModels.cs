@@ -50,6 +50,17 @@ namespace AppRegaliApi.Models
         public string ConfirmPassword { get; set; }
     }
 
+    public class ConfirmRegistrationBindingModel
+    {
+        [Required]
+        [Display(Name = "UserId")]
+        public string UserId { get; set; }
+
+        [Required]
+        [Display(Name = "Code")]
+        public string Code { get; set; }
+    }
+
     public class RegisterExternalBindingModel
     {
         [Required]

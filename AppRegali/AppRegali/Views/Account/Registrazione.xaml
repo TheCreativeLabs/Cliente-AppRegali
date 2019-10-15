@@ -11,6 +11,16 @@
             <StackLayout x:Name="stkFormRegistrazione" IsVisible="True">
                 <Label FontSize="40" FontAttributes="Bold" TextColor="Black" Margin="0,0,0,10" Text="{translator:Translate Registrazione.Titolo}"></Label>
 
+                <Entry x:Name="entNome" Visual="Material" Placeholder="{translator:Translate Registrazione.Nome}" VerticalOptions="Center"></Entry>
+                <Label Text="{translator:Translate Registrazione.MessaggioCampoObbligatorio}" FontSize="Small" TextColor="Red" IsVisible="False" x:Name="lblValidatorEntNome"></Label>
+
+                <Entry x:Name="entCognome" Visual="Material" Placeholder="{translator:Translate Registrazione.Cognome}" VerticalOptions="Center"></Entry>
+                <Label Text="{translator:Translate Registrazione.MessaggioCampoObbligatorio}" FontSize="Small" TextColor="Red" IsVisible="False" x:Name="lblValidatorEntCognome"></Label>
+
+                <!--<DatePicker x:Name="entDataNascita" Visual="Material" VerticalOptions="Center"></DatePicker>
+                --><!--<Entry x:Name="entDataNascita" Visual="Material" Placeholder="{translator:Translate Registrazione.DataNascita}" VerticalOptions="Center"></Entry>--><!--
+                <Label Text="{translator:Translate Registrazione.MessaggioCampoObbligatorio}" FontSize="Small" TextColor="Red" IsVisible="False" x:Name="lblValidatorEntCognome"></Label>-->
+
                 <Entry x:Name="entEmail" Visual="Material" Placeholder="{translator:Translate Login.Email}" VerticalOptions="Center"></Entry>
                 <Label Text="{translator:Translate Login.MessaggioValidazioneEmail}" FontSize="Small" TextColor="Red" IsVisible="False" x:Name="lblValidatorEntEmail"></Label>
 

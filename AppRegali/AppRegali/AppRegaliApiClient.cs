@@ -114,7 +114,7 @@ namespace Api
 
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task<Object> LogoutAsync()
+        public System.Threading.Tasks.Task<object> LogoutAsync()
         {
             return LogoutAsync(System.Threading.CancellationToken.None);
         }
@@ -122,7 +122,7 @@ namespace Api
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task<Object> LogoutAsync(System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task<object> LogoutAsync(System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/Account/Logout");
@@ -156,7 +156,7 @@ namespace Api
                         var status_ = ((int)response_.StatusCode).ToString();
                         if (status_ == "200")
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<Object>(response_, headers_).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<object>(response_, headers_).ConfigureAwait(false);
                             return objectResponse_.Object;
                         }
                         else
@@ -166,7 +166,7 @@ namespace Api
                             throw new ApiException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", (int)response_.StatusCode, responseData_, headers_, null);
                         }
 
-                        return default(Object);
+                        return default(object);
                     }
                     finally
                     {
@@ -258,7 +258,7 @@ namespace Api
 
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task<Object> ChangePasswordAsync(ChangePasswordBindingModel model)
+        public System.Threading.Tasks.Task<object> ChangePasswordAsync(ChangePasswordBindingModel model)
         {
             return ChangePasswordAsync(model, System.Threading.CancellationToken.None);
         }
@@ -266,7 +266,7 @@ namespace Api
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task<Object> ChangePasswordAsync(ChangePasswordBindingModel model, System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task<object> ChangePasswordAsync(ChangePasswordBindingModel model, System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/Account/ChangePassword");
@@ -302,7 +302,7 @@ namespace Api
                         var status_ = ((int)response_.StatusCode).ToString();
                         if (status_ == "200")
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<Object>(response_, headers_).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<object>(response_, headers_).ConfigureAwait(false);
                             return objectResponse_.Object;
                         }
                         else
@@ -312,7 +312,7 @@ namespace Api
                             throw new ApiException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", (int)response_.StatusCode, responseData_, headers_, null);
                         }
 
-                        return default(Object);
+                        return default(object);
                     }
                     finally
                     {
@@ -328,7 +328,7 @@ namespace Api
 
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task<Object> SetPasswordAsync(SetPasswordBindingModel model)
+        public System.Threading.Tasks.Task<object> SetPasswordAsync(SetPasswordBindingModel model)
         {
             return SetPasswordAsync(model, System.Threading.CancellationToken.None);
         }
@@ -336,7 +336,7 @@ namespace Api
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task<Object> SetPasswordAsync(SetPasswordBindingModel model, System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task<object> SetPasswordAsync(SetPasswordBindingModel model, System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/Account/SetPassword");
@@ -372,7 +372,7 @@ namespace Api
                         var status_ = ((int)response_.StatusCode).ToString();
                         if (status_ == "200")
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<Object>(response_, headers_).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<object>(response_, headers_).ConfigureAwait(false);
                             return objectResponse_.Object;
                         }
                         else
@@ -382,7 +382,7 @@ namespace Api
                             throw new ApiException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", (int)response_.StatusCode, responseData_, headers_, null);
                         }
 
-                        return default(Object);
+                        return default(object);
                     }
                     finally
                     {
@@ -398,7 +398,7 @@ namespace Api
 
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task<Object> AddExternalLoginAsync(AddExternalLoginBindingModel model)
+        public System.Threading.Tasks.Task<object> AddExternalLoginAsync(AddExternalLoginBindingModel model)
         {
             return AddExternalLoginAsync(model, System.Threading.CancellationToken.None);
         }
@@ -406,7 +406,7 @@ namespace Api
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task<Object> AddExternalLoginAsync(AddExternalLoginBindingModel model, System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task<object> AddExternalLoginAsync(AddExternalLoginBindingModel model, System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/Account/AddExternalLogin");
@@ -442,7 +442,7 @@ namespace Api
                         var status_ = ((int)response_.StatusCode).ToString();
                         if (status_ == "200")
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<Object>(response_, headers_).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<object>(response_, headers_).ConfigureAwait(false);
                             return objectResponse_.Object;
                         }
                         else
@@ -452,7 +452,7 @@ namespace Api
                             throw new ApiException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", (int)response_.StatusCode, responseData_, headers_, null);
                         }
 
-                        return default(Object);
+                        return default(object);
                     }
                     finally
                     {
@@ -468,7 +468,7 @@ namespace Api
 
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task<Object> RemoveLoginAsync(RemoveLoginBindingModel model)
+        public System.Threading.Tasks.Task<object> RemoveLoginAsync(RemoveLoginBindingModel model)
         {
             return RemoveLoginAsync(model, System.Threading.CancellationToken.None);
         }
@@ -476,7 +476,7 @@ namespace Api
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task<Object> RemoveLoginAsync(RemoveLoginBindingModel model, System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task<object> RemoveLoginAsync(RemoveLoginBindingModel model, System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/Account/RemoveLogin");
@@ -512,7 +512,7 @@ namespace Api
                         var status_ = ((int)response_.StatusCode).ToString();
                         if (status_ == "200")
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<Object>(response_, headers_).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<object>(response_, headers_).ConfigureAwait(false);
                             return objectResponse_.Object;
                         }
                         else
@@ -522,7 +522,7 @@ namespace Api
                             throw new ApiException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", (int)response_.StatusCode, responseData_, headers_, null);
                         }
 
-                        return default(Object);
+                        return default(object);
                     }
                     finally
                     {
@@ -538,7 +538,7 @@ namespace Api
 
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task<Object> GetExternalLoginAsync(string provider, string error)
+        public System.Threading.Tasks.Task<object> GetExternalLoginAsync(string provider, string error)
         {
             return GetExternalLoginAsync(provider, error, System.Threading.CancellationToken.None);
         }
@@ -546,7 +546,7 @@ namespace Api
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task<Object> GetExternalLoginAsync(string provider, string error, System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task<object> GetExternalLoginAsync(string provider, string error, System.Threading.CancellationToken cancellationToken)
         {
             if (provider == null)
                 throw new System.ArgumentNullException("provider");
@@ -588,7 +588,7 @@ namespace Api
                         var status_ = ((int)response_.StatusCode).ToString();
                         if (status_ == "200")
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<Object>(response_, headers_).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<object>(response_, headers_).ConfigureAwait(false);
                             return objectResponse_.Object;
                         }
                         else
@@ -598,7 +598,7 @@ namespace Api
                             throw new ApiException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", (int)response_.StatusCode, responseData_, headers_, null);
                         }
 
-                        return default(Object);
+                        return default(object);
                     }
                     finally
                     {
@@ -690,7 +690,7 @@ namespace Api
 
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task<Object> RegisterAsync(RegisterBindingModel model)
+        public System.Threading.Tasks.Task<object> RegisterAsync(RegisterBindingModel model)
         {
             return RegisterAsync(model, System.Threading.CancellationToken.None);
         }
@@ -698,7 +698,7 @@ namespace Api
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task<Object> RegisterAsync(RegisterBindingModel model, System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task<object> RegisterAsync(RegisterBindingModel model, System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/Account/Register");
@@ -734,7 +734,7 @@ namespace Api
                         var status_ = ((int)response_.StatusCode).ToString();
                         if (status_ == "200")
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<Object>(response_, headers_).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<object>(response_, headers_).ConfigureAwait(false);
                             return objectResponse_.Object;
                         }
                         else
@@ -744,7 +744,7 @@ namespace Api
                             throw new ApiException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", (int)response_.StatusCode, responseData_, headers_, null);
                         }
 
-                        return default(Object);
+                        return default(object);
                     }
                     finally
                     {
@@ -760,7 +760,155 @@ namespace Api
 
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task<Object> RegisterExternalAsync(RegisterExternalBindingModel model)
+        public System.Threading.Tasks.Task<object> ConfirmEmailAsync(string userId, string code)
+        {
+            return ConfirmEmailAsync(userId, code, System.Threading.CancellationToken.None);
+        }
+
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>OK</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public async System.Threading.Tasks.Task<object> ConfirmEmailAsync(string userId, string code, System.Threading.CancellationToken cancellationToken)
+        {
+            if (userId == null)
+                throw new System.ArgumentNullException("userId");
+
+            if (code == null)
+                throw new System.ArgumentNullException("code");
+
+            var urlBuilder_ = new System.Text.StringBuilder();
+            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/Account/ConfirmEmail?");
+            urlBuilder_.Append(System.Uri.EscapeDataString("UserId") + "=").Append(System.Uri.EscapeDataString(ConvertToString(userId, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+            urlBuilder_.Append(System.Uri.EscapeDataString("Code") + "=").Append(System.Uri.EscapeDataString(ConvertToString(code, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+            urlBuilder_.Length--;
+
+            var client_ = _httpClient;
+            try
+            {
+                using (var request_ = new System.Net.Http.HttpRequestMessage())
+                {
+                    request_.Method = new System.Net.Http.HttpMethod("GET");
+                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/json"));
+
+                    PrepareRequest(client_, request_, urlBuilder_);
+                    var url_ = urlBuilder_.ToString();
+                    request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
+                    PrepareRequest(client_, request_, url_);
+
+                    var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+                    try
+                    {
+                        var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                        if (response_.Content != null && response_.Content.Headers != null)
+                        {
+                            foreach (var item_ in response_.Content.Headers)
+                                headers_[item_.Key] = item_.Value;
+                        }
+
+                        ProcessResponse(client_, response_);
+
+                        var status_ = ((int)response_.StatusCode).ToString();
+                        if (status_ == "200")
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<object>(response_, headers_).ConfigureAwait(false);
+                            return objectResponse_.Object;
+                        }
+                        else
+                        if (status_ != "200" && status_ != "204")
+                        {
+                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", (int)response_.StatusCode, responseData_, headers_, null);
+                        }
+
+                        return default(object);
+                    }
+                    finally
+                    {
+                        if (response_ != null)
+                            response_.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+            }
+        }
+
+        /// <returns>OK</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public System.Threading.Tasks.Task<object> RestorePasswordAsync(string email)
+        {
+            return RestorePasswordAsync(email, System.Threading.CancellationToken.None);
+        }
+
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>OK</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public async System.Threading.Tasks.Task<object> RestorePasswordAsync(string email, System.Threading.CancellationToken cancellationToken)
+        {
+            if (email == null)
+                throw new System.ArgumentNullException("email");
+
+            var urlBuilder_ = new System.Text.StringBuilder();
+            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/Account/RestorePassword?");
+            urlBuilder_.Append(System.Uri.EscapeDataString("Email") + "=").Append(System.Uri.EscapeDataString(ConvertToString(email, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+            urlBuilder_.Length--;
+
+            var client_ = _httpClient;
+            try
+            {
+                using (var request_ = new System.Net.Http.HttpRequestMessage())
+                {
+                    request_.Method = new System.Net.Http.HttpMethod("GET");
+                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/json"));
+
+                    PrepareRequest(client_, request_, urlBuilder_);
+                    var url_ = urlBuilder_.ToString();
+                    request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
+                    PrepareRequest(client_, request_, url_);
+
+                    var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+                    try
+                    {
+                        var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                        if (response_.Content != null && response_.Content.Headers != null)
+                        {
+                            foreach (var item_ in response_.Content.Headers)
+                                headers_[item_.Key] = item_.Value;
+                        }
+
+                        ProcessResponse(client_, response_);
+
+                        var status_ = ((int)response_.StatusCode).ToString();
+                        if (status_ == "200")
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<object>(response_, headers_).ConfigureAwait(false);
+                            return objectResponse_.Object;
+                        }
+                        else
+                        if (status_ != "200" && status_ != "204")
+                        {
+                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", (int)response_.StatusCode, responseData_, headers_, null);
+                        }
+
+                        return default(object);
+                    }
+                    finally
+                    {
+                        if (response_ != null)
+                            response_.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+            }
+        }
+
+        /// <returns>OK</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public System.Threading.Tasks.Task<object> RegisterExternalAsync(RegisterExternalBindingModel model)
         {
             return RegisterExternalAsync(model, System.Threading.CancellationToken.None);
         }
@@ -768,7 +916,7 @@ namespace Api
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task<Object> RegisterExternalAsync(RegisterExternalBindingModel model, System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task<object> RegisterExternalAsync(RegisterExternalBindingModel model, System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/Account/RegisterExternal");
@@ -804,7 +952,7 @@ namespace Api
                         var status_ = ((int)response_.StatusCode).ToString();
                         if (status_ == "200")
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<Object>(response_, headers_).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<object>(response_, headers_).ConfigureAwait(false);
                             return objectResponse_.Object;
                         }
                         else
@@ -814,7 +962,7 @@ namespace Api
                             throw new ApiException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", (int)response_.StatusCode, responseData_, headers_, null);
                         }
 
-                        return default(Object);
+                        return default(object);
                     }
                     finally
                     {
@@ -1400,12 +1548,6 @@ namespace Api
         [Newtonsoft.Json.JsonProperty("LoginProvider", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string LoginProvider { get; set; }
 
-
-    }
-
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.0.27.0 (Newtonsoft.Json v11.0.0.0)")]
-    public partial class Object
-    {
 
     }
 

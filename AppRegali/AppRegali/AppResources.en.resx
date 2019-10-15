@@ -132,6 +132,9 @@
   <data name="ChangePassword.NewPassword" xml:space="preserve">
     <value>New password</value>
   </data>
+  <data name="ChangePassword.OldPassword" xml:space="preserve">
+    <value>Inserisci la vecchia password</value>
+  </data>
   <data name="Login.ConfermaPassword" xml:space="preserve">
     <value>Conferma Password</value>
   </data>
@@ -177,6 +180,18 @@
   <data name="Registrazione.Bottone" xml:space="preserve">
     <value>Registrati</value>
   </data>
+  <data name="Registrazione.Cognome" xml:space="preserve">
+    <value>Cognome</value>
+  </data>
+  <data name="Registrazione.DataNascita" xml:space="preserve">
+    <value>Data di nascita</value>
+  </data>
+  <data name="Registrazione.MessaggioCampoObbligatorio" xml:space="preserve">
+    <value>Questo campo è obbligatorio.</value>
+  </data>
+  <data name="Registrazione.Nome" xml:space="preserve">
+    <value>Nome</value>
+  </data>
   <data name="Registrazione.SottotitoloSuccesso" xml:space="preserve">
     <value>Riceverà una email con il link di conferma</value>
   </data>
@@ -188,5 +203,11 @@
   </data>
   <data name="Registrazione.TornaAlLogin" xml:space="preserve">
     <value>Vai alla pagina di login</value>
+  </data>
+  <data name="Restore.RecuperaPassword" xml:space="preserve">
+    <value>Recupera la password</value>
+  </data>
+  <data name="Restore.Titolo" xml:space="preserve">
+    <value>Hai dimenticato la password? Inserisci la tua mail, ti invieremo una nuova password.</value>
   </data>
 </root>
