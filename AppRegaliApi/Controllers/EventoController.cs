@@ -28,32 +28,21 @@ namespace AppRegaliApi.Controllers
 
     // GET: api/Evento
     [HttpGet]
-        public ModelloTest  GetEventoesAsync()
+        public IEnumerable<Evento> GetEventi()
         {
-            //List<Evento> eventi = await db.Eventoes.ToListAsync();
-            // return new ModelloTest() { Eventi = eventi };
-
             List<Evento> eventi = dbDataContext.Evento.ToList();
-            ModelloEvento mev = new ModelloEvento();
-            mev.titolo = eventi[0].Titolo;
-            ModelloTest mt = new ModelloTest();
-            mt.Eventi = new List<ModelloEvento>();
-            mt.Eventi.Add(mev);
-            return mt;
-                //FindLast().Titolo;
+            return eventi;
         }
 
         // GET: api/Evento/5
         [ResponseType(typeof(Evento))]
-        public async System.Threading.Tasks.Task<IHttpActionResult> GetEventoAsync(Guid id)
+        public IHttpActionResult GetEventoById(Guid id)
         {
             Evento evento = dbDataContext.Evento.Find(id);
             if (evento == null)
             {
                 return NotFound();
             }
-
-           var i = await dbDataContext.Evento.Where(x => x.Id == id).ToListAsync();
 
             return Ok(evento);
         }

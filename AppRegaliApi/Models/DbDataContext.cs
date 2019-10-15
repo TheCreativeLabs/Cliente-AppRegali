@@ -12,6 +12,7 @@ namespace AppRegaliApi.Models
         {
         }
 
+        public virtual DbSet<UserInfo> UserInfo { get; set; }
         public virtual DbSet<Evento> Evento { get; set; }
         public virtual DbSet<EventoCategoria> EventoCategoria { get; set; }
         public virtual DbSet<ImmagineEvento> ImmagineEvento { get; set; }
