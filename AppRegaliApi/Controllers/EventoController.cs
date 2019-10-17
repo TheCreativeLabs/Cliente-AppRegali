@@ -61,6 +61,28 @@ namespace AppRegaliApi.Controllers
             return Ok(evento);
         }
 
+        // GET: api/Evento/EventoByIdCategoria/5
+        //dato un id categoria, restituisce tutti gli eventi di quella categoria.
+        //l'oggetto restituito è piatto: nella risposta non sono compresi gli oggetti figli
+        [HttpGet]
+        [Route("EventiByIdCategoria/{idCategoria}")]
+        public async Task<List<Evento>> GetEventiByIdCategoria(Guid idCategoria)
+        {
+            List<Evento> eventi = await dbDataContext.Evento.Where(x => x.IdCategoriaEvento == idCategoria).ToListAsync();
+            return eventi;
+        }
+
+        // GET: api/Evento/EventoByIdCategoria/5
+        //dato un id categoria, restituisce tutti gli eventi di quella categoria.
+        //l'oggetto restituito è piatto: nella risposta non sono compresi gli oggetti figli
+        [HttpGet]
+        [Route("EventiByIdUtente/{idUtente}")]
+        public async Task<List<Evento>> GetEventiByidUtente(Guid idUtente)
+        {
+            List<Evento> eventi = await dbDataContext.Evento.Where(x => x.IdUtenteCreazione == idUtente).ToListAsync();
+            return eventi;
+        }
+
         // PUT: api/Evento/EventoUpdate
         //FIXME verificare come si comporta se un evento ha già dei regalil
         [HttpPut]
