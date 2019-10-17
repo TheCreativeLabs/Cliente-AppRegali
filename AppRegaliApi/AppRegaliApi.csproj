@@ -319,7 +319,6 @@
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ImmagineEvento.cs" />
     <Compile Include="Models\ImmagineRegalo.cs" />
-    <Compile Include="Models\ImmagineUser.cs" />
     <Compile Include="Models\DbDataContext.cs" />
     <Compile Include="Models\Regalo.cs" />
     <Compile Include="Models\RegaloUserPartecipazione.cs" />

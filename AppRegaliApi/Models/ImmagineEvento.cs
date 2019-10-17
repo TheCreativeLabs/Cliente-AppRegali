@@ -15,6 +15,8 @@ namespace AppRegaliApi.Models
             Evento = new HashSet<Evento>();
         }
 
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid Id { get; set; }
 
         [Required]

@@ -15,16 +15,21 @@ namespace AppRegaliApi.Models
             RegaloUserPartecipazione = new HashSet<RegaloUserPartecipazione>();
         }
 
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid Id { get; set; }
 
+        [Required]
         public Guid? IdEvento { get; set; }
 
+        [Required]
         [StringLength(156)]
         public string Titolo { get; set; }
 
         [StringLength(4000)]
         public string Descrizione { get; set; }
 
+        [Required]
         public double? Prezzo { get; set; }
 
         public bool? Cancellato { get; set; }

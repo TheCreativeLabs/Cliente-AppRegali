@@ -15,6 +15,8 @@ namespace AppRegaliApi.Models
             Regalo = new HashSet<Regalo>();
         }
 
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid Id { get; set; }
 
         [Required]

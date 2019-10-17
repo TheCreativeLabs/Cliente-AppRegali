@@ -22,20 +22,20 @@ namespace AppRegaliApi.Controllers
         private DbDataContext dbDataContext = new DbDataContext();
 
         // GET: api/Evento/Eventi
-        //FIXME togliere la ricorsione
+        //restituisce una lista piatta di eventi: nella risposta non sono compresi gli oggetti figli
         [HttpGet]
         [Route("Eventi")]
         public async Task<List<Evento>> GetEventi()
         {
-            // List<Evento> eventi = await dbDataContext.Evento.ToListAsync();
-
             List<Evento> eventi = await dbDataContext.Evento.ToListAsync();
             return eventi;
         }
 
+        // GET: api/Evento/EventiCurrentUser
+        //restituisce gli eventi dell'utente corrente.
+        //restituisce una lista piatta di eventi: nella risposta non sono compresi gli oggetti figli
         [HttpGet]
         [Route("EventiCurrentUser")]
-        //FIXME togliere la ricorsione
         public async Task<List<Evento>> GetEventiOfCurrentUser()
         {
             Guid currentUserId = new Guid(User.Identity.GetUserId());
@@ -44,6 +44,8 @@ namespace AppRegaliApi.Controllers
         }
 
         // GET: api/Evento/EventoById/5
+        //dato un id, restituisce l'evento. l'oggetto restituito è piatto: nella risposta non sono compresi gli oggetti figli
+        [HttpGet]
         [Route("EventoById/{id}")]
         [ResponseType(typeof(Evento))]
         public IHttpActionResult GetEventoById(Guid id)
@@ -59,10 +61,12 @@ namespace AppRegaliApi.Controllers
             return Ok(evento);
         }
 
-        // PUT: api/Evento/5
-        //FIXME DOVREBBE SSERE UPDATE MNA FA INSERT
+        // PUT: api/Evento/EventoUpdate
+        //FIXME verificare come si comporta se un evento ha già dei regalil
+        [HttpPut]
+        [Route("EventoUpdate")]
         [ResponseType(typeof(void))]
-        public IHttpActionResult PutEvento(Evento evento)
+        public IHttpActionResult UpdateEvento(Evento evento)
         {
             evento.EventoCategoria = null;
             //dbDataContext.Entry(evento.EventoCategoria).State = EntityState.Unchanged;
@@ -75,13 +79,10 @@ namespace AppRegaliApi.Controllers
                 return BadRequest(ModelState);
             }
 
-            /*if (id != evento.Id)
-            {
-                return BadRequest();
-            }*/
-
-            //sdbDataContext.Evento.
-            dbDataContext.Evento.Add(evento);
+            if (evento.Id != null) {
+                dbDataContext.Evento.Attach(evento);
+                dbDataContext.Entry(evento).State = EntityState.Modified;
+            }
 
             try
             {
@@ -89,25 +90,24 @@ namespace AppRegaliApi.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                /*if (!EventoExists(id))
+                if (!EventoExists(evento.Id))
                 {
                     return NotFound();
                 }
                 else
-                {*/
+                {
                     throw;
-                //}
+                }
             }
-
-
 
             return StatusCode(HttpStatusCode.NoContent);
         }
 
-        // POST: api/Evento
-        //FIXME
+        // POST: api/Evento/EventoCreate
+        [HttpPost]
+        [Route("EventoCreate", Name = "EventoCreate")]
         [ResponseType(typeof(Evento))]
-        public IHttpActionResult PostEvento(Evento evento)
+        public IHttpActionResult InserisciEvento(Evento evento)
         {
             if (!ModelState.IsValid)
             {
@@ -132,10 +132,12 @@ namespace AppRegaliApi.Controllers
                 }
             }
 
-            return CreatedAtRoute("DefaultApi", new { id = evento.Id }, evento);
+            return CreatedAtRoute("EventoCreate", new { id = evento.Id }, evento);
         }
 
         // DELETE: api/Evento/5
+        [HttpDelete]
+        [Route("EventoDelete/{id}")]
         [ResponseType(typeof(Evento))]
         public IHttpActionResult DeleteEvento(Guid id)
         {

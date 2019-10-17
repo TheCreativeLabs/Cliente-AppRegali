@@ -9,6 +9,8 @@ namespace AppRegaliApi
     [Table("UserInfo")]
     public partial class UserInfo
     {
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid Id { get; set; }
 
         [StringLength(256)]
@@ -21,6 +23,7 @@ namespace AppRegaliApi
 
         public byte[] FotoProfilo { get; set; }
 
+        [Required]
         public Guid IdAspNetUser { get; set; }
     }
 }
