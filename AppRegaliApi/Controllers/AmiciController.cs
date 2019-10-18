@@ -21,19 +21,37 @@ namespace AppRegaliApi.Controllers
     {
         private DbDataContext dbDataContext = new DbDataContext();
 
-        // GET: api/Evento/EventiCurrentUser
-        //restituisce gli eventi dell'utente corrente.
-        //restituisce una lista piatta di eventi: nella risposta non sono compresi gli oggetti figli
+        // GET: api/Amici/AmiciCurrentUser
+        //restituisce gli amici dell'utente corrente.
+        /// <summary>
+        /// Trova gli amici dell'utente corrente, ovvero gli utenti che hanno accettato l'amicizia.
+        /// Tra gli amici che hanno accettato sono inclusi sia gli amici che hanno fatto richiesta sia gli amici che hanno ricevuto richiesta
+        /// </summary>
+        /// <returns>List<UserInfo> : amici dell'utente corrente</returns>
         [HttpGet]
         [Route("AmiciCurrentUser")]
-        public async Task<List<UserInfo>> GetAmiciiOfCurrentUser()
+        public async Task<List<UserInfo>> GetAmiciOfCurrentUser()
         {
             Guid currentUserId = new Guid(User.Identity.GetUserId());
-            //await dbDataContext.UserAmicizia.Where(x => (x.IdUserDestinatario == currentUserId) && (x.Accettato));
-            //List<UserInfo> amici = await dbDataContext.UserInfo.Where(x => x.IdUtenteCreazione == currentUserId).ToListAsync();
-            //return amici;
-            //fixme
-            return null;
+            //Per trovare tutti gli amici del current, devo considerare tutte le righe di UserAmicizia 
+            //sia nel caso in cui current è destinatario che nel caso in cui current è richiedente
+
+            //current è destinatario, gli amici sono richiedenti
+            List<Guid> idAmiciRichiedenti = await dbDataContext.UserAmicizia
+                                                    .Where(x => ((x.IdUserDestinatario == currentUserId) && (x.Accettato)))
+                                                    .Select(x => x.IdUserRichiedente)
+                                                    .ToListAsync();
+
+            //current è richiedente, gli amici sono destinatari
+            List<Guid> idAmiciDestinatari = await dbDataContext.UserAmicizia
+                                                    .Where(x => ((x.IdUserRichiedente == currentUserId) && (x.Accettato)))
+                                                    .Select(x => x.IdUserDestinatario)
+                                                    .ToListAsync();
+
+            List<Guid> idAmiciAll = idAmiciRichiedenti.Union(idAmiciDestinatari).ToList();
+
+            List<UserInfo> amici = await dbDataContext.UserInfo.Where(x => idAmiciAll.Contains(x.IdAspNetUser)).ToListAsync();
+            return amici;
         }
 
 
