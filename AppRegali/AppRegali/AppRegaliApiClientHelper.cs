@@ -60,14 +60,21 @@ namespace AppRegali.Api
                 }
                 else
                 {
-                    throw new Exception("Si è verificato un errore");
+                    new ApplicationException("Password o Email errati.");
                 }
             }
         }
 
         public static string GetToken()
         {
-            return Application.Current.Properties[AccessTokenKey].ToString();
+            string accessToken = null;
+
+            if (Application.Current.Properties.ContainsKey(AccessTokenKey))
+            {
+                accessToken =  Application.Current.Properties[AccessTokenKey].ToString();
+            }
+             
+            return accessToken;
         }
 
         public static async Task RegisterAsync(string Email, string Password, string ConfermaPassword)

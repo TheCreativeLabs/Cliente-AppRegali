@@ -16,15 +16,15 @@ namespace AppRegali.Views
     // Learn more about making custom code visible in the Xamarin.Forms previewer
     // by visiting https://aka.ms/xamarinforms-previewer
     [DesignTimeVisible(false)]
-    public partial class ItemsPage : ContentPage
+    public partial class HomePage : ContentPage
     {
-        ItemsViewModel viewModel;
+        EventiViewModel viewModel;
 
-        public ItemsPage()
+        public HomePage()
         {
             InitializeComponent();
 
-            BindingContext = viewModel = new ItemsViewModel();
+            BindingContext = viewModel = new EventiViewModel();
         }
 
         async void OnItemSelected(object sender, SelectedItemChangedEventArgs args)
@@ -36,7 +36,7 @@ namespace AppRegali.Views
             await Navigation.PushAsync(new ItemDetailPage(new ItemDetailViewModel(item)));
 
             // Manually deselect item.
-            ItemsListView.SelectedItem = null;
+            EventiListView.SelectedItem = null;
         }
 
         async void AddItem_Clicked(object sender, EventArgs e)

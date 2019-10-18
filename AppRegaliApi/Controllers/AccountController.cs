@@ -441,13 +441,15 @@ namespace AppRegaliApi.Controllers
             return Ok();
         }
 
-
         // GET api/Account/UserInfo
         [HttpGet]
         [Route("UserDetail")]
-        public UserDetailViewModel GetUserDetail()
+        public UserInfo GetUserDetail()
         {
-            return new UserDetailViewModel();
+            DbDataContext dbDataContext = new DbDataContext();
+            UserInfo userInfo =  dbDataContext.UserInfo.Where(user => user.IdAspNetUser.ToString() == User.Identity.GetUserId()).FirstOrDefault();
+
+            return new UserInfo();
         }
 
         private async Task<ExternalLoginInfo> AuthenticationManager_GetExternalLoginInfoAsync_WithExternalBearer()
@@ -517,9 +519,7 @@ namespace AppRegaliApi.Controllers
 
             return null;
         }
-
-
-
+        
         private class ExternalLoginData
         {
             public string LoginProvider { get; set; }

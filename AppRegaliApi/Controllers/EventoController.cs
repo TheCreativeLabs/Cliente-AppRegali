@@ -26,8 +26,8 @@ namespace AppRegaliApi.Controllers
         }
 
 
-    // GET: api/Evento
-    [HttpGet]
+        // GET: api/Evento
+        [HttpGet]
         public IEnumerable<Evento> GetEventi()
         {
             List<Evento> eventi = dbDataContext.Evento.ToList();

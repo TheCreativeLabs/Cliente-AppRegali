@@ -4,7 +4,8 @@
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
-             x:Class="AppRegali.App">
+             x:Class="AppRegali.App"
+             >
 
     <Application.Resources>
         <ResourceDictionary>
@@ -18,13 +19,17 @@
                 <On Platform="Android" Value="Font Awesome 5 Free-Solid-900.otf#Font Awesome 5 Free Solid" />
             </OnPlatform>
 
+            <Style TargetType="Button" x:Key="primaryButton">
+                <Setter Property="BackgroundColor" Value="#39C4EF"/>
+                <Setter Property="Text" Value="White"/>
+            </Style>
 
-            <!--Global Styles-->
-            <!--<Color x:Key="NavigationPrimary">#2196F3</Color>
-            <Style TargetType="NavigationPage">
-                <Setter Property="BarBackgroundColor" Value="{StaticResource NavigationPrimary}" />
-                <Setter Property="BarTextColor" Value="White" />
-            </Style>-->
+            <Style TargetType="Entry" x:Key="MaterialEntry">
+                <Setter Property="HeightRequest" Value="60">
+                </Setter>
+
+                <Setter Property="PlaceholderColor" Value="Gray"></Setter>
+            </Style>
         </ResourceDictionary>
     </Application.Resources>
     

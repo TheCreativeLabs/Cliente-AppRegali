@@ -26,7 +26,6 @@ namespace AppRegali.Views.Login
             {
                 Application.Current.MainPage = new MainPage();
             }
-
         }
 
         private async void btnAccedi_ClickedAsync(object sender, EventArgs e)
@@ -35,6 +34,7 @@ namespace AppRegali.Views.Login
             {
                 bool formIsValid = true;
 
+                //Controllo che username e password siano valorizzati.
                 if (String.IsNullOrEmpty(entUsername.Text))
                 {
                     formIsValid = false;
@@ -53,9 +53,14 @@ namespace AppRegali.Views.Login
                     Application.Current.MainPage = new MainPage();
                 }
             }
+            catch (ApplicationException ex)
+            {
+                //Se sono qui significa che non ho i diritti per accedere.
+                lblValidazioneLogin.IsVisible = true;
+            }
             catch (Exception ex)
             {
-               //Gestione errore;
+               //In questo caso se 
             }
         }
 

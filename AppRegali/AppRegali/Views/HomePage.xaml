@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="AppRegali.Views.HomePage"
+             x:Name="BrowseItemsPage">
+
+    <NavigationPage.TitleView>
+        <StackLayout Orientation="Horizontal">
+            <Label Text="Eventi" TextColor="White" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" FontAttributes="Bold" FontSize="20"></Label>
+            <Button BackgroundColor="Transparent" FontSize="18" Margin="10,0,0,0" TextColor="White" HorizontalOptions="EndAndExpand" Text="&#xf002;" FontFamily="{StaticResource FA-Solid}">
+            </Button>
+        </StackLayout>
+    </NavigationPage.TitleView>
+
+    <StackLayout Padding="10">
+
+        <ListView x:Name="EventiListView"
+                ItemsSource="{Binding Items}"
+                VerticalOptions="FillAndExpand"
+                HasUnevenRows="true"
+                RefreshCommand="{Binding LoadItemsCommand}"
+                IsPullToRefreshEnabled="true"
+                IsRefreshing="{Binding IsBusy, Mode=OneWay}"
+                CachingStrategy="RecycleElement"
+                ItemSelected="OnItemSelected"
+                  SeparatorVisibility="None">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <Frame HasShadow="True" Margin="0,0,0,20" HeightRequest="200" CornerRadius="10">
+                            <StackLayout>
+                                <StackLayout HeightRequest="150" Margin="-15"  BackgroundColor="#FFC435">
+                                </StackLayout>
+                                
+                                <StackLayout HeightRequest="50" VerticalOptions="EndAndExpand" Padding="20">
+                                    <Label Text="{Binding Titolo}" 
+                                    d:Text="{Binding .}"
+                                    LineBreakMode="NoWrap" 
+                                    FontSize="20" TextColor="Black" VerticalTextAlignment="End"/>
+                                    <Label Text="{Binding Descrizione}" 
+                                    d:Text="Item descripton" VerticalTextAlignment="End"
+                                    LineBreakMode="NoWrap"
+                                    FontSize="13" />
+                                </StackLayout>
+                            </StackLayout>
+                        </Frame>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </StackLayout>
+
+</ContentPage>

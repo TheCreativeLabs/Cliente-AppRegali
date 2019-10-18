@@ -1,7 +1,9 @@
-﻿using AppRegali.Models;
+﻿using Api;
+using AppRegali.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Net.Http;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -17,6 +19,18 @@ namespace AppRegali.Views
         public MenuPage()
         {
             InitializeComponent();
+
+            HttpClient httpClient = new HttpClient();
+            httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", Api.ApiHelper.GetToken());
+            AccountClient accountClient = new AccountClient(httpClient);
+
+            //UserInfo userInfo = accountClient.GetUserDetailAsync().Result;
+
+            //if (userInfo != null)
+            //{
+            //    lblNomeCognome.Text = $"{userInfo.Nome} {userInfo.Cognome}";
+            //    lblEmail.Text = "";
+            //}
 
             menuItems = new List<HomeMenuItem>
             {

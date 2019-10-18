@@ -175,7 +175,7 @@
     <value>Sign in</value>
   </data>
   <data name="Login.Username" xml:space="preserve">
-    <value>Username</value>
+    <value>Email</value>
   </data>
   <data name="Registrazione.Bottone" xml:space="preserve">
     <value>Registrati</value>
@@ -206,6 +206,9 @@
   </data>
   <data name="Restore.RecuperaPassword" xml:space="preserve">
     <value>Recupera la password</value>
+  </data>
+  <data name="Restore.RestoreSuccesso" xml:space="preserve">
+    <value>Ti è stata inviata una email contenente la nuova password.</value>
   </data>
   <data name="Restore.Titolo" xml:space="preserve">
     <value>Hai dimenticato la password? Inserisci la tua mail, ti invieremo una nuova password.</value>
