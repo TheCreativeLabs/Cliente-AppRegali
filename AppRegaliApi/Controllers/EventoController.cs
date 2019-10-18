@@ -4,6 +4,7 @@ using System.Data;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -34,14 +35,14 @@ namespace AppRegaliApi.Controllers
         // GET: api/Evento/EventiCurrentUser
         //restituisce gli eventi dell'utente corrente.
         //restituisce una lista piatta di eventi: nella risposta non sono compresi gli oggetti figli
-        [HttpGet]
-        [Route("EventiCurrentUser")]
-        public async Task<List<Evento>> GetEventiOfCurrentUser()
-        {
-            Guid currentUserId = new Guid(User.Identity.GetUserId());
-            List<Evento> eventi = await dbDataContext.Evento.Where(x => x.IdUtenteCreazione == currentUserId).ToListAsync();
-            return eventi;
-        }
+        //[HttpGet]
+        //[Route("EventiCurrentUser")]
+        //public async Task<List<Evento>> GetEventiOfCurrentUser()
+        //{
+        //    Guid currentUserId = new Guid(User.Identity.GetUserId());
+        //    List<Evento> eventi = await dbDataContext.Evento.Where(x => x.IdUtenteCreazione == currentUserId).ToListAsync();
+        //    return eventi;
+        //}
 
         // GET: api/Evento/EventoById/5
         //dato un id, restituisce l'evento. l'oggetto restituito è piatto: nella risposta non sono compresi gli oggetti figli
@@ -58,22 +59,37 @@ namespace AppRegaliApi.Controllers
         // GET: api/Evento/EventoByIdCategoria/5
         //dato un id categoria, restituisce tutti gli eventi di quella categoria.
         //l'oggetto restituito è piatto: nella risposta non sono compresi gli oggetti figli
-        [HttpGet]
-        [Route("EventiByIdCategoria/{idCategoria}")]
-        public async Task<List<Evento>> GetEventiByIdCategoria(Guid idCategoria)
-        {
-            List<Evento> eventi = await dbDataContext.Evento.Where(x => x.IdCategoriaEvento == idCategoria).ToListAsync();
-            return eventi;
-        }
+        //[HttpGet]
+        //[Route("EventiByIdCategoria/{idCategoria}")]
+        //public async Task<List<Evento>> GetEventiByIdCategoria(Guid idCategoria)
+        //{
+        //    List<Evento> eventi = await dbDataContext.Evento.    .Where(x => x.IdCategoriaEvento == idCategoria).ToListAsync();
+        //    return eventi;
+        //}
 
-        // GET: api/Evento/EventoByIdCategoria/5
-        //dato un id utente, restituisce tutti gli eventi di quell'utente.
+        // GET: api/Evento/EventiByIdUtenteIdCategoria?idUtente=1&idCategoria=2
+        //dato un id utente e una categoria, restituisce tutti gli eventi di quell'utente.
         //l'oggetto restituito è piatto: nella risposta non sono compresi gli oggetti figli
         [HttpGet]
-        [Route("EventiByIdUtente/{idUtente}")]
-        public async Task<List<Evento>> GetEventiByidUtente(Guid idUtente)
+        [Route("EventiByIdUtenteIdCategoria/{idUtente?}/{idCategoria?}")]
+        public async Task<List<Evento>> GetEventiByidUtente([FromUri]String idUtente=null, [FromUri]String idCategoria =null)
         {
-            List<Evento> eventi = await dbDataContext.Evento.Where(x => x.IdUtenteCreazione == idUtente).ToListAsync();
+            IQueryable<Evento> query = dbDataContext.Evento;
+            if (idUtente != null)
+            {
+                Guid guidUtente = new Guid(idUtente);
+                Expression<Func<Evento, bool>> idUtenteMatch = c => c.IdUtenteCreazione == guidUtente;
+                query = query.Where(idUtenteMatch);
+            }
+            if (idCategoria != null)
+            {
+                Guid guidCategoria = new Guid(idCategoria);
+                Expression<Func<Evento, bool>> idCategoriaMatch = c => c.IdCategoriaEvento == guidCategoria;
+                //metto la condizione sulla categoria in AND
+                query = query.Where(idCategoriaMatch);
+            }
+
+            List<Evento> eventi = await query.ToListAsync();
             return eventi;
         }
 
