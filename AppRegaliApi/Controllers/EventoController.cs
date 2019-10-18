@@ -39,7 +39,7 @@ namespace AppRegaliApi.Controllers
         public async Task<List<Evento>> GetEventiOfCurrentUser()
         {
             Guid currentUserId = new Guid(User.Identity.GetUserId());
-            List<Evento> eventi = await dbDataContext.Evento.Where(x => x.IdUtenteCreazione.ToString().ToUpper().Equals(currentUserId.ToString().ToUpper(),StringComparison.OrdinalIgnoreCase)).ToListAsync();
+            List<Evento> eventi = await dbDataContext.Evento.Where(x => x.IdUtenteCreazione == currentUserId).ToListAsync();
             return eventi;
         }
 
@@ -50,13 +50,7 @@ namespace AppRegaliApi.Controllers
         [ResponseType(typeof(Evento))]
         public IHttpActionResult GetEventoById(Guid id)
         {
-            //Guid guid = new Guid(id);
-            Evento evento = dbDataContext.Evento.Find(id);
-
-            if (evento == null)
-            {
-                return NotFound();
-            }
+            Evento evento = dbDataContext.Evento.Include(x => x.Regalo).SingleOrDefault(x => x.Id == id);
 
             return Ok(evento);
         }
@@ -73,7 +67,7 @@ namespace AppRegaliApi.Controllers
         }
 
         // GET: api/Evento/EventoByIdCategoria/5
-        //dato un id categoria, restituisce tutti gli eventi di quella categoria.
+        //dato un id utente, restituisce tutti gli eventi di quell'utente.
         //l'oggetto restituito è piatto: nella risposta non sono compresi gli oggetti figli
         [HttpGet]
         [Route("EventiByIdUtente/{idUtente}")]
@@ -157,7 +151,7 @@ namespace AppRegaliApi.Controllers
             return CreatedAtRoute("EventoCreate", new { id = evento.Id }, evento);
         }
 
-        // DELETE: api/Evento/5
+        // DELETE: api/Evento/EventoDelete/5
         [HttpDelete]
         [Route("EventoDelete/{id}")]
         [ResponseType(typeof(Evento))]
@@ -175,6 +169,123 @@ namespace AppRegaliApi.Controllers
             return Ok(evento);
         }
 
+        //-------------------------------------------------------
+        //-----------------inizio API regali---------------------
+        //-------------------------------------------------------
+
+        // GET: api/Evento/RegaloById/5
+        //dato un id, restituisce il regalo. l'oggetto restituito è piatto: nella risposta non sono compresi gli oggetti figli
+        [HttpGet]
+        [Route("RegaloById/{id}")]
+        [ResponseType(typeof(Evento))]
+        public IHttpActionResult GetRegaloById(Guid id)
+        {
+            Regalo regalo = dbDataContext.Regalo.Find(id);
+
+            return Ok(regalo);
+        }
+
+        // GET: api/Evento/RegaliByIdEvento/5
+        //dato un id categoria, restituisce tutti gli eventi di quella categoria.
+        //l'oggetto restituito è piatto: nella risposta non sono compresi gli oggetti figli
+        [HttpGet]
+        [Route("RegaliByIdEvento/{idEvento}")]
+        public async Task<List<Regalo>> GetRegaliByIdUtente(Guid idEvento)
+        {
+            List<Regalo> regali = await dbDataContext.Regalo.Where(x => x.IdEvento == idEvento).ToListAsync();
+            return regali;
+        }
+
+        // PUT: api/Evento/RegaloUpdate
+        //FIXME verificare come si comporta con i figli
+        [HttpPut]
+        [Route("RegaloUpdate")]
+        [ResponseType(typeof(void))]
+        public IHttpActionResult UpdateRegalo(Regalo regalo)
+        {
+            //FIXME
+            regalo.ImmagineRegalo = null;
+            regalo.Evento = null;
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            if (regalo.Id != null)
+            {
+                dbDataContext.Regalo.Attach(regalo);
+                dbDataContext.Entry(regalo).State = EntityState.Modified;
+            }
+
+            try
+            {
+                dbDataContext.SaveChanges();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!EventoExists(regalo.Id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return StatusCode(HttpStatusCode.NoContent);
+        }
+
+        // POST: api/Evento/RegaloCreate
+        [HttpPost]
+        [Route("RegaloCreate", Name = "RegaloCreate")]
+        [ResponseType(typeof(Evento))]
+        public IHttpActionResult InserisciRegalo(Regalo regalo)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            dbDataContext.Regalo.Add(regalo);
+
+            try
+            {
+                dbDataContext.SaveChanges();
+            }
+            catch (DbUpdateException)
+            {
+                if (RegaloExists(regalo.Id))
+                {
+                    return Conflict();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return CreatedAtRoute("RegaloCreate", new { id = regalo.Id }, regalo);
+        }
+
+        // DELETE: api/Evento/RegaloDelete/5
+        [HttpDelete]
+        [Route("RegaloDelete/{id}")]
+        [ResponseType(typeof(Evento))]
+        public IHttpActionResult DeleteRegalo(Guid id)
+        {
+            Regalo regalo = dbDataContext.Regalo.Find(id);
+            if (regalo == null)
+            {
+                return NotFound();
+            }
+
+            dbDataContext.Regalo.Remove(regalo);
+            dbDataContext.SaveChanges();
+
+            return Ok(regalo);
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)
@@ -187,6 +298,11 @@ namespace AppRegaliApi.Controllers
         private bool EventoExists(Guid id)
         {
             return dbDataContext.Evento.Count(e => e.Id == id) > 0;
+        }
+
+        private bool RegaloExists(Guid id)
+        {
+            return dbDataContext.Regalo.Count(e => e.Id == id) > 0;
         }
     }
 }
