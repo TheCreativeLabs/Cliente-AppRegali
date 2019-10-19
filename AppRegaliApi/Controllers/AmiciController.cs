@@ -21,6 +21,17 @@ namespace AppRegaliApi.Controllers
     {
         private DbDataContext dbDataContext = new DbDataContext();
 
+        [HttpGet]
+        [Route("UserInfoByIdUser/{idUser}")]
+        [ResponseType(typeof(UserInfo))]
+        public IHttpActionResult GetUserInfoByIdUsera(Guid idUser)
+        {
+            UserInfo userInfo = dbDataContext.UserInfo.SingleOrDefault(x => x.IdAspNetUser == idUser);
+            return Ok(userInfo);
+        }
+
+
+        //FIXME TESTARE
         // GET: api/Amici/AmiciCurrentUser
         //restituisce gli amici dell'utente corrente.
         /// <summary>
@@ -53,6 +64,7 @@ namespace AppRegaliApi.Controllers
             List<UserInfo> amici = await dbDataContext.UserInfo.Where(x => idAmiciAll.Contains(x.IdAspNetUser)).ToListAsync();
             return amici;
         }
+
 
 
         

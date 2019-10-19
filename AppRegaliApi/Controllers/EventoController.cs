@@ -23,6 +23,14 @@ namespace AppRegaliApi.Controllers
         private DbDataContext dbDataContext = new DbDataContext();
         private EventoMapper eventoMapper = new EventoMapper();
 
+        [HttpGet]
+        [Route("LookupCategorie")]
+        public async Task<List<EventoCategoria>> GetLookupEventoCategoria()
+        {
+            List<EventoCategoria> categorie = await dbDataContext.EventoCategoria.ToListAsync();
+            return categorie;
+        }
+
         // GET: api/Evento/Eventi
         //restituisce una lista piatta di eventi: nella risposta non sono compresi gli oggetti figli
         [HttpGet]
@@ -66,6 +74,7 @@ namespace AppRegaliApi.Controllers
                 //metto la condizione sulla categoria in AND
                 query = query.Where(idCategoriaMatch);
             }
+            query = query.Where(x => x.DataEvento >= DateTime.Now).OrderBy(x => x.DataEvento);
 
             List<Evento> eventi = await query.ToListAsync();
             return eventi;
