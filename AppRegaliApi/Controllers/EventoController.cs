@@ -21,6 +21,7 @@ namespace AppRegaliApi.Controllers
     public class EventoController : ApiController
     {
         private DbDataContext dbDataContext = new DbDataContext();
+        private EventoMapper eventoMapper = new EventoMapper();
 
         // GET: api/Evento/Eventi
         //restituisce una lista piatta di eventi: nella risposta non sono compresi gli oggetti figli
@@ -116,8 +117,10 @@ namespace AppRegaliApi.Controllers
         [HttpPost]
         [Route("EventoCreate", Name = "EventoCreate")]
         [ResponseType(typeof(Evento))]
-        public IHttpActionResult InserisciEvento(Evento evento)
+        public IHttpActionResult InserisciEvento(EventoInputDto eventoDto)
         {
+            Evento evento = eventoMapper.EventoInputDtoToEvnto(eventoDto, new Guid(User.Identity.GetUserId()));
+            evento.DataCreazione = DateTime.Now;
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);

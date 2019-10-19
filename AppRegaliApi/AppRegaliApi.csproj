@@ -304,10 +304,12 @@
     <Compile Include="Controllers\EventoController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
+    <Compile Include="Dto\Input\EventoInputDto.cs" />
     <Compile Include="FacebookBackChannelHandler.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Mapper\EventoMapper.cs" />
     <Compile Include="Migrations\201910101035246_Initial.cs" />
     <Compile Include="Migrations\201910101035246_Initial.Designer.cs">
       <DependentUpon>201910101035246_Initial.cs</DependentUpon>
@@ -394,7 +396,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Dto\Input\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
