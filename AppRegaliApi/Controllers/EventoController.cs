@@ -48,7 +48,7 @@ namespace AppRegaliApi.Controllers
         [ResponseType(typeof(Evento))]
         public IHttpActionResult GetEventoById(Guid id)
         {
-            Evento evento = dbDataContext.Evento.Include(x => x.Regalo).SingleOrDefault(x => x.Id == id);
+            Evento evento = dbDataContext.Evento.Include(x => x.Regalo).Include(x => x.ImmagineEvento).SingleOrDefault(x => x.Id == id);
 
             return Ok(evento);
         }
@@ -60,7 +60,7 @@ namespace AppRegaliApi.Controllers
         [Route("EventiByIdUtenteIdCategoria/{idUtente?}/{idCategoria?}")]
         public async Task<List<Evento>> GetEventiByidUtente([FromUri]String idUtente=null, [FromUri]String idCategoria =null)
         {
-            IQueryable<Evento> query = dbDataContext.Evento;
+            IQueryable<Evento> query = dbDataContext.Evento.Include(x => x.ImmagineEvento);
             if (idUtente != null)
             {
                 Guid guidUtente = new Guid(idUtente);
@@ -134,7 +134,8 @@ namespace AppRegaliApi.Controllers
             {
                 return BadRequest(ModelState);
             }
-
+            dbDataContext.ImmagineEvento.Attach(evento.ImmagineEvento);
+            dbDataContext.Entry(evento.ImmagineEvento).State = EntityState.Added;
             dbDataContext.Evento.Add(evento);
 
             try

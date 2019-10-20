@@ -13,6 +13,8 @@ namespace AppRegaliApi.Models
         {
         }
 
+        public String Id { get; set; }
+
         [Required]
         [StringLength(128)]
         public string Titolo { get; set; }
@@ -27,5 +29,9 @@ namespace AppRegaliApi.Models
 
         [Required]
         public Guid IdCategoriaEvento { get; set; }
+
+        public string IdImmagineEvento { get; set; }
+
+        public byte[] ImmagineEvento { get; set; }
     }
 }

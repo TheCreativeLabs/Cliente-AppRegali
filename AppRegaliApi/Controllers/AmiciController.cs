@@ -22,14 +22,22 @@ namespace AppRegaliApi.Controllers
         private DbDataContext dbDataContext = new DbDataContext();
 
         [HttpGet]
-        [Route("UserInfoByIdUser/{idUser}")]
+        [Route("UserInfoByIdUse/{idUser}")]
         [ResponseType(typeof(UserInfo))]
-        public IHttpActionResult GetUserInfoByIdUsera(Guid idUser)
+        public IHttpActionResult GetUserInfoByIdUsers(Guid idUser)
         {
             UserInfo userInfo = dbDataContext.UserInfo.SingleOrDefault(x => x.IdAspNetUser == idUser);
             return Ok(userInfo);
         }
 
+        
+        [HttpGet]
+        [Route("CurrentUserInfo")]
+        [ResponseType(typeof(UserInfo))]
+        public IHttpActionResult GetCurrentUserInfo() 
+        {
+            return GetUserInfoByIdUsers(new Guid(User.Identity.GetUserId()));
+        }
 
         //FIXME TESTARE
         // GET: api/Amici/AmiciCurrentUser
@@ -64,6 +72,8 @@ namespace AppRegaliApi.Controllers
             List<UserInfo> amici = await dbDataContext.UserInfo.Where(x => idAmiciAll.Contains(x.IdAspNetUser)).ToListAsync();
             return amici;
         }
+
+        //todo crea amicizia, rimuovi amicizia, get stato amicizia
 
 
 
