@@ -311,7 +311,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Mapper\UserMapper.cs" />
+    <Compile Include="Mapper\UserInfoMapper.cs" />
     <Compile Include="Mapper\RegaloMapper.cs" />
     <Compile Include="Mapper\EventoMapper.cs" />
     <Compile Include="Migrations\201910101035246_Initial.cs" />

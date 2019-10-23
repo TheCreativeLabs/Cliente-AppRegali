@@ -6,11 +6,14 @@ using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
 using AppRegaliApi.Models;
 using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
+using static AppRegaliApi.Controllers.AccountController;
 
 namespace AppRegaliApi.Controllers
 {
@@ -20,23 +23,45 @@ namespace AppRegaliApi.Controllers
     public class AmiciController : ApiController
     {
         private DbDataContext dbDataContext = new DbDataContext();
+        private ApplicationUserManager _userManager;
+        UserInfoMapper userInfoMapper = new UserInfoMapper();
+
+        public AmiciController(ApplicationUserManager userManager)
+        {
+            UserManager = userManager;
+        }
+
+        public ApplicationUserManager UserManager
+        {
+            get
+            {
+                return _userManager ?? Request.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            }
+            private set
+            {
+                _userManager = value;
+            }
+        }
 
         [HttpGet]
         [Route("UserInfoByIdUser/{idUser}")]
         [ResponseType(typeof(UserInfoDto))]
-        public IHttpActionResult GetUserInfoByIdUsers(Guid idUser)
+        public async Task<IHttpActionResult> GetUserInfoByIdUsers(Guid idUser)
         {
-            UserInfo userInfo = dbDataContext.UserInfo.SingleOrDefault(x => x.IdAspNetUser == idUser);
-            UserInfoDto dto = 
+            UserInfo userInfo = await dbDataContext.UserInfo.SingleOrDefaultAsync(x => x.IdAspNetUser == idUser);
             return Ok(userInfo);
         }
-
         
         [HttpGet]
         [Route("CurrentUserInfo")]
         [ResponseType(typeof(UserInfo))]
         public IHttpActionResult GetCurrentUserInfo() 
         {
+
+            ExternalLoginData externalLogin = ExternalLoginData.FromIdentity(User.Identity as ClaimsIdentity);
+
+            externalLogin.
+
             return GetUserInfoByIdUsers(new Guid(User.Identity.GetUserId()));
         }
 

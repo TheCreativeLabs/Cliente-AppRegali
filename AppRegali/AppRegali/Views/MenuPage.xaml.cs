@@ -74,10 +74,15 @@ namespace AppRegali.Views
             }
         }
 
-        private void btnLogout_Clicked(object sender, EventArgs e)
+        private async void btnLogout_Clicked(object sender, EventArgs e)
         {
             try
             {
+                HttpClient httpClient = new HttpClient();
+                httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", Api.ApiHelper.GetToken());
+                AccountClient accountClient = new AccountClient(httpClient);
+                await accountClient.LogoutAsync();
+
                 //Rimuovo il token e navigo alla home
                 Api.ApiHelper.DeleteToken();
                 Application.Current.MainPage = new NavigationPage(new Login.Login());

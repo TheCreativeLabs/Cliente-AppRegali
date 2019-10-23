@@ -202,7 +202,7 @@ namespace AppRegaliApi.Controllers
         public async Task<List<RegaloDto>> GetRegaliByIdUtente(Guid idEvento)
         {
             List<Regalo> regali = await dbDataContext.Regalo.Where(x => x.IdEvento == idEvento).ToListAsync();
-            return regali;
+            return regaloMapper.RegaloToRegaloDtoList(regali);
         }
 
         // PUT: api/Evento/RegaloUpdate

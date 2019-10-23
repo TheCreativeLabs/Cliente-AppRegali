@@ -91,6 +91,8 @@ namespace AppRegali.Api
 
             if (Application.Current.Properties.ContainsKey(AccessTokenKey))
             {
+                
+
                 Application.Current.Properties.Remove(AccessTokenKey);
             }
 

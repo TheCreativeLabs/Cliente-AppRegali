@@ -72,6 +72,8 @@ namespace AppRegaliApi.Controllers
         public IHttpActionResult Logout()
         {
             Authentication.SignOut(CookieAuthenticationDefaults.AuthenticationType);
+            Authentication.SignOut(DefaultAuthenticationTypes.ExternalCookie);
+
             return Ok();
         }
 
@@ -444,12 +446,14 @@ namespace AppRegaliApi.Controllers
         // GET api/Account/UserInfo
         [HttpGet]
         [Route("UserDetail")]
-        public UserInfo GetUserDetail()
+        public UserInfoDto GetUserDetail()
         {
             DbDataContext dbDataContext = new DbDataContext();
+            UserInfoMapper userInfoMapper = new UserInfoMapper();
             UserInfo userInfo =  dbDataContext.UserInfo.Where(user => user.IdAspNetUser.ToString() == User.Identity.GetUserId()).FirstOrDefault();
+            UserInfoDto userInfoDto = userInfoMapper.UserInfoToUserInfoDto(userInfo, UserManager.GetEmail(User.Identity.GetUserId()));
 
-            return new UserInfo();
+            return userInfoDto;
         }
 
         private async Task<ExternalLoginInfo> AuthenticationManager_GetExternalLoginInfoAsync_WithExternalBearer()
@@ -520,7 +524,7 @@ namespace AppRegaliApi.Controllers
             return null;
         }
         
-        private class ExternalLoginData
+        public class ExternalLoginData
         {
             public string LoginProvider { get; set; }
             public string ProviderKey { get; set; }
