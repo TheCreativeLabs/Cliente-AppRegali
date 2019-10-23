@@ -1,0 +1,55 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="AppRegali.Views.EventoInserisci"
+             Title="Crea un evento"
+             xmlns:translator="clr-namespace:AppRegali.Helpers">
+
+    <NavigationPage.TitleView>
+        <StackLayout Orientation="Horizontal">
+            <!--<Label Text="&#xf00d;"  FontFamily="{StaticResource FA-Solid}"  FontSize="Large" TextColor="White">
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="Cancel_Clicked"/>
+                </Label.GestureRecognizers>
+            </Label>-->
+
+            <Button BackgroundColor="Transparent" FontSize="Medium" HorizontalOptions="Start" WidthRequest="50" TextColor="White" Text="&#xf00d;" FontFamily="{StaticResource FA-Solid}" Clicked="Cancel_Clicked">
+            </Button>
+            
+            <Label FontSize="Large" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" HorizontalOptions="CenterAndExpand"  FontFamily="{x:StaticResource FA-Solid}" TextColor="White" FontAttributes="Bold" Text="Nuovo evento"></Label>
+        </StackLayout>
+    </NavigationPage.TitleView>
+
+    <ContentPage.Content>
+        <ScrollView>
+            <StackLayout>
+                <Frame Margin="-20"  HeightRequest="250" IsClippedToBounds="True" Padding="0">
+                    <Image x:Name="imgTest" Source="test.jpg" Aspect="AspectFill"></Image>
+                </Frame>
+
+                <Button HeightRequest="60" CornerRadius="20" Visual="Material" Clicked="OnPickPhotoButtonClicked" WidthRequest="60"  TextColor="Black" BackgroundColor="#efefef" Text="&#xf083;" Margin="0,-20,0,0" FontFamily="{StaticResource FA-Solid}"  FontSize="Large" HorizontalOptions="Center">
+                </Button>
+
+                <StackLayout Padding="15">
+                    <Entry x:Name="entTitolo" Visual="Material" Placeholder="Titolo" TextChanged="ent_TextChanged"></Entry>
+
+                    <Entry x:Name="entDataEvento" Visual="Material" Placeholder="Data evento" Focused="entDataEvento_Focused" TextChanged="ent_TextChanged"></Entry>
+
+                    <DatePicker x:Name="dpDataEvento" IsVisible="False"  Visual="Material" DateSelected="dpDataEvento_DateSelected" ></DatePicker>
+
+                    <Entry x:Name="entCategoria"  Visual="Material" Placeholder="Categoria" Focused="entCategoria_Focused" TextChanged="ent_TextChanged"></Entry>
+                    
+                    <Picker x:Name="pkCategoria" Visual="Material" IsVisible="False" ItemsSource="{Binding Items}"
+                        ItemDisplayBinding="{Binding Descrizione}" Title="Seleziona categoria" SelectedIndexChanged="pkCategoria_SelectedIndexChanged"></Picker>
+
+                    <Editor x:Name="edDescrizione" Keyboard="Chat" AutoSize="TextChanges" Visual="Material" TextChanged="ent_TextChanged" Placeholder="Descrizione"></Editor>
+
+                    <Button Style="{x:StaticResource primaryButton}"  Visual="Material" Text="{translator:Translate NuovoEvento.Nuovo}" x:Name="btnSalva" Clicked="Save_Clicked" IsEnabled="False"></Button>
+                </StackLayout>
+            </StackLayout>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>

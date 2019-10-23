@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 using Xamarin.Forms;
@@ -24,18 +25,50 @@ namespace AppRegali.Views.Login
         {
             try
             {
-                HttpClient httpClient = new HttpClient();
-                httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", ApiHelper.GetToken());
-                AccountClient accountClient = new AccountClient(httpClient);
+                bool formIsValid = true;
 
-                ChangePasswordBindingModel changePasswordBindingModel = new ChangePasswordBindingModel()
+                //Controllo validità della vecchia password.
+                if (String.IsNullOrEmpty(entVecchiaPassword.Text))
                 {
-                    OldPassword = entVecchiaPassword.Text,
-                    NewPassword = entNuovaPassword.Text,
-                    ConfirmPassword = entConfermaPassword.Text
-                };
+                    formIsValid = false;
+                    lblValidatorEntVecchiaPassword.IsVisible = true;
+                }
 
-                var result = await accountClient.ChangePasswordAsync(changePasswordBindingModel);
+                //Controllo validità della nuova password.
+                if (String.IsNullOrEmpty(entNuovaPassword.Text) || !Regex.IsMatch(entNuovaPassword.Text, Utility.Utility.PasswordRegex))
+                {
+                    formIsValid = false;
+                    lblValidatorEntPassword.IsVisible = true;
+                }
+
+                //Controllo che le due password siano uguali.
+                if (String.IsNullOrEmpty(entConfermaPassword.Text) || !(entNuovaPassword.Text == entConfermaPassword.Text))
+                {
+                    formIsValid = false;
+                    lblValidatorEntConfermaPassword.IsVisible = true;
+                }
+
+                //Se la form è valida proseguo con la registrazione.
+                if (formIsValid)
+                {
+                    HttpClient httpClient = new HttpClient();
+                    httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", ApiHelper.GetToken());
+                    AccountClient accountClient = new AccountClient(httpClient);
+
+                    ChangePasswordBindingModel changePasswordBindingModel = new ChangePasswordBindingModel()
+                    {
+                        OldPassword = entVecchiaPassword.Text,
+                        NewPassword = entNuovaPassword.Text,
+                        ConfirmPassword = entConfermaPassword.Text
+                    };
+
+                    await accountClient.ChangePasswordAsync(changePasswordBindingModel);
+                }
+            }
+            catch (ApiException ex)
+            {
+                //Se sono qui non ho l'accesso, quindi la password è sbagliata.
+                lblErrore.IsVisible = true;
             }
             catch (Exception)
             {

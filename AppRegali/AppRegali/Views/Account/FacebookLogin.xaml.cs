@@ -23,6 +23,7 @@ namespace AppRegali.Views.Account
             AccountClient accountClient = new AccountClient(new System.Net.Http.HttpClient());
             ExternalLoginViewModel externalLoginViewModel = accountClient.GetExternalLoginsAsync("/", true).Result.First();
             string apiRequest = "https://appregaliapitest.com" + externalLoginViewModel.Url;
+            apiRequest= apiRequest.Replace("www.", "");
 
             //mostro l'url nella pagina
             var webView = new WebView

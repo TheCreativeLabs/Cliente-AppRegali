@@ -10,38 +10,39 @@ using Xamarin.Forms.Xaml;
 using AppRegali.Models;
 using AppRegali.Views;
 using AppRegali.ViewModels;
+using Api;
 
 namespace AppRegali.Views
 {
     // Learn more about making custom code visible in the Xamarin.Forms previewer
     // by visiting https://aka.ms/xamarinforms-previewer
     [DesignTimeVisible(false)]
-    public partial class ItemsPage : ContentPage
+    public partial class Home: ContentPage
     {
-        ItemsViewModel viewModel;
+        EventiViewModel viewModel;
 
-        public ItemsPage()
+        public Home()
         {
             InitializeComponent();
 
-            BindingContext = viewModel = new ItemsViewModel();
+            BindingContext = viewModel = new EventiViewModel();
         }
 
         async void OnItemSelected(object sender, SelectedItemChangedEventArgs args)
         {
-            var item = args.SelectedItem as Item;
+            var item = args.SelectedItem as Evento;
             if (item == null)
                 return;
 
-            await Navigation.PushAsync(new ItemDetailPage(new ItemDetailViewModel(item)));
+            await Navigation.PushAsync(new EventoDettaglio(new EventoDetailViewModel(item)));
 
             // Manually deselect item.
-            ItemsListView.SelectedItem = null;
+            EventiListView.SelectedItem = null;
         }
 
         async void AddItem_Clicked(object sender, EventArgs e)
         {
-            await Navigation.PushModalAsync(new NavigationPage(new NewItemPage()));
+            await Navigation.PushModalAsync(new NavigationPage(new EventoInserisci()));
         }
 
         protected override void OnAppearing()
@@ -50,6 +51,14 @@ namespace AppRegali.Views
 
             if (viewModel.Items.Count == 0)
                 viewModel.LoadItemsCommand.Execute(null);
+
+
+            
+        }
+
+        private async void btnAbilitaRicerca_Clicked(object sender, EventArgs e)
+        {
+            await Navigation.PushAsync(new RicercaAmici());
         }
     }
 }

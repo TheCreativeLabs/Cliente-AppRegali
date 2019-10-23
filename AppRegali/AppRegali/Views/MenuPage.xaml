@@ -5,17 +5,31 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
              x:Class="AppRegali.Views.MenuPage"
-             Title="Menu">
+             Title="Menu"
+              xmlns:translator="clr-namespace:AppRegali.Helpers">
 
-    <StackLayout VerticalOptions="FillAndExpand">
-        <StackLayout HeightRequest="100" VerticalOptions="Center" Margin="0,30,0,0">
-            <Label x:Name="lblNome" FontSize="25" FontAttributes="Bold" TextColor="Black" HorizontalOptions="Center"></Label>
-            <Label x:Name="lblCognome" FontSize="17" HorizontalOptions="Center"></Label>
-        </StackLayout>
+    <StackLayout Orientation="Vertical">
+        <Frame  HeightRequest="330" Padding="0" HasShadow="True">
+            <StackLayout Orientation="Vertical" HeightRequest="330">
+                <Frame CornerRadius="100"
+           HeightRequest="130"
+           WidthRequest="130"
+           HorizontalOptions="Center"
+           Padding="0" Margin="0,15,0,0"
+           IsClippedToBounds="True"
+                   HasShadow="True" BorderColor="#0bbfb9">
+                    <Image x:Name="imgFotoUtente"  HorizontalOptions="Center"
+           VerticalOptions="Center"></Image>
+                </Frame>
+
+                <Label x:Name="lblNomeCognome" FontSize="Large" FontAttributes="Bold" TextColor="Black" HorizontalOptions="Center"></Label>
+                <Label x:Name="lblEmail" Text="simone.bitti1996@gmail.com" TextColor="Gray" FontSize="Medium" HorizontalOptions="Center"></Label>
+            </StackLayout>
+        </Frame>
 
         <StackLayout >
             <ListView x:Name="ListViewMenu"
-                    HasUnevenRows="true">
+                    HasUnevenRows="true" SeparatorVisibility="Default">
                 <d:ListView.ItemsSource>
                     <x:Array Type="{x:Type x:String}">
                         <x:String>Item 1</x:String>
@@ -26,13 +40,25 @@
                     <DataTemplate>
                         <ViewCell>
                             <Grid Padding="10">
-                                <Label Text="{Binding Title}" d:Text="{Binding .}" FontSize="20" TextColor="Black" FontAttributes="Bold"/>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="2*"></ColumnDefinition>
+                                    <ColumnDefinition Width="10*"></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                
+                                <Label Grid.Column="0" TextColor="Gray" Text="{Binding Icon}" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" FontFamily="{x:StaticResource FA-Solid}" FontSize="Large"></Label>
+                                <Label Grid.Column="1" Text="{Binding Title}" d:Text="{Binding .}" VerticalTextAlignment="Center" HorizontalTextAlignment="Start" FontSize="Large" TextColor="Black" />
                             </Grid>
                         </ViewCell>
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
         </StackLayout>
+
+        <Label x:Name="lblLogout"  Text="{translator:Translate Menu.Logout}" HorizontalTextAlignment="Center" Margin="10" FontSize="Large">
+            <Label.GestureRecognizers>
+                <TapGestureRecognizer Tapped="btnLogout_Clicked"/>
+            </Label.GestureRecognizers>
+        </Label>
     </StackLayout>
 
 </ContentPage>

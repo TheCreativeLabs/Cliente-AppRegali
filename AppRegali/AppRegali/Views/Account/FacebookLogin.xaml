@@ -5,7 +5,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
              x:Class="AppRegali.Views.Account.FacebookLogin"
-             NavigationPage.HasBackButton="False">
+             NavigationPage.HasNavigationBar="False">
     <ContentPage.Content>
         <StackLayout x:Name="MainStackLayout"
                Padding="8,30">

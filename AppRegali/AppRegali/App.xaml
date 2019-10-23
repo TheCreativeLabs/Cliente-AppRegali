@@ -4,28 +4,66 @@
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
-             x:Class="AppRegali.App">
+             x:Class="AppRegali.App"
+             >
 
     <Application.Resources>
         <ResourceDictionary>
-         
+
             <!--    Font Awesome     -->
             <OnPlatform x:TypeArguments="x:String" x:Key="FA-Brands">
                 <On Platform="Android" Value="Font Awesome 5 Brands-Regular-400.otf#Font Awesome 5 Brands Regular" />
             </OnPlatform>
-            
+
             <OnPlatform x:TypeArguments="x:String" x:Key="FA-Solid">
                 <On Platform="Android" Value="Font Awesome 5 Free-Solid-900.otf#Font Awesome 5 Free Solid" />
             </OnPlatform>
 
+            <Style TargetType="Button" x:Key="primaryButton">
+                <Setter Property="BackgroundColor" Value="#0bbfb9"/>
+                <Setter Property="Text" Value="White"/>
+            </Style>
 
-            <!--Global Styles-->
-            <!--<Color x:Key="NavigationPrimary">#2196F3</Color>
-            <Style TargetType="NavigationPage">
-                <Setter Property="BarBackgroundColor" Value="{StaticResource NavigationPrimary}" />
-                <Setter Property="BarTextColor" Value="White" />
-            </Style>-->
+            <OnPlatform x:TypeArguments="x:String" x:Key="BoldFont">
+                <On Platform="Android" Value="Montserrat-Light.ttf#Montserrat Light" />
+                <On Platform="iOS" Value="Montserrat-Light" />
+            </OnPlatform>
+
+
+            <OnPlatform x:TypeArguments="x:String" x:Key="BoldFont2">
+                <On Platform="Android" Value="MyriadPro-Regular.otf#MyriadPro Regular" />
+                <On Platform="iOS" Value="MyriadPro-Regular" />
+            </OnPlatform>
+
+            <Style TargetType="Entry">
+                <Setter Property="PlaceholderColor" Value="Gray"></Setter>
+                <Setter Property="FontFamily" Value="{StaticResource BoldFont2}" />
+                <Setter Property="HeightRequest" Value="58"></Setter>
+            </Style>
+            
+            <Style TargetType="Editor">
+                <Setter Property="PlaceholderColor" Value="Gray"></Setter>
+                <Setter Property="FontFamily" Value="{StaticResource BoldFont2}" />
+            </Style>
+            
+            <Style TargetType="Label">
+                <Setter Property="FontFamily" Value="{StaticResource BoldFont2}" />
+            </Style>
+            
+            <Style TargetType="Button">
+                <Setter Property="FontFamily" Value="{StaticResource BoldFont2}" />
+                <Setter Property="HeightRequest" Value="40"></Setter>
+            </Style>
+
+            <Style TargetType="Label" x:Key="LabelValidatore">
+                <Setter Property="FontFamily" Value="{StaticResource BoldFont2}" />
+                <Setter Property="TextColor" Value="Red"></Setter>
+                <Setter Property="FontSize" Value="Small"></Setter>
+                <Setter Property="IsVisible" Value="False"></Setter>
+                <Setter Property="Margin" Value="0,-8,0,5"></Setter>
+                <Setter Property="FontAttributes" Value="Bold"></Setter>
+            </Style>
         </ResourceDictionary>
     </Application.Resources>
-    
+
 </Application>

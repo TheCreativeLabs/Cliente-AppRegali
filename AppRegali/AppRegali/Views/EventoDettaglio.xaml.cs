@@ -5,34 +5,35 @@ using Xamarin.Forms.Xaml;
 
 using AppRegali.Models;
 using AppRegali.ViewModels;
+using Api;
 
 namespace AppRegali.Views
 {
     // Learn more about making custom code visible in the Xamarin.Forms previewer
     // by visiting https://aka.ms/xamarinforms-previewer
     [DesignTimeVisible(false)]
-    public partial class ItemDetailPage : ContentPage
+    public partial class EventoDettaglio : ContentPage
     {
-        ItemDetailViewModel viewModel;
+        EventoDetailViewModel viewModel;
 
-        public ItemDetailPage(ItemDetailViewModel viewModel)
+        public EventoDettaglio(EventoDetailViewModel viewModel)
         {
             InitializeComponent();
 
             BindingContext = this.viewModel = viewModel;
         }
 
-        public ItemDetailPage()
+        public EventoDettaglio()
         {
             InitializeComponent();
 
-            var item = new Item
+            var item = new Evento
             {
-                Text = "Item 1",
-                Description = "This is an item description."
+                Titolo = "Item 1",
+                Descrizione = "This is an item description."
             };
 
-            viewModel = new ItemDetailViewModel(item);
+            viewModel = new EventoDetailViewModel(item);
             BindingContext = viewModel;
         }
     }
