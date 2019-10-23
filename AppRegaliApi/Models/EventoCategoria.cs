@@ -15,6 +15,8 @@ namespace AppRegaliApi.Models
             Evento = new HashSet<Evento>();
         }
 
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid Id { get; set; }
 
         [Required]
@@ -25,6 +27,6 @@ namespace AppRegaliApi.Models
         public string Descrizione { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Evento> Evento { get; set; }
+        public ICollection<Evento> Evento { get; set; }
     }
 }

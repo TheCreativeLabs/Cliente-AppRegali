@@ -17,6 +17,7 @@ namespace AppRegaliApi.Models
         [Column(Order = 1)]
         public Guid IdUserDestinatario { get; set; }
 
+        [Required]
         public bool Accettato { get; set; }
     }
 }

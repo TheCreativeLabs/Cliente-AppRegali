@@ -10,6 +10,7 @@ namespace AppRegaliApi.Models
         public DbDataContext()
             : base("name=DbConnectionData")
         {
+            this.Configuration.LazyLoadingEnabled = false;
         }
 
         public virtual DbSet<UserInfo> UserInfo { get; set; }
@@ -17,7 +18,6 @@ namespace AppRegaliApi.Models
         public virtual DbSet<EventoCategoria> EventoCategoria { get; set; }
         public virtual DbSet<ImmagineEvento> ImmagineEvento { get; set; }
         public virtual DbSet<ImmagineRegalo> ImmagineRegalo { get; set; }
-        public virtual DbSet<ImmagineUser> ImmagineUser { get; set; }
         public virtual DbSet<Regalo> Regalo { get; set; }
         public virtual DbSet<RegaloUserPartecipazione> RegaloUserPartecipazione { get; set; }
         public virtual DbSet<UserAmicizia> UserAmicizia { get; set; }
@@ -26,7 +26,7 @@ namespace AppRegaliApi.Models
         {
             modelBuilder.Entity<Evento>()
                 .HasMany(e => e.Regalo)
-                .WithOptional(e => e.Evento)
+                .WithRequired(e => e.Evento)
                 .HasForeignKey(e => e.IdEvento);
 
             modelBuilder.Entity<EventoCategoria>()
