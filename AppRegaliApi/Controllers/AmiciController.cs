@@ -22,11 +22,12 @@ namespace AppRegaliApi.Controllers
         private DbDataContext dbDataContext = new DbDataContext();
 
         [HttpGet]
-        [Route("UserInfoByIdUse/{idUser}")]
-        [ResponseType(typeof(UserInfo))]
+        [Route("UserInfoByIdUser/{idUser}")]
+        [ResponseType(typeof(UserInfoDto))]
         public IHttpActionResult GetUserInfoByIdUsers(Guid idUser)
         {
             UserInfo userInfo = dbDataContext.UserInfo.SingleOrDefault(x => x.IdAspNetUser == idUser);
+            UserInfoDto dto = 
             return Ok(userInfo);
         }
 

@@ -3,9 +3,9 @@ namespace AppRegaliApi.Models
     using System;
     using System.Security.Principal;
 
-    public partial class EventoMapper
+    public partial class UserInfoMapper
     {
-        public EventoMapper()
+        public UserInfoMapper()
         {
         }
 

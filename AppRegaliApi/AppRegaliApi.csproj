@@ -304,11 +304,15 @@
     <Compile Include="Controllers\EventoController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
-    <Compile Include="Dto\Input\EventoInputDto.cs" />
+    <Compile Include="Dto\EventoDto.cs" />
+    <Compile Include="Dto\RegaloDto.cs" />
+    <Compile Include="Dto\UserInfoDto.cs" />
     <Compile Include="FacebookBackChannelHandler.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Mapper\UserMapper.cs" />
+    <Compile Include="Mapper\RegaloMapper.cs" />
     <Compile Include="Mapper\EventoMapper.cs" />
     <Compile Include="Migrations\201910101035246_Initial.cs" />
     <Compile Include="Migrations\201910101035246_Initial.Designer.cs">

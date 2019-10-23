@@ -22,6 +22,7 @@ namespace AppRegaliApi.Controllers
     {
         private DbDataContext dbDataContext = new DbDataContext();
         private EventoMapper eventoMapper = new EventoMapper();
+        private RegaloMapper regaloMapper = new RegaloMapper();
 
         [HttpGet]
         [Route("LookupCategorie")]
@@ -56,6 +57,8 @@ namespace AppRegaliApi.Controllers
         // GET: api/Evento/EventiByIdUtenteIdCategoria?idUtente=1&idCategoria=2
         //dato un id utente e una categoria, restituisce tutti gli eventi di quell'utente.
         //l'oggetto restituito è piatto: nella risposta non sono compresi gli oggetti figli
+
+            //fixme solo amici
         [HttpGet]
         [Route("EventiByIdUtenteIdCategoria/{idUtente?}/{idCategoria?}")]
         public async Task<List<Evento>> GetEventiByidUtente([FromUri]String idUtente=null, [FromUri]String idCategoria =null)
@@ -126,9 +129,9 @@ namespace AppRegaliApi.Controllers
         [HttpPost]
         [Route("EventoCreate", Name = "EventoCreate")]
         [ResponseType(typeof(Evento))]
-        public IHttpActionResult InserisciEvento(EventoInputDto eventoDto)
+        public IHttpActionResult InserisciEvento(EventoDto eventoDto)
         {
-            Evento evento = eventoMapper.EventoInputDtoToEvnto(eventoDto, new Guid(User.Identity.GetUserId()));
+            Evento evento = eventoMapper.EventoDtoToEvento(eventoDto, new Guid(User.Identity.GetUserId()));
             evento.DataCreazione = DateTime.Now;
             if (!ModelState.IsValid)
             {
@@ -183,12 +186,12 @@ namespace AppRegaliApi.Controllers
         //dato un id, restituisce il regalo. l'oggetto restituito è piatto: nella risposta non sono compresi gli oggetti figli
         [HttpGet]
         [Route("RegaloById/{id}")]
-        [ResponseType(typeof(Evento))]
+        [ResponseType(typeof(RegaloDto))]
         public IHttpActionResult GetRegaloById(Guid id)
         {
             Regalo regalo = dbDataContext.Regalo.Find(id);
 
-            return Ok(regalo);
+            return Ok(regaloMapper.RegaloToRegaloDto(regalo));
         }
 
         // GET: api/Evento/RegaliByIdEvento/5
@@ -196,7 +199,7 @@ namespace AppRegaliApi.Controllers
         //l'oggetto restituito è piatto: nella risposta non sono compresi gli oggetti figli
         [HttpGet]
         [Route("RegaliByIdEvento/{idEvento}")]
-        public async Task<List<Regalo>> GetRegaliByIdUtente(Guid idEvento)
+        public async Task<List<RegaloDto>> GetRegaliByIdUtente(Guid idEvento)
         {
             List<Regalo> regali = await dbDataContext.Regalo.Where(x => x.IdEvento == idEvento).ToListAsync();
             return regali;
@@ -246,8 +249,9 @@ namespace AppRegaliApi.Controllers
         [HttpPost]
         [Route("RegaloCreate", Name = "RegaloCreate")]
         [ResponseType(typeof(Evento))]
-        public IHttpActionResult InserisciRegalo(Regalo regalo)
+        public IHttpActionResult InserisciRegalo(RegaloDto dto)
         {
+            Regalo regalo = regaloMapper.RegaloDtoToRegalo(dto);
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
