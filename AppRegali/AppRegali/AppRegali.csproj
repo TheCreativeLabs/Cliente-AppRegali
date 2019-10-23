@@ -33,8 +33,17 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>AppResources.resx</DependentUpon>
     </Compile>
-    <Compile Update="Views\HomePage.xaml.cs">
-      <DependentUpon>HomePage.xaml</DependentUpon>
+    <Compile Update="Views\EventiPersonali.xaml.cs">
+      <DependentUpon>EventiPersonali.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\Home.xaml.cs">
+      <DependentUpon>Home.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\EventoDettaglio.xaml.cs">
+      <DependentUpon>EventoDettaglio.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\EventoInserisci.xaml.cs">
+      <DependentUpon>EventoInserisci.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
 
@@ -59,6 +68,15 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\Account\Registrazione.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\Amici.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\RicercaAmici.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\SelezioneCategoria.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
   </ItemGroup>

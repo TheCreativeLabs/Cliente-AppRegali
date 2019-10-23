@@ -10,36 +10,33 @@
              NavigationPage.HasNavigationBar="False"
              >
     <ContentPage.Content>
-        <StackLayout VerticalOptions="CenterAndExpand" Margin="10">
-            <Label FontSize="90" HorizontalTextAlignment="Center" FontFamily="{x:StaticResource FA-Solid}" TextColor="#39C4EF" FontAttributes="Bold" Margin="0,0,0,10" Text="&#xf4be;"></Label>
+        <StackLayout VerticalOptions="CenterAndExpand" Margin="20">
+            <Label FontSize="90" HorizontalTextAlignment="Center" FontFamily="{x:StaticResource FA-Solid}" TextColor="#0bbfb9" FontAttributes="Bold" Margin="0,0,0,10" Text="&#xf4be;"></Label>
 
-            <Label Text="{translator:Translate Login.ErroreLogin}" FontSize="Medium" TextColor="Red" IsVisible="False" x:Name="lblValidazioneLogin"></Label>
+            <Label Text="{translator:Translate Login.ErroreLogin}" FontSize="Medium"  FontAttributes="Bold" TextColor="Red" IsVisible="False" x:Name="lblValidazioneLogin"></Label>
             
-            <Entry Style="{x:StaticResource MaterialEntry}" x:Name="entUsername" Visual="Material" Placeholder="{translator:Translate Login.Username}"></Entry>
-            <Label Text="{translator:Translate Login.MessaggioUsernameObbligatorio}" FontSize="Small" TextColor="Red" IsVisible="False" x:Name="lblValidatorUsername"></Label>
+            <Entry x:Name="entUsername" Visual="Material" Placeholder="{translator:Translate Login.Username}" TextChanged="ent_TextChanged"></Entry>
 
-            <Entry Style="{x:StaticResource MaterialEntry}" Visual="Material" x:Name="entPassword" Placeholder="{translator:Translate Login.Password}" IsPassword="True"></Entry>
-            <Label Text="{translator:Translate Login.MessaggioPasswordObbligatoria}" FontSize="Small" TextColor="Red" IsVisible="False" x:Name="lblValidatorPassword"></Label>
+            <Entry Visual="Material" x:Name="entPassword" Placeholder="{translator:Translate Login.Password}" IsPassword="True" TextChanged="ent_TextChanged"></Entry>
 
-            <Button Style="{x:StaticResource primaryButton}"  Visual="Material" Text="{translator:Translate Login.SignIn}" x:Name="btnAccedi" Clicked="btnAccedi_ClickedAsync"></Button>
+            <Button Style="{x:StaticResource primaryButton}"  Visual="Material" Text="{translator:Translate Login.SignIn}" x:Name="btnAccedi" IsEnabled="False" Clicked="btnAccedi_ClickedAsync"></Button>
 
-            <Label Text="{translator:Translate Login.ForgotPassword}" HorizontalTextAlignment="End" TextColor="black">
+            <Label Text="{translator:Translate Login.ForgotPassword}" HorizontalTextAlignment="Center" TextColor="black">
                 <Label.GestureRecognizers>
                     <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped"/>
                 </Label.GestureRecognizers>
             </Label>
 
-            <Label Text="{translator:Translate Login.Or}" HorizontalTextAlignment="Center" Margin="0,10,0,10"></Label>
+            <Label Text="{translator:Translate Login.Or}" HorizontalTextAlignment="Center" Margin="0,15,0,10"></Label>
 
             <StackLayout Orientation="Horizontal" HorizontalOptions="Center" >
-                <Label FontFamily="{x:StaticResource FA-Brands}" Text="&#xf09a;" TextColor="#1e73be" ></Label>
-                <Label Text="{translator:Translate Login.FacebookSignIn}" TextColor="#1e73be">
+                <Label FontFamily="{x:StaticResource FA-Brands}" Text="&#xf09a;" TextColor="#1e73be" FontAttributes="Bold"></Label>
+                <Label Text="{translator:Translate Login.FacebookSignIn}" TextColor="#1e73be" FontAttributes="Bold">
                     <Label.GestureRecognizers>
                         <TapGestureRecognizer Tapped="btnAccediFacebook_Clicked"/>
                     </Label.GestureRecognizers>
                 </Label>
             </StackLayout>
-
 
             <Label x:Name="lblRegistrati" Text="{translator:Translate Login.RegisterIfNoAccount}" HorizontalTextAlignment="Center" Margin="0,10,0,0" TextColor="black">
                 <Label.GestureRecognizers>

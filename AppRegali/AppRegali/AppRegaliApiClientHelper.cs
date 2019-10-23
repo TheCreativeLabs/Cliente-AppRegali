@@ -35,6 +35,7 @@ namespace AppRegali.Api
             public string Expires { get; set; }
         }
 
+        //Imposta il token
         public static async Task SetTokenAsync(string Username, string Password, Uri Endpoint)
         {
             using (var httpClient = new HttpClient())
@@ -60,11 +61,12 @@ namespace AppRegali.Api
                 }
                 else
                 {
-                    new ApplicationException("Password o Email errati.");
+                   throw new ApplicationException("Password o Email errati.");
                 }
             }
         }
 
+        // Ottiene il Token
         public static string GetToken()
         {
             string accessToken = null;
@@ -72,8 +74,26 @@ namespace AppRegali.Api
             if (Application.Current.Properties.ContainsKey(AccessTokenKey))
             {
                 accessToken =  Application.Current.Properties[AccessTokenKey].ToString();
+
+                //TODO: controllare la validità del token.
             }
-             
+
+            return accessToken;
+        }
+
+        /// <summary>
+        /// Rimuove il token
+        /// </summary>
+        /// <returns></returns>
+        public static string DeleteToken()
+        {
+            string accessToken = null;
+
+            if (Application.Current.Properties.ContainsKey(AccessTokenKey))
+            {
+                Application.Current.Properties.Remove(AccessTokenKey);
+            }
+
             return accessToken;
         }
 

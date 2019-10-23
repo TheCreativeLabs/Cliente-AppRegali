@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="AppRegali.Views.Home"
+             x:Name="BrowseItemsPage">
+
+    <NavigationPage.TitleView>
+            <StackLayout Orientation="Horizontal">
+                <Label FontSize="35" HorizontalTextAlignment="Center" Margin="20,0,0,0" VerticalTextAlignment="Center" HorizontalOptions="CenterAndExpand"  FontFamily="{x:StaticResource FA-Solid}" TextColor="White" FontAttributes="Bold" Text="&#xf4be;"></Label>
+
+                <Button x:Name="btnAbilitaRicerca"  Clicked="btnAbilitaRicerca_Clicked" BackgroundColor="Transparent" FontSize="Medium" TextColor="White" HorizontalOptions="End" Text="&#xf002;" FontFamily="{StaticResource FA-Solid}" Margin="0,0,-15,0">
+                </Button>
+            </StackLayout>
+    </NavigationPage.TitleView>
+
+    <StackLayout>
+        <ListView x:Name="EventiListView"
+                ItemsSource="{Binding Items}"
+                VerticalOptions="FillAndExpand"
+                HasUnevenRows="true"
+                RefreshCommand="{Binding LoadItemsCommand}"
+                IsPullToRefreshEnabled="true"
+                IsRefreshing="{Binding IsBusy, Mode=OneWay}"
+                CachingStrategy="RecycleElement"
+                ItemSelected="OnItemSelected"
+                SeparatorVisibility="None">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <Frame HasShadow="True" Padding="0" HeightRequest="260" Margin="20,10,20,10"  CornerRadius="10" IsClippedToBounds="True">
+                            <StackLayout>
+                                <Image Source="test.jpg" Margin="0,0,0,150"></Image>
+
+                                <Label Text="{Binding Titolo}" 
+                                d:Text="{Binding .}"
+                                LineBreakMode="NoWrap" 
+                                FontSize="Large" TextColor="Black" VerticalTextAlignment="End" Margin="15,-150,0,0" FontAttributes="Bold"/>
+                                <Label Text="{Binding Descrizione}" 
+                                d:Text="Item descripton" VerticalTextAlignment="End"
+                                LineBreakMode="NoWrap" Margin="15,0,0,0" />
+                            </StackLayout>
+                        </Frame>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </StackLayout>
+
+</ContentPage>

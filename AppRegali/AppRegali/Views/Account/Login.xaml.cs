@@ -38,13 +38,13 @@ namespace AppRegali.Views.Login
                 if (String.IsNullOrEmpty(entUsername.Text))
                 {
                     formIsValid = false;
-                    lblValidatorUsername.IsVisible = true;
+                    //lblValidatorUsername.IsVisible = true;
                 }
 
                 if (String.IsNullOrEmpty(entPassword.Text))
                 {
                     formIsValid = false;
-                    lblValidatorPassword.IsVisible = true;
+                    //lblValidatorPassword.IsVisible = true;
                 }
 
                 if (formIsValid)
@@ -56,7 +56,9 @@ namespace AppRegali.Views.Login
             catch (ApplicationException ex)
             {
                 //Se sono qui significa che non ho i diritti per accedere.
-                lblValidazioneLogin.IsVisible = true;
+                //lblValidazioneLogin.IsVisi/*b*/le = true;
+
+                await DisplayAlert("Attenzione", "L'indirizzo email o la password non sono validi.", "OK");
             }
             catch (Exception ex)
             {
@@ -64,14 +66,18 @@ namespace AppRegali.Views.Login
             }
         }
 
-        private void TapGestureRecognizer_Tapped(object sender, EventArgs e)
+        private async void TapGestureRecognizer_Tapped(object sender, EventArgs e)
         {
-            Navigation.PushAsync(new PasswordDimenticata());
+            await Navigation.PushModalAsync(new NavigationPage(new PasswordDimenticata()));
+
+            //Navigation.PushAsync(new PasswordDimenticata());
         }
 
-        private void TapGestureRecognizer_lblRegistrati(object sender, EventArgs e)
+        private async void TapGestureRecognizer_lblRegistrati(object sender, EventArgs e)
         {
-            Navigation.PushAsync(new Registrazione());
+            await Navigation.PushModalAsync(new NavigationPage(new Registrazione()));
+
+            //Navigation.PushAsync(new Registrazione());
         }
 
         private void btnAccediFacebook_Clicked(object sender, EventArgs e)
@@ -83,6 +89,26 @@ namespace AppRegali.Views.Login
             catch (Exception ex)
             {
                 //Gestione errore;
+            }
+        }
+
+        private void ent_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            try
+            {
+                //Controllo che username e password siano valorizzati.
+                if (!(String.IsNullOrEmpty(entUsername.Text)) && !(String.IsNullOrEmpty(entPassword.Text)))
+                {
+                    btnAccedi.IsEnabled = true;
+                }
+                else
+                {
+                    btnAccedi.IsEnabled = false;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw;
             }
         }
     }

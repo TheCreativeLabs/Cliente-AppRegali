@@ -21,7 +21,7 @@ namespace AppRegali.Views
 
             MasterBehavior = MasterBehavior.Popover;
 
-            MenuPages.Add((int)MenuItemType.Browse, (NavigationPage)Detail);
+            MenuPages.Add((int)MenuItemType.Home, (NavigationPage)Detail);
         }
 
         public async Task NavigateFromMenu(int id)
@@ -30,8 +30,14 @@ namespace AppRegali.Views
             {
                 switch (id)
                 {
-                    case (int)MenuItemType.Browse:
-                        MenuPages.Add(id, new NavigationPage(new HomePage()));
+                    case (int)MenuItemType.Home:
+                        MenuPages.Add(id, new NavigationPage(new Home()));
+                        break;
+                    case (int)MenuItemType.EventiPersonali:
+                        MenuPages.Add(id, new NavigationPage(new EventiPersonali()));
+                        break;
+                    case (int)MenuItemType.Amici:
+                        MenuPages.Add(id, new NavigationPage(new Amici()));
                         break;
                     case (int)MenuItemType.Account:
                         MenuPages.Add(id, new NavigationPage(new Account.Account()));

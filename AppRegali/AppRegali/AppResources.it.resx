@@ -120,6 +120,9 @@
   <data name="Account.CambiaPassword" xml:space="preserve">
     <value>Cambia Password</value>
   </data>
+  <data name="CambiaPassword.MessaggioValidazionePassword" xml:space="preserve">
+    <value>La Password inserita non è valida.</value>
+  </data>
   <data name="ChangePassword.ConfirmNewPassword" xml:space="preserve">
     <value>Conferma nuova password</value>
   </data>
@@ -135,11 +138,20 @@
   <data name="ChangePassword.OldPassword" xml:space="preserve">
     <value>Inserisci la vecchia password</value>
   </data>
+  <data name="EventoInserisci.Annulla" xml:space="preserve">
+    <value>Annulla</value>
+  </data>
+  <data name="EventoInserisci.Inserisci" xml:space="preserve">
+    <value>Inserisci</value>
+  </data>
   <data name="Login.ConfermaPassword" xml:space="preserve">
     <value>Conferma Password</value>
   </data>
   <data name="Login.Email" xml:space="preserve">
     <value>Email</value>
+  </data>
+  <data name="Login.ErroreLogin" xml:space="preserve">
+    <value>La Email o la Password non sono corretti.</value>
   </data>
   <data name="Login.FacebookSignIn" xml:space="preserve">
     <value>Accedi con Facebook</value>
@@ -176,6 +188,12 @@
   </data>
   <data name="Login.Username" xml:space="preserve">
     <value>Email</value>
+  </data>
+  <data name="Menu.Logout" xml:space="preserve">
+    <value>Esci</value>
+  </data>
+  <data name="NuovoEvento.Nuovo" xml:space="preserve">
+    <value>Crea nuovo evento</value>
   </data>
   <data name="Registrazione.Bottone" xml:space="preserve">
     <value>Registrati</value>
