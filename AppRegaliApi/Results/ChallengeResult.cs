@@ -25,7 +25,9 @@ namespace AppRegaliApi.Results
 
         public Task<HttpResponseMessage> ExecuteAsync(CancellationToken cancellationToken)
         {
-            Request.GetOwinContext().Authentication.Challenge(LoginProvider);
+            var properties = new AuthenticationProperties();
+            properties.Dictionary["auth_type"] = "rerequest";
+            Request.GetOwinContext().Authentication.Challenge(properties, LoginProvider);
             HttpResponseMessage response = new HttpResponseMessage(HttpStatusCode.Unauthorized);
             response.RequestMessage = Request;
             return Task.FromResult(response);

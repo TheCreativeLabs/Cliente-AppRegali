@@ -78,14 +78,17 @@ namespace AppRegali.Views
         {
             try
             {
-                HttpClient httpClient = new HttpClient();
-                httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", Api.ApiHelper.GetToken());
-                AccountClient accountClient = new AccountClient(httpClient);
-                await accountClient.LogoutAsync();
+               //await Navigation.PushAsync(new Account.FacebookLogout());
 
-                //Rimuovo il token e navigo alla home
-                Api.ApiHelper.DeleteToken();
-                Application.Current.MainPage = new NavigationPage(new Login.Login());
+
+                //HttpClient httpClient = new HttpClient();
+                //httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", Api.ApiHelper.GetToken());
+                //AccountClient accountClient = new AccountClient(httpClient);
+                //await accountClient.LogoutAsync();
+
+                ////Rimuovo il token e navigo alla home
+                //Api.ApiHelper.DeleteToken();
+                Application.Current.MainPage = new NavigationPage(new Account.FacebookLogout());
             }
             catch (Exception ex)
             {

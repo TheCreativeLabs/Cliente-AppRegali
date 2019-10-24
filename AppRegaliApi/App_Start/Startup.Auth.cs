@@ -14,6 +14,7 @@ using Microsoft.Owin.Security.Facebook;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.Web.WebPages.OAuth;
+using Namespace.Helpers;
 
 namespace AppRegaliApi
 {
@@ -64,18 +65,57 @@ namespace AppRegaliApi
             //    consumerKey: "",
             //    consumerSecret: "");
 
-            var facebookOption = new FacebookAuthenticationOptions()
+            //var facebookOption = new FacebookAuthenticationOptions()
+            //{
+            //    AppId = "971997736480952",
+            //    AppSecret = "483348891fbc0f94cf3a6e40cdbbaf1d",
+            //    BackchannelHttpHandler = new FacebookBackChannelHandler(),
+            //    UserInformationEndpoint = "https://graph.facebook.com/v2.4/me/?fields=id,email,name"
+            //};
+
+            //facebookOption.Scope.Add("email");
+
+            //app.UseFacebookAuthentication(facebookOption);
+
+            var options = new FacebookAuthenticationOptions
             {
                 AppId = "971997736480952",
                 AppSecret = "483348891fbc0f94cf3a6e40cdbbaf1d",
-                BackchannelHttpHandler = new FacebookBackChannelHandler(),
-                UserInformationEndpoint = "https://graph.facebook.com/v2.4/me/?fields=id,email,name"
+
+                Provider = new FacebookProvider
+                {
+                    OnAuthenticated = async context =>
+                    {
+                        foreach (var x in context.User)
+                        {
+                            if (x.Key == "birthday")
+                            {
+                                context.Identity.AddClaim(new Claim("dateofbirth", x.Value.ToString()));
+                            }
+                            else
+                            {
+                                context.Identity.AddClaim(new Claim(x.Key, x.Value.ToString()));
+                            }
+                        }
+                        context.Identity.AddClaim(new Claim("fb_accecctoken", context.AccessToken));
+
+                        await Task.FromResult(context);
+                    }
+
+                }
             };
+            options.Scope.Add("public_profile");
+            options.Scope.Add("email");
+            options.Scope.Add("user_birthday");
+            options.Scope.Add("user_location");
+            app.UseFacebookAuthentication(options);
 
-            facebookOption.Scope.Add("email");
-
-            app.UseFacebookAuthentication(facebookOption);
-
+            //OAuthWebSecurity.RegisterClient(
+            //    new MyFacebookClient(
+            //        appId: "971997736480952",
+            //        appSecret: "483348891fbc0f94cf3a6e40cdbbaf1d"),
+            //    "facebook", null
+            //);
 
             //app.UseFacebookAuthentication(
             //    appId: "971997736480952",

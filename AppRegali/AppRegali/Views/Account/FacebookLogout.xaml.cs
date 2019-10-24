@@ -25,7 +25,7 @@ namespace AppRegali.Views.Account
             var apiRequest =
                 "https://www.facebook.com/dialog/oauth?client_id="
                 + "971997736480952"
-                + "&display=popup&response_type=token&redirect_uri=https://www.appregaliapitest.com";
+                + "&display=popup&response_type=token&redirect_uri=https://www.appregaliapitest.com/";
 
             var webView = new WebView
             {
@@ -47,6 +47,7 @@ namespace AppRegali.Views.Account
             {
 
                 HttpClient httpClient = new HttpClient();
+                httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", Api.ApiHelper.GetToken());
 
                 AccountClient accountClient = new AccountClient(httpClient);
 
@@ -60,14 +61,18 @@ namespace AppRegali.Views.Account
 
                 var httpClient2 = new HttpClient();
 
-                var userJson = await httpClient2.GetStringAsync(requestUrl);
+                var userJson = await httpClient2.DeleteAsync(requestUrl);
+
+                await accountClient.LogoutAsync();
+
+                Application.Current.MainPage = new NavigationPage(new Login.Login());
             }
         }
         private string ExtractAccessTokenFromUrl(string url)
         {
             if (url.Contains("access_token") && url.Contains("&expires_in="))
             {
-                var at = url.Replace("https://www.appregaliapitest.com#access_token=", "");
+                var at = url.Replace("https://www.appregaliapitest.com/?#access_token=", "");
 
                 var accessToken = at.Remove(at.IndexOf("&data_access_expiration_time="));
 
