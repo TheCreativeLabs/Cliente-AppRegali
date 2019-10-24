@@ -84,10 +84,46 @@ namespace AppRegaliApi.Controllers
             return amici;
         }
 
+        //[HttpPost]
+        //[Route("AmiciziaCreate/{idDestinatario}", Name = "AmiciziaCreate")]
+        //[ResponseType(typeof(Evento))]
+        //public IHttpActionResult InserisciAmicizia([FromUri]String idDestinatario)
+        //{
+        //    if (!ModelState.IsValid)
+        //    {
+        //        return BadRequest(ModelState);
+        //    }
+        //    UserAmicizia amicizia = new UserAmicizia();
+        //    amicizia.IdUserDestinatario = idDestinatario;
+        //    amicizia.IdUserRichiedente = User.Identity.
+
+        //    dbDataContext.ImmagineEvento.Attach(evento.ImmagineEvento);
+        //    dbDataContext.Entry(evento.ImmagineEvento).State = EntityState.Added;
+        //    dbDataContext.Evento.Add(evento);
+
+        //    try
+        //    {
+        //        dbDataContext.SaveChanges();
+        //    }
+        //    catch (DbUpdateException)
+        //    {
+        //        if (EventoExists(evento.Id))
+        //        {
+        //            return Conflict();
+        //        }
+        //        else
+        //        {
+        //            throw;
+        //        }
+        //    }
+
+        //    return CreatedAtRoute("EventoCreate", new { id = evento.Id }, evento);
+        //}
+
         //todo crea amicizia, rimuovi amicizia, get stato amicizia
 
 
 
-        
+
     }
 }
