@@ -73,7 +73,7 @@ namespace AppRegali.Api
 
             if (Application.Current.Properties.ContainsKey(AccessTokenKey))
             {
-                accessToken =  Application.Current.Properties[AccessTokenKey].ToString();
+                accessToken = Application.Current.Properties[AccessTokenKey].ToString();
 
                 //TODO: controllare la validità del token.
             }

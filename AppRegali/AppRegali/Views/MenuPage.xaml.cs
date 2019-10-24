@@ -53,20 +53,20 @@ namespace AppRegali.Views
         {
             try
             {
-                HttpClient httpClient = new HttpClient();
-                httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", Api.ApiHelper.GetToken());
+                //HttpClient httpClient = new HttpClient();
+                //httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", Api.ApiHelper.GetToken());
 
-                AmiciClient amiciClient = new AmiciClient(httpClient);
+                //AmiciClient amiciClient = new AmiciClient(httpClient);
 
-                UserInfo userInfo = await amiciClient.GetCurrentUserInfoAsync();
+                //UserInfo userInfo = await amiciClient.GetCurrentUserInfoAsync();
 
-                if (userInfo != null)
-                {
-                    Image image = new Image();
-                    Stream stream = new MemoryStream(userInfo.FotoProfilo);
-                    imgFotoUtente.Source = ImageSource.FromStream(() => { return stream; });
-                    lblNomeCognome.Text = $"{userInfo.Nome} {userInfo.Cognome}";
-                }
+                //if (userInfo != null)
+                //{
+                //    Image image = new Image();
+                //    Stream stream = new MemoryStream(userInfo.FotoProfilo);
+                //    imgFotoUtente.Source = ImageSource.FromStream(() => { return stream; });
+                //    lblNomeCognome.Text = $"{userInfo.Nome} {userInfo.Cognome}";
+                //}
             }
             catch (Exception ex)
             {

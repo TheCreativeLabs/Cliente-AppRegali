@@ -6,8 +6,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Models\FacebookModel.cs" />
-    <Compile Remove="Services\FacebookService.cs" />
     <Compile Remove="ViewModels\FacebookViewModel.cs" />
   </ItemGroup>
 
@@ -32,6 +30,9 @@
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>AppResources.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Views\Account\FacebookLogout.xaml.cs">
+      <DependentUpon>FacebookLogout.xaml</DependentUpon>
     </Compile>
     <Compile Update="Views\EventiPersonali.xaml.cs">
       <DependentUpon>EventiPersonali.xaml</DependentUpon>

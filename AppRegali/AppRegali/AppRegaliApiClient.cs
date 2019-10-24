@@ -978,7 +978,7 @@ namespace Api
 
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task<UserDetailViewModel> GetUserDetailAsync()
+        public System.Threading.Tasks.Task<UserInfoDto> GetUserDetailAsync()
         {
             return GetUserDetailAsync(System.Threading.CancellationToken.None);
         }
@@ -986,7 +986,7 @@ namespace Api
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task<UserDetailViewModel> GetUserDetailAsync(System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task<UserInfoDto> GetUserDetailAsync(System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/Account/UserDetail");
@@ -1019,7 +1019,7 @@ namespace Api
                         var status_ = ((int)response_.StatusCode).ToString();
                         if (status_ == "200")
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<UserDetailViewModel>(response_, headers_).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<UserInfoDto>(response_, headers_).ConfigureAwait(false);
                             return objectResponse_.Object;
                         }
                         else
@@ -1029,7 +1029,7 @@ namespace Api
                             throw new ApiException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", (int)response_.StatusCode, responseData_, headers_, null);
                         }
 
-                        return default(UserDetailViewModel);
+                        return default(UserInfoDto);
                     }
                     finally
                     {
@@ -1170,7 +1170,7 @@ namespace Api
 
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task<UserInfo> GetUserInfoByIdUsersAsync(System.Guid idUser)
+        public System.Threading.Tasks.Task<UserInfoDto> GetUserInfoByIdUsersAsync(System.Guid idUser)
         {
             return GetUserInfoByIdUsersAsync(idUser, System.Threading.CancellationToken.None);
         }
@@ -1178,13 +1178,13 @@ namespace Api
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task<UserInfo> GetUserInfoByIdUsersAsync(System.Guid idUser, System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task<UserInfoDto> GetUserInfoByIdUsersAsync(System.Guid idUser, System.Threading.CancellationToken cancellationToken)
         {
             if (idUser == null)
                 throw new System.ArgumentNullException("idUser");
 
             var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/Amici/UserInfoByIdUse/{idUser}");
+            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/Amici/UserInfoByIdUser/{idUser}");
             urlBuilder_.Replace("{idUser}", System.Uri.EscapeDataString(ConvertToString(idUser, System.Globalization.CultureInfo.InvariantCulture)));
 
             var client_ = _httpClient;
@@ -1215,7 +1215,7 @@ namespace Api
                         var status_ = ((int)response_.StatusCode).ToString();
                         if (status_ == "200")
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<UserInfo>(response_, headers_).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<UserInfoDto>(response_, headers_).ConfigureAwait(false);
                             return objectResponse_.Object;
                         }
                         else
@@ -1225,7 +1225,7 @@ namespace Api
                             throw new ApiException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", (int)response_.StatusCode, responseData_, headers_, null);
                         }
 
-                        return default(UserInfo);
+                        return default(UserInfoDto);
                     }
                     finally
                     {
@@ -1846,7 +1846,7 @@ namespace Api
 
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task<Evento> InserisciEventoAsync(EventoInputDto eventoDto)
+        public System.Threading.Tasks.Task<Evento> InserisciEventoAsync(EventoDto eventoDto)
         {
             return InserisciEventoAsync(eventoDto, System.Threading.CancellationToken.None);
         }
@@ -1854,7 +1854,7 @@ namespace Api
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task<Evento> InserisciEventoAsync(EventoInputDto eventoDto, System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task<Evento> InserisciEventoAsync(EventoDto eventoDto, System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/Evento/EventoCreate");
@@ -1987,7 +1987,7 @@ namespace Api
 
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task<Evento> GetRegaloByIdAsync(System.Guid id)
+        public System.Threading.Tasks.Task<RegaloDto> GetRegaloByIdAsync(System.Guid id)
         {
             return GetRegaloByIdAsync(id, System.Threading.CancellationToken.None);
         }
@@ -1995,7 +1995,7 @@ namespace Api
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task<Evento> GetRegaloByIdAsync(System.Guid id, System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task<RegaloDto> GetRegaloByIdAsync(System.Guid id, System.Threading.CancellationToken cancellationToken)
         {
             if (id == null)
                 throw new System.ArgumentNullException("id");
@@ -2032,7 +2032,7 @@ namespace Api
                         var status_ = ((int)response_.StatusCode).ToString();
                         if (status_ == "200")
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<Evento>(response_, headers_).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<RegaloDto>(response_, headers_).ConfigureAwait(false);
                             return objectResponse_.Object;
                         }
                         else
@@ -2042,7 +2042,7 @@ namespace Api
                             throw new ApiException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", (int)response_.StatusCode, responseData_, headers_, null);
                         }
 
-                        return default(Evento);
+                        return default(RegaloDto);
                     }
                     finally
                     {
@@ -2058,7 +2058,7 @@ namespace Api
 
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task<System.Collections.Generic.ICollection<Regalo>> GetRegaliByIdUtenteAsync(System.Guid idEvento)
+        public System.Threading.Tasks.Task<System.Collections.Generic.ICollection<RegaloDto>> GetRegaliByIdUtenteAsync(System.Guid idEvento)
         {
             return GetRegaliByIdUtenteAsync(idEvento, System.Threading.CancellationToken.None);
         }
@@ -2066,7 +2066,7 @@ namespace Api
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<Regalo>> GetRegaliByIdUtenteAsync(System.Guid idEvento, System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<RegaloDto>> GetRegaliByIdUtenteAsync(System.Guid idEvento, System.Threading.CancellationToken cancellationToken)
         {
             if (idEvento == null)
                 throw new System.ArgumentNullException("idEvento");
@@ -2103,7 +2103,7 @@ namespace Api
                         var status_ = ((int)response_.StatusCode).ToString();
                         if (status_ == "200")
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<System.Collections.Generic.ICollection<Regalo>>(response_, headers_).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<System.Collections.Generic.ICollection<RegaloDto>>(response_, headers_).ConfigureAwait(false);
                             return objectResponse_.Object;
                         }
                         else
@@ -2113,7 +2113,7 @@ namespace Api
                             throw new ApiException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", (int)response_.StatusCode, responseData_, headers_, null);
                         }
 
-                        return default(System.Collections.Generic.ICollection<Regalo>);
+                        return default(System.Collections.Generic.ICollection<RegaloDto>);
                     }
                     finally
                     {
@@ -2195,15 +2195,15 @@ namespace Api
 
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task<Evento> InserisciRegaloAsync(Regalo regalo)
+        public System.Threading.Tasks.Task<Evento> InserisciRegaloAsync(RegaloDto dto)
         {
-            return InserisciRegaloAsync(regalo, System.Threading.CancellationToken.None);
+            return InserisciRegaloAsync(dto, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task<Evento> InserisciRegaloAsync(Regalo regalo, System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task<Evento> InserisciRegaloAsync(RegaloDto dto, System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/Evento/RegaloCreate");
@@ -2213,7 +2213,7 @@ namespace Api
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
                 {
-                    var content_ = new System.Net.Http.StringContent(Newtonsoft.Json.JsonConvert.SerializeObject(regalo, _settings.Value));
+                    var content_ = new System.Net.Http.StringContent(Newtonsoft.Json.JsonConvert.SerializeObject(dto, _settings.Value));
                     content_.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse("application/json");
                     request_.Content = content_;
                     request_.Method = new System.Net.Http.HttpMethod("POST");
@@ -3048,25 +3048,31 @@ namespace Api
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.0.27.0 (Newtonsoft.Json v11.0.0.0)")]
-    public partial class UserDetailViewModel
+    public partial class UserInfoDto
     {
+        [Newtonsoft.Json.JsonProperty("Id", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public System.Guid? Id { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("Nome", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [System.ComponentModel.DataAnnotations.StringLength(256)]
+        public string Nome { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("Cognome", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [System.ComponentModel.DataAnnotations.StringLength(256)]
+        public string Cognome { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("DataDiNascita", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public System.DateTimeOffset? DataDiNascita { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("FotoProfilo", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public byte[] FotoProfilo { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("IdAspNetUser", Required = Newtonsoft.Json.Required.Always)]
+        [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
+        public System.Guid IdAspNetUser { get; set; }
+
         [Newtonsoft.Json.JsonProperty("Email", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string Email { get; set; }
-
-        [Newtonsoft.Json.JsonProperty("Name", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string Name { get; set; }
-
-        [Newtonsoft.Json.JsonProperty("Surname", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string Surname { get; set; }
-
-        [Newtonsoft.Json.JsonProperty("BirthDate", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.DateTimeOffset? BirthDate { get; set; }
-
-        [Newtonsoft.Json.JsonProperty("ProfilePhoto", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public byte[] ProfilePhoto { get; set; }
-
-        [Newtonsoft.Json.JsonProperty("LoginProvider", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string LoginProvider { get; set; }
 
 
     }
@@ -3268,7 +3274,7 @@ namespace Api
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.0.27.0 (Newtonsoft.Json v11.0.0.0)")]
-    public partial class EventoInputDto
+    public partial class EventoDto
     {
         [Newtonsoft.Json.JsonProperty("Id", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string Id { get; set; }
@@ -3298,6 +3304,43 @@ namespace Api
 
         [Newtonsoft.Json.JsonProperty("ImmagineEvento", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public byte[] ImmagineEvento { get; set; }
+
+
+    }
+
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.0.27.0 (Newtonsoft.Json v11.0.0.0)")]
+    public partial class RegaloDto
+    {
+        [Newtonsoft.Json.JsonProperty("Id", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string Id { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("IdEvento", Required = Newtonsoft.Json.Required.Always)]
+        [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
+        public System.Guid IdEvento { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("Titolo", Required = Newtonsoft.Json.Required.Always)]
+        [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
+        [System.ComponentModel.DataAnnotations.StringLength(156)]
+        public string Titolo { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("Descrizione", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [System.ComponentModel.DataAnnotations.StringLength(4000)]
+        public string Descrizione { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("Prezzo", Required = Newtonsoft.Json.Required.Always)]
+        public double Prezzo { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("Cancellato", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public bool? Cancellato { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("ImmagineRegalo", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public byte[] ImmagineRegalo { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("IdImmagineRegalo", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public System.Guid? IdImmagineRegalo { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("ImportoCollezionato", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public double? ImportoCollezionato { get; set; }
 
 
     }

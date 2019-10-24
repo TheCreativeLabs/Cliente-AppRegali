@@ -11,6 +11,9 @@ using Owin;
 using AppRegaliApi.Providers;
 using AppRegaliApi.Models;
 using Microsoft.Owin.Security.Facebook;
+using System.Security.Claims;
+using System.Threading.Tasks;
+using Microsoft.Web.WebPages.OAuth;
 
 namespace AppRegaliApi
 {
@@ -31,10 +34,7 @@ namespace AppRegaliApi
             // and to use a cookie to temporarily store information about a user logging in with a third party login provider
             //app.UseCookieAuthentication(new CookieAuthenticationOptions());
 
-            app.UseCookieAuthentication(new CookieAuthenticationOptions()
-            {
-                AuthenticationType = DefaultAuthenticationTypes.ApplicationCookie
-            });
+            app.UseCookieAuthentication(new CookieAuthenticationOptions());
             app.UseExternalSignInCookie(DefaultAuthenticationTypes.ExternalCookie);
 
 
@@ -49,6 +49,9 @@ namespace AppRegaliApi
                 // In production mode set AllowInsecureHttp = false
                 AllowInsecureHttp = true
             };
+
+
+           
 
             // Enable the application to use bearer tokens to authenticate users
             app.UseOAuthBearerTokens(OAuthOptions);
@@ -68,13 +71,18 @@ namespace AppRegaliApi
                 AppId = "971997736480952",
                 AppSecret = "483348891fbc0f94cf3a6e40cdbbaf1d",
                 BackchannelHttpHandler = new FacebookBackChannelHandler(),
-                UserInformationEndpoint = "https://graph.facebook.com/v2.4/me/?fields=id,email,name",
+                UserInformationEndpoint = "https://graph.facebook.com/v2.4/me/?fields=id,email,name"
             };
 
             facebookOption.Scope.Add("email");
+            facebookOption.Scope.Add("public_profile");
+            facebookOption.Scope.Add("email");
+            facebookOption.Scope.Add("user_birthday");
+            facebookOption.Scope.Add("user_location");
 
             app.UseFacebookAuthentication(facebookOption);
 
+      
             //app.UseFacebookAuthentication(
             //    appId: "971997736480952",
             //    appSecret: "483348891fbc0f94cf3a6e40cdbbaf1d")

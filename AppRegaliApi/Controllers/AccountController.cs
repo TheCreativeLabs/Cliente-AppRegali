@@ -61,7 +61,7 @@ namespace AppRegaliApi.Controllers
 
             return new UserInfoViewModel
             {
-                Email = externalLogin.Email,
+                Email = User.Identity.GetUserName(),
                 HasRegistered = externalLogin == null,
                 LoginProvider = externalLogin != null ? externalLogin.LoginProvider : null
             };
@@ -75,6 +75,7 @@ namespace AppRegaliApi.Controllers
             Authentication.SignOut(CookieAuthenticationDefaults.AuthenticationType);
             Authentication.SignOut(DefaultAuthenticationTypes.ExternalCookie);
             Authentication.SignOut(DefaultAuthenticationTypes.ExternalBearer);
+            Authentication.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
             return Ok();
         }
 
@@ -238,7 +239,7 @@ namespace AppRegaliApi.Controllers
 
             if (!User.Identity.IsAuthenticated)
             {
-                return new ChallengeResult(provider, this);
+                return new ChallengeResult(provider,this);
             }
 
             ExternalLoginData externalLogin = ExternalLoginData.FromIdentity(User.Identity as ClaimsIdentity);
@@ -420,8 +421,8 @@ namespace AppRegaliApi.Controllers
                 return BadRequest(ModelState);
             }
 
-            var info = await Authentication.GetExternalLoginInfoAsync();
-            //var info = await AuthenticationManager_GetExternalLoginInfoAsync_WithExternalBearer();
+            //var info = await Authentication.GetExternalLoginInfoAsync();
+            var info = await AuthenticationManager_GetExternalLoginInfoAsync_WithExternalBearer();
 
             if (info == null)
             {
@@ -571,7 +572,7 @@ namespace AppRegaliApi.Controllers
                 {
                     LoginProvider = providerKeyClaim.Issuer,
                     ProviderKey = providerKeyClaim.Value,
-                    UserName = identity.FindFirstValue(ClaimTypes.NameIdentifier),
+                    UserName = identity.FindFirstValue(ClaimTypes.Email),
                     Email = identity.FindFirstValue(ClaimTypes.Email)
                 };
             }
