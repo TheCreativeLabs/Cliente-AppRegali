@@ -1,6 +1,8 @@
 namespace AppRegaliApi.Models
 {
     using System;
+    using System.Collections.Generic;
+    using System.Linq;
     using System.Security.Principal;
 
     public partial class EventoMapper
@@ -8,6 +10,8 @@ namespace AppRegaliApi.Models
         public EventoMapper()
         {
         }
+
+        RegaloMapper regaloMapper = new RegaloMapper();
 
         public Evento EventoDtoToEvento(EventoDto dto, Guid CurrentUserId )
         {
@@ -33,6 +37,38 @@ namespace AppRegaliApi.Models
                 //fixme updateImmagineEvento
             }
             return evento;
+        }
+
+        public EventoDto EventoToEventoDto(Evento evento)
+        {
+            EventoDto dto = new EventoDto();
+            if (evento.Id != null)
+            {
+                dto.Id = evento.Id.ToString();
+            }
+            if ( evento.Regalo != null)
+            {
+                dto.Regali = regaloMapper.RegaloToRegaloDtoList(evento.Regalo.Cast<Regalo>().ToList());
+            }
+            dto.Cancellato = evento.Cancellato;
+            dto.DataEvento = evento.DataEvento;
+            dto.Descrizione = evento.Descrizione;
+            dto.IdCategoriaEvento = evento.IdCategoriaEvento;
+            //dto.IdUtenteCreazione = evento.IdUtenteCreazione;
+            //FIXME servono info sul creatore dell'evento?
+            dto.Titolo = evento.Titolo;
+            if (evento.IdImmagineEvento != null && evento.ImmagineEvento != null)
+            {
+                dto.ImmagineEvento = evento.ImmagineEvento.Immagine;
+            }
+            return dto;
+        }
+
+        public List<EventoDto> EventoToEventoDtoList(List<Evento> eventi)
+        {
+            List<EventoDto> listDto = new List<EventoDto>();
+            eventi.ForEach(x => listDto.Add(EventoToEventoDto(x)));
+            return listDto;
         }
     }
 }

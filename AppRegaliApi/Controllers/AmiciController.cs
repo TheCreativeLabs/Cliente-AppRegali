@@ -46,22 +46,22 @@ namespace AppRegaliApi.Controllers
         [HttpGet]
         [Route("UserInfoByIdUser/{idUser}")]
         [ResponseType(typeof(UserInfoDto))]
-        public IHttpActionResult GetUserInfoByIdUsers(Guid idUser)
+        public async Task<IHttpActionResult> GetUserInfoByIdUsersAsync(Guid idUser)
         {
             UserInfo userInfo = dbDataContext.UserInfo.SingleOrDefault(x => x.IdAspNetUser == idUser);
+            string mail = await UserManager.GetEmailAsync(idUser.ToString());
+            //FIXME inserire anche immagine da Facebook 
+            //ExternalLoginData externalLogin = ExternalLoginData.FromIdentity(User.Identity as ClaimsIdentity);
+            UserInfoDto dto = userInfoMapper.UserInfoToUserInfoDto(userInfo, mail);
             return Ok(userInfo);
         }
         
         [HttpGet]
         [Route("CurrentUserInfo")]
         [ResponseType(typeof(UserInfo))]
-        public IHttpActionResult GetCurrentUserInfo() 
+        public async Task<IHttpActionResult> GetCurrentUserInfoAsync() 
         {
-
-            ExternalLoginData externalLogin = ExternalLoginData.FromIdentity(User.Identity as ClaimsIdentity);
-
-
-            return GetUserInfoByIdUsers(new Guid(User.Identity.GetUserId()));
+            return await GetUserInfoByIdUsersAsync(new Guid(User.Identity.GetUserId()));
         }
 
         //FIXME TESTARE
@@ -77,24 +77,10 @@ namespace AppRegaliApi.Controllers
         public async Task<List<UserInfo>> GetAmiciOfCurrentUser()
         {
             Guid currentUserId = new Guid(User.Identity.GetUserId());
-            //Per trovare tutti gli amici del current, devo considerare tutte le righe di UserAmicizia 
-            //sia nel caso in cui current è destinatario che nel caso in cui current è richiedente
 
-            //current è destinatario, gli amici sono richiedenti
-            List<Guid> idAmiciRichiedenti = await dbDataContext.UserAmicizia
-                                                    .Where(x => ((x.IdUserDestinatario == currentUserId) && (x.Accettato)))
-                                                    .Select(x => x.IdUserRichiedente)
-                                                    .ToListAsync();
+            List<Guid> idAmici = await AmiciUtility.GetIdAmiciOfUser(currentUserId);
 
-            //current è richiedente, gli amici sono destinatari
-            List<Guid> idAmiciDestinatari = await dbDataContext.UserAmicizia
-                                                    .Where(x => ((x.IdUserRichiedente == currentUserId) && (x.Accettato)))
-                                                    .Select(x => x.IdUserDestinatario)
-                                                    .ToListAsync();
-
-            List<Guid> idAmiciAll = idAmiciRichiedenti.Union(idAmiciDestinatari).ToList();
-
-            List<UserInfo> amici = await dbDataContext.UserInfo.Where(x => idAmiciAll.Contains(x.IdAspNetUser)).ToListAsync();
+            List<UserInfo> amici = await dbDataContext.UserInfo.Where(x => idAmici.Contains(x.IdAspNetUser)).ToListAsync();
             return amici;
         }
 
