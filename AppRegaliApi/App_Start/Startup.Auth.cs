@@ -34,7 +34,7 @@ namespace AppRegaliApi
             // and to use a cookie to temporarily store information about a user logging in with a third party login provider
             //app.UseCookieAuthentication(new CookieAuthenticationOptions());
 
-            app.UseCookieAuthentication(new CookieAuthenticationOptions());
+            //app.UseCookieAuthentication(new CookieAuthenticationOptions());
             app.UseExternalSignInCookie(DefaultAuthenticationTypes.ExternalCookie);
 
 
@@ -65,7 +65,6 @@ namespace AppRegaliApi
             //    consumerKey: "",
             //    consumerSecret: "");
 
-
             var facebookOption = new FacebookAuthenticationOptions()
             {
                 AppId = "971997736480952",
@@ -75,14 +74,10 @@ namespace AppRegaliApi
             };
 
             facebookOption.Scope.Add("email");
-            facebookOption.Scope.Add("public_profile");
-            facebookOption.Scope.Add("email");
-            facebookOption.Scope.Add("user_birthday");
-            facebookOption.Scope.Add("user_location");
 
             app.UseFacebookAuthentication(facebookOption);
 
-      
+
             //app.UseFacebookAuthentication(
             //    appId: "971997736480952",
             //    appSecret: "483348891fbc0f94cf3a6e40cdbbaf1d")

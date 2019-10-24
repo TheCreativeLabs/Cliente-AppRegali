@@ -1567,7 +1567,7 @@ namespace Api
 
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task<System.Collections.Generic.ICollection<Evento>> GetEventiAsync()
+        public System.Threading.Tasks.Task<System.Collections.Generic.ICollection<EventoDto>> GetEventiAsync()
         {
             return GetEventiAsync(System.Threading.CancellationToken.None);
         }
@@ -1575,7 +1575,7 @@ namespace Api
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<Evento>> GetEventiAsync(System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<EventoDto>> GetEventiAsync(System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/Evento/Eventi");
@@ -1608,7 +1608,7 @@ namespace Api
                         var status_ = ((int)response_.StatusCode).ToString();
                         if (status_ == "200")
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<System.Collections.Generic.ICollection<Evento>>(response_, headers_).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<System.Collections.Generic.ICollection<EventoDto>>(response_, headers_).ConfigureAwait(false);
                             return objectResponse_.Object;
                         }
                         else
@@ -1618,7 +1618,7 @@ namespace Api
                             throw new ApiException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", (int)response_.StatusCode, responseData_, headers_, null);
                         }
 
-                        return default(System.Collections.Generic.ICollection<Evento>);
+                        return default(System.Collections.Generic.ICollection<EventoDto>);
                     }
                     finally
                     {
@@ -1634,7 +1634,7 @@ namespace Api
 
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task<Evento> GetEventoByIdAsync(System.Guid id)
+        public System.Threading.Tasks.Task<EventoDto> GetEventoByIdAsync(System.Guid id)
         {
             return GetEventoByIdAsync(id, System.Threading.CancellationToken.None);
         }
@@ -1642,7 +1642,7 @@ namespace Api
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task<Evento> GetEventoByIdAsync(System.Guid id, System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task<EventoDto> GetEventoByIdAsync(System.Guid id, System.Threading.CancellationToken cancellationToken)
         {
             if (id == null)
                 throw new System.ArgumentNullException("id");
@@ -1679,7 +1679,7 @@ namespace Api
                         var status_ = ((int)response_.StatusCode).ToString();
                         if (status_ == "200")
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<Evento>(response_, headers_).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<EventoDto>(response_, headers_).ConfigureAwait(false);
                             return objectResponse_.Object;
                         }
                         else
@@ -1689,7 +1689,7 @@ namespace Api
                             throw new ApiException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", (int)response_.StatusCode, responseData_, headers_, null);
                         }
 
-                        return default(Evento);
+                        return default(EventoDto);
                     }
                     finally
                     {
@@ -1705,7 +1705,7 @@ namespace Api
 
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task<System.Collections.Generic.ICollection<Evento>> GetEventiByidUtenteAsync(string idUtente, string idCategoria)
+        public System.Threading.Tasks.Task<System.Collections.Generic.ICollection<EventoDto>> GetEventiByidUtenteAsync(string idUtente, string idCategoria)
         {
             return GetEventiByidUtenteAsync(idUtente, idCategoria, System.Threading.CancellationToken.None);
         }
@@ -1713,7 +1713,7 @@ namespace Api
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<Evento>> GetEventiByidUtenteAsync(string idUtente, string idCategoria, System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<EventoDto>> GetEventiByidUtenteAsync(string idUtente, string idCategoria, System.Threading.CancellationToken cancellationToken)
         {
             if (idUtente == null)
                 throw new System.ArgumentNullException("idUtente");
@@ -1754,7 +1754,7 @@ namespace Api
                         var status_ = ((int)response_.StatusCode).ToString();
                         if (status_ == "200")
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<System.Collections.Generic.ICollection<Evento>>(response_, headers_).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<System.Collections.Generic.ICollection<EventoDto>>(response_, headers_).ConfigureAwait(false);
                             return objectResponse_.Object;
                         }
                         else
@@ -1764,7 +1764,7 @@ namespace Api
                             throw new ApiException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", (int)response_.StatusCode, responseData_, headers_, null);
                         }
 
-                        return default(System.Collections.Generic.ICollection<Evento>);
+                        return default(System.Collections.Generic.ICollection<EventoDto>);
                     }
                     finally
                     {
@@ -1780,15 +1780,15 @@ namespace Api
 
         /// <returns>No Content</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task UpdateEventoAsync(Evento evento)
+        public System.Threading.Tasks.Task UpdateEventoAsync(EventoDto dto)
         {
-            return UpdateEventoAsync(evento, System.Threading.CancellationToken.None);
+            return UpdateEventoAsync(dto, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>No Content</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task UpdateEventoAsync(Evento evento, System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task UpdateEventoAsync(EventoDto dto, System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/Evento/EventoUpdate");
@@ -1798,7 +1798,7 @@ namespace Api
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
                 {
-                    var content_ = new System.Net.Http.StringContent(Newtonsoft.Json.JsonConvert.SerializeObject(evento, _settings.Value));
+                    var content_ = new System.Net.Http.StringContent(Newtonsoft.Json.JsonConvert.SerializeObject(dto, _settings.Value));
                     content_.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse("application/json");
                     request_.Content = content_;
                     request_.Method = new System.Net.Http.HttpMethod("PUT");
@@ -1916,7 +1916,7 @@ namespace Api
 
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task<Evento> DeleteEventoAsync(System.Guid id)
+        public System.Threading.Tasks.Task<EventoDto> DeleteEventoAsync(System.Guid id)
         {
             return DeleteEventoAsync(id, System.Threading.CancellationToken.None);
         }
@@ -1924,7 +1924,7 @@ namespace Api
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task<Evento> DeleteEventoAsync(System.Guid id, System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task<EventoDto> DeleteEventoAsync(System.Guid id, System.Threading.CancellationToken cancellationToken)
         {
             if (id == null)
                 throw new System.ArgumentNullException("id");
@@ -1961,7 +1961,7 @@ namespace Api
                         var status_ = ((int)response_.StatusCode).ToString();
                         if (status_ == "200")
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<Evento>(response_, headers_).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<EventoDto>(response_, headers_).ConfigureAwait(false);
                             return objectResponse_.Object;
                         }
                         else
@@ -1971,7 +1971,7 @@ namespace Api
                             throw new ApiException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", (int)response_.StatusCode, responseData_, headers_, null);
                         }
 
-                        return default(Evento);
+                        return default(EventoDto);
                     }
                     finally
                     {
@@ -2129,15 +2129,15 @@ namespace Api
 
         /// <returns>No Content</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task UpdateRegaloAsync(Regalo regalo)
+        public System.Threading.Tasks.Task UpdateRegaloAsync(RegaloDto dto)
         {
-            return UpdateRegaloAsync(regalo, System.Threading.CancellationToken.None);
+            return UpdateRegaloAsync(dto, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>No Content</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task UpdateRegaloAsync(Regalo regalo, System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task UpdateRegaloAsync(RegaloDto dto, System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/Evento/RegaloUpdate");
@@ -2147,7 +2147,7 @@ namespace Api
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
                 {
-                    var content_ = new System.Net.Http.StringContent(Newtonsoft.Json.JsonConvert.SerializeObject(regalo, _settings.Value));
+                    var content_ = new System.Net.Http.StringContent(Newtonsoft.Json.JsonConvert.SerializeObject(dto, _settings.Value));
                     content_.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse("application/json");
                     request_.Content = content_;
                     request_.Method = new System.Net.Http.HttpMethod("PUT");
@@ -2265,7 +2265,7 @@ namespace Api
 
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task<Evento> DeleteRegaloAsync(System.Guid id)
+        public System.Threading.Tasks.Task<RegaloDto> DeleteRegaloAsync(System.Guid id)
         {
             return DeleteRegaloAsync(id, System.Threading.CancellationToken.None);
         }
@@ -2273,7 +2273,7 @@ namespace Api
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task<Evento> DeleteRegaloAsync(System.Guid id, System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task<RegaloDto> DeleteRegaloAsync(System.Guid id, System.Threading.CancellationToken cancellationToken)
         {
             if (id == null)
                 throw new System.ArgumentNullException("id");
@@ -2310,7 +2310,7 @@ namespace Api
                         var status_ = ((int)response_.StatusCode).ToString();
                         if (status_ == "200")
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<Evento>(response_, headers_).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<RegaloDto>(response_, headers_).ConfigureAwait(false);
                             return objectResponse_.Object;
                         }
                         else
@@ -2320,7 +2320,7 @@ namespace Api
                             throw new ApiException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", (int)response_.StatusCode, responseData_, headers_, null);
                         }
 
-                        return default(Evento);
+                        return default(RegaloDto);
                     }
                     finally
                     {
@@ -3304,6 +3304,9 @@ namespace Api
 
         [Newtonsoft.Json.JsonProperty("ImmagineEvento", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public byte[] ImmagineEvento { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("Regali", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public System.Collections.Generic.ICollection<RegaloDto> Regali { get; set; }
 
 
     }

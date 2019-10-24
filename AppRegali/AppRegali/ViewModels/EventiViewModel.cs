@@ -13,12 +13,12 @@ namespace AppRegali.ViewModels
 {
     public class EventiViewModel : BaseViewModel
     {
-        public ObservableCollection<Evento> Items { get; set; }
+        public ObservableCollection<EventoDto> Items { get; set; }
         public Command LoadItemsCommand { get; set; }
 
         public EventiViewModel()
         {
-            Items = new ObservableCollection<Evento>();
+            Items = new ObservableCollection<EventoDto>();
             LoadItemsCommand = new Command(async () => await ExecuteLoadItemsCommand());
 
             //MessagingCenter.Subscribe<NewItemPage, Item>(this, "AddItem", async (obj, item) =>
@@ -45,7 +45,7 @@ namespace AppRegali.ViewModels
                 EventoClient eventoClient = new EventoClient(httpClient);
 
 
-                    ICollection<Evento> listaEventi = await eventoClient.GetEventiAsync();
+                    ICollection<EventoDto> listaEventi = await eventoClient.GetEventiAsync();
 
                     foreach (var evento in listaEventi)
                     {
