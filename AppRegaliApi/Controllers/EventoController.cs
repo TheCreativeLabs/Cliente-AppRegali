@@ -36,22 +36,22 @@ namespace AppRegaliApi.Controllers
         //restituisce una lista piatta di eventi: nella risposta non sono compresi gli oggetti figli
         [HttpGet]
         [Route("Eventi")]
-        public async Task<List<Evento>> GetEventi()
+        public async Task<List<EventoDto>> GetEventi()
         {
             List<Evento> eventi = await dbDataContext.Evento.ToListAsync();
-            return eventi;
+            return eventoMapper.EventoToEventoDtoList(eventi);
         }
 
         // GET: api/Evento/EventoById/5
         //dato un id, restituisce l'evento. l'oggetto restituito è piatto: nella risposta non sono compresi gli oggetti figli
         [HttpGet]
         [Route("EventoById/{id}")]
-        [ResponseType(typeof(Evento))]
-        public IHttpActionResult GetEventoById(Guid id)
+        [ResponseType(typeof(EventoDto))]
+        public async Task<IHttpActionResult> GetEventoByIdAsync(Guid id)
         {
-            Evento evento = dbDataContext.Evento.Include(x => x.Regalo).Include(x => x.ImmagineEvento).SingleOrDefault(x => x.Id == id);
+            Evento evento = await dbDataContext.Evento.Include(x => x.Regalo).Include(x => x.ImmagineEvento).SingleOrDefaultAsync(x => x.Id == id);
 
-            return Ok(evento);
+            return Ok(eventoMapper.EventoToEventoDto(evento));
         }
 
         // GET: api/Evento/EventiByIdUtenteIdCategoria?idUtente=1&idCategoria=2
@@ -61,9 +61,12 @@ namespace AppRegaliApi.Controllers
             //fixme solo amici
         [HttpGet]
         [Route("EventiByIdUtenteIdCategoria/{idUtente?}/{idCategoria?}")]
-        public async Task<List<Evento>> GetEventiByidUtente([FromUri]String idUtente=null, [FromUri]String idCategoria =null)
+        public async Task<List<EventoDto>> GetEventiByidUtente([FromUri]String idUtente=null, [FromUri]String idCategoria =null)
         {
+            List<Guid> idAmici = await AmiciUtility.GetIdAmiciOfUser(new Guid(User.Identity.GetUserId()));
+
             IQueryable<Evento> query = dbDataContext.Evento.Include(x => x.ImmagineEvento);
+            query = query.Where(x => idAmici.Contains(x.IdUtenteCreazione));
             if (idUtente != null)
             {
                 Guid guidUtente = new Guid(idUtente);
@@ -80,7 +83,7 @@ namespace AppRegaliApi.Controllers
             query = query.Where(x => x.DataEvento >= DateTime.Now).OrderBy(x => x.DataEvento);
 
             List<Evento> eventi = await query.ToListAsync();
-            return eventi;
+            return eventoMapper.EventoToEventoDtoList(eventi);
         }
 
         // PUT: api/Evento/EventoUpdate
@@ -88,8 +91,9 @@ namespace AppRegaliApi.Controllers
         [HttpPut]
         [Route("EventoUpdate")]
         [ResponseType(typeof(void))]
-        public IHttpActionResult UpdateEvento(Evento evento)
+        public IHttpActionResult UpdateEvento(EventoDto dto)
         {
+            Evento evento = eventoMapper.EventoDtoToEvento(dto, new Guid(dto.Id));
             evento.EventoCategoria = null;
             //dbDataContext.Entry(evento.EventoCategoria).State = EntityState.Unchanged;
             evento.ImmagineEvento = null;
@@ -163,7 +167,7 @@ namespace AppRegaliApi.Controllers
         // DELETE: api/Evento/EventoDelete/5
         [HttpDelete]
         [Route("EventoDelete/{id}")]
-        [ResponseType(typeof(Evento))]
+        [ResponseType(typeof(EventoDto))]
         public IHttpActionResult DeleteEvento(Guid id)
         {
             Evento evento = dbDataContext.Evento.Find(id);
@@ -175,7 +179,7 @@ namespace AppRegaliApi.Controllers
             dbDataContext.Evento.Remove(evento);
             dbDataContext.SaveChanges();
 
-            return Ok(evento);
+            return Ok(eventoMapper.EventoToEventoDto(evento));
         }
 
         //-------------------------------------------------------

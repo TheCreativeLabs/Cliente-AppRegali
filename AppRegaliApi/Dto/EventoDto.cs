@@ -33,5 +33,7 @@ namespace AppRegaliApi.Models
         public string IdImmagineEvento { get; set; }
 
         public byte[] ImmagineEvento { get; set; }
+
+        public List<RegaloDto> Regali { get; set; }
     }
 }
