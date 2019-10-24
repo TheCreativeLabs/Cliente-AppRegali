@@ -29,8 +29,14 @@ namespace AppRegaliApi
 
             // Enable the application to use a cookie to store information for the signed in user
             // and to use a cookie to temporarily store information about a user logging in with a third party login provider
-            app.UseCookieAuthentication(new CookieAuthenticationOptions());
+            //app.UseCookieAuthentication(new CookieAuthenticationOptions());
+
+            app.UseCookieAuthentication(new CookieAuthenticationOptions()
+            {
+                AuthenticationType = DefaultAuthenticationTypes.ApplicationCookie
+            });
             app.UseExternalSignInCookie(DefaultAuthenticationTypes.ExternalCookie);
+
 
             // Configure the application for OAuth based flow
             PublicClientId = "self";
@@ -62,7 +68,7 @@ namespace AppRegaliApi
                 AppId = "971997736480952",
                 AppSecret = "483348891fbc0f94cf3a6e40cdbbaf1d",
                 BackchannelHttpHandler = new FacebookBackChannelHandler(),
-                UserInformationEndpoint = "https://graph.facebook.com/v2.4/me/?fields=id,email,name"
+                UserInformationEndpoint = "https://graph.facebook.com/v2.4/me/?fields=id,email,name",
             };
 
             facebookOption.Scope.Add("email");

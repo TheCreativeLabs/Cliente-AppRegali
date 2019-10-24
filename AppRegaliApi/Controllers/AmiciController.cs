@@ -46,9 +46,9 @@ namespace AppRegaliApi.Controllers
         [HttpGet]
         [Route("UserInfoByIdUser/{idUser}")]
         [ResponseType(typeof(UserInfoDto))]
-        public async Task<IHttpActionResult> GetUserInfoByIdUsers(Guid idUser)
+        public IHttpActionResult GetUserInfoByIdUsers(Guid idUser)
         {
-            UserInfo userInfo = await dbDataContext.UserInfo.SingleOrDefaultAsync(x => x.IdAspNetUser == idUser);
+            UserInfo userInfo = dbDataContext.UserInfo.SingleOrDefault(x => x.IdAspNetUser == idUser);
             return Ok(userInfo);
         }
         
@@ -60,7 +60,6 @@ namespace AppRegaliApi.Controllers
 
             ExternalLoginData externalLogin = ExternalLoginData.FromIdentity(User.Identity as ClaimsIdentity);
 
-            externalLogin.
 
             return GetUserInfoByIdUsers(new Guid(User.Identity.GetUserId()));
         }
