@@ -137,6 +137,13 @@ namespace AppRegaliApi.Controllers
         {
             Evento evento = eventoMapper.EventoDtoToEvento(eventoDto, new Guid(User.Identity.GetUserId()));
             evento.DataCreazione = DateTime.Now;
+            if (eventoDto.IdImmagineEvento == null && eventoDto.ImmagineEvento != null)
+            {
+                //fixme createImmagineEvento();
+                ImmagineEvento immEvento = new ImmagineEvento();
+                immEvento.Immagine = eventoDto.ImmagineEvento;
+                evento.ImmagineEvento = immEvento;
+            }
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);

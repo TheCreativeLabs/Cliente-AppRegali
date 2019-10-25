@@ -26,16 +26,12 @@ namespace AppRegaliApi.Models
             evento.IdCategoriaEvento = dto.IdCategoriaEvento;
             evento.IdUtenteCreazione = CurrentUserId;
             evento.Titolo = dto.Titolo;
-            if (dto.IdImmagineEvento == null && dto.ImmagineEvento != null)
-            {
-                //fixme createImmagineEvento();
-                ImmagineEvento immEvento = new ImmagineEvento();
-                immEvento.Immagine = dto.ImmagineEvento;
-                evento.ImmagineEvento = immEvento;
-            } else if (dto.IdImmagineEvento != null && dto.ImmagineEvento != null)
-            {
+            evento.DataCreazione = dto.DataCreazione;
+            evento.DataModifica = dto.DataModifica;
+            // else if (dto.IdImmagineEvento != null && dto.ImmagineEvento != null)
+            //{
                 //fixme updateImmagineEvento
-            }
+            //}
             return evento;
         }
 
@@ -54,6 +50,8 @@ namespace AppRegaliApi.Models
             dto.DataEvento = evento.DataEvento;
             dto.Descrizione = evento.Descrizione;
             dto.IdCategoriaEvento = evento.IdCategoriaEvento;
+            dto.DataCreazione = evento.DataCreazione;
+            dto.DataModifica = evento.DataModifica;
             //dto.IdUtenteCreazione = evento.IdUtenteCreazione;
             //FIXME servono info sul creatore dell'evento?
             dto.Titolo = evento.Titolo;
