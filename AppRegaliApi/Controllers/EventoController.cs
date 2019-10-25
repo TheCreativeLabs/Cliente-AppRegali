@@ -214,8 +214,9 @@ namespace AppRegaliApi.Controllers
         [HttpPut]
         [Route("RegaloUpdate")]
         [ResponseType(typeof(void))]
-        public IHttpActionResult UpdateRegalo(Regalo regalo)
+        public IHttpActionResult UpdateRegalo(RegaloDto dto)
         {
+            Regalo regalo = regaloMapper.RegaloDtoToRegalo(dto);
             //FIXME
             regalo.ImmagineRegalo = null;
             regalo.Evento = null;
@@ -285,7 +286,7 @@ namespace AppRegaliApi.Controllers
         // DELETE: api/Evento/RegaloDelete/5
         [HttpDelete]
         [Route("RegaloDelete/{id}")]
-        [ResponseType(typeof(Evento))]
+        [ResponseType(typeof(RegaloDto))]
         public IHttpActionResult DeleteRegalo(Guid id)
         {
             Regalo regalo = dbDataContext.Regalo.Find(id);
@@ -297,7 +298,7 @@ namespace AppRegaliApi.Controllers
             dbDataContext.Regalo.Remove(regalo);
             dbDataContext.SaveChanges();
 
-            return Ok(regalo);
+            return Ok(regaloMapper.RegaloToRegaloDto(regalo));
         }
 
         protected override void Dispose(bool disposing)
