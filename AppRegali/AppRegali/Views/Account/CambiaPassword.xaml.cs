@@ -31,7 +31,6 @@ namespace AppRegali.Views.Login
                 if (String.IsNullOrEmpty(entVecchiaPassword.Text))
                 {
                     formIsValid = false;
-                    lblValidatorEntVecchiaPassword.IsVisible = true;
                 }
 
                 //Controllo validità della nuova password.
@@ -39,6 +38,8 @@ namespace AppRegali.Views.Login
                 {
                     formIsValid = false;
                     lblValidatorEntPassword.IsVisible = true;
+                    entNuovaPassword.BackgroundColor = Color.FromRgb(255, 175, 173);
+
                 }
 
                 //Controllo che le due password siano uguali.
@@ -46,6 +47,7 @@ namespace AppRegali.Views.Login
                 {
                     formIsValid = false;
                     lblValidatorEntConfermaPassword.IsVisible = true;
+                    entConfermaPassword.BackgroundColor = Color.FromRgb(255, 175, 173);
                 }
 
                 //Se la form è valida proseguo con la registrazione.
@@ -65,14 +67,33 @@ namespace AppRegali.Views.Login
                     await accountClient.ChangePasswordAsync(changePasswordBindingModel);
                 }
             }
-            catch (ApiException ex)
+            catch (ApiException Ex)
             {
                 //Se sono qui non ho l'accesso, quindi la password è sbagliata.
-                lblErrore.IsVisible = true;
+                await DisplayAlert("Attenzione", "La password inserita non è valida.", "OK");
             }
             catch (Exception)
             {
-                throw;
+                await Navigation.PushAsync(new ErrorPage());
+            }
+        }
+
+        private async void ent_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            try
+            {
+                btnProcedi.IsEnabled = false;
+
+                //Controllo che username e password siano valorizzati, se lo sono abilito il pulsante.
+                if (!(String.IsNullOrEmpty(entVecchiaPassword.Text)) && !(String.IsNullOrEmpty(entNuovaPassword.Text)) && !(String.IsNullOrEmpty(entConfermaPassword.Text)))
+                {
+                    btnProcedi.IsEnabled = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                //Navigo alla pagina d'errore.
+                await Navigation.PushAsync(new ErrorPage());
             }
         }
     }

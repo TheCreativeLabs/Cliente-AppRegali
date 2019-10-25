@@ -20,12 +20,17 @@ namespace AppRegali.Views.Login
         public Login()
         {
             InitializeComponent();
+        }
+
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
 
             //Se ho il token allora vado direttamente alla home
-            //if (ApiHelper.GetToken() != null)
-            //{
-            //    Application.Current.MainPage = new MainPage();
-            //}
+            if (ApiHelper.GetToken() != null)
+            {
+                Application.Current.MainPage = new MainPage();
+            }
         }
 
         private async void btnAccedi_ClickedAsync(object sender, EventArgs e)
@@ -38,77 +43,87 @@ namespace AppRegali.Views.Login
                 if (String.IsNullOrEmpty(entUsername.Text))
                 {
                     formIsValid = false;
-                    //lblValidatorUsername.IsVisible = true;
                 }
 
                 if (String.IsNullOrEmpty(entPassword.Text))
                 {
                     formIsValid = false;
-                    //lblValidatorPassword.IsVisible = true;
                 }
 
+                //Se la form è valida allora setto il token
                 if (formIsValid)
                 {
-                    await ApiHelper.SetTokenAsync(entUsername.Text, entPassword.Text, new Uri("https://www.appregaliapitest.com/Token"));
+                    await ApiHelper.SetTokenAsync(entUsername.Text, entPassword.Text);
                     Application.Current.MainPage = new MainPage();
                 }
             }
-            catch (ApplicationException ex)
+            catch (ApplicationException Ex)
             {
                 //Se sono qui significa che non ho i diritti per accedere.
-                //lblValidazioneLogin.IsVisi/*b*/le = true;
-
                 await DisplayAlert("Attenzione", "L'indirizzo email o la password non sono validi.", "OK");
             }
-            catch (Exception ex)
+            catch (Exception Ex)
             {
-               //In questo caso se 
+                //Navigo alla pagina d'errore.
+                await Navigation.PushAsync(new ErrorPage());
             }
         }
 
         private async void TapGestureRecognizer_Tapped(object sender, EventArgs e)
         {
-            await Navigation.PushModalAsync(new NavigationPage(new PasswordDimenticata()));
-
-            //Navigation.PushAsync(new PasswordDimenticata());
+            try
+            {
+                await Navigation.PushModalAsync(new NavigationPage(new PasswordDimenticata()));
+            }
+            catch (Exception ex)
+            {
+                //Navigo alla pagina d'errore.
+                await Navigation.PushAsync(new ErrorPage());
+            }
         }
 
         private async void TapGestureRecognizer_lblRegistrati(object sender, EventArgs e)
         {
-            await Navigation.PushModalAsync(new NavigationPage(new Registrazione()));
-
-            //Navigation.PushAsync(new Registrazione());
-        }
-
-        private void btnAccediFacebook_Clicked(object sender, EventArgs e)
-        {
             try
             {
-                Navigation.PushAsync(new Account.FacebookLogin());
+                await Navigation.PushModalAsync(new NavigationPage(new Registrazione()));
             }
             catch (Exception ex)
             {
-                //Gestione errore;
+                //Navigo alla pagina d'errore.
+                await Navigation.PushAsync(new ErrorPage());
             }
         }
 
-        private void ent_TextChanged(object sender, TextChangedEventArgs e)
+        private async void btnAccediFacebook_Clicked(object sender, EventArgs e)
         {
             try
             {
-                //Controllo che username e password siano valorizzati.
+                await Navigation.PushAsync(new Account.FacebookLogin());
+            }
+            catch (Exception ex)
+            {
+                //Navigo alla pagina d'errore.
+                await Navigation.PushAsync(new ErrorPage());
+            }
+        }
+
+        private async void ent_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            try
+            {
+                btnAccedi.IsEnabled = false;
+
+                //Controllo che username e password siano valorizzati, se lo sono abilito il pulsante.
                 if (!(String.IsNullOrEmpty(entUsername.Text)) && !(String.IsNullOrEmpty(entPassword.Text)))
                 {
                     btnAccedi.IsEnabled = true;
                 }
-                else
-                {
-                    btnAccedi.IsEnabled = false;
-                }
             }
             catch (Exception ex)
             {
-                throw;
+                //Navigo alla pagina d'errore.
+                await Navigation.PushAsync(new ErrorPage());
             }
         }
     }

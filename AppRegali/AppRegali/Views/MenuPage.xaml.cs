@@ -1,4 +1,5 @@
 ﻿using Api;
+using AppRegali.Api;
 using AppRegali.Models;
 using System;
 using System.Collections.Generic;
@@ -19,12 +20,14 @@ namespace AppRegali.Views
         List<HomeMenuItem> menuItems;
         public MenuPage()
         {
-            InitializeComponent();
+            try
+            {
+                InitializeComponent();
 
-            //visualizzo le informazioni sull'utente.
-            SetUserInfo();
+                //visualizzo le informazioni sull'utente.
+                SetUserInfo();
 
-            menuItems = new List<HomeMenuItem>
+                menuItems = new List<HomeMenuItem>
             {
                 new HomeMenuItem {Id = MenuItemType.Home, Title="Home", Icon="\uf015" },
                 new HomeMenuItem {Id = MenuItemType.EventiPersonali, Title="I miei eventi", Icon="\uf271" },
@@ -32,17 +35,23 @@ namespace AppRegali.Views
                 new HomeMenuItem {Id = MenuItemType.Account, Title="Account", Icon="\uf2bd"  },
             };
 
-            ListViewMenu.ItemsSource = menuItems;
-            ListViewMenu.SelectedItem = menuItems[0];
-            ListViewMenu.ItemSelected += async (sender, e) =>
+                ListViewMenu.ItemsSource = menuItems;
+                ListViewMenu.SelectedItem = menuItems[0];
+                ListViewMenu.ItemSelected += async (sender, e) =>
+                {
+                    if (e.SelectedItem == null)
+                        return;
+
+                    var id = (int)((HomeMenuItem)e.SelectedItem).Id;
+
+                    await RootPage.NavigateFromMenu(id);
+                };
+            }
+            catch (Exception ex)
             {
-                if (e.SelectedItem == null)
-                    return;
-
-                var id = (int)((HomeMenuItem)e.SelectedItem).Id;
-
-                await RootPage.NavigateFromMenu(id);
-            };
+                //Navigo alla pagina d'errore.
+                Navigation.PushAsync(new ErrorPage());
+            }
         }
 
 
@@ -53,24 +62,21 @@ namespace AppRegali.Views
         {
             try
             {
-                //HttpClient httpClient = new HttpClient();
-                //httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", Api.ApiHelper.GetToken());
+                AmiciClient amiciClient = new AmiciClient(ApiHelper.GetApiClient());
+                UserInfo userInfo = await amiciClient.GetCurrentUserInfoAsync();
 
-                //AmiciClient amiciClient = new AmiciClient(httpClient);
-
-                //UserInfo userInfo = await amiciClient.GetCurrentUserInfoAsync();
-
-                //if (userInfo != null)
-                //{
-                //    Image image = new Image();
-                //    Stream stream = new MemoryStream(userInfo.FotoProfilo);
-                //    imgFotoUtente.Source = ImageSource.FromStream(() => { return stream; });
-                //    lblNomeCognome.Text = $"{userInfo.Nome} {userInfo.Cognome}";
-                //}
+                if (userInfo != null)
+                {
+                    Image image = new Image();
+                    Stream stream = new MemoryStream(userInfo.FotoProfilo);
+                    imgFotoUtente.Source = ImageSource.FromStream(() => { return stream; });
+                    lblNomeCognome.Text = $"{userInfo.Nome} {userInfo.Cognome}";
+                }
             }
             catch (Exception ex)
             {
-                throw;
+                //Navigo alla pagina d'errore.
+                await Navigation.PushAsync(new NavigationPage( new ErrorPage()));
             }
         }
 
@@ -78,21 +84,26 @@ namespace AppRegali.Views
         {
             try
             {
-               //await Navigation.PushAsync(new Account.FacebookLogout());
+                if (Api.ApiHelper.GetFacebookLogin())
+                {
+                    //Vado alla pagina di logout di facebook
+                    Application.Current.MainPage = new NavigationPage(new Account.FacebookLogout());
+                }
+                else
+                {
+                    //Eseguo il logout
 
+                    AccountClient accountClient = new AccountClient(ApiHelper.GetApiClient());
+                    await accountClient.LogoutAsync();
 
-                //HttpClient httpClient = new HttpClient();
-                //httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", Api.ApiHelper.GetToken());
-                //AccountClient accountClient = new AccountClient(httpClient);
-                //await accountClient.LogoutAsync();
-
-                ////Rimuovo il token e navigo alla home
-                //Api.ApiHelper.DeleteToken();
-                Application.Current.MainPage = new NavigationPage(new Account.FacebookLogout());
+                    //Rimuovo il token e navigo alla home
+                    Api.ApiHelper.DeleteToken();
+                }
             }
             catch (Exception ex)
             {
-                throw;
+                //Navigo alla pagina d'errore.
+                await Navigation.PushAsync(new ErrorPage());
             }
         }
     }
