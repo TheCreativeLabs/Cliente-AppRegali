@@ -57,8 +57,6 @@ namespace AppRegaliApi.Controllers
         // GET: api/Evento/EventiByIdUtenteIdCategoria?idUtente=1&idCategoria=2
         //dato un id utente e una categoria, restituisce tutti gli eventi di quell'utente.
         //l'oggetto restituito è piatto: nella risposta non sono compresi gli oggetti figli
-
-            //fixme solo amici
         [HttpGet]
         [Route("EventiByIdUtenteIdCategoria/{idUtente?}/{idCategoria?}")]
         public async Task<List<EventoDto>> GetEventiByidUtente([FromUri]String idUtente=null, [FromUri]String idCategoria =null)
