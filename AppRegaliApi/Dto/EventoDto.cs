@@ -25,6 +25,10 @@ namespace AppRegaliApi.Models
         [Required]
         public DateTime DataEvento { get; set; }
 
+        public DateTime? DataModifica { get; set; }
+
+        public DateTime DataCreazione { get; set; }
+
         public bool? Cancellato { get; set; }
 
         [Required]

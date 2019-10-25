@@ -43,10 +43,10 @@ namespace AppRegaliApi.Models
                 dto.Id = regalo.Id.ToString();
             }
             dto.Cancellato = regalo.Cancellato;
-            dto.Descrizione = dto.Descrizione;
-            dto.IdEvento = dto.IdEvento;
-            dto.Prezzo = dto.Prezzo;
-            dto.Titolo = dto.Titolo;
+            dto.Descrizione = regalo.Descrizione;
+            dto.IdEvento = regalo.IdEvento;
+            dto.Prezzo = regalo.Prezzo;
+            dto.Titolo = regalo.Titolo;
             dto.ImportoCollezionato = regalo.ImportoCollezionato;
             if (regalo.IdImmagineRegalo != null)
             {

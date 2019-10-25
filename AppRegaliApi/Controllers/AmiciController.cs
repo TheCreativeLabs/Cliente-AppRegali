@@ -26,6 +26,10 @@ namespace AppRegaliApi.Controllers
         private ApplicationDbContext dbContext = new ApplicationDbContext();
         UserInfoMapper userInfoMapper = new UserInfoMapper();
 
+        public AmiciController()
+        {
+        }
+
         public AmiciController(ApplicationUserManager userManager)
         {
         }
@@ -72,45 +76,50 @@ namespace AppRegaliApi.Controllers
             return amici;
         }
 
-        //[HttpPost]
-        //[Route("AmiciziaCreate/{idDestinatario}", Name = "AmiciziaCreate")]
-        //[ResponseType(typeof(Evento))]
-        //public IHttpActionResult InserisciAmicizia([FromUri]String idDestinatario)
-        //{
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return BadRequest(ModelState);
-        //    }
-        //    UserAmicizia amicizia = new UserAmicizia();
-        //    amicizia.IdUserDestinatario = idDestinatario;
-        //    amicizia.IdUserRichiedente = User.Identity.
+        [HttpPost]
+        [Route("AmiciziaCreate/{idDestinatario?}", Name = "AmiciziaCreate")]
+        [ResponseType(typeof(Evento))]
+        public IHttpActionResult InserisciAmicizia([FromUri]String idDestinatario)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            UserAmicizia amicizia = new UserAmicizia();
+            amicizia.IdUserDestinatario = new Guid(idDestinatario);
+            amicizia.IdUserRichiedente = new Guid(User.Identity.GetUserId());
+            amicizia.Accettato = false;
+            dbDataContext.UserAmicizia.Add(amicizia);
 
-        //    dbDataContext.ImmagineEvento.Attach(evento.ImmagineEvento);
-        //    dbDataContext.Entry(evento.ImmagineEvento).State = EntityState.Added;
-        //    dbDataContext.Evento.Add(evento);
+            try
+            {
+                dbDataContext.SaveChanges();
+            }
+            catch (DbUpdateException)
+            {
+                if (UserAmiciziaExists(amicizia.IdUserDestinatario, amicizia.IdUserRichiedente))
+                {
+                    return Conflict();
+                }
+                else
+                {
+                    throw;
+                }
+            }
 
-        //    try
-        //    {
-        //        dbDataContext.SaveChanges();
-        //    }
-        //    catch (DbUpdateException)
-        //    {
-        //        if (EventoExists(evento.Id))
-        //        {
-        //            return Conflict();
-        //        }
-        //        else
-        //        {
-        //            throw;
-        //        }
-        //    }
-
-        //    return CreatedAtRoute("EventoCreate", new { id = evento.Id }, evento);
-        //}
+            return CreatedAtRoute("AmiciziaCreate", 
+                                   new { IdUserDestinatario = amicizia.IdUserDestinatario, IdUserRichiedente = amicizia.IdUserRichiedente },
+                                   amicizia);
+        }
 
         //todo crea amicizia, rimuovi amicizia, get stato amicizia
 
-
+        private bool UserAmiciziaExists(Guid IdUserDestinatario, Guid IdUserRichiedente)
+        {
+            return dbDataContext.UserAmicizia.Count(
+                e => e.IdUserDestinatario == IdUserDestinatario && e.IdUserRichiedente == IdUserRichiedente
+                ) > 0;
+        }
 
 
     }
