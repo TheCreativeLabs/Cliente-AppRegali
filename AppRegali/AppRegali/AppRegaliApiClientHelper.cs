@@ -13,6 +13,7 @@ namespace AppRegali.Api
     {
 
         public const string AccessTokenKey = "Access_Token";
+        public const string IsFacebookLoginKey = "Is_Facebook_Login";
 
         public class BearerToken
         {
@@ -35,11 +36,18 @@ namespace AppRegali.Api
             public string Expires { get; set; }
         }
 
-        //Imposta il token
-        public static async Task SetTokenAsync(string Username, string Password, Uri Endpoint)
+        /// <summary>
+        /// Setta il token
+        /// </summary>
+        /// <param name="Username"></param>
+        /// <param name="Password"></param>
+        /// <returns></returns>
+        public static async Task SetTokenAsync(string Username, string Password)
         {
             using (var httpClient = new HttpClient())
             {
+                Uri Endpoint = new Uri($"{AppSetting.ApiEndpoint}Token");
+
                 var tokenRequest =
                     new List<KeyValuePair<string, string>>
                         {
@@ -54,14 +62,15 @@ namespace AppRegali.Api
 
                 if (response != null && response.StatusCode == System.Net.HttpStatusCode.OK)
                 {
-                    var o = response.Content.ReadAsStringAsync().Result;
-                    BearerToken token2 = JsonConvert.DeserializeObject<BearerToken>(o);
+                    string jsonResponse = response.Content.ReadAsStringAsync().Result;
+                    BearerToken token = JsonConvert.DeserializeObject<BearerToken>(jsonResponse);
 
-                    Application.Current.Properties[AccessTokenKey] = token2.AccessToken;
+                    Application.Current.Properties[AccessTokenKey] = token.AccessToken;
                 }
                 else
                 {
-                   throw new ApplicationException("Password o Email errati.");
+                    //Se arrivo qui allora email e password sono sbagliati.
+                    throw new ApplicationException("Password o Email errati.");
                 }
             }
         }
@@ -82,7 +91,7 @@ namespace AppRegali.Api
         }
 
         /// <summary>
-        /// Rimuove il token
+        /// Rimuove il token.
         /// </summary>
         /// <returns></returns>
         public static string DeleteToken()
@@ -91,7 +100,7 @@ namespace AppRegali.Api
 
             if (Application.Current.Properties.ContainsKey(AccessTokenKey))
             {
-                
+
 
                 Application.Current.Properties.Remove(AccessTokenKey);
             }
@@ -99,6 +108,49 @@ namespace AppRegali.Api
             return accessToken;
         }
 
+        /// <summary>
+        /// Salva nella cache se l'utente si è loggato con facebook.
+        /// </summary>
+        /// <param name="IsFacebookLogin"></param>
+        public static void SetFacebookLogin(bool IsFacebookLogin)
+        {
+            Application.Current.Properties[IsFacebookLoginKey] = IsFacebookLogin;
+        }
+
+        /// <summary>
+        /// Restituisce se l'utente si è loggato con facebook.
+        /// </summary>
+        /// <returns></returns>
+        public static bool GetFacebookLogin()
+        {
+            bool isFacebookLogin = false;
+
+            if (Application.Current.Properties.ContainsKey(IsFacebookLoginKey))
+            {
+                isFacebookLogin = (bool)Application.Current.Properties[IsFacebookLoginKey];
+            }
+
+            return isFacebookLogin;
+        }
+
+        /// <summary>
+        /// Restituisce il Client da usare per le chiamate all'api
+        /// </summary>
+        /// <returns></returns>
+        public static HttpClient GetApiClient()
+        {
+            HttpClient httpClient = new HttpClient();
+            httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", Api.ApiHelper.GetToken());
+            return httpClient;
+        }
+
+        /// <summary>
+        /// Metodo per registrarsi
+        /// </summary>
+        /// <param name="Email"></param>
+        /// <param name="Password"></param>
+        /// <param name="ConfermaPassword"></param>
+        /// <returns></returns>
         public static async Task RegisterAsync(string Email, string Password, string ConfermaPassword)
         {
             using (var httpClient = new HttpClient())

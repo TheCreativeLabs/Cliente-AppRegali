@@ -1,4 +1,5 @@
 ﻿using Api;
+using AppRegali.Api;
 using AppRegali.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -19,13 +20,8 @@ namespace AppRegali.Views.Account
         {
             InitializeComponent();
 
-            Title = "Facebook Profile";
-            BackgroundColor = Color.White;
-
             var apiRequest =
-                "https://www.facebook.com/dialog/oauth?client_id="
-                + "971997736480952"
-                + "&display=popup&response_type=token&redirect_uri=https://www.appregaliapitest.com/";
+                $"https://www.facebook.com/dialog/oauth?client_id={AppSetting.ClientId}&display=popup&response_type=token&redirect_uri={AppSetting.ApiEndpoint}";
 
             var webView = new WebView
             {
@@ -38,41 +34,51 @@ namespace AppRegali.Views.Account
             Content = webView;
         }
 
-
         private async void WebViewOnNavigated(object sender, WebNavigatedEventArgs e)
         {
-            var accessToken = ExtractAccessTokenFromUrl(e.Url);
+            string accessToken = ExtractAccessTokenFromUrl(e.Url);
 
             if (accessToken != "")
             {
+                AccountClient accountClient = new AccountClient(ApiHelper.GetApiClient());
 
-                HttpClient httpClient = new HttpClient();
-                httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", Api.ApiHelper.GetToken());
+                ManageInfoViewModel manageInfoViewModel = await accountClient.GetManageInfoAsync("/", true);
 
-                AccountClient accountClient = new AccountClient(httpClient);
+                if (manageInfoViewModel != null && manageInfoViewModel.Logins.Count > 0)
+                {
+                    //ottengo l'id dell'utente di facebook.
+                    string idFacebookUser = ((UserLoginInfoViewModel)manageInfoViewModel.Logins.First()).ProviderKey;
 
-                ManageInfoViewModel userInfo = await accountClient.GetManageInfoAsync("/",true);
+                    var requestUrl =
+                       $"https://graph.facebook.com/v2.7/{idFacebookUser}/permissions/email?&access_token={accessToken}";
 
-                string providerKey = ((UserLoginInfoViewModel)userInfo.Logins.First()).ProviderKey;
+                    //Elimino i permessi di facebook
+                    HttpClient httpFacebookClient = new HttpClient();
+                    HttpResponseMessage httpResponseMessage = await httpFacebookClient.DeleteAsync(requestUrl);
 
-                var requestUrl =
-                $"https://graph.facebook.com/v2.7/{providerKey}/permissions/email?&access_token="
-                + accessToken;
+                    if (httpResponseMessage != null && httpResponseMessage.StatusCode == System.Net.HttpStatusCode.OK)
+                    {
+                        //eseguo il logout.
+                        await accountClient.LogoutAsync();
 
-                var httpClient2 = new HttpClient();
-
-                var userJson = await httpClient2.DeleteAsync(requestUrl);
-
-                await accountClient.LogoutAsync();
-
-                Application.Current.MainPage = new NavigationPage(new Login.Login());
+                        //torno alla pagina di login.
+                        Application.Current.MainPage = new NavigationPage(new Login.Login());
+                    }
+                }
             }
         }
+
+
+        /// <summary>
+        /// Metodo che estrae l'access token necessario per il logout di facebook.
+        /// </summary>
+        /// <param name="url"></param>
+        /// <returns></returns>
         private string ExtractAccessTokenFromUrl(string url)
         {
             if (url.Contains("access_token") && url.Contains("&expires_in="))
             {
-                var at = url.Replace("https://www.appregaliapitest.com/?#access_token=", "");
+                var at = url.Replace($"{AppSetting.ApiEndpoint}?#access_token=", "");
 
                 var accessToken = at.Remove(at.IndexOf("&data_access_expiration_time="));
 

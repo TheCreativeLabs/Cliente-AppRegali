@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="AppRegali.Views.ErrorPage"
+             NavigationPage.HasNavigationBar="False">
+    <ContentPage.Content>
+        <StackLayout VerticalOptions="Center">
+            <Label  Text="&#xf071;" TextColor="Red" FontSize="Header" HorizontalTextAlignment="Center" FontFamily="{x:StaticResource FA-Solid}"></Label>
+
+            <Label Text="Si è verificato un errore, riprovare più tardi." TextColor="Red" FontSize="Subtitle"  HorizontalTextAlignment="Center"></Label>
+
+            <Button x:Name="btnTornaAllaHome" Clicked="btnTornaAllaHome_Clicked" BorderColor="Red"  CornerRadius="30" BorderWidth="2" BackgroundColor="white" Visual="Material" TextColor="black" Text="Torna alla home" HorizontalOptions="Center"></Button>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

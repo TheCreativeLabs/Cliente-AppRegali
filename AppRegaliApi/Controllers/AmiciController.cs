@@ -23,7 +23,7 @@ namespace AppRegaliApi.Controllers
     public class AmiciController : ApiController
     {
         private DbDataContext dbDataContext = new DbDataContext();
-        private ApplicationUserManager _userManager;
+        private ApplicationDbContext dbContext = new ApplicationDbContext();
         UserInfoMapper userInfoMapper = new UserInfoMapper();
 
         public AmiciController()
@@ -32,19 +32,6 @@ namespace AppRegaliApi.Controllers
 
         public AmiciController(ApplicationUserManager userManager)
         {
-            UserManager = userManager;
-        }
-
-        public ApplicationUserManager UserManager
-        {
-            get
-            {
-                return _userManager ?? Request.GetOwinContext().GetUserManager<ApplicationUserManager>();
-            }
-            private set
-            {
-                _userManager = value;
-            }
         }
 
         [HttpGet]
@@ -52,11 +39,12 @@ namespace AppRegaliApi.Controllers
         [ResponseType(typeof(UserInfoDto))]
         public async Task<IHttpActionResult> GetUserInfoByIdUsersAsync(Guid idUser)
         {
-            UserInfo userInfo = dbDataContext.UserInfo.SingleOrDefault(x => x.IdAspNetUser == idUser);
-            string mail = await UserManager.GetEmailAsync(idUser.ToString());
+            UserInfo userInfo = await dbDataContext.UserInfo.SingleOrDefaultAsync(x => x.IdAspNetUser == idUser);
+            string email = await dbContext.Users.Where(x => x.Id == idUser.ToString()).Select(x => x.Email).FirstOrDefaultAsync();
+
             //FIXME inserire anche immagine da Facebook 
             //ExternalLoginData externalLogin = ExternalLoginData.FromIdentity(User.Identity as ClaimsIdentity);
-            UserInfoDto dto = userInfoMapper.UserInfoToUserInfoDto(userInfo, mail);
+            UserInfoDto dto = userInfoMapper.UserInfoToUserInfoDto(userInfo, email);
             return Ok(userInfo);
         }
         

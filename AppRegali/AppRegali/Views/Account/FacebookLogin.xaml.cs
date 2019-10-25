@@ -47,6 +47,9 @@ namespace AppRegali.Views.Account
                 //Salva il token nelle properties
                 Application.Current.Properties[Api.ApiHelper.AccessTokenKey] = accessToken;
 
+                //Salvo il nelle properties che l'utente ha fatto accesso con Facebook
+                Api.ApiHelper.SetFacebookLogin(true);
+
                 //creo il client e setto il Baerer Token
                 HttpClient httpClient = new HttpClient();
                 httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", accessToken);
