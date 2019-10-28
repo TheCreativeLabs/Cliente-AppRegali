@@ -62,8 +62,9 @@ namespace AppRegali.Views
 
                 Helpers.TranslateExtension i = new Helpers.TranslateExtension();
 
-                i.Text = "Account.CambiaPassword";
-               var o = Helpers.TranslateExtension.ResMgr.Value.GetString(, translate.ci);
+                //Modifiche di test
+                //i.Text = "Account.CambiaPassword";
+                //var o = Helpers.TranslateExtension.ResMgr.Value.GetString(, translate.ci);
 
                 string action = await DisplayActionSheet("Comandi rapidi", "Annulla", "Elimina evento", "Modifica");
             }
