@@ -6,31 +6,26 @@
              mc:Ignorable="d"
              x:Class="AppRegali.Views.EventoInserisci"
              Title="Crea un evento"
-             xmlns:translator="clr-namespace:AppRegali.Helpers">
+             xmlns:translator="clr-namespace:AppRegali.Helpers"  NavigationPage.HasNavigationBar="True">
+
 
     <NavigationPage.TitleView>
-        <StackLayout Orientation="Horizontal">
-            <!--<Label Text="&#xf00d;"  FontFamily="{StaticResource FA-Solid}"  FontSize="Large" TextColor="White">
-                <Label.GestureRecognizers>
-                    <TapGestureRecognizer Tapped="Cancel_Clicked"/>
-                </Label.GestureRecognizers>
-            </Label>-->
-
-            <Button BackgroundColor="Transparent" FontSize="Medium" HorizontalOptions="Start" WidthRequest="50" TextColor="White" Text="&#xf00d;" FontFamily="{StaticResource FA-Solid}" Clicked="Cancel_Clicked">
+        <StackLayout Orientation="Horizontal" Padding="5">
+            <Button FontSize="Large" HorizontalOptions="Start" WidthRequest="40" BackgroundColor="Transparent" TextColor="White" Text="&#xf00d;" FontFamily="{StaticResource FA-Solid}" Clicked="Cancel_Clicked">
             </Button>
-            
-            <Label FontSize="Large" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" HorizontalOptions="CenterAndExpand"  FontFamily="{x:StaticResource FA-Solid}" TextColor="White" FontAttributes="Bold" Text="Nuovo evento"></Label>
+
+            <Label FontSize="Large" HorizontalTextAlignment="Center" Margin="-50,0,0,0" VerticalTextAlignment="Center" HorizontalOptions="CenterAndExpand"  FontFamily="{x:StaticResource FA-Solid}" TextColor="White" FontAttributes="Bold" Text="Nuovo evento"></Label>
         </StackLayout>
     </NavigationPage.TitleView>
 
     <ContentPage.Content>
         <ScrollView>
             <StackLayout>
-                <Frame Margin="-20"  HeightRequest="250" IsClippedToBounds="True" Padding="0">
+                <Frame Margin="15" CornerRadius="10"  HeightRequest="200" IsClippedToBounds="True" Padding="0" HasShadow="True" Visual="Material">
                     <Image x:Name="imgTest" Source="test.jpg" Aspect="AspectFill"></Image>
                 </Frame>
 
-                <Button HeightRequest="60" CornerRadius="20" Visual="Material" Clicked="OnPickPhotoButtonClicked" WidthRequest="60"  TextColor="Black" BackgroundColor="#efefef" Text="&#xf083;" Margin="0,-20,0,0" FontFamily="{StaticResource FA-Solid}"  FontSize="Large" HorizontalOptions="Center">
+                <Button HeightRequest="50" CornerRadius="10" Visual="Material" Clicked="OnPickPhotoButtonClicked" WidthRequest="50"  TextColor="Black" BackgroundColor="#efefef" Text="&#xf030;" Margin="0,-40,0,0" FontFamily="{StaticResource FA-Solid}"  FontSize="Large" HorizontalOptions="Center">
                 </Button>
 
                 <StackLayout Padding="15">

@@ -11,6 +11,7 @@ using AppRegali.Models;
 using AppRegali.Views;
 using AppRegali.ViewModels;
 using Api;
+using Java.Util;
 
 namespace AppRegali.Views
 {
@@ -20,17 +21,18 @@ namespace AppRegali.Views
     public partial class EventiPersonali : ContentPage
     {
         EventiViewModel viewModel;
+        Helpers.TranslateExtension translate = new Helpers.TranslateExtension();
 
         public EventiPersonali()
         {
             InitializeComponent();
 
-            BindingContext = viewModel = new EventiViewModel();
+            BindingContext = viewModel = new EventiViewModel(true);
         }
 
         async void OnItemSelected(object sender, SelectedItemChangedEventArgs args)
         {
-            var item = args.SelectedItem as Evento;
+            var item = args.SelectedItem as EventoDtoOutput;
             if (item == null)
                 return;
 
@@ -51,6 +53,24 @@ namespace AppRegali.Views
 
             if (viewModel.Items.Count == 0)
                 viewModel.LoadItemsCommand.Execute(null);
+        }
+
+        private async void lblComandiRapidi_Tapped(object sender, EventArgs e)
+        {
+            try
+            {
+
+                Helpers.TranslateExtension i = new Helpers.TranslateExtension();
+
+                i.Text = "Account.CambiaPassword";
+               var o = Helpers.TranslateExtension.ResMgr.Value.GetString(, translate.ci);
+
+                string action = await DisplayActionSheet("Comandi rapidi", "Annulla", "Elimina evento", "Modifica");
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
     }
 }

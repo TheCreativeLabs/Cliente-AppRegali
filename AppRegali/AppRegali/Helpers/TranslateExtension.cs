@@ -11,10 +11,10 @@ namespace AppRegali.Helpers
     [ContentProperty ("Text")]
     public class TranslateExtension : IMarkupExtension
     {
-        private CultureInfo ci;
+        public CultureInfo ci;
         const string ResourceId = "AppRegali.AppResources";
 
-        private static readonly Lazy<ResourceManager> ResMgr = new Lazy<ResourceManager>(()=> new ResourceManager(ResourceId, typeof(TranslateExtension).GetTypeInfo().Assembly));
+        public static readonly Lazy<ResourceManager> ResMgr = new Lazy<ResourceManager>(()=> new ResourceManager(ResourceId, typeof(TranslateExtension).GetTypeInfo().Assembly));
 
         public TranslateExtension()
         {

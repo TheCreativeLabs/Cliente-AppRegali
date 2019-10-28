@@ -29,6 +29,7 @@ namespace AppRegali.Views.Login
             //Se ho il token allora vado direttamente alla home
             if (ApiHelper.GetToken() != null)
             {
+                //Application.Current.MainPage = new MainPage();
                 Application.Current.MainPage = new MainPage();
             }
         }
@@ -65,7 +66,9 @@ namespace AppRegali.Views.Login
             catch (Exception Ex)
             {
                 //Navigo alla pagina d'errore.
-                await Navigation.PushAsync(new ErrorPage());
+                //await Navigation.PushAsync(new ErrorPage());
+                Application.Current.MainPage = new ErrorPage();
+
             }
         }
 
@@ -74,11 +77,12 @@ namespace AppRegali.Views.Login
             try
             {
                 await Navigation.PushModalAsync(new NavigationPage(new PasswordDimenticata()));
+
             }
             catch (Exception ex)
             {
                 //Navigo alla pagina d'errore.
-                await Navigation.PushAsync(new ErrorPage());
+                Application.Current.MainPage = new ErrorPage();
             }
         }
 
@@ -91,7 +95,8 @@ namespace AppRegali.Views.Login
             catch (Exception ex)
             {
                 //Navigo alla pagina d'errore.
-                await Navigation.PushAsync(new ErrorPage());
+                Application.Current.MainPage = new ErrorPage();
+
             }
         }
 
@@ -99,12 +104,13 @@ namespace AppRegali.Views.Login
         {
             try
             {
-                await Navigation.PushAsync(new Account.FacebookLogin());
+                Application.Current.MainPage = new Account.FacebookLogin();
             }
             catch (Exception ex)
             {
                 //Navigo alla pagina d'errore.
-                await Navigation.PushAsync(new ErrorPage());
+                Application.Current.MainPage = new ErrorPage();
+
             }
         }
 
@@ -123,7 +129,8 @@ namespace AppRegali.Views.Login
             catch (Exception ex)
             {
                 //Navigo alla pagina d'errore.
-                await Navigation.PushAsync(new ErrorPage());
+                Application.Current.MainPage = new ErrorPage();
+
             }
         }
     }

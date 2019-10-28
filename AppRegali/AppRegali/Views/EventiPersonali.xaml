@@ -4,7 +4,15 @@
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
+             xmlns:cnv="clr-namespace:AppRegali.Converter;assembly=AppRegali"
+  xmlns:conv="clr-namespace:AppRegali.Converter;assembly=AppRegali"
              x:Class="AppRegali.Views.EventiPersonali">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <conv:ByteArrayToImageSourceConverter x:Key="ByteArrayToImage" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
 
     <NavigationPage.TitleView>
         <StackLayout Orientation="Horizontal">
@@ -15,7 +23,7 @@
     </NavigationPage.TitleView>
 
     <StackLayout>
-
+      
         <ListView x:Name="EventiListView"
                 ItemsSource="{Binding Items}"
                 VerticalOptions="FillAndExpand"
@@ -29,9 +37,9 @@
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
-                        <Frame HasShadow="True" Padding="0" HeightRequest="260" Margin="20,10,20,10"  CornerRadius="10" IsClippedToBounds="True">
+                        <Frame HasShadow="True" Padding="0" HeightRequest="260" Margin="20,10,20,10"  CornerRadius="5" IsClippedToBounds="True">
                             <StackLayout>
-                                <Image Source="test.jpg" Margin="0,0,0,150"></Image>
+                                <Image Aspect="AspectFill" HeightRequest="190" Source="{Binding ImmagineEvento, Converter={StaticResource ByteArrayToImage}}" Margin="0,0,0,150"></Image>
 
                                 <Label Text="{Binding Titolo}" 
                                 d:Text="{Binding .}"
@@ -40,6 +48,9 @@
                                 <Label Text="{Binding Descrizione}" 
                                 d:Text="Item descripton" VerticalTextAlignment="End"
                                 LineBreakMode="NoWrap" Margin="15,0,0,0" />
+
+                                <Button x:Name="lblComandiRapidi" Clicked="lblComandiRapidi_Tapped"  Text="&#xf142;"  Margin="0,-50,15,15" BackgroundColor="Transparent" FontSize="Large" HorizontalOptions="End" TextColor="Black" FontFamily="{StaticResource FA-Solid}">
+                                </Button>
                             </StackLayout>
                         </Frame>
                     </ViewCell>

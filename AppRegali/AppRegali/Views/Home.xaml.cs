@@ -25,12 +25,12 @@ namespace AppRegali.Views
         {
             InitializeComponent();
 
-            BindingContext = viewModel = new EventiViewModel();
+            BindingContext = viewModel = new EventiViewModel(false);
         }
 
         async void OnItemSelected(object sender, SelectedItemChangedEventArgs args)
         {
-            var item = args.SelectedItem as Evento;
+            var item = args.SelectedItem as EventoDtoOutput;
             if (item == null)
                 return;
 
@@ -51,9 +51,6 @@ namespace AppRegali.Views
 
             if (viewModel.Items.Count == 0)
                 viewModel.LoadItemsCommand.Execute(null);
-
-
-            
         }
 
         private async void btnAbilitaRicerca_Clicked(object sender, EventArgs e)

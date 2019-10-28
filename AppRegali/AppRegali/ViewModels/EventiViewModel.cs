@@ -13,14 +13,16 @@ namespace AppRegali.ViewModels
 {
     public class EventiViewModel : BaseViewModel
     {
-        public ObservableCollection<EventoDto> Items { get; set; }
+        public ObservableCollection<EventoDtoOutput> Items { get; set; }
         public Command LoadItemsCommand { get; set; }
 
-        public EventiViewModel()
-        {
-            Items = new ObservableCollection<EventoDto>();
-            LoadItemsCommand = new Command(async () => await ExecuteLoadItemsCommand());
+        private bool SoloPersonali { get; set; }
 
+        public EventiViewModel(bool SoloEventiPersonali)
+        {
+            Items = new ObservableCollection<EventoDtoOutput>();
+            LoadItemsCommand = new Command(async () => await ExecuteLoadItemsCommand());
+            SoloPersonali = SoloEventiPersonali;
             //MessagingCenter.Subscribe<NewItemPage, Item>(this, "AddItem", async (obj, item) =>
             //{
             //    var newItem = item as Item;
@@ -40,18 +42,23 @@ namespace AppRegali.ViewModels
             {
                 Items.Clear();
 
-                HttpClient httpClient = new HttpClient();
-                httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", Api.ApiHelper.GetToken());
-                EventoClient eventoClient = new EventoClient(httpClient);
+                EventoClient eventoClient = new EventoClient(Api.ApiHelper.GetApiClient());
 
+                ICollection<EventoDtoOutput> listaEventi;
 
-                    ICollection<EventoDto> listaEventi = await eventoClient.GetEventiAsync();
+                if (SoloPersonali)
+                {
+                    listaEventi = await eventoClient.GetEventoCurrentUserAsync();
+                }
+                else
+                {
+                    listaEventi = await eventoClient.GetEventiByidUtenteAsync(null, null);
+                }
 
-                    foreach (var evento in listaEventi)
-                    {
-                        Items.Add(evento);
-                    }
-               
+                foreach (var evento in listaEventi)
+                {
+                    Items.Add(evento);
+                }
             }
             catch (Exception ex)
             {

@@ -20,11 +20,11 @@
 
     <ContentPage.Content>
         <StackLayout Padding="20">
-            <Button BackgroundColor="Transparent" FontSize="Title" FontAttributes="Bold" HorizontalOptions="Start" WidthRequest="40" TextColor="#0bbfb9" Text="&#xf00d;" FontFamily="{StaticResource FA-Solid}" Clicked="Cancel_Clicked">
+            <Button BackgroundColor="Transparent" FontSize="Title" FontAttributes="Bold" HorizontalOptions="Start" WidthRequest="40" TextColor="#c786d3" Text="&#xf00d;" FontFamily="{StaticResource FA-Solid}" Clicked="Cancel_Clicked">
             </Button>
 
             <StackLayout x:Name="stkFormRegistrazione" IsVisible="True" VerticalOptions="CenterAndExpand">
-                <Label HorizontalTextAlignment="Center" FontSize="90" TextColor="#0bbfb9" FontFamily="{x:StaticResource FA-Solid}" FontAttributes="Bold" Margin="0,0,0,10" Text="&#xf4be;"></Label>
+                <Label HorizontalTextAlignment="Center" FontSize="90" TextColor="#c786d3" FontFamily="{x:StaticResource FA-Solid}" FontAttributes="Bold" Margin="0,0,0,10" Text="&#xf4be;"></Label>
 
                 <Entry x:Name="entNome" Visual="Material" Placeholder="{translator:Translate Registrazione.Nome}" VerticalOptions="Center" TextChanged="ent_TextChanged"></Entry>
                 <Label Text="{translator:Translate Registrazione.MessaggioCampoObbligatorio}" Style="{x:StaticResource LabelValidatore}" x:Name="lblValidatorEntNome"></Label>

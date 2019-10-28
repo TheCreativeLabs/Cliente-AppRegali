@@ -27,7 +27,7 @@ namespace AppRegali.Views
         {
             InitializeComponent();
 
-            var item = new Evento
+            var item = new EventoDtoOutput
             {
                 Titolo = "Item 1",
                 Descrizione = "This is an item description."

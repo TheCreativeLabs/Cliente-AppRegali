@@ -6,8 +6,8 @@ namespace AppRegali.ViewModels
 {
     public class EventoDetailViewModel : BaseViewModel
     {
-        public Evento Item { get; set; }
-        public EventoDetailViewModel(Evento item = null)
+        public EventoDtoOutput Item { get; set; }
+        public EventoDetailViewModel(EventoDtoOutput item = null)
         {
             Title = item?.Titolo;
             Item = item;

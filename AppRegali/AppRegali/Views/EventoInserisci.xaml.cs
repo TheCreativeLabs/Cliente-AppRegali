@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using AppRegali.ViewModels;
 using System.IO;
 using DependencyServiceDemos;
+using System.Text;
 
 namespace AppRegali.Views
 {
@@ -22,6 +23,7 @@ namespace AppRegali.Views
     {
         CategorieViewModel viewModel;
 
+        byte[] img;
         public EventoInserisci()
         {
             InitializeComponent();
@@ -37,12 +39,24 @@ namespace AppRegali.Views
                 viewModel.LoadItemsCommand.Execute(null);
         }
 
-        async void Save_Clicked(object sender, EventArgs e)
+        private async void Save_Clicked(object sender, EventArgs e)
         {
-            HttpClient httpClient = new HttpClient();
-            httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", ApiHelper.GetToken());
-            EventoClient eventoClient = new EventoClient(httpClient);
+            EventoClient eventoClient = new EventoClient(ApiHelper.GetApiClient());
 
+            //Costruisco l'evento
+            EventoDtoInput evento = new EventoDtoInput()
+            {
+                Titolo = entTitolo.Text,
+                Descrizione = edDescrizione.Text,
+                IdCategoriaEvento = ((EventoCategoria)pkCategoria.SelectedItem).Id.Value,
+                DataEvento = dpDataEvento.Date,
+                ImmagineEvento = img
+            };
+
+            //Inserisco l'evento
+            var eventoInserito = await eventoClient.InserisciEventoAsync(evento);
+
+            //Torno alla pagina di lista
             await Navigation.PopModalAsync();
         }
 
@@ -50,12 +64,6 @@ namespace AppRegali.Views
         {
             await Navigation.PopModalAsync();
         }
-
-        //private async void entCategoria_Focused(object sender, FocusEventArgs e)
-        //{
-        //    entCategoria.Unfocus();
-        //    await Navigation.PushAsync(new SelezioneCategoria());
-        //}
 
         private void entDataEvento_Focused(object sender, FocusEventArgs e)
         {
@@ -90,6 +98,12 @@ namespace AppRegali.Views
             if (stream != null)
             {
                 imgTest.Source = ImageSource.FromStream(() => stream);
+
+                using (var memoryStream = new MemoryStream())
+                {
+                    stream.CopyTo(memoryStream);
+                    img = memoryStream.ToArray();
+                }
             }
 
             (sender as Button).IsEnabled = true;

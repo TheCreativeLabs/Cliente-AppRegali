@@ -28,6 +28,8 @@ namespace AppRegali.Views
             };
 
             MyListView.ItemsSource = Items;
+
+            entRicerca.Focus();
         }
 
         async void Handle_ItemTapped(object sender, ItemTappedEventArgs e)

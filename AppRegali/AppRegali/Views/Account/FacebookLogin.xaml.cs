@@ -72,8 +72,9 @@ namespace AppRegali.Views.Account
                     //registro l'utente
                     await accountClient.RegisterExternalAsync(registerExternalBindingModel);
                 }
-               
-                Application.Current.MainPage = new MainPage();
+
+                Application.Current.MainPage = new NavigationPage( new MainPage());
+
             }
         }
 

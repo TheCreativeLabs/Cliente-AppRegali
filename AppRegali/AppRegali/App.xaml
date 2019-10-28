@@ -4,8 +4,7 @@
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
-             x:Class="AppRegali.App"
-             >
+             x:Class="AppRegali.App">
 
     <Application.Resources>
         <ResourceDictionary>
@@ -20,7 +19,7 @@
             </OnPlatform>
 
             <Style TargetType="Button" x:Key="primaryButton">
-                <Setter Property="BackgroundColor" Value="#0bbfb9"/>
+                <Setter Property="BackgroundColor" Value="#c786d3"/>
                 <Setter Property="Text" Value="White"/>
             </Style>
 

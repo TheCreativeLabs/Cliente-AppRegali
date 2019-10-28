@@ -92,12 +92,12 @@ namespace AppRegali.Views
                 else
                 {
                     //Eseguo il logout
-
                     AccountClient accountClient = new AccountClient(ApiHelper.GetApiClient());
                     await accountClient.LogoutAsync();
 
                     //Rimuovo il token e navigo alla home
                     Api.ApiHelper.DeleteToken();
+                    Application.Current.MainPage = new Login.Login();
                 }
             }
             catch (Exception ex)

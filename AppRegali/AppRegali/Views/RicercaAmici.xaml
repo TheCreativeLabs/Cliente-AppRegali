@@ -10,7 +10,7 @@
 
     <NavigationPage.TitleView>
         <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand" Padding="10">
-            <Entry TextColor="White" Placeholder="Ricerca amici" Margin="-10,0,10,10" PlaceholderColor="White" HorizontalOptions="FillAndExpand"/>
+            <Entry x:Name="entRicerca" TextColor="White" Placeholder="Ricerca amici" Margin="-10,0,10,10" PlaceholderColor="White" VerticalOptions="CenterAndExpand" HorizontalOptions="FillAndExpand"/>
         </StackLayout> 
     </NavigationPage.TitleView>
     
