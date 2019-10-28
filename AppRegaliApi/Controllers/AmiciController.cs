@@ -24,7 +24,6 @@ namespace AppRegaliApi.Controllers
     {
         private DbDataContext dbDataContext = new DbDataContext();
         private ApplicationDbContext dbContext = new ApplicationDbContext();
-        UserInfoMapper userInfoMapper = new UserInfoMapper();
 
         public AmiciController()
         {
@@ -44,13 +43,13 @@ namespace AppRegaliApi.Controllers
 
             //FIXME inserire anche immagine da Facebook 
             //ExternalLoginData externalLogin = ExternalLoginData.FromIdentity(User.Identity as ClaimsIdentity);
-            UserInfoDto dto = userInfoMapper.UserInfoToUserInfoDto(userInfo, email);
-            return Ok(userInfo);
+            UserInfoDto dto = UserInfoMapper.UserInfoToUserInfoDto(userInfo, email);
+            return Ok(dto);
         }
         
         [HttpGet]
         [Route("CurrentUserInfo")]
-        [ResponseType(typeof(UserInfo))]
+        [ResponseType(typeof(UserInfoDto))]
         public async Task<IHttpActionResult> GetCurrentUserInfoAsync() 
         {
             return await GetUserInfoByIdUsersAsync(new Guid(User.Identity.GetUserId()));
@@ -64,22 +63,31 @@ namespace AppRegaliApi.Controllers
         /// Tra gli amici che hanno accettato sono inclusi sia gli amici che hanno fatto richiesta sia gli amici che hanno ricevuto richiesta
         /// </summary>
         /// <returns>List<UserInfo> : amici dell'utente corrente</returns>
-        [HttpGet]
-        [Route("AmiciCurrentUser")]
-        public async Task<List<UserInfo>> GetAmiciOfCurrentUser()
-        {
-            Guid currentUserId = new Guid(User.Identity.GetUserId());
+        //[HttpGet]
+        //[Route("AmiciCurrentUser")]
+        //[ResponseType(typeof(Task<List<UserInfoDto>>))]
+        //public async Task<List<UserInfoDto>> GetAmiciOfCurrentUser()
+        //{
+        //    Guid currentUserId = new Guid(User.Identity.GetUserId());
 
-            List<Guid> idAmici = await AmiciUtility.GetIdAmiciOfUser(currentUserId);
+        //    List<Guid> idAmici = await AmiciUtility.GetIdAmiciOfUser(currentUserId);
 
-            List<UserInfo> amici = await dbDataContext.UserInfo.Where(x => idAmici.Contains(x.IdAspNetUser)).ToListAsync();
-            return amici;
-        }
+        //    List<UserInfo> amici = await dbDataContext.UserInfo.Where(x => idAmici.Contains(x.IdAspNetUser)).ToListAsync();
+        //    //var query =
+        //    //           from info in dbDataContext.UserInfo
+        //    //           join user in dbContext.Users on info.IdAspNetUser equals user.Id
+        //    //           where idAmici.Contains(info.IdAspNetUser)
+        //    //           select new UserInfoDto { Nome = info.Nome, 
+        //    //                                    Cognome = info.Cognome,
+        //    //                                    FotoProfilo = info.FotoProfilo,
+        //    //                                    Email = user.Email};
+        //    return amici;
+        //}
 
         [HttpPost]
-        [Route("AmiciziaCreate/{idDestinatario?}", Name = "AmiciziaCreate")]
+        [Route("AmiciziaCreate", Name = "AmiciziaCreate")]
         [ResponseType(typeof(Evento))]
-        public IHttpActionResult InserisciAmicizia([FromUri]String idDestinatario)
+        public IHttpActionResult InserisciAmicizia(String idDestinatario)
         {
             if (!ModelState.IsValid)
             {
@@ -112,7 +120,46 @@ namespace AppRegaliApi.Controllers
                                    amicizia);
         }
 
-        //todo crea amicizia, rimuovi amicizia, get stato amicizia
+        //todo crea amicizia, rimuovi amicizia, get stato amicizia, accetta amicizia
+
+
+        //[HttpDelete]
+        //[Route("AmiciziaDelete", Name = "AmiciziaDelete")]
+        //[ResponseType(typeof(Evento))]
+        //public async Task<IHttpActionResult> DeleteAmicizia(Guid IdCurrent, Guid IdAmico)
+        //{
+        //    if (IdCurrent == null || IdCurrent == Guid.Empty || IdAmico == null || IdAmico == Guid.Empty || !ModelState.IsValid)
+        //    {
+        //        return BadRequest(ModelState);
+        //    }
+        //    UserAmicizia userAmicizia = await dbDataContext.UserAmicizia
+        //                                        .FirstOrDefaultAsync(x => (
+        //                                                                    (x.IdUserRichiedente == IdCurrent && x.IdUserDestinatario == IdAmico)
+        //                                                                    || (x.IdUserRichiedente == IdAmico && x.IdUserDestinatario == IdCurrent)
+        //                                                                  ) 
+        //                                                            );
+            
+
+        //    try
+        //    {
+        //        dbDataContext.SaveChanges();
+        //    }
+        //    catch (DbUpdateException)
+        //    {
+        //        if (UserAmiciziaExists(amicizia.IdUserDestinatario, amicizia.IdUserRichiedente))
+        //        {
+        //            return Conflict();
+        //        }
+        //        else
+        //        {
+        //            throw;
+        //        }
+        //    }
+
+        //    return CreatedAtRoute("AmiciziaCreate",
+        //                           new { IdUserDestinatario = amicizia.IdUserDestinatario, IdUserRichiedente = amicizia.IdUserRichiedente },
+        //                           amicizia);
+        //}
 
         private bool UserAmiciziaExists(Guid IdUserDestinatario, Guid IdUserRichiedente)
         {

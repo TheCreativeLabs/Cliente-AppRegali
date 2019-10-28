@@ -9,14 +9,13 @@ namespace AppRegaliApi.Models
         {
         }
 
-        public UserInfoDto UserInfoToUserInfoDto(UserInfo userInfo, String email)
+        public static UserInfoDto UserInfoToUserInfoDto(UserInfo userInfo, String email)
         {
             UserInfoDto userInfoDto = new UserInfoDto();
             userInfoDto.Cognome = userInfo.Cognome;
             userInfoDto.Nome = userInfo.Nome;
             userInfoDto.DataDiNascita = userInfo.DataDiNascita;
             userInfoDto.FotoProfilo = userInfo.FotoProfilo;
-            userInfoDto.Id = userInfo.Id;
             userInfoDto.IdAspNetUser = userInfo.IdAspNetUser;
             userInfoDto.Email = email;
             return userInfoDto;

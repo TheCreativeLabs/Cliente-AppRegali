@@ -334,8 +334,10 @@
     <Compile Include="Controllers\EventoController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
-    <Compile Include="Dto\EventoDto.cs" />
-    <Compile Include="Dto\RegaloDto.cs" />
+    <Compile Include="Dto\EventoDtoInput.cs" />
+    <Compile Include="Dto\EventoDtoOutput.cs" />
+    <Compile Include="Dto\RegaloDtoInput.cs" />
+    <Compile Include="Dto\RegaloDtoOutput.cs" />
     <Compile Include="Dto\UserInfoDto.cs" />
     <Compile Include="FacebookBackChannelHandler.cs" />
     <Compile Include="Global.asax.cs">
@@ -377,6 +379,8 @@
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
+    <Content Include="Images\birthday.jpg" />
+    <Content Include="Images\marriage.jpg" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Areas\HelpPage\Views\Web.config" />

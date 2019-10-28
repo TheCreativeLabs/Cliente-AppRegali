@@ -6,14 +6,12 @@ namespace AppRegaliApi.Models
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    public partial class EventoDto
+    public partial class EventoDtoInput
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public EventoDto()
+        public EventoDtoInput()
         {
         }
-
-        public String Id { get; set; }
 
         [Required]
         [StringLength(128)]
@@ -25,19 +23,14 @@ namespace AppRegaliApi.Models
         [Required]
         public DateTime DataEvento { get; set; }
 
-        public DateTime? DataModifica { get; set; }
-
-        public DateTime DataCreazione { get; set; }
-
         public bool? Cancellato { get; set; }
 
         [Required]
         public Guid IdCategoriaEvento { get; set; }
 
-        public string IdImmagineEvento { get; set; }
-
+        [Required]
         public byte[] ImmagineEvento { get; set; }
 
-        public List<RegaloDto> Regali { get; set; }
+        public List<RegaloDtoOutput> Regali { get; set; }
     }
 }

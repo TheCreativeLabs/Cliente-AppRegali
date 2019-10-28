@@ -15,104 +15,109 @@ using Microsoft.AspNet.Identity;
 
 namespace AppRegaliApi.Controllers
 {
-    
+
     [Authorize]
     [RoutePrefix("api/Evento")]
     public class EventoController : ApiController
     {
         private DbDataContext dbDataContext = new DbDataContext();
-        private EventoMapper eventoMapper = new EventoMapper();
-        private RegaloMapper regaloMapper = new RegaloMapper();
+
+        #region "Categorie"
 
         [HttpGet]
-        [Route("LookupCategorie")]
+        [Route("Categorie")]
         public async Task<List<EventoCategoria>> GetLookupEventoCategoria()
         {
             List<EventoCategoria> categorie = await dbDataContext.EventoCategoria.ToListAsync();
             return categorie;
         }
 
-        // GET: api/Evento/Eventi
-        //restituisce una lista piatta di eventi: nella risposta non sono compresi gli oggetti figli
-        [HttpGet]
-        [Route("Eventi")]
-        public async Task<List<EventoDto>> GetEventi()
-        {
-            List<Evento> eventi = await dbDataContext.Evento.ToListAsync();
-            return eventoMapper.EventoToEventoDtoList(eventi);
-        }
+        #endregion
 
-        // GET: api/Evento/EventoById/5
+        #region "Eventi"
+
+        //GET: api/Evento/EventoById/?id=1
         //dato un id, restituisce l'evento. l'oggetto restituito è piatto: nella risposta non sono compresi gli oggetti figli
         [HttpGet]
-        [Route("EventoById/{id}")]
-        [ResponseType(typeof(EventoDto))]
-        public async Task<IHttpActionResult> GetEventoByIdAsync(Guid id)
+        [Route("EventoById")]
+        [ResponseType(typeof(EventoDtoOutput))]
+        public async Task<IHttpActionResult> GetEventoByIdAsync(Guid Id)
         {
-            Evento evento = await dbDataContext.Evento.Include(x => x.Regalo).Include(x => x.ImmagineEvento).SingleOrDefaultAsync(x => x.Id == id);
+            Evento evento = null;
 
-            return Ok(eventoMapper.EventoToEventoDto(evento));
+            //Controllo se Id è valorizzato.
+            if (Id != Guid.Empty)
+            {
+                evento = await dbDataContext.Evento.Include(x => x.Regalo).Include(x => x.ImmagineEvento).SingleOrDefaultAsync(x => x.Id == Id);
+            }
+
+            return Ok(EventoMapper.EventoToEventoDto(evento));
+        }
+
+        [HttpGet]
+        [Route("EventiCurrentUser")]
+        [ResponseType(typeof(List<EventoDtoOutput>))]
+        public async Task<IHttpActionResult> GetEventoCurrentUser()
+        {
+            Guid currentUser = new Guid(User.Identity.GetUserId());
+            List<Evento> eventi = await dbDataContext.Evento
+                           .Include(x => x.ImmagineEvento)
+                           .Where(x => x.IdUtenteCreazione == currentUser)
+                           .OrderBy(x => x.DataEvento)
+                           .ToListAsync();
+
+            return Ok(EventoMapper.EventoToEventoDtoList(eventi));
         }
 
         // GET: api/Evento/EventiByIdUtenteIdCategoria?idUtente=1&idCategoria=2
         //dato un id utente e una categoria, restituisce tutti gli eventi di quell'utente.
         //l'oggetto restituito è piatto: nella risposta non sono compresi gli oggetti figli
-
-            //fixme solo amici
         [HttpGet]
-        [Route("EventiByIdUtenteIdCategoria/{idUtente?}/{idCategoria?}")]
-        public async Task<List<EventoDto>> GetEventiByidUtente([FromUri]String idUtente=null, [FromUri]String idCategoria =null)
+        [Route("EventiAmiciFiltered")]
+        public async Task<List<EventoDtoOutput>> GetEventiByidUtente(string IdUtente = null, string IdCategoria = null)
         {
+            //Ottengo la lista degli amici
             List<Guid> idAmici = await AmiciUtility.GetIdAmiciOfUser(new Guid(User.Identity.GetUserId()));
 
-            IQueryable<Evento> query = dbDataContext.Evento.Include(x => x.ImmagineEvento);
-            query = query.Where(x => idAmici.Contains(x.IdUtenteCreazione));
-            if (idUtente != null)
-            {
-                Guid guidUtente = new Guid(idUtente);
-                Expression<Func<Evento, bool>> idUtenteMatch = c => c.IdUtenteCreazione == guidUtente;
-                query = query.Where(idUtenteMatch);
-            }
-            if (idCategoria != null)
-            {
-                Guid guidCategoria = new Guid(idCategoria);
-                Expression<Func<Evento, bool>> idCategoriaMatch = c => c.IdCategoriaEvento == guidCategoria;
-                //metto la condizione sulla categoria in AND
-                query = query.Where(idCategoriaMatch);
-            }
-            query = query.Where(x => x.DataEvento >= DateTime.Now).OrderBy(x => x.DataEvento);
-
-            List<Evento> eventi = await query.ToListAsync();
-            return eventoMapper.EventoToEventoDtoList(eventi);
+            //Ottengo gli eventi
+            List<Evento> eventi = await dbDataContext.Evento
+                           .Include(x => x.ImmagineEvento)
+                           .Where(x => (idAmici.Contains(x.IdUtenteCreazione)
+                                     & (IdUtente == null || x.IdUtenteCreazione.ToString() == IdUtente))
+                                     & (IdCategoria == null || x.IdCategoriaEvento.ToString() == IdCategoria))
+                           .OrderBy(x => x.DataEvento)
+                           .ToListAsync();
+                          
+            return EventoMapper.EventoToEventoDtoList(eventi);
         }
 
-        // PUT: api/Evento/EventoUpdate
-        //FIXME verificare come si comporta se un evento ha già dei regalil
+        // PUT: api/Evento/EventoUpdate/1
         [HttpPut]
-        [Route("EventoUpdate")]
-        [ResponseType(typeof(void))]
-        public IHttpActionResult UpdateEvento(EventoDto dto)
+        [Route("EventoUpdate/{IdEvento:Guid}")]
+        [ResponseType(typeof(Evento))]
+        public async Task<IHttpActionResult> UpdateEvento([FromUri]Guid IdEvento, [FromBody]EventoDtoInput Evento)
         {
-            Evento evento = eventoMapper.EventoDtoToEvento(dto, new Guid(dto.Id));
-            evento.EventoCategoria = null;
-            //dbDataContext.Entry(evento.EventoCategoria).State = EntityState.Unchanged;
-            evento.ImmagineEvento = null;
-            //dbDataContext.Entry(evento.ImmagineEvento).State = EntityState.Unchanged;
-            evento.Regalo = null;
-            //dbDataContext.Entry(evento.Regalo).State = EntityState.Unchanged;//FIXME FARE FOREACH e  verificare che non li cancelli
-            if (!ModelState.IsValid)
+            //Controllo che i parametri siano valorizzati
+            if (Evento == null || !ModelState.IsValid || (IdEvento == null || IdEvento == Guid.Empty))
             {
                 return BadRequest(ModelState);
             }
 
-            if (evento.Id != null) {
-                dbDataContext.Evento.Attach(evento);
-                dbDataContext.Entry(evento).State = EntityState.Modified;
-            }
+            //Cerco l'evento
+            Evento evento = await dbDataContext.Evento.Include(x => x.ImmagineEvento).Where(x => x.Id == IdEvento).FirstAsync();
+
+            //Modifico l'evento
+            evento.Titolo = Evento.Titolo;
+            evento.Descrizione = Evento.Descrizione;
+            evento.DataModifica = DateTime.Now;
+            evento.DataEvento = Evento.DataEvento;
+            evento.Cancellato = Evento.Cancellato;
+            evento.ImmagineEvento.Immagine = Evento.ImmagineEvento;
 
             try
             {
-                dbDataContext.SaveChanges();
+                //Salvo le modifiche sul DB.
+                await dbDataContext.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -126,35 +131,54 @@ namespace AppRegaliApi.Controllers
                 }
             }
 
-            return StatusCode(HttpStatusCode.NoContent);
+            //return StatusCode(HttpStatusCode.NoContent);
+            return Ok(evento);
+                //CreatedAtRoute("UpdateEvento", new { id = evento.Id }, evento);
         }
 
         // POST: api/Evento/EventoCreate
         [HttpPost]
         [Route("EventoCreate", Name = "EventoCreate")]
         [ResponseType(typeof(Evento))]
-        public IHttpActionResult InserisciEvento(EventoDto eventoDto)
+        public async Task<IHttpActionResult> InserisciEvento(EventoDtoInput Evento)
         {
-            Evento evento = eventoMapper.EventoDtoToEvento(eventoDto, new Guid(User.Identity.GetUserId()));
-            evento.DataCreazione = DateTime.Now;
-            if (eventoDto.IdImmagineEvento == null && eventoDto.ImmagineEvento != null)
-            {
-                //fixme createImmagineEvento();
-                ImmagineEvento immEvento = new ImmagineEvento();
-                immEvento.Immagine = eventoDto.ImmagineEvento;
-                evento.ImmagineEvento = immEvento;
-            }
-            if (!ModelState.IsValid)
+            //Controllo se il modello è valido
+            if (Evento == null || !ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-            dbDataContext.ImmagineEvento.Attach(evento.ImmagineEvento);
-            dbDataContext.Entry(evento.ImmagineEvento).State = EntityState.Added;
+
+            //Creo l'immagine
+            ImmagineEvento immagineEvento = new ImmagineEvento()
+            {
+                Id = new Guid(),
+                Immagine = Evento.ImmagineEvento
+            };
+
+            //Salvo l'immagine sul DB
+            dbDataContext.ImmagineEvento.Add(immagineEvento);
+
+            //Creo l'Evento
+            Evento evento = new Evento()
+            {
+                Id = new Guid(),
+                Titolo = Evento.Titolo,
+                Descrizione = Evento.Descrizione,
+                IdUtenteCreazione = new Guid(User.Identity.GetUserId()),
+                DataCreazione = DateTime.Now,
+                DataModifica = DateTime.Now,
+                DataEvento = Evento.DataEvento,
+                Cancellato = false,
+                IdImmagineEvento = immagineEvento.Id,
+                IdCategoriaEvento = Evento.IdCategoriaEvento
+            };
+
+            //Salvo l'evento sul DB
             dbDataContext.Evento.Add(evento);
 
             try
             {
-                dbDataContext.SaveChanges();
+                await dbDataContext.SaveChangesAsync();
             }
             catch (DbUpdateException)
             {
@@ -168,78 +192,165 @@ namespace AppRegaliApi.Controllers
                 }
             }
 
-            return CreatedAtRoute("EventoCreate", new { id = evento.Id }, evento);
+            return Ok(evento);
+            //In questo modo mi da un 201 da FE, e si blocca l'esecuizione: come si può risolvere?
+            //CreatedAtRoute("EventoCreate", new { id = evento.Id }, evento);
         }
 
         // DELETE: api/Evento/EventoDelete/5
         [HttpDelete]
         [Route("EventoDelete/{id}")]
-        [ResponseType(typeof(EventoDto))]
-        public IHttpActionResult DeleteEvento(Guid id)
+        [ResponseType(typeof(EventoDtoOutput))]
+        public async Task<IHttpActionResult> DeleteEvento(Guid Id)
         {
-            Evento evento = dbDataContext.Evento.Find(id);
+            Evento evento = await dbDataContext.Evento
+                                                .Include(x => x.Regalo)
+                                                .Include(x => x.Regalo.Select(y => y.ImmagineRegalo))
+                                                .Include(x => x.ImmagineEvento)
+                                                .FirstOrDefaultAsync(x => x.Id == Id);
             if (evento == null)
             {
                 return NotFound();
             }
 
+            if (evento.ImmagineEvento != null)
+            {
+                dbDataContext.ImmagineEvento.Remove(evento.ImmagineEvento);
+            }
+
+            if (evento.Regalo != null)
+            {
+                List<Guid> guidRegali = new List<Guid>();
+                foreach (Regalo reg in evento.Regalo)
+                {
+                    //guidRegali.Add(reg.Id);
+                    if (reg.ImmagineRegalo != null)
+                    {
+                        dbDataContext.ImmagineRegalo.Remove(reg.ImmagineRegalo);
+                    }
+                }
+
+                dbDataContext.Regalo.RemoveRange(evento.Regalo);
+            }
+
             dbDataContext.Evento.Remove(evento);
             dbDataContext.SaveChanges();
 
-            return Ok(eventoMapper.EventoToEventoDto(evento));
+            return Ok();
         }
 
-        //-------------------------------------------------------
-        //-----------------inizio API regali---------------------
-        //-------------------------------------------------------
+        #endregion
 
-        // GET: api/Evento/RegaloById/5
+        #region "Regali"
+
+        private async Task<ImmagineRegalo> createOrUpdateImmagineRegalo(byte[] Immagine, string IdImmagineRegalo)
+        {
+
+            ImmagineRegalo immRegalo;
+            if (IdImmagineRegalo != null)
+            {
+                immRegalo = await dbDataContext.ImmagineRegalo.FindAsync(new Guid(IdImmagineRegalo));
+                dbDataContext.ImmagineRegalo.Attach(immRegalo);
+                dbDataContext.Entry(immRegalo).State = EntityState.Modified;
+            }
+            else
+            {
+                immRegalo = new ImmagineRegalo();
+                dbDataContext.ImmagineRegalo.Attach(immRegalo);
+                dbDataContext.Entry(immRegalo).State = EntityState.Added;
+            }
+            immRegalo.Immagine = Immagine;
+            return immRegalo;
+        }
+
+        // GET: api/Evento/RegaloById/?id=5
         //dato un id, restituisce il regalo. l'oggetto restituito è piatto: nella risposta non sono compresi gli oggetti figli
         [HttpGet]
-        [Route("RegaloById/{id}")]
-        [ResponseType(typeof(RegaloDto))]
-        public IHttpActionResult GetRegaloById(Guid id)
+        [Route("RegaloById")]
+        [ResponseType(typeof(RegaloDtoOutput))]
+        public async Task<IHttpActionResult> GetRegaloById(Guid Id)
         {
-            Regalo regalo = dbDataContext.Regalo.Find(id);
+            Regalo regalo = null;
 
-            return Ok(regaloMapper.RegaloToRegaloDto(regalo));
+            //Controllo se Id è valorizzato.
+            if (Id != Guid.Empty)
+            {
+                regalo = await dbDataContext.Regalo.Include(x => x.ImmagineRegalo).SingleOrDefaultAsync(x => x.Id == Id);
+            }
+            return Ok(RegaloMapper.RegaloToRegaloDto(regalo));
         }
 
-        // GET: api/Evento/RegaliByIdEvento/5
+        // GET: api/Evento/RegaliByIdEvento/?IdEvento=5
         //dato un id categoria, restituisce tutti gli eventi di quella categoria.
         //l'oggetto restituito è piatto: nella risposta non sono compresi gli oggetti figli
         [HttpGet]
-        [Route("RegaliByIdEvento/{idEvento}")]
-        public async Task<List<RegaloDto>> GetRegaliByIdUtente(Guid idEvento)
+        [Route("RegaliByIdEvento")]
+        public async Task<List<RegaloDtoOutput>> GetRegaliByIdEvento(Guid IdEvento)
         {
-            List<Regalo> regali = await dbDataContext.Regalo.Where(x => x.IdEvento == idEvento).ToListAsync();
-            return regaloMapper.RegaloToRegaloDtoList(regali);
+            List<Regalo> regali = await dbDataContext.Regalo.Where(x => x.IdEvento == IdEvento).ToListAsync();
+            return RegaloMapper.RegaloToRegaloDtoList(regali);
         }
 
         // PUT: api/Evento/RegaloUpdate
         //FIXME verificare come si comporta con i figli
         [HttpPut]
-        [Route("RegaloUpdate")]
+        [Route("RegaloUpdate/{IdRegalo:Guid}")]
         [ResponseType(typeof(void))]
-        public IHttpActionResult UpdateRegalo(RegaloDto dto)
+        public async Task<IHttpActionResult> UpdateRegalo([FromUri]Guid IdRegalo, [FromBody]RegaloDtoInput RegaloDto)
         {
-            Regalo regalo = regaloMapper.RegaloDtoToRegalo(dto);
-            //FIXME
-            regalo.ImmagineRegalo = null;
-            regalo.Evento = null;
-            if (!ModelState.IsValid)
+            //Controllo che i parametri siano valorizzati
+            if (RegaloDto == null || !ModelState.IsValid || (IdRegalo == null || IdRegalo == Guid.Empty))
             {
                 return BadRequest(ModelState);
             }
 
-            if (regalo.Id != null)
+            //Cerco il regalo
+            Regalo regalo = await dbDataContext.Regalo.Include(x => x.ImmagineRegalo).Where(x => x.Id == IdRegalo).FirstAsync();
+
+            //Modifico il regalo
+
+            regalo.Cancellato = RegaloDto.Cancellato;
+            regalo.Descrizione = RegaloDto.Descrizione;
+            regalo.ImportoCollezionato = RegaloDto.ImportoCollezionato;
+            regalo.Prezzo = RegaloDto.Prezzo;
+            regalo.Titolo = RegaloDto.Titolo;
+
+
+            if (RegaloDto.ImmagineRegalo != null)
             {
-                dbDataContext.Regalo.Attach(regalo);
-                dbDataContext.Entry(regalo).State = EntityState.Modified;
+                ImmagineRegalo immagineRegalo = new ImmagineRegalo()
+                {
+                    Id = (regalo.IdImmagineRegalo.HasValue ? regalo.IdImmagineRegalo.Value : new Guid()),
+                    Immagine = RegaloDto.ImmagineRegalo
+                };
+
+                regalo.ImmagineRegalo = immagineRegalo;
             }
+
+
+            //regalo.ImmagineRegalo.Immagine = RegaloDto.ImmagineRegalo;
+            //await createOrUpdateImmagineRegalo(RegaloDto.ImmagineRegalo, regalo.IdImmagineRegalo.ToString());
+
+            //Regalo regalo = RegaloMapper.RegaloDtoToRegalo(dto);
+            ////FIXME
+            //regalo.ImmagineRegalo = null;
+            //regalo.Evento = null;
+            //if (!ModelState.IsValid)
+            //{
+            //    return BadRequest(ModelState);
+            //}
+
+            //if (regalo.Id != null)
+            //{
+            //    ImmagineRegalo immRegalo = await createOrUpdateImmagineRegalo(dto.ImmagineRegalo, dto.IdImmagineRegalo);
+            //    regalo.ImmagineRegalo = immRegalo;
+            //    dbDataContext.Regalo.Attach(regalo);
+            //    dbDataContext.Entry(regalo).State = EntityState.Modified;
+            //}
 
             try
             {
+                //Salvo le modifiche sul DB.
                 dbDataContext.SaveChanges();
             }
             catch (DbUpdateConcurrencyException)
@@ -254,20 +365,42 @@ namespace AppRegaliApi.Controllers
                 }
             }
 
-            return StatusCode(HttpStatusCode.NoContent);
+            return Ok(regalo);
         }
 
         // POST: api/Evento/RegaloCreate
         [HttpPost]
         [Route("RegaloCreate", Name = "RegaloCreate")]
         [ResponseType(typeof(Evento))]
-        public IHttpActionResult InserisciRegalo(RegaloDto dto)
+        public async Task<IHttpActionResult> InserisciRegalo(RegaloDtoInput Dto)
         {
-            Regalo regalo = regaloMapper.RegaloDtoToRegalo(dto);
+
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
+
+
+            //Regalo regalo = new Regalo();
+            //regalo = RegaloMapper.RegaloDtoInputToRegalo(Dto, regalo);
+            Regalo regalo = new Regalo()
+            {
+                Id = new Guid(),
+                Cancellato = Dto.Cancellato,
+                Descrizione = Dto.Descrizione,
+                IdEvento = Dto.IdEvento,
+                Prezzo = Dto.Prezzo,
+                Titolo = Dto.Titolo,
+                ImportoCollezionato = 0
+            };
+
+
+            if (Dto.ImmagineRegalo != null)
+            {
+                regalo.ImmagineRegalo = await createOrUpdateImmagineRegalo(Dto.ImmagineRegalo, null);
+            }
+
+
 
             dbDataContext.Regalo.Add(regalo);
 
@@ -287,26 +420,31 @@ namespace AppRegaliApi.Controllers
                 }
             }
 
-            return CreatedAtRoute("RegaloCreate", new { id = regalo.Id }, regalo);
+            return Ok(regalo);
         }
 
         // DELETE: api/Evento/RegaloDelete/5
         [HttpDelete]
         [Route("RegaloDelete/{id}")]
-        [ResponseType(typeof(RegaloDto))]
-        public IHttpActionResult DeleteRegalo(Guid id)
+        [ResponseType(typeof(RegaloDtoOutput))]
+        public async Task<IHttpActionResult> DeleteRegalo(Guid id)
         {
-            Regalo regalo = dbDataContext.Regalo.Find(id);
+            Regalo regalo = await dbDataContext.Regalo.Include(x => x.ImmagineRegalo).SingleOrDefaultAsync(x => x.Id == id);
             if (regalo == null)
             {
                 return NotFound();
             }
 
+            if (regalo.ImmagineRegalo != null)
+            {
+                dbDataContext.ImmagineRegalo.Remove(regalo.ImmagineRegalo);
+            }
             dbDataContext.Regalo.Remove(regalo);
             dbDataContext.SaveChanges();
 
-            return Ok(regaloMapper.RegaloToRegaloDto(regalo));
+            return Ok();
         }
+        #endregion
 
         protected override void Dispose(bool disposing)
         {

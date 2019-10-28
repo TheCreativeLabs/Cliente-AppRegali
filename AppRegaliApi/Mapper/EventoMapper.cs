@@ -4,16 +4,11 @@ namespace AppRegaliApi.Models
     using System.Collections.Generic;
     using System.Linq;
     using System.Security.Principal;
+    using System.Threading.Tasks;
 
-    public partial class EventoMapper
+    public static partial class EventoMapper
     {
-        public EventoMapper()
-        {
-        }
-
-        RegaloMapper regaloMapper = new RegaloMapper();
-
-        public Evento EventoDtoToEvento(EventoDto dto, Guid CurrentUserId )
+        public static Evento EventoDtoToEvento(EventoDtoOutput dto, Guid UserId )
         {
             Evento evento = new Evento();
             if (dto.Id != null)
@@ -24,27 +19,31 @@ namespace AppRegaliApi.Models
             evento.DataEvento = dto.DataEvento;
             evento.Descrizione = dto.Descrizione;
             evento.IdCategoriaEvento = dto.IdCategoriaEvento;
-            evento.IdUtenteCreazione = CurrentUserId;
+            if (dto.IdImmagineEvento != null)
+            {
+                evento.IdImmagineEvento = new Guid(dto.IdImmagineEvento);
+            }
+            evento.IdUtenteCreazione = UserId;
             evento.Titolo = dto.Titolo;
             evento.DataCreazione = dto.DataCreazione;
             evento.DataModifica = dto.DataModifica;
-            // else if (dto.IdImmagineEvento != null && dto.ImmagineEvento != null)
-            //{
-                //fixme updateImmagineEvento
-            //}
             return evento;
         }
 
-        public EventoDto EventoToEventoDto(Evento evento)
+        public static EventoDtoOutput EventoToEventoDto(Evento evento)
         {
-            EventoDto dto = new EventoDto();
+            if(evento == null)
+            {
+                return null;
+            }
+            EventoDtoOutput dto = new EventoDtoOutput();
             if (evento.Id != null)
             {
                 dto.Id = evento.Id.ToString();
             }
             if ( evento.Regalo != null)
             {
-                dto.Regali = regaloMapper.RegaloToRegaloDtoList(evento.Regalo.Cast<Regalo>().ToList());
+                dto.Regali = RegaloMapper.RegaloToRegaloDtoList(evento.Regalo.Cast<Regalo>().ToList());
             }
             dto.Cancellato = evento.Cancellato;
             dto.DataEvento = evento.DataEvento;
@@ -52,6 +51,7 @@ namespace AppRegaliApi.Models
             dto.IdCategoriaEvento = evento.IdCategoriaEvento;
             dto.DataCreazione = evento.DataCreazione;
             dto.DataModifica = evento.DataModifica;
+            dto.IdImmagineEvento = evento.IdImmagineEvento.ToString();
             //dto.IdUtenteCreazione = evento.IdUtenteCreazione;
             //FIXME servono info sul creatore dell'evento?
             dto.Titolo = evento.Titolo;
@@ -62,9 +62,13 @@ namespace AppRegaliApi.Models
             return dto;
         }
 
-        public List<EventoDto> EventoToEventoDtoList(List<Evento> eventi)
+        public static List<EventoDtoOutput> EventoToEventoDtoList(List<Evento> eventi)
         {
-            List<EventoDto> listDto = new List<EventoDto>();
+            if (eventi == null || eventi.Count() == 0)
+            {
+                return new List<EventoDtoOutput>();
+            }
+            List<EventoDtoOutput> listDto = new List<EventoDtoOutput>();
             eventi.ForEach(x => listDto.Add(EventoToEventoDto(x)));
             return listDto;
         }

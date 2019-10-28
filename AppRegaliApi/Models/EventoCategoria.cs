@@ -26,6 +26,9 @@ namespace AppRegaliApi.Models
         [StringLength(64)]
         public string Descrizione { get; set; }
 
+        [Required]
+        public byte[] Immagine { get; set; }
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public ICollection<Evento> Evento { get; set; }
     }

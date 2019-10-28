@@ -5,7 +5,6 @@ namespace AppRegaliApi
 
     public partial class UserInfoDto
     {
-        public Guid? Id { get; set; }
 
         [StringLength(256)]
         public string Nome { get; set; }

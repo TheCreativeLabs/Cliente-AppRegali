@@ -4,40 +4,23 @@ namespace AppRegaliApi.Models
     using System.Collections.Generic;
     using System.Security.Principal;
 
-    public partial class RegaloMapper
+    public static class RegaloMapper
     {
-        public RegaloMapper()
-        {
-        }
 
-        public Regalo RegaloDtoToRegalo(RegaloDto dto)
+        public static Regalo RegaloDtoInputToRegalo(RegaloDtoInput dto, Regalo regalo)
         {
-            Regalo regalo = new Regalo();
-            if (dto.Id != null)
-            {
-                regalo.Id = new Guid(dto.Id);
-            }
             regalo.Cancellato = dto.Cancellato;
             regalo.Descrizione = dto.Descrizione;
             regalo.IdEvento = dto.IdEvento;
             regalo.Prezzo = dto.Prezzo;
             regalo.Titolo = dto.Titolo;
             regalo.ImportoCollezionato = 0;
-            if (dto.IdImmagineRegalo == null && dto.ImmagineRegalo != null)
-            {
-                ImmagineRegalo immRegalo = new ImmagineRegalo();
-                immRegalo.Immagine = dto.ImmagineRegalo;
-                regalo.ImmagineRegalo = immRegalo;
-            } else if (dto.IdImmagineRegalo != null && dto.ImmagineRegalo != null)
-            {
-                //fixme updateImmagineEvento
-            }
             return regalo;
         }
 
-        public RegaloDto RegaloToRegaloDto(Regalo regalo)
+        public static RegaloDtoOutput RegaloToRegaloDto(Regalo regalo)
         {
-            RegaloDto dto = new RegaloDto();
+            RegaloDtoOutput dto = new RegaloDtoOutput();
             if (regalo.Id != null)
             {
                 dto.Id = regalo.Id.ToString();
@@ -50,7 +33,7 @@ namespace AppRegaliApi.Models
             dto.ImportoCollezionato = regalo.ImportoCollezionato;
             if (regalo.IdImmagineRegalo != null)
             {
-                dto.IdImmagineRegalo = regalo.IdImmagineRegalo;
+                dto.IdImmagineRegalo = regalo.IdImmagineRegalo.ToString();
             }
             if ( regalo.ImmagineRegalo != null)
             {
@@ -59,9 +42,9 @@ namespace AppRegaliApi.Models
             return dto;
         }
 
-        public List<RegaloDto> RegaloToRegaloDtoList(List<Regalo> regalo)
+        public static List<RegaloDtoOutput> RegaloToRegaloDtoList(List<Regalo> regalo)
         {
-            List<RegaloDto> listDto = new List<RegaloDto>();
+            List<RegaloDtoOutput> listDto = new List<RegaloDtoOutput>();
             regalo.ForEach( x => listDto.Add(RegaloToRegaloDto(x)));
             return listDto;
         }

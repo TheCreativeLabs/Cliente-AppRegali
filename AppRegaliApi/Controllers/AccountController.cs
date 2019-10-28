@@ -453,7 +453,7 @@ namespace AppRegaliApi.Controllers
             DbDataContext dbDataContext = new DbDataContext();
             UserInfoMapper userInfoMapper = new UserInfoMapper();
             UserInfo userInfo =  dbDataContext.UserInfo.Where(user => user.IdAspNetUser.ToString() == User.Identity.GetUserId()).FirstOrDefault();
-            UserInfoDto userInfoDto = userInfoMapper.UserInfoToUserInfoDto(userInfo, UserManager.GetEmail(User.Identity.GetUserId()));
+            UserInfoDto userInfoDto = UserInfoMapper.UserInfoToUserInfoDto(userInfo, UserManager.GetEmail(User.Identity.GetUserId()));
 
             return userInfoDto;
         }

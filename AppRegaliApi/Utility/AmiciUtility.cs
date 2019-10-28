@@ -20,18 +20,25 @@ namespace AppRegaliApi.Models
             //sia nel caso in cui idUser è destinatario che nel caso in cui idUser è richiedente
 
             //current è destinatario, gli amici sono richiedenti
-            List<Guid> idAmiciRichiedenti = await dbDataContext.UserAmicizia
-                                                    .Where(x => ((x.IdUserDestinatario == idUser) && (x.Accettato)))
-                                                    .Select(x => x.IdUserRichiedente)
-                                                    .ToListAsync();
+            //List<Guid> idAmiciRichiedenti = await dbDataContext.UserAmicizia
+            //                                        .Where(x => ((x.IdUserDestinatario == idUser) && (x.Accettato)))
+            //                                        .Select(x => x.IdUserRichiedente)
+            //                                        .ToListAsync();
 
             //current è richiedente, gli amici sono destinatari
-            List<Guid> idAmiciDestinatari = await dbDataContext.UserAmicizia
-                                                    .Where(x => ((x.IdUserRichiedente == idUser) && (x.Accettato)))
-                                                    .Select(x => x.IdUserDestinatario)
-                                                    .ToListAsync();
+            //List<Guid> idAmiciDestinatari = await dbDataContext.UserAmicizia
+            //                                        .Where(x => ((x.IdUserRichiedente == idUser) && (x.Accettato)))
+            //                                        .Select(x => x.IdUserDestinatario)
+            //                                        .ToListAsync();
 
-            List<Guid> idAmiciAll = idAmiciRichiedenti.Union(idAmiciDestinatari).ToList();
+
+            List<Guid> idAmiciAll = await dbDataContext.UserAmicizia
+                                    .Where(x => (x.IdUserDestinatario == idUser || x.IdUserRichiedente == idUser) && x.Accettato == true)
+                                    .Select(x => (x.IdUserDestinatario == idUser ? x.IdUserRichiedente : x.IdUserDestinatario)).ToListAsync();
+
+
+
+            //List<Guid> idAmiciAll = idAmiciRichiedenti.Union(idAmiciDestinatari).ToListAsync();
 
             return idAmiciAll;
         }
