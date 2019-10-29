@@ -1,6 +1,8 @@
 ﻿using Api;
+using DependencyServiceDemos;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
@@ -15,6 +17,10 @@ namespace AppRegali.Views.Login
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class Registrazione : ContentPage
     {
+
+        byte[] img;
+
+
         public Registrazione()
         {
             InitializeComponent();
@@ -67,7 +73,25 @@ namespace AppRegali.Views.Login
                 //Se la form è valida proseguo con la registrazione.
                 if (formIsValid)
                 {
-                    await AppRegali.Api.ApiHelper.RegisterAsync(entEmail.Text, entPassword.Text, entConfermaPassword.Text);
+
+                    HttpClient httpClient = new HttpClient();
+                    AccountClient accountClient = new AccountClient(httpClient);
+
+                    //Creo il modello dei dati per la registrazione
+                    RegisterUserBindingModel registerBindingModel = new RegisterUserBindingModel()
+                    {
+                        Name = entNome.Text,
+                        Surname = entCognome.Text,
+                        BirthName = entNome.Text,
+                        ImmagineProfilo = img,
+                        DataNascita = new DateTime(),
+                        Email = entEmail.Text,
+                        Password = entPassword.Text,
+                        ConfirmPassword = entConfermaPassword.Text
+                    };
+
+                        await accountClient.RegisterAsync(registerBindingModel);
+
                     stkFormRegistrazione.IsVisible = false;
                     stkRegistrazioneAvvenuta.IsVisible = true;
                 }
@@ -106,6 +130,25 @@ namespace AppRegali.Views.Login
             {
                 throw;
             }
+        }
+
+        async void OnPickPhotoButtonClicked(object sender, EventArgs e)
+        {
+            (sender as Button).IsEnabled = false;
+
+            Stream stream = await DependencyService.Get<IPhotoPickerService>().GetImageStreamAsync();
+            if (stream != null)
+            {
+                imgFotoUtente.Source = ImageSource.FromStream(() => stream);
+
+                using (var memoryStream = new MemoryStream())
+                {
+                    stream.CopyTo(memoryStream);
+                    img = memoryStream.ToArray();
+                }
+            }
+
+            (sender as Button).IsEnabled = true;
         }
     }
 }

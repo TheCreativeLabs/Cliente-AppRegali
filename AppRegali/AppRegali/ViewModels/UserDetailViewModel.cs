@@ -11,11 +11,11 @@ namespace AppRegali.ViewModels
 {
     public class UserDetailViewModel : BaseViewModel
     {
-        public UserInfo Item { get; set; }
+        public UserInfoDto Item { get; set; }
         public Command LoadItemsCommand { get; set; }
         public UserDetailViewModel()
         {
-            Item = new UserInfo();
+            Item = new UserInfoDto();
             LoadItemsCommand = new Command(async () => await ExecuteLoadItemsCommand());
 
             //MessagingCenter.Subscribe<NewItemPage, Item>(this, "AddItem", async (obj, item) =>
@@ -39,7 +39,7 @@ namespace AppRegali.ViewModels
                 HttpClient httpClient = new HttpClient();
                 httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", Api.ApiHelper.GetToken());
                 AmiciClient amiciClient = new AmiciClient(httpClient);
-                UserInfo userInfo = await amiciClient.GetCurrentUserInfoAsync();
+                UserInfoDto userInfo = await amiciClient.GetCurrentUserInfoAsync();
 
                 Item = userInfo;
 

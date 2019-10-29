@@ -17,7 +17,7 @@ namespace AppRegali.Views.Account
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class Account : ContentPage
     {
-        UserInfo viewModel;
+        UserInfoDto viewModel;
 
         public Account()
         {
@@ -47,7 +47,7 @@ namespace AppRegali.Views.Account
                 HttpClient httpClient = new HttpClient();
                 httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", Api.ApiHelper.GetToken());
                 AmiciClient amiciClient = new AmiciClient(httpClient);
-                UserInfo userInfo = await amiciClient.GetCurrentUserInfoAsync();
+                UserInfoDto userInfo = await amiciClient.GetCurrentUserInfoAsync();
 
                 viewModel = userInfo;
                 BindingContext = viewModel;

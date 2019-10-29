@@ -63,7 +63,7 @@ namespace AppRegali.Views
             try
             {
                 AmiciClient amiciClient = new AmiciClient(ApiHelper.GetApiClient());
-                UserInfo userInfo = await amiciClient.GetCurrentUserInfoAsync();
+                UserInfoDto userInfo = await amiciClient.GetCurrentUserInfoAsync();
 
                 if (userInfo != null)
                 {
@@ -71,6 +71,7 @@ namespace AppRegali.Views
                     Stream stream = new MemoryStream(userInfo.FotoProfilo);
                     imgFotoUtente.Source = ImageSource.FromStream(() => { return stream; });
                     lblNomeCognome.Text = $"{userInfo.Nome} {userInfo.Cognome}";
+                    lblEmail.Text = userInfo.Email;
                 }
             }
             catch (Exception ex)

@@ -426,6 +426,7 @@ namespace AppRegaliApi.Controllers
             return Ok();
         }
 
+
         // POST api/Account/RegisterExternal
         [OverrideAuthentication]
         [HostAuthentication(DefaultAuthenticationTypes.ExternalBearer)]
@@ -459,25 +460,29 @@ namespace AppRegaliApi.Controllers
                 return GetErrorResult(result);
             }
 
-            var result2 = await Authentication.AuthenticateAsync(DefaultAuthenticationTypes.ExternalBearer);
-
-            var accessToken = info.ExternalIdentity.Claims.FirstOrDefault(x => x.Type == "FacebookAccessToken").Value;
+            //qui dentro ho i claims necessari?
+            //var result2 = await Authentication.AuthenticateAsync(DefaultAuthenticationTypes.ExternalBearer);
+            //var accessToken = info.ExternalIdentity.Claims.FirstOrDefault(x => x.Type == "FacebookAccessToken").Value;
 
             return Ok();
         }
 
         // GET api/Account/UserInfo
-        [HttpGet]
-        [Route("UserDetail")]
-        public UserInfoDto GetUserDetail()
-        {
-            DbDataContext dbDataContext = new DbDataContext();
-            UserInfoMapper userInfoMapper = new UserInfoMapper();
-            UserInfo userInfo =  dbDataContext.UserInfo.Where(user => user.IdAspNetUser.ToString() == User.Identity.GetUserId()).FirstOrDefault();
-            UserInfoDto userInfoDto = UserInfoMapper.UserInfoToUserInfoDto(userInfo, UserManager.GetEmail(User.Identity.GetUserId()));
+        //[HttpGet]
+        //[Route("UserDetail")]
+        //public UserInfoDto GetUserDetail()
+        //{
+        //    DbDataContext dbDataContext = new DbDataContext();
+        //    UserInfoMapper userInfoMapper = new UserInfoMapper();
+        //    UserInfo userInfo = dbDataContext.UserInfo.Where(user => user.IdAspNetUser.ToString() == User.Identity.GetUserId()).FirstOrDefault();
+        //    UserInfoDto userInfoDto = UserInfoMapper.UserInfoToUserInfoDto(userInfo, UserManager.GetEmail(User.Identity.GetUserId()));
 
-            return userInfoDto;
-        }
+        //    return userInfoDto;
+        //}
+
+
+        
+
 
         private async Task<ExternalLoginInfo> AuthenticationManager_GetExternalLoginInfoAsync_WithExternalBearer()
         {
@@ -618,6 +623,47 @@ namespace AppRegaliApi.Controllers
                 _random.GetBytes(data);
                 return HttpServerUtility.UrlTokenEncode(data);
             }
+        }
+
+        #endregion
+
+
+        #region MetodiCustom
+
+
+        [HttpPut]
+        [Route("UpdateUser")]
+        public async Task<IHttpActionResult> UpdateUser(UpdateUserBindingModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            string idUser = User.Identity.GetUserId();
+            List<ApplicationUser> applicationUsers = _userManager.Users.Where(x => x.Id == idUser).ToList();
+
+            if (applicationUsers.Any())
+            {
+                return NotFound();
+            }
+
+            DbDataContext dbDataContext = new DbDataContext();
+            List<UserInfo> userInfos = dbDataContext.UserInfo.Where(x => x.IdAspNetUser == new Guid(idUser)).ToList();
+
+            //Controllo se c'è il record dentro dbData
+            if (userInfos.Any())
+            {
+                userInfos[0].Nome = model.Name;
+                userInfos[0].Cognome = model.Surname;
+                userInfos[0].DataDiNascita = (model.DataNascita ?? null);
+                userInfos[0].FotoProfilo = (model.ImmagineProfilo ?? null);
+                dbDataContext.SaveChanges();
+            }
+
+            //TODO: devo modificare anche la Email?
+
+            return Ok();
         }
 
         #endregion

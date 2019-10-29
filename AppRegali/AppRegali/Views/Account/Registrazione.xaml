@@ -23,8 +23,22 @@
             <Button BackgroundColor="Transparent" FontSize="Title" FontAttributes="Bold" HorizontalOptions="Start" WidthRequest="40" TextColor="#c786d3" Text="&#xf00d;" FontFamily="{StaticResource FA-Solid}" Clicked="Cancel_Clicked">
             </Button>
 
-            <StackLayout x:Name="stkFormRegistrazione" IsVisible="True" VerticalOptions="CenterAndExpand">
-                <Label HorizontalTextAlignment="Center" FontSize="90" TextColor="#c786d3" FontFamily="{x:StaticResource FA-Solid}" FontAttributes="Bold" Margin="0,0,0,10" Text="&#xf4be;"></Label>
+            <StackLayout x:Name="stkFormRegistrazione" IsVisible="True" VerticalOptions="CenterAndExpand" Padding="0" Margin="0,-60,0,0">
+                <!--<Label HorizontalTextAlignment="Center" FontSize="90" TextColor="#c786d3" FontFamily="{x:StaticResource FA-Solid}" FontAttributes="Bold" Margin="0,0,0,10" Text="&#xf4be;"></Label>
+                -->
+               <Frame CornerRadius="100"
+                   HeightRequest="130"
+                   WidthRequest="130"
+                   HorizontalOptions="Center"
+                   Padding="0"
+                   IsClippedToBounds="True"
+                           HasShadow="True">
+                    <Image x:Name="imgFotoUtente"  HorizontalOptions="Center"
+                        VerticalOptions="Center"></Image>
+                </Frame>
+
+                <Button HeightRequest="50" CornerRadius="10" FontSize="Medium" Visual="Material" WidthRequest="50"  TextColor="Black" BackgroundColor="#efefef" Text="&#xf030;" Margin="0,-30,0,10" FontFamily="{StaticResource FA-Solid}"  HorizontalOptions="Center" Clicked="OnPickPhotoButtonClicked">
+            </Button>
 
                 <Entry x:Name="entNome" Visual="Material" Placeholder="{translator:Translate Registrazione.Nome}" VerticalOptions="Center" TextChanged="ent_TextChanged"></Entry>
                 <Label Text="{translator:Translate Registrazione.MessaggioCampoObbligatorio}" Style="{x:StaticResource LabelValidatore}" x:Name="lblValidatorEntNome"></Label>

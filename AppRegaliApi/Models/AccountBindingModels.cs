@@ -115,6 +115,35 @@ namespace AppRegaliApi.Models
 
         [Required]
         [Display(Name = "DataNascita")]
-        public DateTime DataNascita { get; set; }
+        public DateTime? DataNascita { get; set; }
+    }
+
+    /// <summary>
+    /// Model Custom per modifica dell'account
+    /// </summary>
+    public class UpdateUserBindingModel
+    {
+        [Required]
+        [Display(Name = "Email")]
+        public string Email { get; set; }
+
+        [Required]
+        [Display(Name = "Name")]
+        public string Name;
+
+        [Required]
+        [Display(Name = "Surname")]
+        public string Surname;
+
+        [Required]
+        [Display(Name = "BirthName")]
+        public string BirthName;
+
+        [Display(Name = "ImmagineProfilo")]
+        public byte[] ImmagineProfilo { get; set; }
+
+        [Required]
+        [Display(Name = "DataNascita")]
+        public DateTime? DataNascita { get; set; }
     }
 }
