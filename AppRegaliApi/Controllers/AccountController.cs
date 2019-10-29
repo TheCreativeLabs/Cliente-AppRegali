@@ -641,9 +641,10 @@ namespace AppRegaliApi.Controllers
             }
 
             string idUser = User.Identity.GetUserId();
-            List<ApplicationUser> applicationUsers = _userManager.Users.Where(x => x.Id == idUser).ToList();
+            ApplicationDbContext applicationDbContext = new ApplicationDbContext();
+            List<ApplicationUser> applicationUsers = applicationDbContext.Users.Where(x => x.Id == idUser).ToList();
 
-            if (applicationUsers.Any())
+            if (!applicationUsers.Any())
             {
                 return NotFound();
             }
@@ -652,14 +653,16 @@ namespace AppRegaliApi.Controllers
             List<UserInfo> userInfos = dbDataContext.UserInfo.Where(x => x.IdAspNetUser == new Guid(idUser)).ToList();
 
             //Controllo se c'è il record dentro dbData
-            if (userInfos.Any())
+            if (!userInfos.Any())
             {
-                userInfos[0].Nome = model.Name;
-                userInfos[0].Cognome = model.Surname;
-                userInfos[0].DataDiNascita = (model.DataNascita ?? null);
-                userInfos[0].FotoProfilo = (model.ImmagineProfilo ?? null);
-                dbDataContext.SaveChanges();
+                return NotFound();
             }
+
+            userInfos[0].Nome = model.Name;
+            userInfos[0].Cognome = model.Surname;
+            userInfos[0].DataDiNascita = (model.DataNascita ?? null);
+            userInfos[0].FotoProfilo = (model.ImmagineProfilo ?? null);
+            dbDataContext.SaveChanges();
 
             //TODO: devo modificare anche la Email?
 
