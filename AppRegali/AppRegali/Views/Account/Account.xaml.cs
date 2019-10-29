@@ -18,6 +18,7 @@ namespace AppRegali.Views.Account
     public partial class Account : ContentPage
     {
         UserInfoDto viewModel;
+        byte[] img;
 
         public Account()
         {
@@ -25,37 +26,60 @@ namespace AppRegali.Views.Account
 
         }
 
-        private void btnCambiaPassword_Clicked(object sender, EventArgs e)
+        private async void btnCambiaPassword_Clicked(object sender, EventArgs e)
         {
             try
             {
-                Navigation.PushAsync(new Login.CambiaPassword());
+                await Navigation.PushAsync(new Login.CambiaPassword());
             }
             catch (Exception)
             {
 
-                throw;
+                //Navigo alla pagina d'errore.
+                await Navigation.PushAsync(new ErrorPage());
             }
         }
-        
+
         protected override async void OnAppearing()
         {
-            base.OnAppearing();
-
-            if (viewModel == null)
+            try
             {
-                HttpClient httpClient = new HttpClient();
-                httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", Api.ApiHelper.GetToken());
-                AmiciClient amiciClient = new AmiciClient(httpClient);
-                UserInfoDto userInfo = await amiciClient.GetCurrentUserInfoAsync();
 
-                viewModel = userInfo;
-                BindingContext = viewModel;
+
+
+                base.OnAppearing();
+
+                if (viewModel == null)
+                {
+                    HttpClient httpClient = new HttpClient();
+                    httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", Api.ApiHelper.GetToken());
+                    AmiciClient amiciClient = new AmiciClient(httpClient);
+                    UserInfoDto userInfo = await amiciClient.GetCurrentUserInfoAsync();
+
+                    viewModel = userInfo;
+                    BindingContext = viewModel;
+                }
+
+                if (img == null)
+                {
+                    Image image = new Image();
+                    Stream stream = new MemoryStream(viewModel.FotoProfilo);
+                    imgFotoUtente.Source = ImageSource.FromStream(() => { return stream; });
+
+                    using (var memoryStream = new MemoryStream())
+                    {
+                        stream.CopyTo(memoryStream);
+                        img = memoryStream.ToArray();
+                    }
+                }
+
+
             }
-
-            Image image = new Image();
-            Stream stream = new MemoryStream(viewModel.FotoProfilo);
-            imgFotoUtente.Source = ImageSource.FromStream(() => { return stream; });
+            catch (Exception ex)
+            {
+                //Navigo alla pagina d'errore.
+                await Navigation.PushAsync(new ErrorPage());
+            }
         }
 
         async void OnPickPhotoButtonClicked(object sender, EventArgs e)
@@ -66,12 +90,18 @@ namespace AppRegali.Views.Account
             if (stream != null)
             {
                 imgFotoUtente.Source = ImageSource.FromStream(() => stream);
+
+                using (var memoryStream = new MemoryStream())
+                {
+                    stream.CopyTo(memoryStream);
+                    img = memoryStream.ToArray();
+                }
             }
 
             (sender as Button).IsEnabled = true;
         }
 
-        private void ent_TextChanged(object sender, TextChangedEventArgs e)
+        private async void ent_TextChanged(object sender, TextChangedEventArgs e)
         {
             try
             {
@@ -88,7 +118,33 @@ namespace AppRegali.Views.Account
             }
             catch (Exception ex)
             {
-                throw;
+                //Navigo alla pagina d'errore.
+                await Navigation.PushAsync(new ErrorPage());
+            }
+        }
+
+        private async void btnSalva_Clicked(object sender, EventArgs e)
+        {
+            try
+            {
+                AccountClient accountClient = new AccountClient(Api.ApiHelper.GetApiClient());
+                UpdateUserBindingModel updateUserBindingModel = new UpdateUserBindingModel()
+                {
+                    Name = entNome.Text,
+                    Surname = entCognome.Text,
+                    BirthName = entNome.Text,
+                    DataNascita = pkDataNascita.Date,
+                    ImmagineProfilo = img,
+                    Email = viewModel.Email
+                };
+
+                //TODO: gestire la modifica della Email.
+                await accountClient.UpdateUserAsync(updateUserBindingModel);
+            }
+            catch (Exception)
+            {
+                //Navigo alla pagina d'errore.
+                await Navigation.PushAsync(new ErrorPage());
             }
         }
     }

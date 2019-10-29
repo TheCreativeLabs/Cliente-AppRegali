@@ -246,4 +246,7 @@
   <data name="Restore.Titolo" xml:space="preserve">
     <value>Hai dimenticato la password? Inserisci la tua mail, ti invieremo una nuova password.</value>
   </data>
+     <data name="Salva" xml:space="preserve">
+    <value>Salva</value>
+  </data>
 </root>
