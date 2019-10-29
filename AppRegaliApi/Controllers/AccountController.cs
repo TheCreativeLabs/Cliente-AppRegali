@@ -327,7 +327,7 @@ namespace AppRegaliApi.Controllers
         // POST api/Account/Register
         [AllowAnonymous]
         [Route("Register")]
-        public async Task<IHttpActionResult> Register(RegisterBindingModel model)
+        public async Task<IHttpActionResult> Register(RegisterUserBindingModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -342,6 +342,22 @@ namespace AppRegaliApi.Controllers
             {
                 return GetErrorResult(result);
             }
+
+            //registro l'utente nella tabella UserInfo del db DATA
+            DbDataContext dbDataContext = new DbDataContext();
+
+            UserInfo userInfo = new UserInfo()
+            {
+                Cognome = model.Surname,
+                Nome = model.Name,
+                IdAspNetUser = new Guid(user.Id),
+                Id = new Guid(),
+                FotoProfilo = model.ImmagineProfilo,
+                DataDiNascita = model.DataNascita
+            };
+
+            dbDataContext.UserInfo.Add(userInfo);
+            dbDataContext.SaveChanges();
 
             var code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
           
@@ -442,6 +458,11 @@ namespace AppRegaliApi.Controllers
             {
                 return GetErrorResult(result);
             }
+
+            var result2 = await Authentication.AuthenticateAsync(DefaultAuthenticationTypes.ExternalBearer);
+
+            var accessToken = info.ExternalIdentity.Claims.FirstOrDefault(x => x.Type == "FacebookAccessToken").Value;
+
             return Ok();
         }
 

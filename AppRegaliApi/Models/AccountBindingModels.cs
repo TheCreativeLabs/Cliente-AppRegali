@@ -104,4 +104,17 @@ namespace AppRegaliApi.Models
         [Compare("NewPassword", ErrorMessage = "The new password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
     }
+
+    /// <summary>
+    /// Model Custom per aggiunta foto e info utente
+    /// </summary>
+    public class RegisterUserBindingModel : RegisterBindingModel
+    {
+        [Display(Name = "ImmagineProfilo")]
+        public byte[] ImmagineProfilo { get; set; }
+
+        [Required]
+        [Display(Name = "DataNascita")]
+        public DateTime DataNascita { get; set; }
+    }
 }
