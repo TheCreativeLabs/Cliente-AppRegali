@@ -11,7 +11,7 @@ using AppRegali.Models;
 using AppRegali.Views;
 using AppRegali.ViewModels;
 using Api;
-using Java.Util;
+//using Java.Util;
 
 namespace AppRegali.Views
 {
