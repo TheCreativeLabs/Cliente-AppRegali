@@ -21,7 +21,9 @@ namespace AppRegali.Views
     public partial class EventiPersonali : ContentPage
     {
         EventiViewModel viewModel;
-        Helpers.TranslateExtension translate = new Helpers.TranslateExtension();
+        static Helpers.TranslateExtension translate = new Helpers.TranslateExtension();
+        public string textModifica = Helpers.TranslateExtension.ResMgr.Value.GetString("EventiPersonali.Modifica", translate.ci);
+        public string textEliminaEvento = Helpers.TranslateExtension.ResMgr.Value.GetString("EventiPersonali.EliminaEvento", translate.ci);
 
         public EventiPersonali()
         {
@@ -59,13 +61,23 @@ namespace AppRegali.Views
         {
             try
             {
+                
+                string action = await DisplayActionSheet(Helpers.TranslateExtension.ResMgr.Value.GetString("EventiPersonali.ComandiRapidi", translate.ci),
+                                                         Helpers.TranslateExtension.ResMgr.Value.GetString("EventiPersonali.Annulla", translate.ci), null,
+                                                         textModifica,
+                                                         textEliminaEvento);
+                if(action == textModifica)
+                {
 
-                Helpers.TranslateExtension i = new Helpers.TranslateExtension();
-
-                i.Text = "Account.CambiaPassword";
-               var o = Helpers.TranslateExtension.ResMgr.Value.GetString(, translate.ci);
-
-                string action = await DisplayActionSheet("Comandi rapidi", "Annulla", "Elimina evento", "Modifica");
+                }
+                else if(action == textEliminaEvento)
+                {
+                    bool answer = await DisplayAlert("Attenzione", "Vuoi davvero eliminare l'evento? Anche i regali di questo evento verranno rimossi.", "Yes", "No");
+                    if (answer)
+                    {
+                        var i = 1;
+                    }
+                }
             }
             catch (Exception)
             {

@@ -139,16 +139,16 @@
     <value>Inserisci la vecchia password</value>
   </data>
   <data name="EventiPersonali.Annulla" xml:space="preserve">
-    <value />
+    <value>Cancel</value>
   </data>
   <data name="EventiPersonali.ComandiRapidi" xml:space="preserve">
-    <value />
+    <value>Quick commands</value>
   </data>
   <data name="EventiPersonali.EliminaEvento" xml:space="preserve">
-    <value />
+    <value>Delete event</value>
   </data>
   <data name="EventiPersonali.Modifica" xml:space="preserve">
-    <value />
+    <value>Modify</value>
   </data>
   <data name="EventoInserisci.Annulla" xml:space="preserve">
     <value>Annulla</value>
