@@ -5,7 +5,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
              xmlns:cnv="clr-namespace:AppRegali.Converter;assembly=AppRegali"
-  xmlns:conv="clr-namespace:AppRegali.Converter;assembly=AppRegali"
+             xmlns:conv="clr-namespace:AppRegali.Converter;assembly=AppRegali"
+             xmlns:translator="clr-namespace:AppRegali.Helpers"
              x:Class="AppRegali.Views.EventiPersonali">
 
     <ContentPage.Resources>
@@ -16,7 +17,7 @@
 
     <NavigationPage.TitleView>
         <StackLayout Orientation="Horizontal">
-            <Label Text="I miei eventi" TextColor="White" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" FontAttributes="Bold" FontSize="Large"></Label>
+            <Label Text="{translator:Translate MieiEventi.Titolo}" TextColor="White" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" FontAttributes="Bold" FontSize="Large"></Label>
             <Button BackgroundColor="Transparent" FontSize="Medium" Margin="0,0,-15,0" TextColor="White" HorizontalOptions="EndAndExpand" Text="&#xf067;" FontFamily="{StaticResource FA-Solid}" Clicked="AddItem_Clicked">
             </Button>
         </StackLayout>

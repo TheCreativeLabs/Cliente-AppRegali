@@ -204,6 +204,9 @@
   <data name="Menu.Logout" xml:space="preserve">
     <value>Esci</value>
   </data>
+  <data name="MieiEventi.Titolo" xml:space="preserve">
+    <value>I miei eventi</value>
+  </data>
   <data name="NuovoEvento.Nuovo" xml:space="preserve">
     <value>Crea nuovo evento</value>
   </data>

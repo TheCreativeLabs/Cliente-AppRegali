@@ -20,7 +20,7 @@
 
     <ContentPage.Content>
         <StackLayout Padding="20">
-            <Button BackgroundColor="Transparent" FontSize="Title" FontAttributes="Bold" HorizontalOptions="Start" WidthRequest="40" TextColor="#c786d3" Text="&#xf00d;" FontFamily="{StaticResource FA-Solid}" Clicked="Cancel_Clicked">
+            <Button Text="&#xf00d;" Clicked="Cancel_Clicked" Style="{x:StaticResource ButtonCloseIconAccount}">
             </Button>
 
             <StackLayout x:Name="stkFormRegistrazione" IsVisible="True" VerticalOptions="CenterAndExpand">

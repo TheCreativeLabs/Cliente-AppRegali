@@ -9,6 +9,10 @@
     <Application.Resources>
         <ResourceDictionary>
 
+            <!-- Colors -->
+            <Color x:Key="PrimaryColor">#c786d3</Color>
+            <Color x:Key="NavigationTextColor">White</Color>
+            
             <!--    Font Awesome     -->
             <OnPlatform x:TypeArguments="x:String" x:Key="FA-Brands">
                 <On Platform="Android" Value="Font Awesome 5 Brands-Regular-400.otf#Font Awesome 5 Brands Regular" />
@@ -48,11 +52,30 @@
             <Style TargetType="Label">
                 <Setter Property="FontFamily" Value="{StaticResource BoldFont2}" />
             </Style>
-            
+
             <Style TargetType="Button">
                 <Setter Property="FontFamily" Value="{StaticResource BoldFont2}" />
                 <Setter Property="HeightRequest" Value="40"></Setter>
             </Style>
+
+            <Style  x:Key="ButtonCloseIcon" TargetType="Button">
+                <Setter Property="BackgroundColor" Value="Transparent"/>
+                <Setter Property="FontSize" Value="Title"/>
+                <Setter Property="FontAttributes" Value="Bold"/>
+                <Setter Property="HorizontalOptions" Value="Start"/>
+                <Setter Property="WidthRequest" Value="40"/>
+                <Setter Property="FontFamily" Value="{StaticResource FA-Solid}"/>
+            </Style>
+
+            <Style TargetType="Button" x:Key="ButtonCloseIconAccount"  BasedOn="{StaticResource ButtonCloseIcon}">
+                <Setter Property="TextColor" Value="{StaticResource PrimaryColor}"/>
+            </Style>
+
+            <Style TargetType="Button" x:Key="ButtonCloseIconApplication"  BasedOn="{StaticResource ButtonCloseIcon}">
+                <Setter Property="TextColor" Value="{StaticResource NavigationTextColor}"/>
+            </Style>
+            
+            <!--FontSize="Large" HorizontalOptions="Start" WidthRequest="40" BackgroundColor="Transparent" TextColor="White" Text="&#xf00d;" FontFamily="{StaticResource FA-Solid}"-->
 
             <Style TargetType="Label" x:Key="LabelValidatore">
                 <Setter Property="FontFamily" Value="{StaticResource BoldFont2}" />
