@@ -18,5 +18,7 @@ namespace AppRegali.Models
         public string Title { get; set; }
 
         public string Icon { get; set; }
+
+        public object Model { get; set; }
     }
 }

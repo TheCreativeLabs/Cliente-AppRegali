@@ -6,6 +6,7 @@ using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
 using AppRegali.Models;
+using Api;
 
 namespace AppRegali.Views
 {
@@ -24,7 +25,7 @@ namespace AppRegali.Views
             MenuPages.Add((int)MenuItemType.Home, (NavigationPage)Detail);
         }
 
-        public async Task NavigateFromMenu(int id)
+        public async Task NavigateFromMenu(int id, object Model)
         {
             if (!MenuPages.ContainsKey(id))
             {
@@ -40,7 +41,7 @@ namespace AppRegali.Views
                         MenuPages.Add(id, new NavigationPage(new Amici()));
                         break;
                     case (int)MenuItemType.Account:
-                        MenuPages.Add(id, new NavigationPage(new Account.Account()));
+                        MenuPages.Add(id, new NavigationPage(new Account.Account((UserInfoDto)Model)));
                         break;
                 }
             }

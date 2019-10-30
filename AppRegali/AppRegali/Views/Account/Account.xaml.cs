@@ -8,7 +8,6 @@ using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
-
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -20,60 +19,34 @@ namespace AppRegali.Views.Account
         UserInfoDto viewModel;
         byte[] img;
 
-        public Account()
+        public Account( UserInfoDto Model)
         {
             InitializeComponent();
 
-        }
+            viewModel = Model;
 
-        private async void btnCambiaPassword_Clicked(object sender, EventArgs e)
-        {
-            try
-            {
-                await Navigation.PushAsync(new Login.CambiaPassword());
-            }
-            catch (Exception)
-            {
-
-                //Navigo alla pagina d'errore.
-                await Navigation.PushAsync(new ErrorPage());
-            }
+           
+           
         }
 
         protected override async void OnAppearing()
         {
             try
             {
-
-
-
                 base.OnAppearing();
 
-                if (viewModel == null)
+                BindingContext = viewModel;
+
+                if (img == null && viewModel.FotoProfilo != null)
                 {
-                    HttpClient httpClient = new HttpClient();
-                    httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", Api.ApiHelper.GetToken());
-                    AmiciClient amiciClient = new AmiciClient(httpClient);
-                    UserInfoDto userInfo = await amiciClient.GetCurrentUserInfoAsync();
+                    MemoryStream stream = new MemoryStream(viewModel.FotoProfilo);
 
-                    viewModel = userInfo;
-                    BindingContext = viewModel;
-                }
-
-                if (img == null)
-                {
-                    Image image = new Image();
-                    Stream stream = new MemoryStream(viewModel.FotoProfilo);
-                    imgFotoUtente.Source = ImageSource.FromStream(() => { return stream; });
-
-                    using (var memoryStream = new MemoryStream())
+                    if (stream != null)
                     {
-                        stream.CopyTo(memoryStream);
-                        img = memoryStream.ToArray();
+                        imgFotoUtente.Source = ImageSource.FromStream(() => { return (Stream)stream; });
+                        img = stream.ToArray();
                     }
                 }
-
-
             }
             catch (Exception ex)
             {
@@ -101,7 +74,7 @@ namespace AppRegali.Views.Account
             (sender as Button).IsEnabled = true;
         }
 
-        private async void ent_TextChanged(object sender, TextChangedEventArgs e)
+        private async void Ent_TextChanged(object sender, TextChangedEventArgs e)
         {
             try
             {
@@ -116,14 +89,14 @@ namespace AppRegali.Views.Account
                 //    btnRegistrati.IsEnabled = false;
                 //}
             }
-            catch (Exception ex)
+            catch(Exception ex)
             {
                 //Navigo alla pagina d'errore.
                 await Navigation.PushAsync(new ErrorPage());
             }
         }
 
-        private async void btnSalva_Clicked(object sender, EventArgs e)
+        private async void BtnSalva_Clicked(object sender, EventArgs e)
         {
             try
             {
@@ -140,6 +113,23 @@ namespace AppRegali.Views.Account
 
                 //TODO: gestire la modifica della Email.
                 await accountClient.UpdateUserAsync(updateUserBindingModel);
+
+                //Refresh del menu
+                MenuPage menuPage = (MenuPage)((MasterDetailPage)Application.Current.MainPage).Master;
+                await menuPage.UpdateMenuData(Models.MenuItemType.Account);
+            }
+            catch (Exception)
+            {
+                //Navigo alla pagina d'errore.
+                await Navigation.PushAsync(new ErrorPage());
+            }
+        }
+
+        private async void BtnCambiaPassword_Clicked(object sender, EventArgs e)
+        {
+            try
+            {
+                await Navigation.PushAsync(new Login.CambiaPassword());
             }
             catch (Exception)
             {
