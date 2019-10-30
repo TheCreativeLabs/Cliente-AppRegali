@@ -466,8 +466,24 @@ namespace AppRegaliApi.Controllers
             // 2) Registrare l'utente dentro la tabella UserInfo prendendo i valori dai Claims (User.Identity.Claims)
             // 3) Dentro il metodo che restituisce le user info restituire anche l'url della foto
 
+            //DbDataContext dbDataContext = new DbDataContext();
 
-     
+            //var i = User.Identity;
+
+            //UserInfo userInfo = new UserInfo()
+            //{
+            //    Cognome = model.Surname,
+            //    Nome = model.Name,
+            //    IdAspNetUser = new Guid(user.Id),
+            //    Id = new Guid(),
+            //    FotoProfilo = model.ImmagineProfilo,
+            //    DataDiNascita = model.DataNascita
+            //};
+
+            //dbDataContext.UserInfo.Add(userInfo);
+            //dbDataContext.SaveChanges();
+
+
             return Ok();
         }
 

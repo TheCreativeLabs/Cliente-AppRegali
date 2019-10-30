@@ -25,5 +25,7 @@ namespace AppRegaliApi
 
         [Required]
         public Guid IdAspNetUser { get; set; }
+
+        public string PhotoUrl { get; set; }
     }
 }
