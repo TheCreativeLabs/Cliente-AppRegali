@@ -10,6 +10,7 @@
     <NavigationPage.TitleView>
         <StackLayout Orientation="Horizontal">
             <Label Text="{Binding Item.Titolo}" TextColor="White" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" FontAttributes="Bold" FontSize="Large"></Label>
+            <Button Text="Salva" TextColor="White" BackgroundColor="Transparent"  HorizontalOptions="EndAndExpand"  Clicked="Update_Clicked"></Button>
         </StackLayout>
     </NavigationPage.TitleView>
 

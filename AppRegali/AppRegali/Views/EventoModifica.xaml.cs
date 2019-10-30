@@ -1,4 +1,6 @@
-﻿using AppRegali.ViewModels;
+﻿using Api;
+using AppRegali.Api;
+using AppRegali.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -27,6 +29,29 @@ namespace AppRegali.Views
         {
             Stream stream = new MemoryStream(viewModel.Item.ImmagineEvento);
             imgEventoModifica.Source = ImageSource.FromStream(() => { return stream; });
+        }
+
+        private async void Update_Clicked(object sender, EventArgs e)
+        {
+            EventoClient eventoClient = new EventoClient(ApiHelper.GetApiClient());
+
+            EventoDtoInput eventoDtoInput = new EventoDtoInput()
+            {
+                Cancellato = viewModel.Item.Cancellato,
+                DataEvento = viewModel.Item.DataEvento,
+                Descrizione = viewModel.Item.Descrizione,
+                IdCategoriaEvento = viewModel.Item.IdCategoriaEvento,
+                ImmagineEvento = viewModel.Item.ImmagineEvento,
+                Titolo = viewModel.Item.Titolo
+            };
+
+            Guid id = new Guid(viewModel.Item.Id);
+            //Faccio update dell'evento
+            var eventoInserito = await eventoClient.UpdateEventoAsync(new Guid(viewModel.Item.Id), eventoDtoInput);
+            await DisplayAlert(null, "Salvataggio eseguito con successo", "OK");
+
+            //Torno alla pagina di lista
+            //await Navigation.PopModalAsync();
         }
     }
 }
