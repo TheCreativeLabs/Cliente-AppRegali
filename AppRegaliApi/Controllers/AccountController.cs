@@ -461,8 +461,8 @@ namespace AppRegaliApi.Controllers
             }
 
             //qui dentro ho i claims necessari?
-            //var result2 = await Authentication.AuthenticateAsync(DefaultAuthenticationTypes.ExternalBearer);
-            //var accessToken = info.ExternalIdentity.Claims.FirstOrDefault(x => x.Type == "FacebookAccessToken").Value;
+            var result2 = await Authentication.AuthenticateAsync(DefaultAuthenticationTypes.ExternalBearer);
+            var accessToken = info.ExternalIdentity.Claims.FirstOrDefault(x => x.Type == "FacebookAccessToken").Value;
 
             return Ok();
         }
