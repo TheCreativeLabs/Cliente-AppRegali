@@ -158,11 +158,12 @@ namespace AppRegali.Api
                 AccountClient accountClient = new AccountClient(httpClient);
 
                 //Creo il modello dei dati per la registrazione
-                RegisterBindingModel registerBindingModel = new RegisterBindingModel()
+                RegisterUserBindingModel registerBindingModel = new RegisterUserBindingModel()
                 {
                     Email = Email,
                     Password = Password,
                     ConfirmPassword = ConfermaPassword
+
                 };
 
                 try

@@ -23,7 +23,7 @@
                 </Frame>
 
                 <Label x:Name="lblNomeCognome" FontSize="Large" FontAttributes="Bold" TextColor="Black" HorizontalOptions="Center"></Label>
-                <Label x:Name="lblEmail" Text="simone.bitti1996@gmail.com" TextColor="Gray" FontSize="Medium" HorizontalOptions="Center"></Label>
+                <Label x:Name="lblEmail" Text="" TextColor="Gray" FontSize="Medium" HorizontalOptions="Center"></Label>
             </StackLayout>
         </Frame>
 

@@ -48,7 +48,7 @@ namespace AppRegaliApi.Controllers
             //Controllo se Id è valorizzato.
             if (Id != Guid.Empty)
             {
-                evento = await dbDataContext.Evento.Include(x => x.Regalo).Include(x => x.ImmagineEvento).SingleOrDefaultAsync(x => x.Id == Id);
+                evento = await dbDataContext.Evento.Include(x => x.Regalo).Include(x => x.Regalo.Select(y => y.ImmagineRegalo)).Include(x => x.ImmagineEvento).SingleOrDefaultAsync(x => x.Id == Id);
             }
 
             return Ok(EventoMapper.EventoToEventoDto(evento));

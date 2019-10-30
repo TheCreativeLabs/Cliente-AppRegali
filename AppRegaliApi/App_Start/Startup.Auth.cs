@@ -15,6 +15,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.Web.WebPages.OAuth;
 using Namespace.Helpers;
+using System.Security.Claims;
 
 namespace AppRegaliApi
 {
@@ -99,10 +100,13 @@ namespace AppRegaliApi
                         }
                         context.Identity.AddClaim(new Claim("fb_accecctoken", context.AccessToken));
 
+                       
                         await Task.FromResult(context);
                     }
 
-                }
+
+                },
+                UserInformationEndpoint = "https://graph.facebook.com/v2.5/me?fields=id,name,email,first_name,last_name,location,birthday,picture",
             };
             options.Scope.Add("public_profile");
             options.Scope.Add("email");
@@ -128,5 +132,7 @@ namespace AppRegaliApi
             //    ClientSecret = ""
             //});
         }
+
+
     }
 }
