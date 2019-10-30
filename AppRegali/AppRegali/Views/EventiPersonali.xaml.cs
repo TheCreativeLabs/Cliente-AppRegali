@@ -11,7 +11,8 @@ using AppRegali.Models;
 using AppRegali.Views;
 using AppRegali.ViewModels;
 using Api;
-//using Java.Util;
+using Java.Util;
+using AppRegali.Api;
 
 namespace AppRegali.Views
 {
@@ -35,10 +36,15 @@ namespace AppRegali.Views
         async void OnItemSelected(object sender, SelectedItemChangedEventArgs args)
         {
             var item = args.SelectedItem as EventoDtoOutput;
-            if (item == null)
+
+            if (item == null || item.Id == null)
                 return;
 
-            await Navigation.PushAsync(new EventoDettaglio(new EventoDetailViewModel(item)));
+            EventoClient eventoClient = new EventoClient(ApiHelper.GetApiClient());
+            EventoDtoOutput dettaglioEvento = await eventoClient.GetEventoByIdAsync(new Guid(item.Id));
+
+
+            await Navigation.PushAsync(new EventoModifica(new EventoDetailViewModel(dettaglioEvento)));
 
             // Manually deselect item.
             EventiListView.SelectedItem = null;

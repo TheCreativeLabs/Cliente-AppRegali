@@ -207,6 +207,9 @@
   <data name="MessaggioValidazioneVecchiaPassword" xml:space="preserve">
     <value />
   </data>
+  <data name="MieiEventi.Titolo" xml:space="preserve">
+    <value>My events</value>
+  </data>
   <data name="NuovoEvento.Nuovo" xml:space="preserve">
     <value>Crea nuovo evento</value>
   </data>
@@ -245,5 +248,8 @@
   </data>
   <data name="Restore.Titolo" xml:space="preserve">
     <value>Hai dimenticato la password? Inserisci la tua mail, ti invieremo una nuova password.</value>
+  </data>
+     <data name="Salva" xml:space="preserve">
+    <value>Salva</value>
   </data>
 </root>

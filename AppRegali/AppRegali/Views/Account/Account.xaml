@@ -30,10 +30,13 @@
             <Entry x:Name="entCognome" Visual="Material" Placeholder="{translator:Translate Registrazione.Cognome}" VerticalOptions="Center" TextChanged="ent_TextChanged" Text="{Binding Cognome}"></Entry>
             <Label Text="{translator:Translate Registrazione.MessaggioCampoObbligatorio}" Style="{x:StaticResource LabelValidatore}" x:Name="lblValidatorEntCognome"></Label>
 
+            <DatePicker   x:Name="pkDataNascita" Visual="Material" VerticalOptions="Center" Date="{Binding DataDiNascita}"></DatePicker>
+            <!--<Label Text="{translator:Translate Login.MessaggioValidazioneEmail}" Style="{x:StaticResource LabelValidatore}" x:Name="lblValidatorEntEmail"></Label>-->
+
             <Entry   x:Name="entEmail" Visual="Material" Placeholder="{translator:Translate Login.Email}" VerticalOptions="Center" TextChanged="ent_TextChanged" Text="{Binding Email}"></Entry>
             <Label Text="{translator:Translate Login.MessaggioValidazioneEmail}" Style="{x:StaticResource LabelValidatore}" x:Name="lblValidatorEntEmail"></Label>
 
-            <Button x:Name="btnSalva" Style="{x:StaticResource primaryButton}" Text="Salva" Visual="Material" Clicked="btnCambiaPassword_Clicked"></Button>
+            <Button x:Name="btnSalva" Style="{x:StaticResource primaryButton}" Text="{translator:Translate Salva}" Visual="Material" Clicked="btnSalva_Clicked"></Button>
 
             <Button x:Name="btnCambiaPassword" Text="{translator:Translate Account.CambiaPassword}" Visual="Material" Clicked="btnCambiaPassword_Clicked"></Button>
         </StackLayout>

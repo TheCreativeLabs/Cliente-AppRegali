@@ -274,8 +274,9 @@ namespace AppRegaliApi.Controllers
             }
             else
             {
-               // IEnumerable<Claim> claims = externalLogin.Claims;
-                IEnumerable<Claim> claims = externalLogin.GetClaims();
+                // IEnumerable<Claim> claims = externalLogin.Claims;
+                IEnumerable<Claim> claims = externalLogin.Claims;// externalLogin.GetClaims();
+                //IEnumerable<Claim> claims = externalLogin.GetClaims();
                 ClaimsIdentity identity = new ClaimsIdentity(claims, OAuthDefaults.AuthenticationType);
                 Authentication.SignIn(identity);
             }
@@ -417,7 +418,7 @@ namespace AppRegaliApi.Controllers
                 {
                     return GetErrorResult(result);
                 }
-
+                //FIXME TESTO
                 await EmailService.SendAsync(user.Email,
                  "Password reset",
                  "La tua nuova password è:" + newPassword);
@@ -460,10 +461,13 @@ namespace AppRegaliApi.Controllers
                 return GetErrorResult(result);
             }
 
-            //qui dentro ho i claims necessari?
-            var result2 = await Authentication.AuthenticateAsync(DefaultAuthenticationTypes.ExternalBearer);
-            var accessToken = info.ExternalIdentity.Claims.FirstOrDefault(x => x.Type == "FacebookAccessToken").Value;
+            //TODO:
+            // 1) Aggiungere alla tabella UserInfo la colonna PhotoUrl
+            // 2) Registrare l'utente dentro la tabella UserInfo prendendo i valori dai Claims (User.Identity.Claims)
+            // 3) Dentro il metodo che restituisce le user info restituire anche l'url della foto
 
+
+     
             return Ok();
         }
 
@@ -599,7 +603,8 @@ namespace AppRegaliApi.Controllers
                     LoginProvider = providerKeyClaim.Issuer,
                     ProviderKey = providerKeyClaim.Value,
                     UserName = identity.FindFirstValue(ClaimTypes.Email),
-                    Email = identity.FindFirstValue(ClaimTypes.Email)
+                    Email = identity.FindFirstValue(ClaimTypes.Email),
+                    Claims = identity.Claims.ToList()
                 };
             }
         }

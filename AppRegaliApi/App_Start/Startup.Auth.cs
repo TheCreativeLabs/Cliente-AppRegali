@@ -112,6 +112,10 @@ namespace AppRegaliApi
             options.Scope.Add("email");
             options.Scope.Add("user_birthday");
             options.Scope.Add("user_location");
+            //options.Scope.Add("picture");
+            options.Fields.Add("birthday");
+            options.Fields.Add("picture");
+
             app.UseFacebookAuthentication(options);
 
             //OAuthWebSecurity.RegisterClient(
