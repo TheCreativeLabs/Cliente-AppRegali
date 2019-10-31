@@ -5,7 +5,9 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
+using System.Linq;
 using System.Net.Http;
+using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -17,35 +19,18 @@ namespace AppRegali.Views
     public partial class MenuPage : ContentPage
     {
         MainPage RootPage { get => Application.Current.MainPage as MainPage; }
+
         List<HomeMenuItem> menuItems;
+
+        UserInfoDto userInfoDto;
+
         public MenuPage()
         {
             try
             {
                 InitializeComponent();
 
-                //visualizzo le informazioni sull'utente.
-                SetUserInfo();
-
-                menuItems = new List<HomeMenuItem>
-            {
-                new HomeMenuItem {Id = MenuItemType.Home, Title="Home", Icon="\uf015" },
-                new HomeMenuItem {Id = MenuItemType.EventiPersonali, Title="I miei eventi", Icon="\uf271" },
-                new HomeMenuItem {Id = MenuItemType.Amici, Title="I miei amici", Icon="\uf0c0"  },
-                new HomeMenuItem {Id = MenuItemType.Account, Title="Account", Icon="\uf2bd"  },
-            };
-
-                ListViewMenu.ItemsSource = menuItems;
-                ListViewMenu.SelectedItem = menuItems[0];
-                ListViewMenu.ItemSelected += async (sender, e) =>
-                {
-                    if (e.SelectedItem == null)
-                        return;
-
-                    var id = (int)((HomeMenuItem)e.SelectedItem).Id;
-
-                    await RootPage.NavigateFromMenu(id);
-                };
+                
             }
             catch (Exception ex)
             {
@@ -54,11 +39,53 @@ namespace AppRegali.Views
             }
         }
 
+        protected override async void OnAppearing()
+        {
+            try
+            {
+                base.OnAppearing();
+
+                await UpdateMenuData(MenuItemType.Home);
+            }
+            catch (Exception ex)
+            {
+                //Navigo alla pagina d'errore.
+                await Navigation.PushAsync(new ErrorPage());
+            }
+        }
+
+        public async Task UpdateMenuData(MenuItemType currentPage)
+        {
+            //visualizzo le informazioni sull'utente.
+            await SetUserInfo();
+
+            menuItems = new List<HomeMenuItem>
+            {
+                new HomeMenuItem {Id = MenuItemType.Home, Title="Home", Icon="\uf015" },
+                new HomeMenuItem {Id = MenuItemType.EventiPersonali, Title="I miei eventi", Icon="\uf271" },
+                new HomeMenuItem {Id = MenuItemType.Amici, Title="I miei amici", Icon="\uf0c0"  },
+                new HomeMenuItem {Id = MenuItemType.Account, Title="Account", Icon="\uf2bd", Model = userInfoDto  },
+            };
+
+            ListViewMenu.ItemsSource = menuItems;
+
+            ListViewMenu.SelectedItem = menuItems.Where(x => x.Id == currentPage).FirstOrDefault();
+            ListViewMenu.ItemSelected += async (sender, e) =>
+            {
+                if (e.SelectedItem == null)
+                    return;
+
+                HomeMenuItem homeMenuItem = (HomeMenuItem)e.SelectedItem;
+
+                await RootPage.NavigateFromMenu((int)homeMenuItem.Id, homeMenuItem.Model);
+            };
+        }
+
 
         /// <summary>
         /// Mostra nel menu le informazioni sull'utente
         /// </summary>
-        private async void SetUserInfo()
+        private async Task SetUserInfo()
         {
             try
             {
@@ -67,9 +94,11 @@ namespace AppRegali.Views
 
                 if (userInfo != null)
                 {
-                    Image image = new Image();
+                    userInfoDto = userInfo;
+
                     Stream stream = new MemoryStream(userInfo.FotoProfilo);
                     imgFotoUtente.Source = ImageSource.FromStream(() => { return stream; });
+
                     lblNomeCognome.Text = $"{userInfo.Nome} {userInfo.Cognome}";
                     lblEmail.Text = userInfo.Email;
                 }

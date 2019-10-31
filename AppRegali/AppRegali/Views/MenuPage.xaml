@@ -19,7 +19,7 @@
            IsClippedToBounds="True"
                    HasShadow="True" BorderColor="#0bbfb9">
                     <Image x:Name="imgFotoUtente"  HorizontalOptions="Center"
-           VerticalOptions="Center"></Image>
+           VerticalOptions="Center" Aspect="AspectFill"></Image>
                 </Frame>
 
                 <Label x:Name="lblNomeCognome" FontSize="Large" FontAttributes="Bold" TextColor="Black" HorizontalOptions="Center"></Label>
