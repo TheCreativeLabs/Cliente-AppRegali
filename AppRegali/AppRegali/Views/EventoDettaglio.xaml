@@ -20,14 +20,76 @@
         </StackLayout>
     </NavigationPage.TitleView>
 
-    <!--<StackLayout Spacing="20" Padding="15">
-        <Label Text="Text:" FontSize="Medium" />
-        <Label Text="{Binding Item.Titolo}" d:Text="Item name" FontSize="Small"/>
-        <Label Text="Description:" FontSize="Medium" />
-        <Label Text="{Binding Item.Descrizione}" d:Text="Item description" FontSize="Small"/>
-    </StackLayout>-->
+    <ContentPage.Content>
+        <StackLayout>
+            <ScrollView>
+                <StackLayout Margin="15" Padding="15">
+                    <Frame CornerRadius="10"  HeightRequest="200" IsClippedToBounds="True" Padding="0" HasShadow="True" Visual="Material">
+                        <Image x:Name="imgEventoDettaglio" Aspect="AspectFill" Source="{Binding Item.ImmagineEvento, Converter={StaticResource ByteArrayToImage}}"></Image>
+                    </Frame>
 
-    <StackLayout>
+                    <Label Text="{Binding Item.Titolo}" FontSize="Large" TextColor="Black" VerticalTextAlignment="End" FontAttributes="Bold" HorizontalTextAlignment="Center"/>
+
+                    <Grid>
+                        <Label Grid.Row="0" Grid.Column="0" Text="{Binding Item.DataEvento, StringFormat='{0:dd/MM/yy}'}" FontSize="Medium" TextColor="Black" VerticalTextAlignment="End" HorizontalTextAlignment="Center"/>
+                        <Label Grid.Row="0" Grid.Column="1" Text="fixme CAT" FontSize="Medium" TextColor="Black" VerticalTextAlignment="End" HorizontalTextAlignment="Center"/>
+                        <!--<Entry Grid.Row="0" Grid.Column="0" Visual="Material" Placeholder="Data Evento" VerticalOptions="Center" Text="{Binding Item.DataEvento, StringFormat='{0:dd/MM/yy}'}" ></Entry>
+                        <Entry Grid.Row="0" Grid.Column="1" Visual="Material" Placeholder="Categoria" VerticalOptions="Center" Text="FIX CAT" ></Entry>-->
+                    </Grid>
+                    <!--<Label Text="{Binding Item.Descrizione}" FontSize="Medium" TextColor="Black" VerticalTextAlignment="End" HorizontalTextAlignment="Center"/>-->
+                    <!--<Entry Visual="Material" Placeholder="Descrizione" VerticalOptions="Center" Text="{Binding Item.Descrizione}" ></Entry>-->
+
+                    <ListView x:Name="RegaliDettaglioListView"
+                                ItemsSource="{Binding Item.Regali}"
+                                VerticalOptions="FillAndExpand"
+                                HasUnevenRows="true"
+                                RefreshCommand="{Binding LoadItemsCommand}"
+                                IsPullToRefreshEnabled="true"
+                                CachingStrategy="RecycleElement"
+                                SeparatorVisibility="None">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <ViewCell>
+                                    <StackLayout>
+                                        <Frame HasShadow="True" >
+                                            <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
+                                                <Frame CornerRadius="10"
+                                           HeightRequest="100"
+                                           WidthRequest="100"
+                                           HorizontalOptions="Center"
+                                           Padding="0"
+                                           IsClippedToBounds="True"
+                                           HasShadow="True">
+                                                    <Image x:Name="imgFotoUtente"  HorizontalOptions="Center" Source="{Binding ImmagineRegalo, Converter={StaticResource ByteArrayToImage}}" VerticalOptions="Center"></Image>
+                                                </Frame>
+
+
+                                                <Grid VerticalOptions="Center" HorizontalOptions="FillAndExpand" HeightRequest="80" RowSpacing="1">
+                                                    <Label Grid.Row="0" FontSize="Large" FontAttributes="Bold" VerticalTextAlignment="Center" TextColor="Black" Text="{Binding Titolo}"></Label>
+                                                    <Label Grid.Row="1" FontSize="Medium" FontAttributes="Bold" VerticalTextAlignment="Center" Text="{Binding Descrizione}"></Label>
+                                                    <Grid Grid.Row="2" RowSpacing="2">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="70*" />
+                                                            <ColumnDefinition Width="30*" />
+                                                        </Grid.ColumnDefinitions>
+                                                        <ProgressBar Grid.Row="0" Grid.Column="0" Progress="0.5" />
+                                                        <Label Grid.Row="0" Grid.Column="1" FontSize="Medium" Text="{Binding ImportoCollezionato}" VerticalTextAlignment="Center" />
+                                                    </Grid>
+                                                </Grid>
+                                            </StackLayout>
+                                        </Frame>
+                                    </StackLayout>
+                                </ViewCell>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+
+                </StackLayout>
+            </ScrollView>
+        </StackLayout>
+    </ContentPage.Content>
+
+    <!--<StackLayout>
         <ListView x:Name="EventiListView"
                 ItemsSource="{Binding Item.Regali}"
                 VerticalOptions="FillAndExpand"
@@ -72,7 +134,7 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
-    </StackLayout>
+    </StackLayout>-->
 
 
 </ContentPage>

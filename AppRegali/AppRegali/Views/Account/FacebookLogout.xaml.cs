@@ -56,6 +56,10 @@ namespace AppRegali.Views.Account
                     HttpClient httpFacebookClient = new HttpClient();
                     HttpResponseMessage httpResponseMessage = await httpFacebookClient.DeleteAsync(requestUrl);
 
+                    //Rimuovo il token 
+                    Api.ApiHelper.DeleteToken();
+                    Api.ApiHelper.SetFacebookLogin(false);
+
                     if (httpResponseMessage != null && httpResponseMessage.StatusCode == System.Net.HttpStatusCode.OK)
                     {
                         //eseguo il logout.
