@@ -156,7 +156,7 @@ namespace AppRegaliApi.Controllers
                                    amicizia);
         }
 
-        //todo crea amicizia, rimuovi amicizia, get stato amicizia, accetta amicizia
+        //todo get stato amicizia
 
 
         [HttpDelete]
