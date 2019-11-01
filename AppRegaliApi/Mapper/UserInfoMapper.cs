@@ -18,6 +18,7 @@ namespace AppRegaliApi.Models
             userInfoDto.FotoProfilo = userInfo.FotoProfilo;
             userInfoDto.IdAspNetUser = userInfo.IdAspNetUser;
             userInfoDto.Email = email;
+            userInfoDto.PhotoUrl = userInfo.PhotoUrl;
             return userInfoDto;
         }
     }

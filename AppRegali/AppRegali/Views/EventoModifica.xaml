@@ -25,7 +25,7 @@
             <ScrollView>
                 <StackLayout Margin="15" Padding="15">
                     <Frame CornerRadius="10"  HeightRequest="200" IsClippedToBounds="True" Padding="0" HasShadow="True" Visual="Material">
-                        <Image x:Name="imgEventoModifica" Source="Item.ImmagineEvento" Aspect="AspectFill"></Image>
+                        <Image x:Name="imgEventoModifica" Source="{Binding Item.ImmagineEvento, Converter={StaticResource ByteArrayToImage}}" Aspect="AspectFill"></Image>
                     </Frame>
 
                     <Entry x:Name="entTitoloEvento" Visual="Material" Placeholder="Titolo" VerticalOptions="Center" Text="{Binding Item.Titolo}" ></Entry>

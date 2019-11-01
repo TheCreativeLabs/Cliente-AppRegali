@@ -27,8 +27,8 @@ namespace AppRegali.Views
 
         protected override async void OnAppearing()
         {
-            Stream stream = new MemoryStream(viewModel.Item.ImmagineEvento);
-            imgEventoModifica.Source = ImageSource.FromStream(() => { return stream; });
+            //Stream stream = new MemoryStream(viewModel.Item.ImmagineEvento);
+            //imgEventoModifica.Source = ImageSource.FromStream(() => { return stream; });
         }
 
         private async void Update_Clicked(object sender, EventArgs e)

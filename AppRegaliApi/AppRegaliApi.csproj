@@ -208,6 +208,7 @@
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Abstractions" />
@@ -374,6 +375,7 @@
     <Compile Include="Results\ChallengeResult.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="Models\UserInfo.cs" />
+    <Compile Include="Utility\FacebookImageData.cs" />
     <Compile Include="Utility\AmiciUtility.cs" />
   </ItemGroup>
   <ItemGroup>
