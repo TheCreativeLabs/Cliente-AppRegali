@@ -469,18 +469,8 @@ namespace AppRegaliApi.Controllers
                 return GetErrorResult(result);
             }
 
-            //TODO:
-            // 1) Aggiungere alla tabella UserInfo la colonna PhotoUrl
-            // 2) Registrare l'utente dentro la tabella UserInfo prendendo i valori dai Claims (User.Identity.Claims)
-            // 3) Dentro il metodo che restituisce le user info restituire anche l'url della foto
-
             DbDataContext dbDataContext = new DbDataContext();
-
-            //var i = User.Identity;
-
-            //var i = user.Claims;
-
-
+            //Registra l'utente dentro la tabella UserInfo del db Data prendendo i valori dai Claims
             UserInfo userInfo = new UserInfo()
             {
                 Cognome = cognome != null ? cognome.Value : null,
@@ -488,13 +478,12 @@ namespace AppRegaliApi.Controllers
                 IdAspNetUser = new Guid(user.Id),
                 Id = Guid.NewGuid()
             };
-
-
+            //se è presente, setto data di nascita
             if (dataDiNascitaString != null) {
                 userInfo.DataDiNascita = (DateTime.ParseExact(dataDiNascitaString.Value, "MM/dd/yyyy",
                                             System.Globalization.CultureInfo.InvariantCulture));
             }
-
+            //se è presente, setta url della foto
             if (datiPicture != null)
             {
                 //JavaScriptSerializer json_serializer = new JavaScriptSerializer();
