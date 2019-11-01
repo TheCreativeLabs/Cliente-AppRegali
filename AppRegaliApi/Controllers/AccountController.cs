@@ -17,6 +17,8 @@ using AppRegaliApi.Models;
 using AppRegaliApi.Providers;
 using AppRegaliApi.Results;
 using System.Linq;
+using System.Web.Script.Serialization;
+using AppRegaliApi.Utility;
 
 namespace AppRegaliApi.Controllers
 {
@@ -439,6 +441,12 @@ namespace AppRegaliApi.Controllers
                 return BadRequest(ModelState);
             }
 
+            var identity = (ClaimsIdentity)User.Identity;
+            var nome = identity.Claims.FirstOrDefault(x => x.Type == "first_name");
+            var cognome = identity.Claims.FirstOrDefault(x => x.Type == "last_name");
+            var datiPicture = identity.Claims.FirstOrDefault(x => x.Type == "picture");
+            var dataDiNascitaString = identity.Claims.FirstOrDefault(x => x.Type == "dateofbirth");
+
             //var info = await Authentication.GetExternalLoginInfoAsync();
             var info = await AuthenticationManager_GetExternalLoginInfoAsync_WithExternalBearer();
 
@@ -466,22 +474,41 @@ namespace AppRegaliApi.Controllers
             // 2) Registrare l'utente dentro la tabella UserInfo prendendo i valori dai Claims (User.Identity.Claims)
             // 3) Dentro il metodo che restituisce le user info restituire anche l'url della foto
 
-            //DbDataContext dbDataContext = new DbDataContext();
+            DbDataContext dbDataContext = new DbDataContext();
 
             //var i = User.Identity;
 
-            //UserInfo userInfo = new UserInfo()
-            //{
-            //    Cognome = model.Surname,
-            //    Nome = model.Name,
-            //    IdAspNetUser = new Guid(user.Id),
-            //    Id = new Guid(),
-            //    FotoProfilo = model.ImmagineProfilo,
-            //    DataDiNascita = model.DataNascita
-            //};
+            //var i = user.Claims;
 
-            //dbDataContext.UserInfo.Add(userInfo);
-            //dbDataContext.SaveChanges();
+
+            UserInfo userInfo = new UserInfo()
+            {
+                Cognome = cognome != null ? cognome.Value : null,
+                Nome = nome != null ? nome.Value : null,
+                IdAspNetUser = new Guid(user.Id),
+                Id = Guid.NewGuid()
+            };
+
+
+            if (dataDiNascitaString != null) {
+                userInfo.DataDiNascita = (DateTime.ParseExact(dataDiNascitaString.Value, "MM/dd/yyyy",
+                                            System.Globalization.CultureInfo.InvariantCulture));
+            }
+
+            if (datiPicture != null)
+            {
+                //JavaScriptSerializer json_serializer = new JavaScriptSerializer();
+                //FacebookImageData imageData = (FacebookImageData)json_serializer.DeserializeObject(datiPicture.Value);
+                //userInfo.PhotoUrl = imageData.data.url;
+                datiPicture.Value.IndexOf("url\": \"");
+                var url = datiPicture.Value.Substring(datiPicture.Value.IndexOf("url\": \"")+7);
+                url = url.Substring(0, url.IndexOf("\""));
+                userInfo.PhotoUrl = url;
+            }
+
+
+            dbDataContext.UserInfo.Add(userInfo);
+            dbDataContext.SaveChanges();
 
 
             return Ok();
