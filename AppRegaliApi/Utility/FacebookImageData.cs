@@ -10,11 +10,12 @@ namespace AppRegaliApi.Utility
     {
         public String data { get; set; }
 
-        //public class Data {
-        //    public String height { get; set; }
-        //    public String is_silhouette { get; set; }
-        //    public String url { get; set; }
-        //    public String width { get; set; }
-        //}
+        public class Data
+        {
+            public String height { get; set; }
+            public String is_silhouette { get; set; }
+            public String url { get; set; }
+            public String width { get; set; }
+        }
     }
 }
