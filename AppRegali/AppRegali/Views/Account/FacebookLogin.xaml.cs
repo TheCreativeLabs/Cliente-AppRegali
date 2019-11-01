@@ -15,8 +15,8 @@ namespace AppRegali.Views.Account
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class FacebookLogin : ContentPage
     {
-        string ApiRequest;
-       
+        String ApiRequest;
+
         public FacebookLogin()
         {
             InitializeComponent();
@@ -86,11 +86,11 @@ namespace AppRegali.Views.Account
                 }
                 else
                 {
-//Application.Current.MainPage = new NavigationPage( new MainPage());
+  //Application.Current.MainPage = new NavigationPage( new MainPage());
                 Application.Current.MainPage = new MainPage();
                 }
 
-                
+              
 
             }
         }
