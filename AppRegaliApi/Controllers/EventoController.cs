@@ -105,6 +105,10 @@ namespace AppRegaliApi.Controllers
 
             //Cerco l'evento
             Evento evento = await dbDataContext.Evento.Include(x => x.ImmagineEvento).Where(x => x.Id == IdEvento).FirstAsync();
+            if (evento == null)
+            {
+                return NotFound();
+            }
 
             //Modifico l'evento
             evento.Titolo = Evento.Titolo;

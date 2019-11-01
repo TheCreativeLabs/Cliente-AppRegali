@@ -86,7 +86,7 @@ namespace AppRegaliApi.Controllers
 
         [HttpPost]
         [Route("AmiciziaCreate", Name = "AmiciziaCreate")]
-        [ResponseType(typeof(Evento))]
+        [ResponseType(typeof(UserAmicizia))]
         public IHttpActionResult InserisciAmicizia(String idDestinatario)
         {
             if (!ModelState.IsValid)
@@ -115,7 +115,43 @@ namespace AppRegaliApi.Controllers
                 }
             }
 
-            return CreatedAtRoute("AmiciziaCreate", 
+            return Ok(amicizia); ;
+        }
+
+        [HttpPut]
+        [Route("AmiciziaAccetta")]
+        [ResponseType(typeof(UserAmicizia))]
+        public async Task<IHttpActionResult> AccettaAmicizia(String idAmico)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            Guid guidCurrentUser = new Guid(User.Identity.GetUserId());
+            UserAmicizia amicizia = await dbDataContext.UserAmicizia.Where(x => x.IdUserRichiedente == new Guid(idAmico) && x.IdUserDestinatario == guidCurrentUser).FirstAsync();
+            if (amicizia == null)
+            {
+                return NotFound();
+            }
+            amicizia.Accettato = true;
+
+            try
+            {
+                dbDataContext.SaveChanges();
+            }
+            catch (DbUpdateException)
+            {
+                if (!UserAmiciziaExists(amicizia.IdUserDestinatario, amicizia.IdUserRichiedente))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return CreatedAtRoute("AmiciziaCreate",
                                    new { IdUserDestinatario = amicizia.IdUserDestinatario, IdUserRichiedente = amicizia.IdUserRichiedente },
                                    amicizia);
         }
@@ -123,43 +159,42 @@ namespace AppRegaliApi.Controllers
         //todo crea amicizia, rimuovi amicizia, get stato amicizia, accetta amicizia
 
 
-        //[HttpDelete]
-        //[Route("AmiciziaDelete", Name = "AmiciziaDelete")]
-        //[ResponseType(typeof(Evento))]
-        //public async Task<IHttpActionResult> DeleteAmicizia(Guid IdCurrent, Guid IdAmico)
-        //{
-        //    if (IdCurrent == null || IdCurrent == Guid.Empty || IdAmico == null || IdAmico == Guid.Empty || !ModelState.IsValid)
-        //    {
-        //        return BadRequest(ModelState);
-        //    }
-        //    UserAmicizia userAmicizia = await dbDataContext.UserAmicizia
-        //                                        .FirstOrDefaultAsync(x => (
-        //                                                                    (x.IdUserRichiedente == IdCurrent && x.IdUserDestinatario == IdAmico)
-        //                                                                    || (x.IdUserRichiedente == IdAmico && x.IdUserDestinatario == IdCurrent)
-        //                                                                  ) 
-        //                                                            );
-            
+        [HttpDelete]
+        [Route("AmiciziaDeleteOrDeny", Name = "AmiciziaDeleteOrDeny")]
+        [ResponseType(typeof(UserAmicizia))]
+        public async Task<IHttpActionResult> AmiciziaDeleteOrDeny(Guid IdAmico)
+        {
+            if (IdAmico == null || IdAmico == Guid.Empty || !ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            Guid guidCurrentUser = new Guid(User.Identity.GetUserId());
 
-        //    try
-        //    {
-        //        dbDataContext.SaveChanges();
-        //    }
-        //    catch (DbUpdateException)
-        //    {
-        //        if (UserAmiciziaExists(amicizia.IdUserDestinatario, amicizia.IdUserRichiedente))
-        //        {
-        //            return Conflict();
-        //        }
-        //        else
-        //        {
-        //            throw;
-        //        }
-        //    }
+            UserAmicizia userAmicizia = await dbDataContext.UserAmicizia
+                                                .FirstOrDefaultAsync(x => (
+                                                                            (x.IdUserRichiedente == guidCurrentUser && x.IdUserDestinatario == IdAmico)
+                                                                            || (x.IdUserRichiedente == IdAmico && x.IdUserDestinatario == guidCurrentUser)
+                                                                          )
+                                                                    );
 
-        //    return CreatedAtRoute("AmiciziaCreate",
-        //                           new { IdUserDestinatario = amicizia.IdUserDestinatario, IdUserRichiedente = amicizia.IdUserRichiedente },
-        //                           amicizia);
-        //}
+            if (userAmicizia == null)
+            {
+                return NotFound();
+            }
+
+            try
+            {
+                dbDataContext.UserAmicizia.Remove(userAmicizia);
+                dbDataContext.SaveChanges();
+            }
+            catch
+            {
+                throw;
+            }
+
+            return Ok();
+
+        }
 
         private bool UserAmiciziaExists(Guid IdUserDestinatario, Guid IdUserRichiedente)
         {
