@@ -106,7 +106,7 @@ namespace AppRegaliApi
 
 
                 },
-                UserInformationEndpoint = "https://graph.facebook.com/v2.5/me?fields=id,name,email,first_name,last_name,location,birthday,picture",
+                UserInformationEndpoint = "https://graph.facebook.com/v2.5/me?fields=id,name,email,first_name,last_name,location,birthday,picture.type(large)",
             };
             options.Scope.Add("public_profile");
             options.Scope.Add("email");
@@ -114,7 +114,7 @@ namespace AppRegaliApi
             options.Scope.Add("user_location");
             //options.Scope.Add("picture");
             options.Fields.Add("birthday");
-            options.Fields.Add("picture");
+            options.Fields.Add("picture.type(large)");
 
             app.UseFacebookAuthentication(options);
 

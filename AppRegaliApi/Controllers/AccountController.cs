@@ -63,7 +63,7 @@ namespace AppRegaliApi.Controllers
 
             return new UserInfoViewModel
             {
-                Email = User.Identity.GetUserName(),
+                Email = User.Identity.GetUserName(), //externalLogin.Email, 
                 HasRegistered = externalLogin == null,
                 LoginProvider = externalLogin != null ? externalLogin.LoginProvider : null
             };
@@ -277,7 +277,7 @@ namespace AppRegaliApi.Controllers
             else
             {
                 // IEnumerable<Claim> claims = externalLogin.Claims;
-                IEnumerable<Claim> claims = externalLogin.Claims;// externalLogin.GetClaims();
+                IEnumerable<Claim> claims = externalLogin.GetClaims();
                 //IEnumerable<Claim> claims = externalLogin.GetClaims();
                 ClaimsIdentity identity = new ClaimsIdentity(claims, OAuthDefaults.AuthenticationType);
                 Authentication.SignIn(identity);
@@ -593,7 +593,6 @@ namespace AppRegaliApi.Controllers
             public string LoginProvider { get; set; }
             public string ProviderKey { get; set; }
             public string UserName { get; set; }
-
             public string Email { get; set; }
             public IList<Claim> Claims { get; private set; }
 
@@ -606,6 +605,8 @@ namespace AppRegaliApi.Controllers
                 {
                     claims.Add(new Claim(ClaimTypes.Name, UserName, null, LoginProvider));
                 }
+
+               claims = claims.Concat(Claims).ToList();
 
                 return claims;
             }
