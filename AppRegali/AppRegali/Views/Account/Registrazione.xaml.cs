@@ -77,18 +77,20 @@ namespace AppRegali.Views.Login
                     HttpClient httpClient = new HttpClient();
                     AccountClient accountClient = new AccountClient(httpClient);
 
-                    //Creo il modello dei dati per la registrazione
-                    RegisterUserBindingModel registerBindingModel = new RegisterUserBindingModel()
-                    {
-                        Name = entNome.Text,
-                        Surname = entCognome.Text,
-                        BirthName = entNome.Text,
-                        ImmagineProfilo = img,
-                        DataNascita = new DateTime(),
-                        Email = entEmail.Text,
-                        Password = entPassword.Text,
-                        ConfirmPassword = entConfermaPassword.Text
-                    };
+                        //Creo il modello dei dati per la registrazione
+                        RegisterUserBindingModel registerBindingModel = new RegisterUserBindingModel()
+                        {
+                            Name = entNome.Text,
+                            Surname = entCognome.Text,
+                            BirthName = entNome.Text,
+                            ImmagineProfilo = img,
+                            DataNascita = new DateTime(),
+                            Email = entEmail.Text,
+                            Password = entPassword.Text,
+                            ConfirmPassword = entConfermaPassword.Text
+                        };
+
+                        //TODO: gestire la data di nascita
 
                         await accountClient.RegisterAsync(registerBindingModel);
 

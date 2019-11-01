@@ -96,8 +96,14 @@ namespace AppRegali.Views
                 {
                     userInfoDto = userInfo;
 
-                    Stream stream = new MemoryStream(userInfo.FotoProfilo);
-                    imgFotoUtente.Source = ImageSource.FromStream(() => { return stream; });
+                    if (userInfoDto.FotoProfilo != null)
+                    {
+                        Stream stream = new MemoryStream(userInfo.FotoProfilo);
+                        imgFotoUtente.Source = ImageSource.FromStream(() => { return stream; });
+                    }else if (userInfoDto.PhotoUrl != null)
+                    {
+                        imgFotoUtente.Source = ImageSource.FromUri(new Uri(userInfoDto.PhotoUrl));
+                    }
 
                     lblNomeCognome.Text = $"{userInfo.Nome} {userInfo.Cognome}";
                     lblEmail.Text = userInfo.Email;

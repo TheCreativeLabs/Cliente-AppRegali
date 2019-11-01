@@ -15,6 +15,8 @@ namespace AppRegali.Views.Account
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class FacebookLogin : ContentPage
     {
+        string ApiRequest;
+       
         public FacebookLogin()
         {
             InitializeComponent();
@@ -24,7 +26,7 @@ namespace AppRegali.Views.Account
             ExternalLoginViewModel externalLoginViewModel = accountClient.GetExternalLoginsAsync("/", true).Result.First();
             string apiRequest = "https://appregaliapitest.com" + externalLoginViewModel.Url;
             apiRequest= apiRequest.Replace("www.", "");
-
+            ApiRequest = apiRequest;
             //mostro l'url nella pagina
             var webView = new WebView
             {
@@ -71,10 +73,24 @@ namespace AppRegali.Views.Account
 
                     //registro l'utente
                     await accountClient.RegisterExternalAsync(registerExternalBindingModel);
+
+                    var webView = new WebView
+                    {
+                        Source = ApiRequest,
+                        HeightRequest = 1
+                    };
+
+                    webView.Navigated += WebViewOnNavigated;
+
+                    Content = webView;
+                }
+                else
+                {
+//Application.Current.MainPage = new NavigationPage( new MainPage());
+                Application.Current.MainPage = new MainPage();
                 }
 
-                //Application.Current.MainPage = new NavigationPage( new MainPage());
-                Application.Current.MainPage = new MainPage();
+                
 
             }
         }
