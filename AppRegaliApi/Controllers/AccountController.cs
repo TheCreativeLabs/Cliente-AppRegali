@@ -648,7 +648,6 @@ namespace AppRegaliApi.Controllers
 
         #endregion
 
-
         #region MetodiCustom
 
 
