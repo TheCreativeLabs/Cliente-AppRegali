@@ -32,12 +32,12 @@
                     <!--<Label Text="{Binding Item.Titolo}" FontSize="Large" TextColor="Black" VerticalTextAlignment="End" FontAttributes="Bold" HorizontalTextAlignment="Center"/>-->
 
                     <Grid>
-                        <!--<Label Grid.Row="0" Grid.Column="0" Text="{Binding Item.DataEvento, StringFormat='{0:dd/MM/yy}'}" FontSize="Medium" TextColor="Black" VerticalTextAlignment="End" HorizontalTextAlignment="Center"/>
-                        <Label Grid.Row="0" Grid.Column="1" Text="fixme CAT" FontSize="Medium" TextColor="Black" VerticalTextAlignment="End" HorizontalTextAlignment="Center"/>-->
                         <Entry Grid.Row="0" Grid.Column="0" Visual="Material" Placeholder="Data Evento" VerticalOptions="Center" Text="{Binding Item.DataEvento, StringFormat='{0:dd/MM/yy}'}" ></Entry>
                         <Entry Grid.Row="0" Grid.Column="1" Visual="Material" Placeholder="Categoria" VerticalOptions="Center" Text="FIX CAT" ></Entry>
+
+                        
                     </Grid>
-                    <!--<Label Text="{Binding Item.Descrizione}" FontSize="Medium" TextColor="Black" VerticalTextAlignment="End" HorizontalTextAlignment="Center"/>-->
+
                     <Entry Visual="Material" Placeholder="Descrizione" VerticalOptions="Center" Text="{Binding Item.Descrizione}" ></Entry>
 
                     <ListView x:Name="RegaliModificaListView"

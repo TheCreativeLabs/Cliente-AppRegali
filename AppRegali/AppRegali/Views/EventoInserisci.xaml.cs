@@ -36,7 +36,9 @@ namespace AppRegali.Views
             base.OnAppearing();
 
             if (viewModel.Items.Count == 0)
+            {
                 viewModel.LoadItemsCommand.Execute(null);
+            }
         }
 
         private async void Save_Clicked(object sender, EventArgs e)

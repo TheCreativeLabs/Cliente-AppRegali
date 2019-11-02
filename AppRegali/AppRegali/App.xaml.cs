@@ -27,6 +27,8 @@ namespace AppRegali
                 DependencyService.Register<MockDataStore>();
             else
                 DependencyService.Register<AzureDataStore>();
+
+            DependencyService.Register<Helpers.TranslateExtension>();
             MainPage = new NavigationPage(new Login());
         }
 

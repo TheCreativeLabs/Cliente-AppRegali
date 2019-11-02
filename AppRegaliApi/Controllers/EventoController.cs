@@ -94,7 +94,7 @@ namespace AppRegaliApi.Controllers
         // PUT: api/Evento/EventoUpdate/1
         [HttpPut]
         [Route("EventoUpdate/{IdEvento:Guid}")]
-        [ResponseType(typeof(Evento))]
+        [ResponseType(typeof(EventoDtoOutput))]
         public async Task<IHttpActionResult> UpdateEvento([FromUri]Guid IdEvento, [FromBody]EventoDtoInput Evento)
         {
             //Controllo che i parametri siano valorizzati
@@ -136,7 +136,7 @@ namespace AppRegaliApi.Controllers
             }
 
             //return StatusCode(HttpStatusCode.NoContent);
-            return Ok(evento);
+            return Ok(EventoMapper.EventoToEventoDto(evento));
                 //CreatedAtRoute("UpdateEvento", new { id = evento.Id }, evento);
         }
 

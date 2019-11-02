@@ -156,6 +156,12 @@
   <data name="EventoInserisci.Inserisci" xml:space="preserve">
     <value>Inserisci</value>
   </data>
+  <data name="EventoModifica.Ok" xml:space="preserve">
+    <value>Ok</value>
+  </data>
+  <data name="EventoModifica.SalvataggioOk" xml:space="preserve">
+    <value>Salvataggio eseguito con successo</value>
+  </data>
   <data name="Login.ConfermaPassword" xml:space="preserve">
     <value>Conferma Password</value>
   </data>
@@ -246,7 +252,7 @@
   <data name="Restore.Titolo" xml:space="preserve">
     <value>Hai dimenticato la password? Inserisci la tua mail, ti invieremo una nuova password.</value>
   </data>
-     <data name="Salva" xml:space="preserve">
+  <data name="Salva" xml:space="preserve">
     <value>Salva</value>
   </data>
 </root>

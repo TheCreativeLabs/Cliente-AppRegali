@@ -17,18 +17,28 @@ namespace AppRegali.Views
     public partial class EventoModifica : ContentPage
     {
         EventoDetailViewModel viewModel;
+        static Helpers.TranslateExtension translate = new Helpers.TranslateExtension();
+        public CategorieViewModel categorieViewModel { get; set; }
 
         public EventoModifica(EventoDetailViewModel eventoDetailViewModel)
         {
             InitializeComponent();
 
             BindingContext = this.viewModel = eventoDetailViewModel;
+            categorieViewModel = new CategorieViewModel();
         }
 
         protected override async void OnAppearing()
         {
             //Stream stream = new MemoryStream(viewModel.Item.ImmagineEvento);
             //imgEventoModifica.Source = ImageSource.FromStream(() => { return stream; });
+            base.OnAppearing();
+
+            if (categorieViewModel.Items.Count == 0)
+            {
+                categorieViewModel.LoadItemsCommand.Execute(null);
+            }
+            //pkCategoriaModifica.ItemsSource = categorieViewModel.Items;
         }
 
         private async void Update_Clicked(object sender, EventArgs e)
@@ -48,7 +58,10 @@ namespace AppRegali.Views
             Guid id = new Guid(viewModel.Item.Id);
             //Faccio update dell'evento
             var eventoInserito = await eventoClient.UpdateEventoAsync(new Guid(viewModel.Item.Id), eventoDtoInput);
-            await DisplayAlert(null, "Salvataggio eseguito con successo", "OK");
+            await DisplayAlert(null, 
+                Helpers.TranslateExtension.ResMgr.Value.GetString("EventoModifica.SalvataggioOk", translate.ci),
+                Helpers.TranslateExtension.ResMgr.Value.GetString("EventoModifica.Ok", translate.ci));
+            this.viewModel = new EventoDetailViewModel(eventoInserito);
 
             //Torno alla pagina di lista
             //await Navigation.PopModalAsync();

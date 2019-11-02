@@ -23,6 +23,7 @@ namespace AppRegali.Views
     {
         EventiViewModel viewModel;
         static Helpers.TranslateExtension translate = new Helpers.TranslateExtension();
+
         public string textModifica = Helpers.TranslateExtension.ResMgr.Value.GetString("EventiPersonali.Modifica", translate.ci);
         public string textEliminaEvento = Helpers.TranslateExtension.ResMgr.Value.GetString("EventiPersonali.EliminaEvento", translate.ci);
 
@@ -59,7 +60,7 @@ namespace AppRegali.Views
         {
             base.OnAppearing();
 
-            if (viewModel.Items.Count == 0)
+            //if (viewModel.Items.Count == 0)
                 viewModel.LoadItemsCommand.Execute(null);
         }
 
