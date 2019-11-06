@@ -50,12 +50,6 @@
 
                     <Editor x:Name="edDescrizione" Keyboard="Chat" AutoSize="TextChanges" Visual="Material" TextChanged="ent_TextChanged" Placeholder="Descrizione"></Editor>
 
-                    <StackLayout Orientation="Horizontal">
-                        <Label Text="{translator:Translate EventoInserisci.SezioneRegali}" FontSize="Large" VerticalTextAlignment="Center"/>
-                        <Button BackgroundColor="Transparent" FontSize="Medium" Margin="0,0,-15,0" TextColor="{StaticResource PrimaryColor}" HorizontalOptions="EndAndExpand" Text="&#xf067;" FontFamily="{StaticResource FA-Solid}" Clicked="AddRegalo_Clicked">
-                        </Button>
-                    </StackLayout>
-
                     <Button Style="{x:StaticResource primaryButton}"  Visual="Material" Text="{translator:Translate EventoInserisci.CreaNuovo}" x:Name="btnSalva" Clicked="Save_Clicked" IsEnabled="False"></Button>
                 </StackLayout>
             </StackLayout>

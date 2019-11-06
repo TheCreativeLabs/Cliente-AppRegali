@@ -225,11 +225,17 @@
   <data name="MieiEventi.Titolo" xml:space="preserve">
     <value>I miei eventi</value>
   </data>
+  <data name="RegaloInserisci.CreaNuovo" xml:space="preserve">
+    <value>Crea nuovo regalo</value>
+  </data>
   <data name="RegaloInserisci.Descrizione" xml:space="preserve">
     <value>Descrizione</value>
   </data>
   <data name="RegaloInserisci.Prezzo" xml:space="preserve">
     <value>Prezzo</value>
+  </data>
+  <data name="RegaloInserisci.Title" xml:space="preserve">
+    <value>Nuovo regalo</value>
   </data>
   <data name="RegaloInserisci.Titolo" xml:space="preserve">
     <value>Titolo</value>

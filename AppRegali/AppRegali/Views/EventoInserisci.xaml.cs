@@ -63,13 +63,12 @@ namespace AppRegali.Views
             };
 
             //Inserisco l'evento
-            var eventoInserito = await eventoClient.InserisciEventoAsync(evento);
+            EventoDtoOutput eventoInserito = await eventoClient.InserisciEventoAsync(evento);
 
             //Torno alla pagina di lista
             await Navigation.PopModalAsync();
             //Redirect alla modifica dell'evento appena inserito, in questo modo l'utente può aggiungere regali
-            //EventoDtoOutput dettaglioEvento = await eventoClient.GetEventoByIdAsync(new Guid(eventoInserito.Id));
-            //await Navigation.PushAsync(new EventoModifica(new EventoDetailViewModel(eventoInserito)));
+            await Navigation.PushAsync(new EventoModifica(new EventoDetailViewModel(eventoInserito)));
         }
 
         private async void Cancel_Clicked(object sender, EventArgs e)
@@ -119,11 +118,6 @@ namespace AppRegali.Views
             }
 
             (sender as Button).IsEnabled = true;
-        }
-
-        async void AddRegalo_Clicked(object sender, EventArgs e)
-        {
-            await Navigation.PushModalAsync(new NavigationPage(new RegaloInserisci(new RegaloDetailViewModel())));
         }
 
         private void ent_TextChanged(object sender, TextChangedEventArgs e)

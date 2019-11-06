@@ -299,7 +299,7 @@ namespace AppRegaliApi.Controllers
         //FIXME verificare come si comporta con i figli
         [HttpPut]
         [Route("RegaloUpdate/{IdRegalo:Guid}")]
-        [ResponseType(typeof(void))]
+        [ResponseType(typeof(RegaloDtoOutput))]
         public async Task<IHttpActionResult> UpdateRegalo([FromUri]Guid IdRegalo, [FromBody]RegaloDtoInput RegaloDto)
         {
             //Controllo che i parametri siano valorizzati
@@ -369,13 +369,13 @@ namespace AppRegaliApi.Controllers
                 }
             }
 
-            return Ok(regalo);
+            return Ok(RegaloMapper.RegaloToRegaloDto(regalo));
         }
 
         // POST: api/Evento/RegaloCreate
         [HttpPost]
         [Route("RegaloCreate", Name = "RegaloCreate")]
-        [ResponseType(typeof(Evento))]
+        [ResponseType(typeof(RegaloDtoOutput))]
         public async Task<IHttpActionResult> InserisciRegalo(RegaloDtoInput Dto)
         {
 
@@ -424,7 +424,7 @@ namespace AppRegaliApi.Controllers
                 }
             }
 
-            return Ok(regalo);
+            return Ok(RegaloMapper.RegaloToRegaloDto(regalo));
         }
 
         // DELETE: api/Evento/RegaloDelete/5

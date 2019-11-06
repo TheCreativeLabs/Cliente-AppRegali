@@ -25,6 +25,11 @@ namespace AppRegali.Views
             BindingContext = this.viewModel = RegaloDetailViewModel;
         }
 
+        private async void Cancel_Clicked(object sender, EventArgs e)
+        {
+            await Navigation.PopModalAsync();
+        }
+
         private async void Create_Clicked(object sender, EventArgs e)
         {
             EventoClient eventoClient = new EventoClient(ApiHelper.GetApiClient());
@@ -40,12 +45,12 @@ namespace AppRegali.Views
                 Titolo = viewModel.Item.Titolo
             };
 
-            Guid id = new Guid(viewModel.Item.Id);
             //Creo il regalo
             await eventoClient.InserisciRegaloAsync(regaloDtoInput);
-            await DisplayAlert(null,
-                Helpers.TranslateExtension.ResMgr.Value.GetString("RegaloModifica.SalvataggioOk", translate.ci),
-                Helpers.TranslateExtension.ResMgr.Value.GetString("RegaloModifica.Ok", translate.ci));
+            await Navigation.PopModalAsync();
+            //await DisplayAlert(null,
+            //    Helpers.TranslateExtension.ResMgr.Value.GetString("RegaloModifica.SalvataggioOk", translate.ci),
+            //    Helpers.TranslateExtension.ResMgr.Value.GetString("RegaloModifica.Ok", translate.ci));
             //TODO POPModelAsync
 
         }

@@ -4,6 +4,7 @@
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
+             xmlns:translator="clr-namespace:AppRegali.Helpers"
              xmlns:conv="clr-namespace:AppRegali.Converter"
              x:Class="AppRegali.Views.RegaloModifica">
     
@@ -31,11 +32,11 @@
                     <Button Style="{x:StaticResource PhotoButton}"><!--Clicked="OnPickPhotoButtonClicked"-->
                     </Button>
 
-                    <Entry x:Name="entTitoloRegalo" Visual="Material" Placeholder="{Binding RegaloModifica.Titolo}" Text="{Binding Item.Titolo}"></Entry>
-                    
-                    <Entry x:Name="entPrezzoRegalo" Visual="Material" Placeholder="{Binding RegaloModifica.Prezzo}" Text="{Binding Item.Prezzo}"></Entry>
-                    
-                    <Entry x:Name="entDescrizioneRegalo" Visual="Material" Placeholder="{Binding RegaloModifica.Descrizione}" Text="{Binding Item.Descrizione}"></Entry>
+                    <Entry x:Name="entTitoloRegalo" Visual="Material" Placeholder="{translator:Translate RegaloModifica.Titolo}" Text="{Binding Item.Titolo}"></Entry>
+
+                    <Entry x:Name="entPrezzoRegalo" Visual="Material" Placeholder="{translator:Translate RegaloModifica.Prezzo}" Text="{Binding Item.Prezzo}"></Entry>
+
+                    <Entry x:Name="entDescrizioneRegalo" Visual="Material" Placeholder="{translator:Translate RegaloModifica.Descrizione}" Text="{Binding Item.Descrizione}"></Entry>
 
                 </StackLayout>
             </ScrollView>

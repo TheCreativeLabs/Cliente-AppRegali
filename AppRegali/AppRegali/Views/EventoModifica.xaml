@@ -40,11 +40,17 @@
                     <Entry x:Name="entCategoria"  Visual="Material" Placeholder="Categoria" Focused="entCategoria_Focused"></Entry>
                     
                     <Picker x:Name="pkCategoria" Visual="Material" IsVisible="False" ItemDisplayBinding="{Binding Codice, Converter={StaticResource TranslateConverter}}"
-                            SelectedItem="{Binding Item.Id}" Title="Seleziona categoria" SelectedIndexChanged="pkCategoria_SelectedIndexChanged"></Picker>
+                            SelectedItem="{Binding Id}" Title="Seleziona categoria" SelectedIndexChanged="pkCategoria_SelectedIndexChanged"></Picker>
 
                     <Entry Visual="Material" Placeholder="Descrizione" VerticalOptions="Center" Text="{Binding Item.Descrizione}" ></Entry>
 
-                        <ListView x:Name="RegaliModificaListView"
+                    <StackLayout Orientation="Horizontal">
+                        <Label Text="{translator:Translate EventoInserisci.SezioneRegali}" FontSize="Large" VerticalTextAlignment="Center"/>
+                        <Button BackgroundColor="Transparent" FontSize="Medium" Margin="0,0,-15,0" TextColor="{StaticResource PrimaryColor}" HorizontalOptions="EndAndExpand" Text="&#xf067;" FontFamily="{StaticResource FA-Solid}" Clicked="AddRegalo_Clicked">
+                        </Button>
+                    </StackLayout>
+
+                    <ListView x:Name="RegaliModificaListView"
                                     
                                     ItemsSource="{Binding Item.Regali}"
                                     HeightRequest="{Binding HeightViewRegali}"

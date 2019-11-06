@@ -106,6 +106,13 @@ namespace AppRegali.Views
             }
         }
 
+        async void AddRegalo_Clicked(object sender, EventArgs e)
+        {
+            RegaloDtoOutput regaloNew = new RegaloDtoOutput();
+            regaloNew.IdEvento = new Guid(viewModel.Item.Id);
+            await Navigation.PushModalAsync(new NavigationPage(new RegaloInserisci(new RegaloDetailViewModel(regaloNew))));
+        }
+
         async void OnRegaloSelected(object sender, SelectedItemChangedEventArgs args)
         {
             RegaloDtoOutput item = args.SelectedItem as RegaloDtoOutput;
