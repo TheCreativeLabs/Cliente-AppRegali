@@ -23,6 +23,7 @@ namespace AppRegali.Views
     {
         EventiViewModel viewModel;
         static Helpers.TranslateExtension translate = new Helpers.TranslateExtension();
+        private EventoClient eventoClient = new EventoClient(ApiHelper.GetApiClient());
 
         public string textModifica = Helpers.TranslateExtension.ResMgr.Value.GetString("EventiPersonali.Modifica", translate.ci);
         public string textEliminaEvento = Helpers.TranslateExtension.ResMgr.Value.GetString("EventiPersonali.EliminaEvento", translate.ci);
@@ -41,7 +42,6 @@ namespace AppRegali.Views
             if (item == null || item.Id == null)
                 return;
 
-            EventoClient eventoClient = new EventoClient(ApiHelper.GetApiClient());
             EventoDtoOutput dettaglioEvento = await eventoClient.GetEventoByIdAsync(new Guid(item.Id));
 
 
@@ -60,36 +60,47 @@ namespace AppRegali.Views
         {
             base.OnAppearing();
 
-            //if (viewModel.Items.Count == 0)
-                viewModel.LoadItemsCommand.Execute(null);
+            //ricarico ogni volta per recepire le modifiche
+            viewModel.LoadItemsCommand.Execute(null);
         }
 
-        private async void lblComandiRapidi_Tapped(object sender, EventArgs e)
-        {
-            try
-            {
+        //private async void lblComandiRapidi_Tapped(object sender, EventArgs e)
+        //{
+        //    try
+        //    {
                 
-                string action = await DisplayActionSheet(Helpers.TranslateExtension.ResMgr.Value.GetString("EventiPersonali.ComandiRapidi", translate.ci),
-                                                         Helpers.TranslateExtension.ResMgr.Value.GetString("EventiPersonali.Annulla", translate.ci), null,
-                                                         textModifica,
-                                                         textEliminaEvento);
-                if(action == textModifica)
-                {
+        //        string action = await DisplayActionSheet(Helpers.TranslateExtension.ResMgr.Value.GetString("EventiPersonali.ComandiRapidi", translate.ci),
+        //                                                 Helpers.TranslateExtension.ResMgr.Value.GetString("EventiPersonali.Annulla", translate.ci), null,
+        //                                                 textModifica,
+        //                                                 textEliminaEvento);
+        //        if(action == textModifica)
+        //        {
 
-                }
-                else if(action == textEliminaEvento)
-                {
-                    bool answer = await DisplayAlert("Attenzione", "Vuoi davvero eliminare l'evento? Anche i regali di questo evento verranno rimossi.", "Yes", "No");
-                    if (answer)
-                    {
-                        var i = 1;
-                    }
-                }
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-        }
+        //        }
+        //        else if(action == textEliminaEvento)
+        //        {
+        //            bool answer = await DisplayAlert("Attenzione", "Vuoi davvero eliminare l'evento? Anche i regali di questo evento verranno rimossi.", "Yes", "No");
+        //            if (answer)
+        //            {
+        //                var idEvento = ((Button)sender).CommandParameter;
+        //                try
+        //                {
+        //                    await eventoClient.DeleteEventoAsync(new Guid((string)idEvento));
+        //                    await DisplayAlert(null, "Evento eliminato", "Ok");
+        //                    //ricarico la lista degli eventi in modo che non si visualizzi più l'evento eliminato
+        //                    viewModel.LoadItemsCommand.Execute(null);
+        //                }
+        //                catch
+        //                {
+        //                    await DisplayAlert(null, "Errore durante l'eliminazione dell'evento", "Ok");
+        //                }
+        //            }
+        //        }
+        //    }
+        //    catch (Exception)
+        //    {
+        //        throw;
+        //    }
+        //}
     }
 }

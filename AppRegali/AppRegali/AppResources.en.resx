@@ -120,6 +120,9 @@
   <data name="Account.CambiaPassword" xml:space="preserve">
     <value>Cambia Password</value>
   </data>
+  <data name="BIRTHDAY" xml:space="preserve">
+    <value>Birthday</value>
+  </data>
   <data name="CambiaPassword.MessaggioValidazionePassword" xml:space="preserve">
     <value>La Password inserita non è valida.</value>
   </data>
@@ -141,20 +144,26 @@
   <data name="EventiPersonali.Annulla" xml:space="preserve">
     <value>Cancel</value>
   </data>
-  <data name="EventiPersonali.ComandiRapidi" xml:space="preserve">
-    <value>Quick commands</value>
-  </data>
-  <data name="EventiPersonali.EliminaEvento" xml:space="preserve">
-    <value>Delete event</value>
-  </data>
   <data name="EventiPersonali.Modifica" xml:space="preserve">
     <value>Modify</value>
   </data>
   <data name="EventoInserisci.Annulla" xml:space="preserve">
     <value>Annulla</value>
   </data>
+  <data name="EventoInserisci.CreaNuovo" xml:space="preserve">
+    <value>Create new event</value>
+  </data>
   <data name="EventoInserisci.Inserisci" xml:space="preserve">
     <value>Inserisci</value>
+  </data>
+  <data name="EventoInserisci.SezioneRegali" xml:space="preserve">
+    <value>Presents</value>
+  </data>
+  <data name="EventoInserisci.Title" xml:space="preserve">
+    <value>New Event</value>
+  </data>
+  <data name="EventoModifica.Elimina" xml:space="preserve">
+    <value>Delete event</value>
   </data>
   <data name="EventoModifica.Ok" xml:space="preserve">
     <value>Ok</value>
@@ -207,6 +216,9 @@
   <data name="Login.Username" xml:space="preserve">
     <value>Email</value>
   </data>
+  <data name="MARRIAGE" xml:space="preserve">
+    <value>Marriage</value>
+  </data>
   <data name="Menu.Logout" xml:space="preserve">
     <value>Esci</value>
   </data>
@@ -216,8 +228,29 @@
   <data name="MieiEventi.Titolo" xml:space="preserve">
     <value>My events</value>
   </data>
-  <data name="NuovoEvento.Nuovo" xml:space="preserve">
-    <value>Crea nuovo evento</value>
+  <data name="RegaloInserisci.Descrizione" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="RegaloInserisci.Prezzo" xml:space="preserve">
+    <value>Price</value>
+  </data>
+  <data name="RegaloInserisci.Titolo" xml:space="preserve">
+    <value>Title</value>
+  </data>
+  <data name="RegaloModifica.Descrizione" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="RegaloModifica.Ok" xml:space="preserve">
+    <value>Ok</value>
+  </data>
+  <data name="RegaloModifica.Prezzo" xml:space="preserve">
+    <value>Price</value>
+  </data>
+  <data name="RegaloModifica.SalvataggioOk" xml:space="preserve">
+    <value>Saved</value>
+  </data>
+  <data name="RegaloModifica.Titolo" xml:space="preserve">
+    <value>Title</value>
   </data>
   <data name="Registrazione.Bottone" xml:space="preserve">
     <value>Registrati</value>
@@ -232,7 +265,7 @@
     <value>Questo campo è obbligatorio.</value>
   </data>
   <data name="Registrazione.Nome" xml:space="preserve">
-    <value>Nome</value>
+    <value>Name</value>
   </data>
   <data name="Registrazione.SottotitoloSuccesso" xml:space="preserve">
     <value>Riceverà una email con il link di conferma</value>
@@ -256,6 +289,6 @@
     <value>Hai dimenticato la password? Inserisci la tua mail, ti invieremo una nuova password.</value>
   </data>
   <data name="Salva" xml:space="preserve">
-    <value>Salva</value>
+    <value>Save</value>
   </data>
 </root>

@@ -37,6 +37,9 @@
     <Compile Update="Views\EventiPersonali.xaml.cs">
       <DependentUpon>EventiPersonali.xaml</DependentUpon>
     </Compile>
+    <Compile Update="Views\RegaloModifica.xaml.cs">
+      <DependentUpon>RegaloModifica.xaml</DependentUpon>
+    </Compile>
     <Compile Update="Views\Home.xaml.cs">
       <DependentUpon>Home.xaml</DependentUpon>
     </Compile>
@@ -78,6 +81,9 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\EventoModifica.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\RegaloInserisci.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\RicercaAmici.xaml">

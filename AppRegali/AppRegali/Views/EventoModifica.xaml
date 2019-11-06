@@ -5,11 +5,12 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
              xmlns:conv="clr-namespace:AppRegali.Converter"
+             xmlns:translator="clr-namespace:AppRegali.Helpers"
              x:Class="AppRegali.Views.EventoModifica">
     
     <NavigationPage.TitleView>
         <StackLayout Orientation="Horizontal">
-            <Label Text="{Binding Item.Titolo}" TextColor="White" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" FontAttributes="Bold" FontSize="Large"></Label>
+            <Label Text="{Binding Item.Titolo}" TextColor="White" HorizontalOptions="StartAndExpand" VerticalTextAlignment="Center" FontAttributes="Bold" FontSize="Large"></Label>
             <Button Text="Salva" TextColor="White" BackgroundColor="Transparent"  HorizontalOptions="EndAndExpand"  Clicked="Update_Clicked"></Button>
         </StackLayout>
     </NavigationPage.TitleView>
@@ -17,6 +18,7 @@
     <ContentPage.Resources>
         <ResourceDictionary>
             <conv:ByteArrayToImageSourceConverter x:Key="ByteArrayToImage" />
+            <conv:KeyToTranslateConverter x:Key="TranslateConverter" />
         </ResourceDictionary>
     </ContentPage.Resources>
 
@@ -27,64 +29,71 @@
                     <Frame CornerRadius="10"  HeightRequest="200" IsClippedToBounds="True" Padding="0" HasShadow="True" Visual="Material">
                         <Image x:Name="imgEventoModifica" Source="{Binding Item.ImmagineEvento, Converter={StaticResource ByteArrayToImage}}" Aspect="AspectFill"></Image>
                     </Frame>
+                    <Button Style="{x:StaticResource PhotoButton}">
+                        <!--Clicked="OnPickPhotoButtonClicked"-->
+                    </Button>
 
                     <Entry x:Name="entTitoloEvento" Visual="Material" Placeholder="Titolo" VerticalOptions="Center" Text="{Binding Item.Titolo}" ></Entry>
-                    <!--<Label Text="{Binding Item.Titolo}" FontSize="Large" TextColor="Black" VerticalTextAlignment="End" FontAttributes="Bold" HorizontalTextAlignment="Center"/>-->
 
-                    <Grid>
-                        <Entry Grid.Row="0" Grid.Column="0" Visual="Material" Placeholder="Data Evento" VerticalOptions="Center" Text="{Binding Item.DataEvento, StringFormat='{0:dd/MM/yy}'}" ></Entry>
-                        <Entry Grid.Row="0" Grid.Column="1" Visual="Material" Placeholder="Categoria" VerticalOptions="Center" Text="FIX CAT" ></Entry>
+                    <Entry Visual="Material" Placeholder="Data Evento" VerticalOptions="Center" Text="{Binding Item.DataEvento, StringFormat='{0:dd/MM/yy}'}" ></Entry>
 
-                        
-                    </Grid>
+                    <Entry x:Name="entCategoria"  Visual="Material" Placeholder="Categoria" Focused="entCategoria_Focused"></Entry>
+                    
+                    <Picker x:Name="pkCategoria" Visual="Material" IsVisible="False" ItemDisplayBinding="{Binding Codice, Converter={StaticResource TranslateConverter}}"
+                            SelectedItem="{Binding Item.Id}" Title="Seleziona categoria" SelectedIndexChanged="pkCategoria_SelectedIndexChanged"></Picker>
 
                     <Entry Visual="Material" Placeholder="Descrizione" VerticalOptions="Center" Text="{Binding Item.Descrizione}" ></Entry>
 
-                    <ListView x:Name="RegaliModificaListView"
-                                ItemsSource="{Binding Item.Regali}"
-                                VerticalOptions="FillAndExpand"
-                                HasUnevenRows="true"
-                                RefreshCommand="{Binding LoadItemsCommand}"
-                                IsPullToRefreshEnabled="true"
-                                CachingStrategy="RecycleElement"
-                                SeparatorVisibility="None">
-                        <ListView.ItemTemplate>
-                            <DataTemplate>
-                                <ViewCell>
-                                    <StackLayout>
-                                        <Frame HasShadow="True" >
-                                            <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
-                                                <Frame CornerRadius="10"
-                                           HeightRequest="100"
-                                           WidthRequest="100"
-                                           HorizontalOptions="Center"
-                                           Padding="0"
-                                           IsClippedToBounds="True"
-                                           HasShadow="True">
-                                                    <Image x:Name="imgFotoUtente"  HorizontalOptions="Center" Source="{Binding ImmagineRegalo, Converter={StaticResource ByteArrayToImage}}" VerticalOptions="Center"></Image>
-                                                </Frame>
+                        <ListView x:Name="RegaliModificaListView"
+                                    
+                                    ItemsSource="{Binding Item.Regali}"
+                                    HeightRequest="{Binding HeightViewRegali}"
+                                    HasUnevenRows="true"
+                                    RefreshCommand="{Binding LoadItemsCommand}"
+                                    IsPullToRefreshEnabled="true"
+                                    CachingStrategy="RecycleElement"
+                                    SeparatorVisibility="None"
+                                    ItemSelected ="OnRegaloSelected">
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <ViewCell>
+                                        <StackLayout>
+                                            <Frame HasShadow="True" >
+                                                <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
+                                                    <Frame CornerRadius="10"
+                                               HeightRequest="100"
+                                               WidthRequest="100"
+                                               HorizontalOptions="Center"
+                                               Padding="0"
+                                               IsClippedToBounds="True"
+                                               HasShadow="True">
+                                                        <Image x:Name="imgFotoUtente"  HorizontalOptions="Center" Source="{Binding ImmagineRegalo, Converter={StaticResource ByteArrayToImage}}" VerticalOptions="Center"></Image>
+                                                    </Frame>
 
 
-                                                <Grid VerticalOptions="Center" HorizontalOptions="FillAndExpand" HeightRequest="80" RowSpacing="1">
-                                                    <Label Grid.Row="0" FontSize="Large" FontAttributes="Bold" VerticalTextAlignment="Center" TextColor="Black" Text="{Binding Titolo}"></Label>
-                                                    <Label Grid.Row="1" FontSize="Medium" FontAttributes="Bold" VerticalTextAlignment="Center" Text="{Binding Descrizione}"></Label>
-                                                    <Grid Grid.Row="2" RowSpacing="2">
-                                                        <Grid.ColumnDefinitions>
-                                                            <ColumnDefinition Width="70*" />
-                                                            <ColumnDefinition Width="30*" />
-                                                        </Grid.ColumnDefinitions>
-                                                        <ProgressBar Grid.Row="0" Grid.Column="0" Progress="0.5" />
-                                                        <Label Grid.Row="0" Grid.Column="1" FontSize="Medium" Text="{Binding ImportoCollezionato}" VerticalTextAlignment="Center" />
+                                                    <Grid VerticalOptions="Center" HorizontalOptions="FillAndExpand" HeightRequest="80" RowSpacing="1">
+                                                        <Label Grid.Row="0" FontSize="Large" FontAttributes="Bold" VerticalTextAlignment="Center" TextColor="Black" Text="{Binding Titolo}"></Label>
+                                                        <Label Grid.Row="1" FontSize="Medium" FontAttributes="Bold" VerticalTextAlignment="Center" Text="{Binding Descrizione}"></Label>
+                                                        <Grid Grid.Row="2" RowSpacing="2">
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="70*" />
+                                                                <ColumnDefinition Width="30*" />
+                                                            </Grid.ColumnDefinitions>
+                                                            <ProgressBar Grid.Row="0" Grid.Column="0" Progress="0.5" />
+                                                            <Label Grid.Row="0" Grid.Column="1" FontSize="Medium" Text="{Binding ImportoCollezionato}" VerticalTextAlignment="Center" />
+                                                        </Grid>
                                                     </Grid>
-                                                </Grid>
-                                            </StackLayout>
-                                        </Frame>
-                                    </StackLayout>
-                                </ViewCell>
-                            </DataTemplate>
-                        </ListView.ItemTemplate>
-                    </ListView>
-
+                                                </StackLayout>
+                                            </Frame>
+                                        </StackLayout>
+                                    </ViewCell>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                            <ListView.Footer >
+                            <Button Margin="0,20,0,0" Style="{x:StaticResource deleteButton}" Visual="Material" Text="{translator:Translate EventoModifica.Elimina}" x:Name="btnDelete" Clicked="Delete_Clicked" ></Button>
+                            </ListView.Footer>
+                        </ListView>
+                    
                 </StackLayout>
             </ScrollView>
         </StackLayout>

@@ -143,7 +143,7 @@ namespace AppRegaliApi.Controllers
         // POST: api/Evento/EventoCreate
         [HttpPost]
         [Route("EventoCreate", Name = "EventoCreate")]
-        [ResponseType(typeof(Evento))]
+        [ResponseType(typeof(EventoDtoOutput))]
         public async Task<IHttpActionResult> InserisciEvento(EventoDtoInput Evento)
         {
             //Controllo se il modello è valido
@@ -196,7 +196,7 @@ namespace AppRegaliApi.Controllers
                 }
             }
 
-            return Ok(evento);
+            return Ok(EventoMapper.EventoToEventoDto(evento));
             //In questo modo mi da un 201 da FE, e si blocca l'esecuizione: come si può risolvere?
             //CreatedAtRoute("EventoCreate", new { id = evento.Id }, evento);
         }

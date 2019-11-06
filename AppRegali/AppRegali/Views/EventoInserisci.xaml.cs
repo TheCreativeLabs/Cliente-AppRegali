@@ -22,6 +22,8 @@ namespace AppRegali.Views
     public partial class EventoInserisci : ContentPage
     {
         CategorieViewModel viewModel;
+        static Helpers.TranslateExtension translate = new Helpers.TranslateExtension();
+
 
         byte[] img;
         public EventoInserisci()
@@ -45,6 +47,11 @@ namespace AppRegali.Views
         {
             EventoClient eventoClient = new EventoClient(ApiHelper.GetApiClient());
 
+            if (img == null)
+            {
+                EventoCategoria cat = (EventoCategoria)pkCategoria.SelectedItem;
+                img = cat.Immagine;
+            }
             //Costruisco l'evento
             EventoDtoInput evento = new EventoDtoInput()
             {
@@ -60,6 +67,9 @@ namespace AppRegali.Views
 
             //Torno alla pagina di lista
             await Navigation.PopModalAsync();
+            //Redirect alla modifica dell'evento appena inserito, in questo modo l'utente può aggiungere regali
+            //EventoDtoOutput dettaglioEvento = await eventoClient.GetEventoByIdAsync(new Guid(eventoInserito.Id));
+            //await Navigation.PushAsync(new EventoModifica(new EventoDetailViewModel(eventoInserito)));
         }
 
         private async void Cancel_Clicked(object sender, EventArgs e)
@@ -89,7 +99,7 @@ namespace AppRegali.Views
 
         private void pkCategoria_SelectedIndexChanged(object sender, EventArgs e)
         {
-            entCategoria.Text = ((EventoCategoria)pkCategoria.SelectedItem).Descrizione;
+            entCategoria.Text = Helpers.TranslateExtension.ResMgr.Value.GetString(((EventoCategoria)pkCategoria.SelectedItem).Codice, translate.ci);
         }
 
         async void OnPickPhotoButtonClicked(object sender, EventArgs e)
@@ -109,6 +119,11 @@ namespace AppRegali.Views
             }
 
             (sender as Button).IsEnabled = true;
+        }
+
+        async void AddRegalo_Clicked(object sender, EventArgs e)
+        {
+            await Navigation.PushModalAsync(new NavigationPage(new RegaloInserisci(new RegaloDetailViewModel())));
         }
 
         private void ent_TextChanged(object sender, TextChangedEventArgs e)

@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             xmlns:conv="clr-namespace:AppRegali.Converter"
+             x:Class="AppRegali.Views.RegaloModifica">
+    
+    <NavigationPage.TitleView>
+        <StackLayout Orientation="Horizontal" Padding="5">
+            <Label FontSize="Large" VerticalTextAlignment="Center" HorizontalOptions="StartAndExpand" TextColor="White" FontAttributes="Bold" Text="{Binding Item.Titolo}"></Label>
+            <Button Text="Salva" TextColor="White" BackgroundColor="Transparent"  HorizontalOptions="EndAndExpand" Clicked="Update_Clicked" ></Button>
+
+        </StackLayout>
+    </NavigationPage.TitleView>
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <conv:ByteArrayToImageSourceConverter x:Key="ByteArrayToImage" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <ContentPage.Content>
+        <StackLayout>
+            <ScrollView>
+                <StackLayout Margin="15" Padding="15">
+                    <Frame CornerRadius="10"  HeightRequest="200" IsClippedToBounds="True" Padding="0" HasShadow="True" Visual="Material">
+                        <Image x:Name="imgRegaloModifica" Source="{Binding Item.ImmagineRegalo, Converter={StaticResource ByteArrayToImage}}" Aspect="AspectFill"></Image>
+                    </Frame>
+                    <Button Style="{x:StaticResource PhotoButton}"><!--Clicked="OnPickPhotoButtonClicked"-->
+                    </Button>
+
+                    <Entry x:Name="entTitoloRegalo" Visual="Material" Placeholder="{Binding RegaloModifica.Titolo}" Text="{Binding Item.Titolo}"></Entry>
+                    
+                    <Entry x:Name="entPrezzoRegalo" Visual="Material" Placeholder="{Binding RegaloModifica.Prezzo}" Text="{Binding Item.Prezzo}"></Entry>
+                    
+                    <Entry x:Name="entDescrizioneRegalo" Visual="Material" Placeholder="{Binding RegaloModifica.Descrizione}" Text="{Binding Item.Descrizione}"></Entry>
+
+                </StackLayout>
+            </ScrollView>
+        </StackLayout>
+    </ContentPage.Content>
+
+</ContentPage>

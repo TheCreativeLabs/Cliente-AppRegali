@@ -6,6 +6,7 @@
              mc:Ignorable="d"
              x:Class="AppRegali.Views.EventoInserisci"
              Title="Crea un evento"
+             xmlns:conv="clr-namespace:AppRegali.Converter"
              xmlns:translator="clr-namespace:AppRegali.Helpers"  NavigationPage.HasNavigationBar="True">
 
 
@@ -14,9 +15,15 @@
             <Button Text="&#xf00d;" Style="{x:StaticResource ButtonCloseIconApplication}" Clicked="Cancel_Clicked">
             </Button>
 
-            <Label FontSize="Large" HorizontalTextAlignment="Center" Margin="-50,0,0,0" VerticalTextAlignment="Center" HorizontalOptions="CenterAndExpand"  FontFamily="{x:StaticResource FA-Solid}" TextColor="White" FontAttributes="Bold" Text="Nuovo evento"></Label>
+            <Label FontSize="Large" HorizontalTextAlignment="Center" Margin="-50,0,0,0" VerticalTextAlignment="Center" HorizontalOptions="CenterAndExpand"  FontFamily="{x:StaticResource FA-Solid}" TextColor="White" FontAttributes="Bold" Text="{translator:Translate EventoInserisci.Title}"></Label>
         </StackLayout>
     </NavigationPage.TitleView>
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <conv:KeyToTranslateConverter x:Key="TranslateConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
 
     <ContentPage.Content>
         <ScrollView>
@@ -25,8 +32,9 @@
                     <Image x:Name="imgTest" Source="test.jpg" Aspect="AspectFill"></Image>
                 </Frame>
 
-                <Button HeightRequest="50" CornerRadius="10" Visual="Material" Clicked="OnPickPhotoButtonClicked" WidthRequest="50"  TextColor="Black" BackgroundColor="#efefef" Text="&#xf030;" Margin="0,-40,0,0" FontFamily="{StaticResource FA-Solid}"  FontSize="Large" HorizontalOptions="Center">
+                <Button Clicked="OnPickPhotoButtonClicked" Style="{x:StaticResource PhotoButton}">
                 </Button>
+                
 
                 <StackLayout Padding="15">
                     <Entry x:Name="entTitolo" Visual="Material" Placeholder="Titolo" TextChanged="ent_TextChanged"></Entry>
@@ -38,11 +46,17 @@
                     <Entry x:Name="entCategoria"  Visual="Material" Placeholder="Categoria" Focused="entCategoria_Focused" TextChanged="ent_TextChanged"></Entry>
                     
                     <Picker x:Name="pkCategoria" Visual="Material" IsVisible="False" ItemsSource="{Binding Items}"
-                        ItemDisplayBinding="{Binding Descrizione}" Title="Seleziona categoria" SelectedIndexChanged="pkCategoria_SelectedIndexChanged"></Picker>
+                        ItemDisplayBinding="{Binding Codice, Converter={StaticResource TranslateConverter}}" Title="Seleziona categoria" SelectedIndexChanged="pkCategoria_SelectedIndexChanged"></Picker>
 
                     <Editor x:Name="edDescrizione" Keyboard="Chat" AutoSize="TextChanges" Visual="Material" TextChanged="ent_TextChanged" Placeholder="Descrizione"></Editor>
 
-                    <Button Style="{x:StaticResource primaryButton}"  Visual="Material" Text="{translator:Translate NuovoEvento.Nuovo}" x:Name="btnSalva" Clicked="Save_Clicked" IsEnabled="False"></Button>
+                    <StackLayout Orientation="Horizontal">
+                        <Label Text="{translator:Translate EventoInserisci.SezioneRegali}" FontSize="Large" VerticalTextAlignment="Center"/>
+                        <Button BackgroundColor="Transparent" FontSize="Medium" Margin="0,0,-15,0" TextColor="{StaticResource PrimaryColor}" HorizontalOptions="EndAndExpand" Text="&#xf067;" FontFamily="{StaticResource FA-Solid}" Clicked="AddRegalo_Clicked">
+                        </Button>
+                    </StackLayout>
+
+                    <Button Style="{x:StaticResource primaryButton}"  Visual="Material" Text="{translator:Translate EventoInserisci.CreaNuovo}" x:Name="btnSalva" Clicked="Save_Clicked" IsEnabled="False"></Button>
                 </StackLayout>
             </StackLayout>
         </ScrollView>

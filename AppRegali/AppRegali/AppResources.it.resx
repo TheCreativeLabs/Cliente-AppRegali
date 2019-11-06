@@ -120,6 +120,9 @@
   <data name="Account.CambiaPassword" xml:space="preserve">
     <value>Cambia Password</value>
   </data>
+  <data name="BIRTHDAY" xml:space="preserve">
+    <value>Compleanno</value>
+  </data>
   <data name="CambiaPassword.MessaggioValidazionePassword" xml:space="preserve">
     <value>La Password inserita non è valida.</value>
   </data>
@@ -141,20 +144,26 @@
   <data name="EventiPersonali.Annulla" xml:space="preserve">
     <value>Annulla</value>
   </data>
-  <data name="EventiPersonali.ComandiRapidi" xml:space="preserve">
-    <value>Comandi rapidi</value>
-  </data>
-  <data name="EventiPersonali.EliminaEvento" xml:space="preserve">
-    <value>Elimina evento</value>
-  </data>
   <data name="EventiPersonali.Modifica" xml:space="preserve">
     <value>Modifica</value>
   </data>
   <data name="EventoInserisci.Annulla" xml:space="preserve">
     <value>Annulla</value>
   </data>
+  <data name="EventoInserisci.CreaNuovo" xml:space="preserve">
+    <value>Crea nuovo evento</value>
+  </data>
   <data name="EventoInserisci.Inserisci" xml:space="preserve">
     <value>Inserisci</value>
+  </data>
+  <data name="EventoInserisci.SezioneRegali" xml:space="preserve">
+    <value>Regali</value>
+  </data>
+  <data name="EventoInserisci.Title" xml:space="preserve">
+    <value>Nuovo Evento</value>
+  </data>
+  <data name="EventoModifica.Elimina" xml:space="preserve">
+    <value>Elimina evento</value>
   </data>
   <data name="EventoModifica.Ok" xml:space="preserve">
     <value>Ok</value>
@@ -207,14 +216,38 @@
   <data name="Login.Username" xml:space="preserve">
     <value>Email</value>
   </data>
+  <data name="MARRIAGE" xml:space="preserve">
+    <value>Matrimonio</value>
+  </data>
   <data name="Menu.Logout" xml:space="preserve">
     <value>Esci</value>
   </data>
   <data name="MieiEventi.Titolo" xml:space="preserve">
     <value>I miei eventi</value>
   </data>
-  <data name="NuovoEvento.Nuovo" xml:space="preserve">
-    <value>Crea nuovo evento</value>
+  <data name="RegaloInserisci.Descrizione" xml:space="preserve">
+    <value>Descrizione</value>
+  </data>
+  <data name="RegaloInserisci.Prezzo" xml:space="preserve">
+    <value>Prezzo</value>
+  </data>
+  <data name="RegaloInserisci.Titolo" xml:space="preserve">
+    <value>Titolo</value>
+  </data>
+  <data name="RegaloModifica.Descrizione" xml:space="preserve">
+    <value>Descrizione</value>
+  </data>
+  <data name="RegaloModifica.Ok" xml:space="preserve">
+    <value>Ok</value>
+  </data>
+  <data name="RegaloModifica.Prezzo" xml:space="preserve">
+    <value>Prezzo</value>
+  </data>
+  <data name="RegaloModifica.SalvataggioOk" xml:space="preserve">
+    <value>Salvataggio eseguito con successo</value>
+  </data>
+  <data name="RegaloModifica.Titolo" xml:space="preserve">
+    <value>Titolo</value>
   </data>
   <data name="Registrazione.Bottone" xml:space="preserve">
     <value>Registrati</value>

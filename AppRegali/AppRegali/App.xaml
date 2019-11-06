@@ -27,6 +27,11 @@
                 <Setter Property="Text" Value="White"/>
             </Style>
 
+            <Style TargetType="Button" x:Key="deleteButton">
+                <Setter Property="BackgroundColor" Value="Red"/>
+                <Setter Property="Text" Value="White"/>
+            </Style>
+
             <OnPlatform x:TypeArguments="x:String" x:Key="BoldFont">
                 <On Platform="Android" Value="Montserrat-Light.ttf#Montserrat Light" />
                 <On Platform="iOS" Value="Montserrat-Light" />
@@ -84,6 +89,20 @@
                 <Setter Property="IsVisible" Value="False"></Setter>
                 <Setter Property="Margin" Value="0,-8,0,5"></Setter>
                 <Setter Property="FontAttributes" Value="Bold"></Setter>
+            </Style>
+
+            <Style TargetType="Button" x:Key="PhotoButton">
+                <Setter Property="HeightRequest" Value="50"/>
+                <Setter Property="CornerRadius" Value="10"/>
+                <Setter Property="Visual" Value="Material"/>
+                <Setter Property="WidthRequest" Value="50"/>
+                <Setter Property="TextColor" Value="Black"/>
+                <Setter Property="BackgroundColor" Value="#efefef"/>
+                <Setter Property="Text" Value="&#xf030;"/>
+                <Setter Property="Margin" Value="0,-40,0,0" />
+                <Setter Property="FontFamily" Value="{StaticResource FA-Solid}" />
+                <Setter Property="FontSize" Value="Large" />
+                <Setter Property="HorizontalOptions" Value="Center" />
             </Style>
         </ResourceDictionary>
     </Application.Resources>
