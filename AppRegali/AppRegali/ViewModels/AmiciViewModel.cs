@@ -38,13 +38,13 @@ namespace AppRegali.ViewModels
             {
                 Items.Clear();
 
-                EventoClient eventoClient = new EventoClient(Api.ApiHelper.GetApiClient());
+                AmiciClient amiciClient = new AmiciClient(Api.ApiHelper.GetApiClient());
 
-                ICollection<EventoDtoOutput> listaEventi;
+                ICollection<UserInfoDto> listaUsers;
 
-                if (SoloPersonali)
+                if (SoloAccettati)
                 {
-                    listaEventi = await eventoClient.GetEventoCurrentUserAsync();
+                    listaUsers = await amiciClient.GetAmiciOfCurrentUserAsync();
                 }
                 else
                 {

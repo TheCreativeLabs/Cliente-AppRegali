@@ -65,7 +65,6 @@ namespace AppRegaliApi.Controllers
         /// <returns>List<UserInfo> : amici dell'utente corrente</returns>
         [HttpGet]
         [Route("AmiciCurrentUser")]
-        [ResponseType(typeof(Task<List<UserInfoDto>>))]
         public async Task<List<UserInfoDto>> GetAmiciOfCurrentUser()
         {
             Guid currentUserId = new Guid(User.Identity.GetUserId());
