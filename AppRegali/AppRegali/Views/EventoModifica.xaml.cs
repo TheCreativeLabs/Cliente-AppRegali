@@ -18,7 +18,7 @@ namespace AppRegali.Views
     {
         EventoDetailViewModel viewModel;
         static Helpers.TranslateExtension translate = new Helpers.TranslateExtension();
-        EventoClient eventoClient;
+        EventoClient eventoClient = new EventoClient(ApiHelper.GetApiClient());
         public CategorieViewModel categorieViewModel { get; set; }
 
         public EventoModifica(EventoDetailViewModel eventoDetailViewModel)
@@ -28,15 +28,22 @@ namespace AppRegali.Views
             BindingContext = this.viewModel = eventoDetailViewModel;
         }
 
+        private async Task<int> LoadEventoDetailById(Guid id)
+        {
+            EventoDtoOutput eventoModel = await eventoClient.GetEventoByIdAsync(id);
+            this.viewModel.Item = eventoModel;
+            return 1;
+        }
+
         protected override async void OnAppearing()
         {
             //Stream stream = new MemoryStream(viewModel.Item.ImmagineEvento);
             //imgEventoModifica.Source = ImageSource.FromStream(() => { return stream; });
             base.OnAppearing();
 
-            this.eventoClient = new EventoClient(ApiHelper.GetApiClient());
-
-            List<EventoCategoria> listaCategorie = (List<EventoCategoria>)await eventoClient.GetLookupEventoCategoriaAsync();
+            await LoadEventoDetailById(new Guid(this.viewModel.Item.Id));
+            
+            List<EventoCategoria> listaCategorie = (List<EventoCategoria>)await this.eventoClient.GetLookupEventoCategoriaAsync();
 
             pkCategoria.ItemsSource = listaCategorie;
             EventoCategoria categoria = listaCategorie.First(a => a.Id == this.viewModel.Item.IdCategoriaEvento);
@@ -45,7 +52,10 @@ namespace AppRegali.Views
         }
         private void pkCategoria_SelectedIndexChanged(object sender, EventArgs e)
         {
-            entCategoria.Text = Helpers.TranslateExtension.ResMgr.Value.GetString(((EventoCategoria)pkCategoria.SelectedItem).Codice, translate.ci);
+            if (pkCategoria.SelectedItem != null)
+            {
+                entCategoria.Text = Helpers.TranslateExtension.ResMgr.Value.GetString(((EventoCategoria)pkCategoria.SelectedItem).Codice, translate.ci);
+            }
         }
 
         private void entCategoria_Focused(object sender, FocusEventArgs e)

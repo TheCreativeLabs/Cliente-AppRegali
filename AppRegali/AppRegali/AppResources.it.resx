@@ -120,6 +120,15 @@
   <data name="Account.CambiaPassword" xml:space="preserve">
     <value>Cambia Password</value>
   </data>
+  <data name="Amici.Contatti" xml:space="preserve">
+    <value>Contatti</value>
+  </data>
+  <data name="Amici.Richieste" xml:space="preserve">
+    <value>Richieste</value>
+  </data>
+  <data name="Amici.Titolo" xml:space="preserve">
+    <value>Amici</value>
+  </data>
   <data name="BIRTHDAY" xml:space="preserve">
     <value>Compleanno</value>
   </data>
@@ -242,6 +251,9 @@
   </data>
   <data name="RegaloModifica.Descrizione" xml:space="preserve">
     <value>Descrizione</value>
+  </data>
+  <data name="RegaloModifica.Elimina" xml:space="preserve">
+    <value>Elimina regalo</value>
   </data>
   <data name="RegaloModifica.Ok" xml:space="preserve">
     <value>Ok</value>

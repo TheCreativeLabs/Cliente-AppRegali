@@ -29,7 +29,7 @@
         <ScrollView>
             <StackLayout>
                 <Frame Margin="15" CornerRadius="10"  HeightRequest="200" IsClippedToBounds="True" Padding="0" HasShadow="True" Visual="Material">
-                    <Image x:Name="imgTest" Source="test.jpg" Aspect="AspectFill"></Image>
+                    <Image x:Name="imgTest" Aspect="AspectFill"></Image>
                 </Frame>
 
                 <Button Clicked="OnPickPhotoButtonClicked" Style="{x:StaticResource PhotoButton}">

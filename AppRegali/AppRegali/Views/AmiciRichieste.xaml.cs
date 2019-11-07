@@ -6,17 +6,15 @@ using System.Threading.Tasks;
 
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
-using Xamarin.Forms.PlatformConfiguration.AndroidSpecific;
 
 namespace AppRegali.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class Amici : Xamarin.Forms.TabbedPage
+    public partial class AmiciRichieste : ContentPage
     {
-        public Amici()
+        public AmiciRichieste()
         {
             InitializeComponent();
-            On<Xamarin.Forms.PlatformConfiguration.Android>().SetToolbarPlacement(ToolbarPlacement.Bottom);
         }
     }
 }

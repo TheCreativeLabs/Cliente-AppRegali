@@ -28,9 +28,9 @@
             <ScrollView>
                 <StackLayout Margin="15" Padding="15">
                     <Frame CornerRadius="10"  HeightRequest="200" IsClippedToBounds="True" Padding="0" HasShadow="True" Visual="Material">
-                        <Image x:Name="imgRegaloModifica" Source="{Binding Item.ImmagineRegalo, Converter={StaticResource ByteArrayToImage}}" Aspect="AspectFill"></Image>
+                        <Image x:Name="imgRegaloModifica"  Aspect="AspectFill"></Image> <!--Source="{Binding Item.ImmagineRegalo, Converter={StaticResource ByteArrayToImage}}"-->
                     </Frame>
-                    <Button Style="{x:StaticResource PhotoButton}">
+                    <Button Style="{x:StaticResource PhotoButton}" Clicked="OnPickPhotoButtonClicked">
                         <!--Clicked="OnPickPhotoButtonClicked"-->
                     </Button>
 

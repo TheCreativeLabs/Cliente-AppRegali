@@ -19,6 +19,7 @@ namespace AppRegali.Views
     {
         RegaloDetailViewModel viewModel;
         static Helpers.TranslateExtension translate = new Helpers.TranslateExtension();
+        EventoClient eventoClient = new EventoClient(ApiHelper.GetApiClient());
 
         public RegaloModifica(RegaloDetailViewModel RegaloDetailViewModel)
         {
@@ -26,15 +27,9 @@ namespace AppRegali.Views
 
             BindingContext = this.viewModel = RegaloDetailViewModel;
         }
-        //private async void Cancel_Clicked(object sender, EventArgs e)
-        //{
-        //    await Navigation.PopModalAsync();
-        //}
 
         private async void Update_Clicked(object sender, EventArgs e)
         {
-            EventoClient eventoClient = new EventoClient(ApiHelper.GetApiClient());
-
             RegaloDtoInput regaloDtoInput = new RegaloDtoInput()
             {
                 Cancellato = viewModel.Item.Cancellato,
@@ -55,6 +50,33 @@ namespace AppRegali.Views
                 Helpers.TranslateExtension.ResMgr.Value.GetString("RegaloModifica.Ok", translate.ci));
             //TODO APPENA RIPUBBLICO API this.viewModel = new EventoDetailViewModel(eventoInserito);
 
+        }
+
+        private async void Delete_Clicked(object sender, EventArgs e)
+        {
+            try
+            {
+                bool answer = await DisplayAlert("Attenzione", "Vuoi davvero eliminare il regalo?", "Yes", "No");
+                if (answer)
+                {
+                    try
+                    {
+                        await eventoClient.DeleteRegaloAsync(new Guid(viewModel.Item.Id));
+                        await DisplayAlert(null, "Regalo eliminato", "Ok");
+                        //torno indietro alla lista degli eventi personali
+                        await Navigation.PopAsync();
+                    }
+                    catch
+                    {
+                        await DisplayAlert(null, "Errore durante l'eliminazione del regalo", "Ok");
+                    }
+                }
+
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
     }

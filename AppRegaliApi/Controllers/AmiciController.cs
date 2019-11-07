@@ -63,26 +63,28 @@ namespace AppRegaliApi.Controllers
         /// Tra gli amici che hanno accettato sono inclusi sia gli amici che hanno fatto richiesta sia gli amici che hanno ricevuto richiesta
         /// </summary>
         /// <returns>List<UserInfo> : amici dell'utente corrente</returns>
-        //[HttpGet]
-        //[Route("AmiciCurrentUser")]
-        //[ResponseType(typeof(Task<List<UserInfoDto>>))]
-        //public async Task<List<UserInfoDto>> GetAmiciOfCurrentUser()
-        //{
-        //    Guid currentUserId = new Guid(User.Identity.GetUserId());
+        [HttpGet]
+        [Route("AmiciCurrentUser")]
+        [ResponseType(typeof(Task<List<UserInfoDto>>))]
+        public async Task<List<UserInfoDto>> GetAmiciOfCurrentUser()
+        {
+            Guid currentUserId = new Guid(User.Identity.GetUserId());
 
-        //    List<Guid> idAmici = await AmiciUtility.GetIdAmiciOfUser(currentUserId);
+            List<Guid> idAmici = await AmiciUtility.GetIdAmiciOfUser(currentUserId);
 
-        //    List<UserInfo> amici = await dbDataContext.UserInfo.Where(x => idAmici.Contains(x.IdAspNetUser)).ToListAsync();
-        //    //var query =
-        //    //           from info in dbDataContext.UserInfo
-        //    //           join user in dbContext.Users on info.IdAspNetUser equals user.Id
-        //    //           where idAmici.Contains(info.IdAspNetUser)
-        //    //           select new UserInfoDto { Nome = info.Nome, 
-        //    //                                    Cognome = info.Cognome,
-        //    //                                    FotoProfilo = info.FotoProfilo,
-        //    //                                    Email = user.Email};
-        //    return amici;
-        //}
+            List<UserInfoDto> amici = await dbDataContext.UserInfo
+                                        .Select(x => UserInfoMapper.UserInfoToUserInfoDto(x, null)) //non mi interessa la mail nella lista di amici
+                                        .Where(x => idAmici.Contains(x.IdAspNetUser)).ToListAsync();
+            //var query =
+            //           from info in dbDataContext.UserInfo
+            //           join user in dbContext.Users on info.IdAspNetUser equals user.Id
+            //           where idAmici.Contains(info.IdAspNetUser)
+            //           select new UserInfoDto { Nome = info.Nome, 
+            //                                    Cognome = info.Cognome,
+            //                                    FotoProfilo = info.FotoProfilo,
+            //                                    Email = user.Email};
+            return amici;
+        }
 
         [HttpPost]
         [Route("AmiciziaCreate", Name = "AmiciziaCreate")]

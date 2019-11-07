@@ -1,8 +1,10 @@
 ﻿using Api;
 using AppRegali.Api;
 using AppRegali.ViewModels;
+using DependencyServiceDemos;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -46,13 +48,28 @@ namespace AppRegali.Views
             };
 
             //Creo il regalo
-            await eventoClient.InserisciRegaloAsync(regaloDtoInput);
+            RegaloDtoOutput regaloInserito = await eventoClient.InserisciRegaloAsync(regaloDtoInput);
             await Navigation.PopModalAsync();
-            //await DisplayAlert(null,
-            //    Helpers.TranslateExtension.ResMgr.Value.GetString("RegaloModifica.SalvataggioOk", translate.ci),
-            //    Helpers.TranslateExtension.ResMgr.Value.GetString("RegaloModifica.Ok", translate.ci));
-            //TODO POPModelAsync
 
+        }
+
+        async void OnPickPhotoButtonClicked(object sender, EventArgs e)
+        {
+            (sender as Button).IsEnabled = false;
+
+            Stream stream = await DependencyService.Get<IPhotoPickerService>().GetImageStreamAsync();
+            if (stream != null)
+            {
+                imgRegaloModifica.Source = ImageSource.FromStream(() => stream);
+
+                using (var memoryStream = new MemoryStream())
+                {
+                    stream.CopyTo(memoryStream);
+                    //viewModel.Item.ImmagineRegalo = memoryStream.ToArray();
+                }
+            }
+
+            (sender as Button).IsEnabled = true;
         }
     }
 }

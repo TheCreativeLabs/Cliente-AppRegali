@@ -38,6 +38,8 @@
 
                     <Entry x:Name="entDescrizioneRegalo" Visual="Material" Placeholder="{translator:Translate RegaloModifica.Descrizione}" Text="{Binding Item.Descrizione}"></Entry>
 
+                    <Button Style="{x:StaticResource deleteButton}" Visual="Material" Text="{translator:Translate RegaloModifica.Elimina}" x:Name="btnDelete" Clicked="Delete_Clicked" ></Button>
+
                 </StackLayout>
             </ScrollView>
         </StackLayout>
