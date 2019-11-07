@@ -1311,7 +1311,7 @@ namespace Api
 
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task<TaskOfListOfUserInfoDto> GetAmiciOfCurrentUserAsync()
+        public System.Threading.Tasks.Task<System.Collections.Generic.ICollection<UserInfoDto>> GetAmiciOfCurrentUserAsync()
         {
             return GetAmiciOfCurrentUserAsync(System.Threading.CancellationToken.None);
         }
@@ -1319,7 +1319,7 @@ namespace Api
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task<TaskOfListOfUserInfoDto> GetAmiciOfCurrentUserAsync(System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<UserInfoDto>> GetAmiciOfCurrentUserAsync(System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/Amici/AmiciCurrentUser");
@@ -1352,7 +1352,7 @@ namespace Api
                         var status_ = ((int)response_.StatusCode).ToString();
                         if (status_ == "200")
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<TaskOfListOfUserInfoDto>(response_, headers_).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<System.Collections.Generic.ICollection<UserInfoDto>>(response_, headers_).ConfigureAwait(false);
                             return objectResponse_.Object;
                         }
                         else
@@ -1362,7 +1362,7 @@ namespace Api
                             throw new ApiException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", (int)response_.StatusCode, responseData_, headers_, null);
                         }
 
-                        return default(TaskOfListOfUserInfoDto);
+                        return default(System.Collections.Generic.ICollection<UserInfoDto>);
                     }
                     finally
                     {
@@ -3352,39 +3352,6 @@ namespace Api
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.0.27.0 (Newtonsoft.Json v11.0.0.0)")]
-    public partial class TaskOfListOfUserInfoDto
-    {
-        [Newtonsoft.Json.JsonProperty("Result", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.ICollection<UserInfoDto> Result { get; set; }
-
-        [Newtonsoft.Json.JsonProperty("Id", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public int? Id { get; set; }
-
-        [Newtonsoft.Json.JsonProperty("Exception", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public object Exception { get; set; }
-
-        [Newtonsoft.Json.JsonProperty("Status", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public TaskOfListOfUserInfoDtoStatus? Status { get; set; }
-
-        [Newtonsoft.Json.JsonProperty("IsCanceled", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public bool? IsCanceled { get; set; }
-
-        [Newtonsoft.Json.JsonProperty("IsCompleted", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public bool? IsCompleted { get; set; }
-
-        [Newtonsoft.Json.JsonProperty("CreationOptions", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public TaskOfListOfUserInfoDtoCreationOptions? CreationOptions { get; set; }
-
-        [Newtonsoft.Json.JsonProperty("AsyncState", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public object AsyncState { get; set; }
-
-        [Newtonsoft.Json.JsonProperty("IsFaulted", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public bool? IsFaulted { get; set; }
-
-
-    }
-
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.0.27.0 (Newtonsoft.Json v11.0.0.0)")]
     public partial class UserAmicizia
     {
         [Newtonsoft.Json.JsonProperty("IdUserRichiedente", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
@@ -3714,46 +3681,6 @@ namespace Api
         [Newtonsoft.Json.JsonProperty("ImportoCollezionato", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public double? ImportoCollezionato { get; set; }
 
-
-    }
-
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.0.27.0 (Newtonsoft.Json v11.0.0.0)")]
-    public enum TaskOfListOfUserInfoDtoStatus
-    {
-        _0 = 0,
-
-        _1 = 1,
-
-        _2 = 2,
-
-        _3 = 3,
-
-        _4 = 4,
-
-        _5 = 5,
-
-        _6 = 6,
-
-        _7 = 7,
-
-    }
-
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.0.27.0 (Newtonsoft.Json v11.0.0.0)")]
-    public enum TaskOfListOfUserInfoDtoCreationOptions
-    {
-        _0 = 0,
-
-        _1 = 1,
-
-        _2 = 2,
-
-        _4 = 4,
-
-        _8 = 8,
-
-        _16 = 16,
-
-        _64 = 64,
 
     }
 

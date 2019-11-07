@@ -33,7 +33,7 @@
                    Padding="0"
                    IsClippedToBounds="True"
                            HasShadow="True">
-                    <Image x:Name="imgFotoUtente"  HorizontalOptions="Center"
+                    <Image x:Name="imgFotoUtente"  Aspect="AspectFill" HorizontalOptions="Center"
                         VerticalOptions="Center"></Image>
                 </Frame>
 

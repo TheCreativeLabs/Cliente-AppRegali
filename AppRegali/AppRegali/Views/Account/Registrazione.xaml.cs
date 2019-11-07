@@ -141,16 +141,20 @@ namespace AppRegali.Views.Login
             Stream stream = await DependencyService.Get<IPhotoPickerService>().GetImageStreamAsync();
             if (stream != null)
             {
+                MemoryStream i = new MemoryStream();
+                stream.CopyTo(i);
+                img = i.ToArray();
                 imgFotoUtente.Source = ImageSource.FromStream(() => stream);
 
-                using (var memoryStream = new MemoryStream())
-                {
-                    stream.CopyTo(memoryStream);
-                    img = memoryStream.ToArray();
-                }
+                //using (var memoryStream = new MemoryStream())
+                //{
+                //    stream.CopyTo(memoryStream);
+                //    img = memoryStream.ToArray();
+                //}
             }
 
             (sender as Button).IsEnabled = true;
+
         }
     }
 }

@@ -57,19 +57,24 @@ namespace AppRegali.Views
         {
             (sender as Button).IsEnabled = false;
 
-            Stream stream = await DependencyService.Get<IPhotoPickerService>().GetImageStreamAsync();
+            var stream = await DependencyService.Get<IPhotoPickerService>().GetImageStreamAsync();
             if (stream != null)
             {
+                MemoryStream i = new MemoryStream();
+                stream.CopyTo(i);
+                viewModel.Item.ImmagineRegalo = i.ToArray();
                 imgRegaloModifica.Source = ImageSource.FromStream(() => stream);
 
-                using (var memoryStream = new MemoryStream())
-                {
-                    stream.CopyTo(memoryStream);
-                    //viewModel.Item.ImmagineRegalo = memoryStream.ToArray();
-                }
+                //using (var memoryStream = new MemoryStream())
+                //{
+                //    stream.CopyTo(memoryStream);
+                //    //viewModel.Item.ImmagineRegalo = memoryStream.ToArray();
+                //}
             }
 
             (sender as Button).IsEnabled = true;
+
+             
         }
     }
 }

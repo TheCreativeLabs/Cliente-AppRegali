@@ -83,6 +83,18 @@ namespace AppRegaliApi.Controllers
             return UserInfoMapper.UserInfoToUserInfoDtoList(amici);
         }
 
+        [HttpGet]
+        [Route("RichiesteCurrentUser")]
+        public async Task<List<UserInfoDto>> GetRichiesteAmiciziaOfCurrentUser()
+        {
+            Guid currentUserId = new Guid(User.Identity.GetUserId());
+
+            List<Guid> idRichieste = await AmiciUtility.GedIdRichiesteOfUser(currentUserId);
+
+            List<UserInfo> utentiRichieste = await dbDataContext.UserInfo.Where(x => idRichieste.Contains(x.IdAspNetUser)).ToListAsync();
+            return UserInfoMapper.UserInfoToUserInfoDtoList(utentiRichieste);
+        }
+
         [HttpPost]
         [Route("AmiciziaCreate", Name = "AmiciziaCreate")]
         [ResponseType(typeof(UserAmicizia))]

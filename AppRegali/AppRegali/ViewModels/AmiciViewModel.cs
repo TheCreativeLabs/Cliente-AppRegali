@@ -13,7 +13,7 @@ namespace AppRegali.ViewModels
 {
     public class AmiciViewModel : BaseViewModel
     {
-        public ObservableCollection<EventoDtoOutput> Items { get; set; }
+        public ObservableCollection<UserInfoDto> Items { get; set; }
         public Command LoadItemsCommand { get; set; }
 
         private bool SoloAccettati { get; set; }
@@ -22,7 +22,7 @@ namespace AppRegali.ViewModels
         //se amiciAccettati == false -> restituisce gli utenti che HANNO CHIESTO di essere miei amici (amicizie di cui il current è destinario, con accettato = false)
         public AmiciViewModel(bool SoloAmiciAccettati)
         {
-            Items = new ObservableCollection<EventoDtoOutput>();
+            Items = new ObservableCollection<UserInfoDto>();
             LoadItemsCommand = new Command(async () => await ExecuteLoadItemsCommand());
             SoloAccettati = SoloAmiciAccettati;
         }
@@ -48,12 +48,13 @@ namespace AppRegali.ViewModels
                 }
                 else
                 {
-                    listaEventi = await eventoClient.GetEventiByidUtenteAsync(null, null);
+                    //TODO
+                    listaUsers = new List<UserInfoDto>();
                 }
 
-                foreach (var evento in listaEventi)
+                foreach (var user in listaUsers)
                 {
-                    Items.Add(evento);
+                    Items.Add(user);
                 }
             }
             catch (Exception ex)

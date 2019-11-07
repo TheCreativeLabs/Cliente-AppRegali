@@ -30,17 +30,22 @@ namespace AppRegaliApi.Models
             //                                        .Where(x => ((x.IdUserRichiedente == idUser) && (x.Accettato)))
             //                                        .Select(x => x.IdUserDestinatario)
             //                                        .ToListAsync();
-
-
             List<Guid> idAmiciAll = await dbDataContext.UserAmicizia
                                     .Where(x => (x.IdUserDestinatario == idUser || x.IdUserRichiedente == idUser) && x.Accettato == true)
                                     .Select(x => (x.IdUserDestinatario == idUser ? x.IdUserRichiedente : x.IdUserDestinatario)).ToListAsync();
-
-
-
             //List<Guid> idAmiciAll = idAmiciRichiedenti.Union(idAmiciDestinatari).ToListAsync();
 
             return idAmiciAll;
+        }
+
+
+        public static async Task<List<Guid>> GedIdRichiesteOfUser(Guid idUser)
+        {
+            List<Guid> idAmiciRichieste = await dbDataContext.UserAmicizia
+                                    .Where(x => (x.IdUserDestinatario == idUser) && x.Accettato == false)
+                                    .Select(x => x.IdUserRichiedente).ToListAsync();
+
+            return idAmiciRichieste;
         }
     }
 }
