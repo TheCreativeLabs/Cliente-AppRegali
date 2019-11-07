@@ -72,9 +72,7 @@ namespace AppRegaliApi.Controllers
 
             List<Guid> idAmici = await AmiciUtility.GetIdAmiciOfUser(currentUserId);
 
-            List<UserInfoDto> amici = await dbDataContext.UserInfo
-                                        .Select(x => UserInfoMapper.UserInfoToUserInfoDto(x, null)) //non mi interessa la mail nella lista di amici
-                                        .Where(x => idAmici.Contains(x.IdAspNetUser)).ToListAsync();
+            List<UserInfo> amici = await dbDataContext.UserInfo.Where(x => idAmici.Contains(x.IdAspNetUser)).ToListAsync();
             //var query =
             //           from info in dbDataContext.UserInfo
             //           join user in dbContext.Users on info.IdAspNetUser equals user.Id
@@ -83,7 +81,7 @@ namespace AppRegaliApi.Controllers
             //                                    Cognome = info.Cognome,
             //                                    FotoProfilo = info.FotoProfilo,
             //                                    Email = user.Email};
-            return amici;
+            return UserInfoMapper.UserInfoToUserInfoDtoList(amici);
         }
 
         [HttpPost]
