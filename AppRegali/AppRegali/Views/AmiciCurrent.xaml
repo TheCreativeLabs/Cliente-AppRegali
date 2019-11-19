@@ -18,7 +18,9 @@
         <StackLayout>
 
             <CollectionView x:Name="ContattiCollectionView"
-                ItemsSource="{Binding Items}">
+                ItemsSource="{Binding Items}"
+                SelectionMode="Single"
+                SelectionChanged="OnContattiSelectionChanged">
                 <!--ItemSelected="OnItemSelected"
                 VerticalOptions="FillAndExpand"
                 HasUnevenRows="true"

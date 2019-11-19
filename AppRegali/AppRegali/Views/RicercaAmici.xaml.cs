@@ -29,7 +29,11 @@ namespace AppRegali.Views
 
             MyListView.ItemsSource = Items;
 
-            entRicerca.Focus();
+            //entRicerca.Focus();
+        }
+
+        async void btnCerca_Clicked(object sender, EventArgs e)
+        {
         }
 
         async void Handle_ItemTapped(object sender, ItemTappedEventArgs e)

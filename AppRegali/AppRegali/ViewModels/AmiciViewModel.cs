@@ -48,8 +48,7 @@ namespace AppRegali.ViewModels
                 }
                 else
                 {
-                    //TODO
-                    listaUsers = new List<UserInfoDto>();
+                    listaUsers = await amiciClient.GetRichiesteAmiciziaOfCurrentUserAsync();
                 }
 
                 foreach (var user in listaUsers)

@@ -4,12 +4,72 @@
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
+             xmlns:translator="clr-namespace:AppRegali.Helpers"
+             xmlns:conv="clr-namespace:AppRegali.Converter"
              x:Class="AppRegali.Views.AmiciProfilo">
+    
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <conv:ByteArrayToImageSourceConverter x:Key="ByteArrayToImage" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <NavigationPage.TitleView>
+        <StackLayout Orientation="Horizontal">
+            <Label Text="{Binding Nome}" TextColor="White" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" FontAttributes="Bold" FontSize="Large"></Label>
+        </StackLayout>
+    </NavigationPage.TitleView>
+
     <ContentPage.Content>
         <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
+            <ScrollView>
+                <StackLayout Margin="15" Padding="15">
+                    <Frame CornerRadius="10"  HeightRequest="200" IsClippedToBounds="True" Padding="0" HasShadow="True" Visual="Material">
+                        <Image x:Name="imgEventoDettaglio" Aspect="AspectFill" Source="{Binding Info.FotoProfilo, Converter={StaticResource ByteArrayToImage}}"></Image>
+                    </Frame>
+
+                    <Label Text="{Binding Info.Nome}" FontSize="Large" TextColor="Black" VerticalTextAlignment="End" FontAttributes="Bold" HorizontalTextAlignment="Center"/>
+                    <Label Text="{Binding Info.Cognome}" FontSize="Large" TextColor="Black" VerticalTextAlignment="End" FontAttributes="Bold" HorizontalTextAlignment="Center"/>
+                    <Label Text="{Binding Info.DataDiNascita, StringFormat='{0:dd/MM/yy}'}" FontSize="Medium" TextColor="Black" VerticalTextAlignment="End" HorizontalTextAlignment="Center"/>
+
+                    <Button Text="{Binding AmiciProfilo.ConfirmContact}" Visual="Material" Style="{x:StaticResource primaryButton}"></Button>
+                    <Button Text="{Binding AmiciProfilo.DeleteContact}" Visual="Material" Style="{x:StaticResource primaryButton}"></Button>
+                    <Button Text="{Binding AmiciProfilo.AcceptContact}" Visual="Material" Style="{x:StaticResource primaryButton}"></Button>
+
+                    <ListView x:Name="EventiProfiloListView"
+                                ItemsSource="{Binding Eventi}"
+                                VerticalOptions="FillAndExpand"
+                                HasUnevenRows="true"
+                                RefreshCommand="{Binding LoadItemsCommand}"
+                                IsPullToRefreshEnabled="true"
+                                IsRefreshing="{Binding IsBusy, Mode=OneWay}"
+                                CachingStrategy="RecycleElement"
+                                
+                                SeparatorVisibility="None">
+                        <!--ItemSelected="OnItemSelected" FIXME ANDARE ALLA PAGINAE eVENTO-->
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <ViewCell>
+                                    <Frame HasShadow="True" Padding="0" HeightRequest="260" Margin="20,10,20,10"  CornerRadius="5" IsClippedToBounds="True">
+                                        <StackLayout>
+                                            <Image Aspect="AspectFill" HeightRequest="190" Source="{Binding ImmagineEvento, Converter={StaticResource ByteArrayToImage}}" Margin="0,0,0,150"></Image>
+
+                                            <Label Text="{Binding Titolo}" 
+                                d:Text="{Binding .}"
+                                LineBreakMode="NoWrap" 
+                                FontSize="Large" TextColor="Black" VerticalTextAlignment="End" Margin="15,-150,0,0" FontAttributes="Bold"/>
+                                            <Label Text="{Binding Descrizione}" 
+                                d:Text="Item descripton" VerticalTextAlignment="End"
+                                LineBreakMode="NoWrap" Margin="15,0,0,0" />
+                                        </StackLayout>
+                                    </Frame>
+                                </ViewCell>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+
+                </StackLayout>
+            </ScrollView>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

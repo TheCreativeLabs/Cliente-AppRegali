@@ -1,4 +1,5 @@
-﻿using AppRegali.ViewModels;
+﻿using Api;
+using AppRegali.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,6 +29,16 @@ namespace AppRegali.Views
 
             //ricarico ogni volta per recepire le modifiche
             viewModel.LoadItemsCommand.Execute(null);
+        }
+
+        async void OnContattiSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            UserInfoDto current = (e.CurrentSelection.FirstOrDefault() as UserInfoDto);
+
+            if (current == null || current.IdAspNetUser == null)
+                return;
+
+            await Navigation.PushAsync(new AmiciProfilo(current));
         }
     }
 }

@@ -4,12 +4,68 @@
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
+             xmlns:conv="clr-namespace:AppRegali.Converter;assembly=AppRegali"
              x:Class="AppRegali.Views.AmiciRichieste">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <conv:ByteArrayToImageSourceConverter x:Key="ByteArrayToImage" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
     <ContentPage.Content>
         <StackLayout>
-            <Label Text="Richieste"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
+
+            <CollectionView x:Name="RichiesteCollectionView"
+                ItemsSource="{Binding Items}"
+                SelectionMode="Single"
+                SelectionChanged="OnRichiesteSelectionChanged">
+                <!--ItemSelected="OnItemSelected"
+                VerticalOptions="FillAndExpand"
+                HasUnevenRows="true"
+                RefreshCommand="{Binding LoadItemsCommand}"
+                IsPullToRefreshEnabled="true"
+                IsRefreshing="{Binding IsBusy, Mode=OneWay}"
+                CachingStrategy="RecycleElement"
+                SeparatorVisibility="None"-->
+
+                <CollectionView.ItemsLayout>
+                    <GridItemsLayout Orientation="Vertical" Span="3" />
+                </CollectionView.ItemsLayout>
+
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid Padding="15">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="3*" />
+                                <RowDefinition Height="2*" />
+                            </Grid.RowDefinitions>
+                            <Frame Grid.Row="0"
+                                CornerRadius="100"
+                               HeightRequest="80"
+                               WidthRequest="80"
+                               HorizontalOptions="Center"
+                               Padding="0"
+                               IsClippedToBounds="True"
+                               HasShadow="True" BorderColor="#0bbfb9"
+                               >
+                                <Image x:Name="imgContatto"  HorizontalOptions="Center" Aspect="AspectFill" Source="{Binding FotoProfilo, Converter={StaticResource ByteArrayToImage}}" 
+                               VerticalOptions="Center"></Image>
+                            </Frame>
+                            <Label Grid.Row="1" HorizontalOptions="Center">
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span Text="{Binding Nome}" FontAttributes="Bold"/>
+                                        <Span Text=" "/>
+                                        <Span Text="{Binding Cognome}" FontAttributes="Bold" />
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
         </StackLayout>
+
     </ContentPage.Content>
 </ContentPage>

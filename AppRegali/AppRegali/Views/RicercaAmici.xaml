@@ -8,11 +8,18 @@
              NavigationPage.HasNavigationBar="True">
 
 
-    <NavigationPage.TitleView>
-        <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand" Padding="10">
+    <!--<NavigationPage.TitleView>-->
+        <!--<StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand" Padding="10">
             <Entry x:Name="entRicerca" TextColor="White" Placeholder="Ricerca amici" Margin="-10,0,10,10" PlaceholderColor="White" VerticalOptions="CenterAndExpand" HorizontalOptions="FillAndExpand"/>
-        </StackLayout> 
-    </NavigationPage.TitleView>
+        </StackLayout>-->
+        <NavigationPage.TitleView>
+        <StackLayout Orientation="Horizontal">
+        <Entry x:Name="SampleEntry" HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand" TextColor="White" Placeholder="Ricerca amici" Visual="Material"></Entry>
+            <Button x:Name="btnCerca"  Clicked="btnCerca_Clicked" BackgroundColor="Transparent" FontSize="Medium" TextColor="White" HorizontalOptions="End" Text="&#xf002;" FontFamily="{StaticResource FA-Solid}" Margin="0,0,-15,0">
+            </Button>
+        </StackLayout>
+        </NavigationPage.TitleView>
+    <!--</NavigationPage.TitleView>-->
     
     <ListView x:Name="MyListView"
             ItemsSource="{Binding Items}"

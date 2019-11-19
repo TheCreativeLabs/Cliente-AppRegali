@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Api;
+using AppRegali.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,9 +14,23 @@ namespace AppRegali.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class AmiciProfilo : ContentPage
     {
-        public AmiciProfilo()
+
+        UserProfiloViewModel viewModel;
+
+        public AmiciProfilo(UserInfoDto userInfo)
         {
             InitializeComponent();
+
+            BindingContext = viewModel = new UserProfiloViewModel(userInfo);
+            viewModel.LoadItemsCommand.Execute(null);
+        }
+
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+
+            //ricarico ogni volta per recepire le modifiche
+            //viewModel.LoadItemsCommand.Execute(null);
         }
     }
 }

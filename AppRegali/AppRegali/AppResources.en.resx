@@ -129,6 +129,15 @@
   <data name="Amici.Titolo" xml:space="preserve">
     <value>Friends</value>
   </data>
+  <data name="AmiciProfilo.AcceptContact" xml:space="preserve">
+    <value>Accept contact</value>
+  </data>
+  <data name="AmiciProfilo.ConfirmContact" xml:space="preserve">
+    <value>Confirm contact</value>
+  </data>
+  <data name="AmiciProfilo.DeleteContact" xml:space="preserve">
+    <value>Delete contact</value>
+  </data>
   <data name="BIRTHDAY" xml:space="preserve">
     <value>Birthday</value>
   </data>

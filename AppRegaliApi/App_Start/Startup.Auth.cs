@@ -132,8 +132,8 @@ namespace AppRegaliApi
 
             //app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
             //{
-            //    ClientId = "",
-            //    ClientSecret = ""
+            //    ClientId = "272887959075-gfq0nkajl1b9lksvbg17f7vup99c1c3n.apps.googleusercontent.com",
+            //    ClientSecret = "DdEdqPQNDA3RJ85u-dZrl1Lz"
             //});
         }
 

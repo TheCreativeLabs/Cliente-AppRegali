@@ -13,8 +13,6 @@
             BackgroundColor="#E8E8E8" BarBackgroundColor="White"
             NavigationPage.HasNavigationBar="False">
 
-    <!--android:TabbedPage.ToolbarPlacement="Bottom"-->
-
     <TabbedPage.Children>
         <NavigationPage Title="{translator:Translate Amici.Contatti}">
             <NavigationPage.IconImageSource>

@@ -14,6 +14,7 @@ using AppRegaliApi.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using static AppRegaliApi.Controllers.AccountController;
+using static AppRegaliApi.UserInfoDto;
 
 namespace AppRegaliApi.Controllers
 {
@@ -22,6 +23,7 @@ namespace AppRegaliApi.Controllers
     [RoutePrefix("api/Amici")]
     public class AmiciController : ApiController
     {
+
         private DbDataContext dbDataContext = new DbDataContext();
         private ApplicationDbContext dbContext = new ApplicationDbContext();
 
@@ -44,6 +46,41 @@ namespace AppRegaliApi.Controllers
             //FIXME inserire anche immagine da Facebook 
             //ExternalLoginData externalLogin = ExternalLoginData.FromIdentity(User.Identity as ClaimsIdentity);
             UserInfoDto dto = UserInfoMapper.UserInfoToUserInfoDto(userInfo, email);
+
+            Guid idUtenteCorrente = new Guid(User.Identity.GetUserId());
+
+            //se idUtenteCorrente == idUser, sto restituendo il profilo dell'utente corrente quindi non c'è nessuna relazione da stabilire: metto ME e restituisco
+            if (idUser == idUtenteCorrente)
+            {
+                dto.Relation = UserRelation.ME;
+                return Ok(dto);
+            }
+
+            //recupero la relazione tra current e utente con idUser
+            UserAmicizia userAmicizia = await dbDataContext.UserAmicizia
+                                                            .Where(x => (x.IdUserDestinatario == idUser && x.IdUserRichiedente == idUtenteCorrente) ||
+                                                                        (x.IdUserDestinatario == idUtenteCorrente && x.IdUserRichiedente == idUser)
+                                                                  ).FirstOrDefaultAsync();
+            //se la relazione è null non sono amici
+            if (userAmicizia == null)
+            {
+                dto.Relation = UserRelation.STRANGER;
+            }
+            //se nella relazione accettato = true i due utente sono già in contatto (sono amici)
+            else if (userAmicizia.Accettato == true)
+            {
+                dto.Relation = UserRelation.CONTACT;
+            }
+            //se accettato = false e destinatario = current, richiesta in entrata
+            else if (userAmicizia.Accettato == false && userAmicizia.IdUserDestinatario == idUtenteCorrente)
+            {
+                dto.Relation = UserRelation.REQUEST_IN;
+            }
+            //se accettato = false e richiedente = current, richiesta in uscita
+            else if (userAmicizia.Accettato == false && userAmicizia.IdUserRichiedente == idUtenteCorrente)
+            {
+                dto.Relation = UserRelation.REQUEST_OUT;
+            }
             return Ok(dto);
         }
         
@@ -93,6 +130,31 @@ namespace AppRegaliApi.Controllers
 
             List<UserInfo> utentiRichieste = await dbDataContext.UserInfo.Where(x => idRichieste.Contains(x.IdAspNetUser)).ToListAsync();
             return UserInfoMapper.UserInfoToUserInfoDtoList(utentiRichieste);
+        }
+
+
+        //FIXME attenzione, ignoreCase ha senso in lingue come itaiano e inglese ma non ha senso in lingue come il turco.
+        //in caso di introduzione di altre lingue, fixare
+        //https://stackoverflow.com/questions/444798/case-insensitive-containsstring
+        [HttpGet]
+        [Route("RicercaUtenti")]
+        public async Task<List<UserInfoDto>> GetRicercaUtenti(string chiave = null)
+        {
+            List<UserInfoDto> utentiCercati = dbDataContext.UserInfo
+                                                    .Where(x => ((string)(x.Nome + " " + x.Cognome).ToLower()).Contains(chiave.ToLower()))
+                                                    .Select(x =>
+                                                    new UserInfoDto() { Cognome = x.Cognome,
+                                                                        Nome = x.Nome,
+                                                                        DataDiNascita = x.DataDiNascita,
+                                                                        FotoProfilo = x.FotoProfilo,
+                                                                        IdAspNetUser = x.IdAspNetUser,
+                                                                        PhotoUrl = x.PhotoUrl
+                                                                       }
+                                                    //UserInfoMapper.UserInfoToUserInfoDto(x, null))
+                                                    )
+                                                    .ToList();
+            //return UserInfoMapper.UserInfoToUserInfoDtoList(utentiRichieste);
+            return utentiCercati;
         }
 
         [HttpPost]
