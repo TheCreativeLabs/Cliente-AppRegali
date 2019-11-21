@@ -84,7 +84,7 @@
                                IsClippedToBounds="True"
                                HasShadow="True" BorderColor="#0bbfb9"
                                >
-                                <Image x:Name="imgContatto"  HorizontalOptions="Center" Aspect="AspectFill" Source="{Binding FotoProfilo, Converter={StaticResource ByteArrayToImage}}" 
+                                <Image x:Name="imgContatto"  HorizontalOptions="Center" Aspect="AspectFill" Source="{Binding FotoProfilo, Converter={StaticResource ByteArrayToImage}}"
                                VerticalOptions="Center"></Image>
                             </Frame>
                             <Label Grid.Row="1" HorizontalOptions="Center">

@@ -2,6 +2,7 @@
 using AppRegali.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -34,6 +35,15 @@ namespace AppRegali.Views
             base.OnAppearing();
 
             BindingContext = viewModel = await UserProfiloViewModel.ExecuteLoadCommandAsync(IdAmico);
+            if (viewModel.Info.FotoProfilo != null)
+            {
+                Stream stream = new MemoryStream(viewModel.Info.FotoProfilo);
+                imgProfilo.Source = ImageSource.FromStream(() => { return stream; });
+            }
+            else if (viewModel.Info.PhotoUrl != null)
+            {
+                imgProfilo.Source = ImageSource.FromUri(new Uri(viewModel.Info.PhotoUrl));
+            }
 
             //ricarico ogni volta per recepire le modifiche
             viewModel.LoadItemsCommand.Execute(null); 
@@ -55,7 +65,7 @@ namespace AppRegali.Views
                 btnSendRequest.IsVisible = true;
             }
 
-            frmImgEventoDett.IsVisible = true;
+            frmImgProfilo.IsVisible = true;
 
             aiLoading.IsVisible = false;
             aiLoading.IsRunning = false;
@@ -89,6 +99,7 @@ namespace AppRegali.Views
                 await amiciClient.AccettaAmiciziaAsync(viewModel.Info.IdAspNetUser.ToString());
                 btnConfirmDenyContact.IsVisible = false;
                 btnDeleteContact.IsVisible = true;
+                viewModel.LoadItemsCommand.Execute(null);
             }
             catch
             {
@@ -109,6 +120,7 @@ namespace AppRegali.Views
                 btnConfirmDenyContact.IsVisible = false;
                 btnDeleteContact.IsVisible = false;
                 btnSendRequest.IsVisible = true;
+                viewModel.LoadItemsCommand.Execute(null);
             }
             catch
             {

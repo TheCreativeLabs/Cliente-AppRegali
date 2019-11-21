@@ -8,6 +8,8 @@ using AppRegali.Models;
 using AppRegali.Views;
 using System.Net.Http;
 using System.Collections.Generic;
+using System.IO;
+using System.Net;
 
 namespace AppRegali.ViewModels
 {
@@ -74,6 +76,14 @@ namespace AppRegali.ViewModels
 
                 foreach (var user in listaUsers)
                 {
+                    if (user.PhotoUrl != null)
+                    {
+                        using (var webClient = new WebClient())
+                        {
+                            byte[] imageBytes = webClient.DownloadData(user.PhotoUrl);
+                            user.FotoProfilo = imageBytes;
+                        }
+                    }
                     Items.Add(user);
                 }
             }
@@ -115,6 +125,14 @@ namespace AppRegali.ViewModels
                     
                     foreach (var user in listaUsers)
                     {
+                        if (user.PhotoUrl != null)
+                        {
+                            using (var webClient = new WebClient())
+                            {
+                                byte[] imageBytes = webClient.DownloadData(user.PhotoUrl);
+                                user.FotoProfilo = imageBytes;
+                            }
+                        }
                         Items.Add(user);
                     }
                 } 

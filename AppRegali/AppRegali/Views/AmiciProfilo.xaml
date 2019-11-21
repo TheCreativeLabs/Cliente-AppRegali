@@ -36,20 +36,38 @@
                 <Label Text="{Binding IsLoading, Converter={StaticResource InverseBool}}"/>-->
                 <ScrollView>
                     <StackLayout Margin="15" Padding="15">
-                        <Frame x:Name="frmImgEventoDett" CornerRadius="10"  HeightRequest="200" IsClippedToBounds="True" Padding="0" HasShadow="True" Visual="Material" IsVisible="False">
-                            <Image x:Name="imgEventoDettaglio" Aspect="AspectFill" Source="{Binding Info.FotoProfilo, Converter={StaticResource ByteArrayToImage}}"></Image>
-                        </Frame>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="1*"></ColumnDefinition>
+                                <ColumnDefinition Width="2*"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
 
-                        <Label Text="{Binding Info.Nome}" FontSize="Large" TextColor="Black" VerticalTextAlignment="End" FontAttributes="Bold" HorizontalTextAlignment="Center" />
-                        <Label Text="{Binding Info.Cognome}" FontSize="Large" TextColor="Black" VerticalTextAlignment="End" FontAttributes="Bold" HorizontalTextAlignment="Center"/>
-                        <Label Text="{Binding Info.DataDiNascita, StringFormat='{0:dd/MM/yy}'}" FontSize="Medium" TextColor="Black" VerticalTextAlignment="End" HorizontalTextAlignment="Center"/>
+                            <Frame Grid.Column="0" x:Name="frmImgProfilo"
+                                   Grid.Row="0"
+                                    CornerRadius="100"
+                                    HorizontalOptions="Center"
+                                   Padding="0"
+                                   IsClippedToBounds="True"
+                                   HasShadow="True" BorderColor="#0bbfb9"
+                                   HeightRequest="80"
+                                    IsVisible="False">
+                                <Image x:Name="imgProfilo" Aspect="AspectFill" ></Image> <!--Source="{Binding Info.FotoProfilo, Converter={StaticResource ByteArrayToImage}}"-->
+                            </Frame>
+                            <StackLayout Grid.Column="1" Orientation="Vertical" HorizontalOptions="Start" Padding="10">
+                                <StackLayout Orientation="Horizontal">
+                                    <Label Text="{Binding Info.Nome}" FontSize="Large" TextColor="Black" VerticalTextAlignment="End" FontAttributes="Bold" HorizontalTextAlignment="Center" />
+                                    <Label Text="{Binding Info.Cognome}" FontSize="Large" TextColor="Black" VerticalTextAlignment="End" FontAttributes="Bold" HorizontalTextAlignment="Center"/>
+                                </StackLayout>
+                                <Label Text="{Binding Info.DataDiNascita, StringFormat='{0:dd/MM/yy}'}" FontSize="Medium" TextColor="Black" VerticalTextAlignment="End" HorizontalTextAlignment="Center"/>
+                            </StackLayout>
+                        </Grid>
 
                         <Button x:Name="btnSendRequest" Text="{translator:Translate  AmiciProfilo.SendRequest}" Clicked="btnSendRequest_Clicked" Visual="Material" IsVisible="False" Style="{x:StaticResource primaryButton}" ></Button>
                         <StackLayout x:Name="btnConfirmDenyContact" Orientation="Horizontal" IsVisible="False" >
                             <Button x:Name="btnConfirmContact" Text="{translator:Translate  AmiciProfilo.ConfirmContact}" Clicked="btnConfirmContact_Clicked" Visual="Material" Style="{x:StaticResource primaryButton}" HorizontalOptions="FillAndExpand"></Button>
                             <Button x:Name="btnDenyContact" Text="{translator:Translate  AmiciProfilo.DenyContact}" Clicked="btnDeleteContact_Clicked" Visual="Material" Style="{x:StaticResource deleteButton}" HorizontalOptions="FillAndExpand"></Button>
                         </StackLayout>
-                        <Button x:Name="btnDeleteContact" TextColor="White" Text="{translator:Translate  AmiciProfilo.DeleteContact}" Visual="Material" IsVisible="False" Style="{x:StaticResource primaryButton}"></Button> <!--IsVisible="{Binding BtnDeleteContactVisible}"-->
+                        <Button x:Name="btnDeleteContact" TextColor="White" Text="{translator:Translate  AmiciProfilo.DeleteContact}" Clicked="btnDeleteContact_Clicked" Visual="Material" IsVisible="False" Style="{x:StaticResource deleteButton}"></Button> <!--IsVisible="{Binding BtnDeleteContactVisible}"-->
                         <Button x:Name="btnRequestSent" Text="{translator:Translate  AmiciProfilo.RequestSent}" Visual="Material" IsVisible="False" IsEnabled="False" Style="{x:StaticResource primaryButton}"></Button>
                         <!--<Button x:Name="btnContact" Text="{Binding AmiciProfilo.Contact}" Visual="Material" IsVisible="False" Style="{x:StaticResource primaryButton}"></Button>-->
 
