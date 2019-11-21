@@ -16,6 +16,13 @@ namespace AppRegali.ViewModels
         public ObservableCollection<EventoDtoOutput> Items { get; set; }
         public Command LoadItemsCommand { get; set; }
 
+        bool isLoading = false;
+        public bool IsLoading
+        {
+            get { return isLoading; }
+            set { SetProperty(ref isLoading, value); }
+        }
+
         private bool SoloPersonali { get; set; }
 
         public EventiViewModel(bool SoloEventiPersonali)
@@ -36,7 +43,11 @@ namespace AppRegali.ViewModels
             if (IsBusy)
                 return;
 
+            //if (IsLoading)
+            //    return;
+
             IsBusy = true;
+            //IsLoading = true;
 
             try
             {
@@ -67,6 +78,7 @@ namespace AppRegali.ViewModels
             finally
             {
                 IsBusy = false;
+                //IsLoading = false;
             }
         }
     }

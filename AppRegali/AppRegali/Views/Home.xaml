@@ -24,7 +24,10 @@
     </NavigationPage.TitleView>
 
     <StackLayout>
-        <ListView x:Name="EventiListView"
+        <!--<ActivityIndicator IsRunning="{Binding IsLoading}" IsVisible="{Binding IsLoading}"/>-->
+        <ListView 
+             
+            x:Name="EventiListView"
                 ItemsSource="{Binding Items}"
                 VerticalOptions="FillAndExpand"
                 HasUnevenRows="true"

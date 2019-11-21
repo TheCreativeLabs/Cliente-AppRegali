@@ -64,7 +64,8 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="EntryRender.cs" />
+    <Compile Include="ListViewCustomRenderer.cs" />
+    <Compile Include="EntryCustomRenderer.cs" />
     <Compile Include="EntryRenderer.cs" />
     <Compile Include="MainActivity.cs" />
     <Compile Include="PhotoPickerService.cs" />

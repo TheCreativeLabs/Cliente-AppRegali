@@ -224,9 +224,7 @@ namespace AppRegaliApi.Controllers
                 }
             }
 
-            return CreatedAtRoute("AmiciziaCreate",
-                                   new { IdUserDestinatario = amicizia.IdUserDestinatario, IdUserRichiedente = amicizia.IdUserRichiedente },
-                                   amicizia);
+            return Ok(amicizia);
         }
 
         //todo get stato amicizia

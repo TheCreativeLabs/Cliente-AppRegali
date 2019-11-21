@@ -129,14 +129,32 @@
   <data name="Amici.Titolo" xml:space="preserve">
     <value>Friends</value>
   </data>
-  <data name="AmiciProfilo.AcceptContact" xml:space="preserve">
-    <value>Accept contact</value>
-  </data>
   <data name="AmiciProfilo.ConfirmContact" xml:space="preserve">
-    <value>Confirm contact</value>
+    <value>Confirm</value>
+  </data>
+  <data name="AmiciProfilo.Contact" xml:space="preserve">
+    <value>Contact</value>
   </data>
   <data name="AmiciProfilo.DeleteContact" xml:space="preserve">
     <value>Delete contact</value>
+  </data>
+  <data name="AmiciProfilo.DenyContact" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="AmiciProfilo.ErrorGeneric" xml:space="preserve">
+    <value>An error occured</value>
+  </data>
+  <data name="AmiciProfilo.ErrorSendRequest" xml:space="preserve">
+    <value>An error occured sending request</value>
+  </data>
+  <data name="AmiciProfilo.Ok" xml:space="preserve">
+    <value>Ok</value>
+  </data>
+  <data name="AmiciProfilo.RequestSent" xml:space="preserve">
+    <value>Request sent</value>
+  </data>
+  <data name="AmiciProfilo.SendRequest" xml:space="preserve">
+    <value>Send request</value>
   </data>
   <data name="BIRTHDAY" xml:space="preserve">
     <value>Birthday</value>
@@ -180,14 +198,29 @@
   <data name="EventoInserisci.Title" xml:space="preserve">
     <value>New Event</value>
   </data>
+  <data name="EventoModifica.ConfirmDelete" xml:space="preserve">
+    <value>Do you really want to delete the event? Presents of this event will be removed too.</value>
+  </data>
+  <data name="EventoModifica.DeleteError" xml:space="preserve">
+    <value>An error occurred deleting event</value>
+  </data>
   <data name="EventoModifica.Elimina" xml:space="preserve">
     <value>Delete event</value>
+  </data>
+  <data name="EventoModifica.EventDeleted" xml:space="preserve">
+    <value>The event was successfully deleted</value>
+  </data>
+  <data name="EventoModifica.No" xml:space="preserve">
+    <value>No</value>
   </data>
   <data name="EventoModifica.Ok" xml:space="preserve">
     <value>Ok</value>
   </data>
   <data name="EventoModifica.SalvataggioOk" xml:space="preserve">
     <value>Saved</value>
+  </data>
+  <data name="EventoModifica.Yes" xml:space="preserve">
+    <value>Yes</value>
   </data>
   <data name="Login.ConfermaPassword" xml:space="preserve">
     <value>Conferma Password</value>
@@ -314,6 +347,9 @@
   </data>
   <data name="Restore.Titolo" xml:space="preserve">
     <value>Hai dimenticato la password? Inserisci la tua mail, ti invieremo una nuova password.</value>
+  </data>
+  <data name="RicercaAmici.SearchBar" xml:space="preserve">
+    <value>Search contacts</value>
   </data>
   <data name="Salva" xml:space="preserve">
     <value>Save</value>

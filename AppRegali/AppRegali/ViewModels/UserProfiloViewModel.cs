@@ -14,23 +14,80 @@ namespace AppRegali.ViewModels
     {
         public Guid UserId { get; set; }
         public UserInfoDto Info { get; set; }
-        public String Nome { get; set; }
+        //public String nome { get; set; }
+
+        private string nome;
+        public string Nome
+        {
+            get { return nome; }
+            set
+            {
+                nome = value;
+                OnPropertyChanged(nameof(Nome)); // Notify that there was a change on this property
+            }
+        }
+
+
         public ObservableCollection<EventoDtoOutput> Eventi { get; set; }
         public Command LoadItemsCommand { get; set; }
         private HttpClient httpClient { get; set; }
-    public UserProfiloViewModel(UserInfoDto userInfo)
+
+        bool isLoading = false;
+        public bool IsLoading
+        {
+            get { return isLoading; }
+            set { SetProperty(ref isLoading, value); }
+        }
+
+        bool btnDeleteContactVisible = false;
+        public bool BtnDeleteContactVisible
+        {
+            get { return btnDeleteContactVisible && !isLoading; }
+            set { SetProperty(ref btnDeleteContactVisible, value); }
+        }
+
+        public UserProfiloViewModel()
         {
             this.httpClient = new HttpClient();
             httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", Api.ApiHelper.GetToken());
             Info = new UserInfoDto();
             Eventi = new ObservableCollection<EventoDtoOutput>();
-            this.UserId = userInfo.IdAspNetUser;
-
-             Info = userInfo;
-             Nome = userInfo.Nome;
 
             LoadItemsCommand = new Command(async () => await ExecuteLoadItemsCommand());
 
+        }
+
+        public static async Task<UserProfiloViewModel> ExecuteLoadCommandAsync(Guid Id)
+        {
+            //if (IsLoading)
+            //    return;
+
+            //IsLoading = true;
+
+            UserProfiloViewModel userProfiloViewModel = new UserProfiloViewModel();
+            userProfiloViewModel.UserId = Id;
+
+            //Info = userInfo;
+            //Nome = userInfo.Nome;
+
+            try
+            {
+                AmiciClient amiciClient = new AmiciClient(Api.ApiHelper.GetApiClient());
+
+                userProfiloViewModel.Info = await amiciClient.GetUserInfoByIdUsersAsync(Id);
+                userProfiloViewModel.Nome = userProfiloViewModel.Info.Nome;
+
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+            }
+
+            //await ExecuteLoadItemsCommand();
+
+            //IsLoading = false;
+
+            return userProfiloViewModel;
         }
 
         async Task ExecuteLoadItemsCommand()

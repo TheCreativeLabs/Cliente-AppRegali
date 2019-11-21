@@ -4,24 +4,108 @@
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
+             xmlns:appregali="clr-namespace:AppRegali"
+             xmlns:conv="clr-namespace:AppRegali.Converter;assembly=AppRegali"
              x:Class="AppRegali.Views.RicercaAmici"
-             NavigationPage.HasNavigationBar="True">
+             xmlns:translator="clr-namespace:AppRegali.Helpers"
+             NavigationPage.HasNavigationBar="False">
 
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <conv:ByteArrayToImageSourceConverter x:Key="ByteArrayToImage" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
 
     <!--<NavigationPage.TitleView>-->
         <!--<StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand" Padding="10">
             <Entry x:Name="entRicerca" TextColor="White" Placeholder="Ricerca amici" Margin="-10,0,10,10" PlaceholderColor="White" VerticalOptions="CenterAndExpand" HorizontalOptions="FillAndExpand"/>
         </StackLayout>-->
-        <NavigationPage.TitleView>
+        
+    <!--<NavigationPage.TitleView>
         <StackLayout Orientation="Horizontal">
-        <Entry x:Name="SampleEntry" HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand" TextColor="White" Placeholder="Ricerca amici" Visual="Material"></Entry>
+        --><!--<Entry x:Name="SampleEntry" HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand" TextColor="White" Placeholder="Ricerca amici" Visual="Material"></Entry>
             <Button x:Name="btnCerca"  Clicked="btnCerca_Clicked" BackgroundColor="Transparent" FontSize="Medium" TextColor="White" HorizontalOptions="End" Text="&#xf002;" FontFamily="{StaticResource FA-Solid}" Margin="0,0,-15,0">
-            </Button>
+            </Button>-->
+            <!--<SearchBar Placeholder="Search items..."/>--><!--
+            <appregali:SearchEntry HorizontalOptions="FillAndExpand" 
+                                Placeholder="Ricerca contatti"
+                                x:Name="entRicerca"
+                                Visual="Default"/>
         </StackLayout>
-        </NavigationPage.TitleView>
+        </NavigationPage.TitleView>-->
+    
+    <ContentPage.Content>
+        <StackLayout Padding="20">
+            <StackLayout Orientation="Horizontal" VerticalOptions="Start" >
+                <appregali:SearchEntry HorizontalOptions="FillAndExpand" 
+                                    Placeholder="{translator:Translate RicercaAmici.SearchBar}" 
+                                    x:Name="entRicerca"
+                                    Visual="Default"/> <!--gestione dell'evento quando si preme enter nel controller-->
+                <Label Text="Cancel" VerticalOptions="Center" FontSize="Medium" TextColor="{x:StaticResource PrimaryColor}">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="lblCancel_Tapped"/>
+                    </Label.GestureRecognizers>
+                </Label>
+            </StackLayout>
+
+            <ActivityIndicator IsRunning="{Binding IsLoading}" IsVisible="{Binding IsLoading}"/>
+            <CollectionView  x:Name="RichiesteCollectionView"
+                ItemsSource="{Binding Items}"
+                SelectionMode="Single"
+                SelectionChanged="OnPeopleSelectionChanged"
+                >
+
+                <!--ItemSelected="OnItemSelected"
+                VerticalOptions="FillAndExpand"
+                HasUnevenRows="true"
+                RefreshCommand="{Binding LoadItemsFilteredCommand}"
+                IsPullToRefreshEnabled="true"
+                IsRefreshing="{Binding IsBusy, Mode=OneWay}"
+                CachingStrategy="RecycleElement"
+                SeparatorVisibility="None"-->
+
+                <CollectionView.ItemsLayout>
+                    <GridItemsLayout Orientation="Vertical" Span="3" />
+                </CollectionView.ItemsLayout>
+
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid Padding="15">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="3*" />
+                                <RowDefinition Height="2*" />
+                            </Grid.RowDefinitions>
+                            <Frame Grid.Row="0"
+                                CornerRadius="100"
+                               HeightRequest="80"
+                               WidthRequest="80"
+                               HorizontalOptions="Center"
+                               Padding="0"
+                               IsClippedToBounds="True"
+                               HasShadow="True" BorderColor="#0bbfb9"
+                               >
+                                <Image x:Name="imgContatto"  HorizontalOptions="Center" Aspect="AspectFill" Source="{Binding FotoProfilo, Converter={StaticResource ByteArrayToImage}}" 
+                               VerticalOptions="Center"></Image>
+                            </Frame>
+                            <Label Grid.Row="1" HorizontalOptions="Center">
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span Text="{Binding Nome}" FontAttributes="Bold"/>
+                                        <Span Text=" "/>
+                                        <Span Text="{Binding Cognome}" FontAttributes="Bold" />
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </StackLayout>
+    </ContentPage.Content>
+
     <!--</NavigationPage.TitleView>-->
     
-    <ListView x:Name="MyListView"
+    <!--<ListView x:Name="MyListView"
             ItemsSource="{Binding Items}"
             ItemTapped="Handle_ItemTapped"
             CachingStrategy="RecycleElement">
@@ -34,12 +118,12 @@
             <x:String>Item 5</x:String>
         </x:Array>
     </d:ListView.ItemsSource>
-    <!--Built in Cells-->
+    --><!--Built in Cells--><!--
     <ListView.ItemTemplate>
         <DataTemplate>
             <TextCell Text="{Binding .}" d:Text="{Binding .}" />
         </DataTemplate>
-    </ListView.ItemTemplate>
+    </ListView.ItemTemplate>-->
     
     <!--Custom View Cells-->
     <!--
@@ -58,5 +142,5 @@
       </DataTemplate>
     </ListView.ItemTemplate>
     -->
-  </ListView>
+  <!--</ListView>-->
 </ContentPage>

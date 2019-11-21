@@ -12,64 +12,82 @@
         <ResourceDictionary>
             <conv:ByteArrayToImageSourceConverter x:Key="ByteArrayToImage" />
         </ResourceDictionary>
+        <ResourceDictionary>
+            <conv:InverseBoolConverter x:Key="InverseBool" />
+        </ResourceDictionary>
     </ContentPage.Resources>
 
-    <NavigationPage.TitleView>
+    <!--<NavigationPage.TitleView>
         <StackLayout Orientation="Horizontal">
             <Label Text="{Binding Nome}" TextColor="White" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" FontAttributes="Bold" FontSize="Large"></Label>
         </StackLayout>
-    </NavigationPage.TitleView>
+    </NavigationPage.TitleView>-->
 
     <ContentPage.Content>
         <StackLayout>
-            <ScrollView>
-                <StackLayout Margin="15" Padding="15">
-                    <Frame CornerRadius="10"  HeightRequest="200" IsClippedToBounds="True" Padding="0" HasShadow="True" Visual="Material">
-                        <Image x:Name="imgEventoDettaglio" Aspect="AspectFill" Source="{Binding Info.FotoProfilo, Converter={StaticResource ByteArrayToImage}}"></Image>
-                    </Frame>
+            <StackLayout>
+                <ActivityIndicator x:Name="aiLoading"/>
+            </StackLayout>
+            <StackLayout IsVisible="{Binding IsLoading, Converter={StaticResource InverseBool}}">
+                
+                <!--<ActivityIndicator IsRunning="{Binding IsLoading}" IsVisible="{Binding IsLoading}"/>
+                <Label Text="{Binding IsLoading}"/>
+                <Label Text="{Binding BtnDeleteContactVisible}"/>
+                <Label Text="{Binding IsLoading, Converter={StaticResource InverseBool}}"/>-->
+                <ScrollView>
+                    <StackLayout Margin="15" Padding="15">
+                        <Frame x:Name="frmImgEventoDett" CornerRadius="10"  HeightRequest="200" IsClippedToBounds="True" Padding="0" HasShadow="True" Visual="Material" IsVisible="False">
+                            <Image x:Name="imgEventoDettaglio" Aspect="AspectFill" Source="{Binding Info.FotoProfilo, Converter={StaticResource ByteArrayToImage}}"></Image>
+                        </Frame>
 
-                    <Label Text="{Binding Info.Nome}" FontSize="Large" TextColor="Black" VerticalTextAlignment="End" FontAttributes="Bold" HorizontalTextAlignment="Center"/>
-                    <Label Text="{Binding Info.Cognome}" FontSize="Large" TextColor="Black" VerticalTextAlignment="End" FontAttributes="Bold" HorizontalTextAlignment="Center"/>
-                    <Label Text="{Binding Info.DataDiNascita, StringFormat='{0:dd/MM/yy}'}" FontSize="Medium" TextColor="Black" VerticalTextAlignment="End" HorizontalTextAlignment="Center"/>
+                        <Label Text="{Binding Info.Nome}" FontSize="Large" TextColor="Black" VerticalTextAlignment="End" FontAttributes="Bold" HorizontalTextAlignment="Center" />
+                        <Label Text="{Binding Info.Cognome}" FontSize="Large" TextColor="Black" VerticalTextAlignment="End" FontAttributes="Bold" HorizontalTextAlignment="Center"/>
+                        <Label Text="{Binding Info.DataDiNascita, StringFormat='{0:dd/MM/yy}'}" FontSize="Medium" TextColor="Black" VerticalTextAlignment="End" HorizontalTextAlignment="Center"/>
 
-                    <Button Text="{Binding AmiciProfilo.ConfirmContact}" Visual="Material" Style="{x:StaticResource primaryButton}"></Button>
-                    <Button Text="{Binding AmiciProfilo.DeleteContact}" Visual="Material" Style="{x:StaticResource primaryButton}"></Button>
-                    <Button Text="{Binding AmiciProfilo.AcceptContact}" Visual="Material" Style="{x:StaticResource primaryButton}"></Button>
+                        <Button x:Name="btnSendRequest" Text="{translator:Translate  AmiciProfilo.SendRequest}" Clicked="btnSendRequest_Clicked" Visual="Material" IsVisible="False" Style="{x:StaticResource primaryButton}" ></Button>
+                        <StackLayout x:Name="btnConfirmDenyContact" Orientation="Horizontal" IsVisible="False" >
+                            <Button x:Name="btnConfirmContact" Text="{translator:Translate  AmiciProfilo.ConfirmContact}" Clicked="btnConfirmContact_Clicked" Visual="Material" Style="{x:StaticResource primaryButton}" HorizontalOptions="FillAndExpand"></Button>
+                            <Button x:Name="btnDenyContact" Text="{translator:Translate  AmiciProfilo.DenyContact}" Clicked="btnDeleteContact_Clicked" Visual="Material" Style="{x:StaticResource deleteButton}" HorizontalOptions="FillAndExpand"></Button>
+                        </StackLayout>
+                        <Button x:Name="btnDeleteContact" TextColor="White" Text="{translator:Translate  AmiciProfilo.DeleteContact}" Visual="Material" IsVisible="False" Style="{x:StaticResource primaryButton}"></Button> <!--IsVisible="{Binding BtnDeleteContactVisible}"-->
+                        <Button x:Name="btnRequestSent" Text="{translator:Translate  AmiciProfilo.RequestSent}" Visual="Material" IsVisible="False" IsEnabled="False" Style="{x:StaticResource primaryButton}"></Button>
+                        <!--<Button x:Name="btnContact" Text="{Binding AmiciProfilo.Contact}" Visual="Material" IsVisible="False" Style="{x:StaticResource primaryButton}"></Button>-->
 
-                    <ListView x:Name="EventiProfiloListView"
-                                ItemsSource="{Binding Eventi}"
-                                VerticalOptions="FillAndExpand"
-                                HasUnevenRows="true"
-                                RefreshCommand="{Binding LoadItemsCommand}"
-                                IsPullToRefreshEnabled="true"
-                                IsRefreshing="{Binding IsBusy, Mode=OneWay}"
-                                CachingStrategy="RecycleElement"
+
+                        <ListView x:Name="EventiProfiloListView"
+                                    ItemsSource="{Binding Eventi}"
+                                    VerticalOptions="FillAndExpand"
+                                    HasUnevenRows="true"
+                                    RefreshCommand="{Binding LoadItemsCommand}"
+                                    IsPullToRefreshEnabled="true"
+                                    IsRefreshing="{Binding IsBusy, Mode=OneWay}"
+                                    CachingStrategy="RecycleElement"
                                 
-                                SeparatorVisibility="None">
-                        <!--ItemSelected="OnItemSelected" FIXME ANDARE ALLA PAGINAE eVENTO-->
-                        <ListView.ItemTemplate>
-                            <DataTemplate>
-                                <ViewCell>
-                                    <Frame HasShadow="True" Padding="0" HeightRequest="260" Margin="20,10,20,10"  CornerRadius="5" IsClippedToBounds="True">
-                                        <StackLayout>
-                                            <Image Aspect="AspectFill" HeightRequest="190" Source="{Binding ImmagineEvento, Converter={StaticResource ByteArrayToImage}}" Margin="0,0,0,150"></Image>
+                                    SeparatorVisibility="None">
+                            <!--ItemSelected="OnItemSelected" FIXME ANDARE ALLA PAGINAE eVENTO-->
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <ViewCell>
+                                        <Frame HasShadow="True" Padding="0" HeightRequest="260" Margin="20,10,20,10"  CornerRadius="5" IsClippedToBounds="True">
+                                            <StackLayout>
+                                                <Image Aspect="AspectFill" HeightRequest="190" Source="{Binding ImmagineEvento, Converter={StaticResource ByteArrayToImage}}" Margin="0,0,0,150"></Image>
 
-                                            <Label Text="{Binding Titolo}" 
-                                d:Text="{Binding .}"
-                                LineBreakMode="NoWrap" 
-                                FontSize="Large" TextColor="Black" VerticalTextAlignment="End" Margin="15,-150,0,0" FontAttributes="Bold"/>
-                                            <Label Text="{Binding Descrizione}" 
-                                d:Text="Item descripton" VerticalTextAlignment="End"
-                                LineBreakMode="NoWrap" Margin="15,0,0,0" />
-                                        </StackLayout>
-                                    </Frame>
-                                </ViewCell>
-                            </DataTemplate>
-                        </ListView.ItemTemplate>
-                    </ListView>
+                                                <Label Text="{Binding Titolo}"
+                                                        LineBreakMode="NoWrap" 
+                                                        FontSize="Large" TextColor="Black" VerticalTextAlignment="End" Margin="15,-150,0,0" FontAttributes="Bold"/>
+                                                <Label Text="{Binding Descrizione}" 
+                                                        VerticalTextAlignment="End"
+                                                        LineBreakMode="NoWrap" Margin="15,0,0,0" />
+                                            </StackLayout>
+                                        </Frame>
+                                    </ViewCell>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
 
-                </StackLayout>
-            </ScrollView>
+                    </StackLayout>
+                </ScrollView>
+            </StackLayout>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

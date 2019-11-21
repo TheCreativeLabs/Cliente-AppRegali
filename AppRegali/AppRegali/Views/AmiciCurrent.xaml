@@ -16,7 +16,7 @@
 
     <ContentPage.Content>
         <StackLayout>
-
+            <ActivityIndicator IsRunning="{Binding IsLoading}" IsVisible="{Binding IsLoading}"/>
             <CollectionView x:Name="ContattiCollectionView"
                 ItemsSource="{Binding Items}"
                 SelectionMode="Single"

@@ -93,19 +93,27 @@ namespace AppRegali.Views
         {
             try
             {
-                bool answer = await DisplayAlert("Attenzione", "Vuoi davvero eliminare l'evento? Anche i regali di questo evento verranno rimossi.", "Yes", "No");
+                bool answer = await DisplayAlert("Attenzione",
+                    Helpers.TranslateExtension.ResMgr.Value.GetString("EventoModifica.ConfirmDelete", translate.ci),
+                    Helpers.TranslateExtension.ResMgr.Value.GetString("EventoModifica.Yes", translate.ci),
+                    Helpers.TranslateExtension.ResMgr.Value.GetString("EventoModifica.No", translate.ci));
+                
                 if (answer)
                 {
                     try
                     {
                         await eventoClient.DeleteEventoAsync(new Guid(viewModel.Item.Id));
-                        await DisplayAlert(null, "Evento eliminato", "Ok");
+                        await DisplayAlert(null,
+                            Helpers.TranslateExtension.ResMgr.Value.GetString("EventoModifica.EventDeleted", translate.ci),
+                            Helpers.TranslateExtension.ResMgr.Value.GetString("EventoModifica.Ok", translate.ci));
                         //torno indietro alla lista degli eventi personali
                         await Navigation.PopAsync();
                     }
                     catch
                     {
-                        await DisplayAlert(null, "Errore durante l'eliminazione dell'evento", "Ok");
+                        await DisplayAlert(null,
+                            Helpers.TranslateExtension.ResMgr.Value.GetString("EventoModifica.DeleteError", translate.ci),
+                            Helpers.TranslateExtension.ResMgr.Value.GetString("EventoModifica.Ok", translate.ci)); //FIXME
                     }
                 }
                 

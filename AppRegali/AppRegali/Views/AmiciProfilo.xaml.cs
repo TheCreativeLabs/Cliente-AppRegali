@@ -16,21 +16,107 @@ namespace AppRegali.Views
     {
 
         UserProfiloViewModel viewModel;
+        static Helpers.TranslateExtension translate = new Helpers.TranslateExtension();
+        Guid IdAmico;
 
-        public AmiciProfilo(UserInfoDto userInfo)
+        public AmiciProfilo(Guid IdUser)
         {
             InitializeComponent();
 
-            BindingContext = viewModel = new UserProfiloViewModel(userInfo);
-            viewModel.LoadItemsCommand.Execute(null);
+            IdAmico = IdUser;
+            aiLoading.IsVisible = true;
+            aiLoading.IsRunning = true;
+            //BindingContext = viewModel = new UserProfiloViewModel() { Nome = "provvisorio" };
         }
 
-        protected override void OnAppearing()
+        protected async override void OnAppearing()
         {
             base.OnAppearing();
 
+            BindingContext = viewModel = await UserProfiloViewModel.ExecuteLoadCommandAsync(IdAmico);
+
             //ricarico ogni volta per recepire le modifiche
-            //viewModel.LoadItemsCommand.Execute(null);
+            viewModel.LoadItemsCommand.Execute(null); 
+
+            if (viewModel.Info.Relation.Value == "CONTACT")
+            {
+                btnDeleteContact.IsVisible = true;
+                //viewModel.BtnDeleteContactVisible = true;
+            } else if (viewModel.Info.Relation.Value == "REQUEST_IN")
+            {
+                btnConfirmDenyContact.IsVisible = true;
+            }
+            else if (viewModel.Info.Relation.Value == "REQUEST_OUT")
+            {
+                btnRequestSent.IsVisible = true;
+            }
+            else if (viewModel.Info.Relation.Value == "STRANGER")
+            {
+                btnSendRequest.IsVisible = true;
+            }
+
+            frmImgEventoDett.IsVisible = true;
+
+            aiLoading.IsVisible = false;
+            aiLoading.IsRunning = false;
+        }
+
+        private async void btnSendRequest_Clicked(object sender, EventArgs e)
+        {
+            AmiciClient amiciClient = new AmiciClient(Api.ApiHelper.GetApiClient());
+
+            try 
+            { 
+                await amiciClient.InserisciAmiciziaAsync(viewModel.Info.IdAspNetUser.ToString());
+                btnSendRequest.IsVisible = false;
+                btnRequestSent.IsVisible = true;
+            }
+            catch
+            {
+                await DisplayAlert(null,
+                            Helpers.TranslateExtension.ResMgr.Value.GetString("AmiciProfilo.ErrorSendRequest", translate.ci),
+                            Helpers.TranslateExtension.ResMgr.Value.GetString("AmiciProfilo.Ok", translate.ci));
+            }
+            
+        }
+
+        private async void btnConfirmContact_Clicked(object sender, EventArgs e)
+        {
+            AmiciClient amiciClient = new AmiciClient(Api.ApiHelper.GetApiClient());
+
+            try
+            {
+                await amiciClient.AccettaAmiciziaAsync(viewModel.Info.IdAspNetUser.ToString());
+                btnConfirmDenyContact.IsVisible = false;
+                btnDeleteContact.IsVisible = true;
+            }
+            catch
+            {
+                await DisplayAlert(null,
+                            Helpers.TranslateExtension.ResMgr.Value.GetString("AmiciProfilo.ErrorGeneric", translate.ci),
+                            Helpers.TranslateExtension.ResMgr.Value.GetString("AmiciProfilo.Ok", translate.ci));
+            }
+
+        }
+
+        private async void btnDeleteContact_Clicked(object sender, EventArgs e)
+        {
+            AmiciClient amiciClient = new AmiciClient(Api.ApiHelper.GetApiClient());
+
+            try
+            {
+                await amiciClient.AmiciziaDeleteOrDenyAsync(viewModel.Info.IdAspNetUser);
+                btnConfirmDenyContact.IsVisible = false;
+                btnDeleteContact.IsVisible = false;
+                btnSendRequest.IsVisible = true;
+            }
+            catch
+            {
+                await DisplayAlert(null,
+                            Helpers.TranslateExtension.ResMgr.Value.GetString("AmiciProfilo.ErrorGeneric", translate.ci),
+                            Helpers.TranslateExtension.ResMgr.Value.GetString("AmiciProfilo.Ok", translate.ci));
+            }
+
         }
     }
 }

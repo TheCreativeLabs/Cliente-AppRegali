@@ -129,14 +129,32 @@
   <data name="Amici.Titolo" xml:space="preserve">
     <value>Amici</value>
   </data>
-  <data name="AmiciProfilo.AcceptContact" xml:space="preserve">
-    <value>Accetta contatto</value>
-  </data>
   <data name="AmiciProfilo.ConfirmContact" xml:space="preserve">
-    <value>Conferma contatto</value>
+    <value>Conferma</value>
+  </data>
+  <data name="AmiciProfilo.Contact" xml:space="preserve">
+    <value>Contatto</value>
   </data>
   <data name="AmiciProfilo.DeleteContact" xml:space="preserve">
     <value>Elimina contatto</value>
+  </data>
+  <data name="AmiciProfilo.DenyContact" xml:space="preserve">
+    <value>Cancella</value>
+  </data>
+  <data name="AmiciProfilo.ErrorGeneric" xml:space="preserve">
+    <value>Si è verificato un errore</value>
+  </data>
+  <data name="AmiciProfilo.ErrorSendRequest" xml:space="preserve">
+    <value>Errore durante l'invio della richiesta</value>
+  </data>
+  <data name="AmiciProfilo.Ok" xml:space="preserve">
+    <value>Ok</value>
+  </data>
+  <data name="AmiciProfilo.RequestSent" xml:space="preserve">
+    <value>Richiesta inviata</value>
+  </data>
+  <data name="AmiciProfilo.SendRequest" xml:space="preserve">
+    <value>Richiedi contatto</value>
   </data>
   <data name="BIRTHDAY" xml:space="preserve">
     <value>Compleanno</value>
@@ -180,14 +198,26 @@
   <data name="EventoInserisci.Title" xml:space="preserve">
     <value>Nuovo Evento</value>
   </data>
+  <data name="EventoModifica.DeleteError" xml:space="preserve">
+    <value>Errore durante l'eliminazione dell'evento</value>
+  </data>
   <data name="EventoModifica.Elimina" xml:space="preserve">
     <value>Elimina evento</value>
+  </data>
+  <data name="EventoModifica.EventDeleted" xml:space="preserve">
+    <value>Evento eliminato</value>
+  </data>
+  <data name="EventoModifica.No" xml:space="preserve">
+    <value>No</value>
   </data>
   <data name="EventoModifica.Ok" xml:space="preserve">
     <value>Ok</value>
   </data>
   <data name="EventoModifica.SalvataggioOk" xml:space="preserve">
     <value>Salvataggio eseguito con successo</value>
+  </data>
+  <data name="EventoModifica.Yes" xml:space="preserve">
+    <value>Sì</value>
   </data>
   <data name="Login.ConfermaPassword" xml:space="preserve">
     <value>Conferma Password</value>
@@ -311,6 +341,9 @@
   </data>
   <data name="Restore.Titolo" xml:space="preserve">
     <value>Hai dimenticato la password? Inserisci la tua mail, ti invieremo una nuova password.</value>
+  </data>
+  <data name="RicercaAmici.SearchBar" xml:space="preserve">
+    <value>Cerca contatti</value>
   </data>
   <data name="Salva" xml:space="preserve">
     <value>Salva</value>

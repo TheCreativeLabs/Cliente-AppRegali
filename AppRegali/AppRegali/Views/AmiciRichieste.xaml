@@ -15,7 +15,7 @@
 
     <ContentPage.Content>
         <StackLayout>
-
+            <ActivityIndicator IsRunning="{Binding IsLoading}" IsVisible="{Binding IsLoading}"/>
             <CollectionView x:Name="RichiesteCollectionView"
                 ItemsSource="{Binding Items}"
                 SelectionMode="Single"
