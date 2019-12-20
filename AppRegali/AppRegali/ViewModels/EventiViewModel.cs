@@ -23,6 +23,11 @@ namespace AppRegali.ViewModels
             set { SetProperty(ref isLoading, value); }
         }
 
+        private int CurrentPage = 1;
+        private int PageSize = 5;
+        EventoClient eventoClient = new EventoClient(Api.ApiHelper.GetApiClient());
+
+
         private bool SoloPersonali { get; set; }
 
         public EventiViewModel(bool SoloEventiPersonali)
@@ -36,6 +41,43 @@ namespace AppRegali.ViewModels
             //    Items.Add(newItem);
             //    await DataStore.AddItemAsync(newItem);
             //});
+        }
+
+        async Task LoadMoreCommand()
+        {
+            if (IsBusy)
+                return;
+
+            IsBusy = true;
+
+            ICollection<EventoDtoOutput> news = null;
+            try
+            {
+                CurrentPage += 1;
+
+                //news = await GetAnnunci();
+
+                if (news != null)
+                {
+                    foreach (var item in news)
+                    {
+                        Items.Add(item);
+                        //OnpropertyChanged("Items");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+            }
+            finally
+            {
+                //In questo modo capisco se ci sono ancora record da caricare
+                //if(news != null && news.Count == PageSize )
+                //{
+                IsBusy = false;
+                //}
+            }
         }
 
         async Task ExecuteLoadItemsCommand()
@@ -53,9 +95,8 @@ namespace AppRegali.ViewModels
             {
                 Items.Clear();
 
-                EventoClient eventoClient = new EventoClient(Api.ApiHelper.GetApiClient());
 
-                ICollection<EventoDtoOutput> listaEventi;
+                ICollection<EventoDtoOutput> listaEventi;// = await getAnnunci(null, null);
 
                 if (SoloPersonali)
                 {
@@ -80,6 +121,19 @@ namespace AppRegali.ViewModels
                 IsBusy = false;
                 //IsLoading = false;
             }
+        }
+
+        private async Task<ICollection<EventoDtoOutput>> getAnnunci(string idUtente = null, string idCategoria = null) {
+            ICollection<EventoDtoOutput> listaEventi;
+            if (SoloPersonali)
+            {
+                listaEventi = await eventoClient.GetEventoCurrentUserAsync();
+            }
+            else
+            {
+                listaEventi = await eventoClient.GetEventiByidUtenteAsync(null, null);
+            }
+            return listaEventi;
         }
     }
 }
