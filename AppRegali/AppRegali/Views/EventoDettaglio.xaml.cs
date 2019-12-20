@@ -6,6 +6,7 @@ using Xamarin.Forms.Xaml;
 using AppRegali.Models;
 using AppRegali.ViewModels;
 using Api;
+using AppRegali.Api;
 
 namespace AppRegali.Views
 {
@@ -16,25 +17,27 @@ namespace AppRegali.Views
     {
         EventoDetailViewModel viewModel;
 
-        public EventoDettaglio(EventoDetailViewModel viewModel)
+        public EventoDettaglio(EventoDtoOutput evento)
         {
             InitializeComponent();
 
-            BindingContext = this.viewModel = viewModel;
+            EventoDetailViewModel eventoDetailViewModel = new EventoDetailViewModel();
+            eventoDetailViewModel.Item = evento;
+            viewModel = eventoDetailViewModel;
+            BindingContext = viewModel;
         }
 
-        public EventoDettaglio()
+        protected async override void OnAppearing()
         {
-            InitializeComponent();
+            base.OnAppearing();
 
-            var item = new EventoDtoOutput
+            EventoClient eventoClient = new EventoClient(ApiHelper.GetApiClient());
+            EventoDtoOutput eventoDettaglio = await eventoClient.GetEventoByIdAsync(new Guid(viewModel.Item.Id));
+            RegaliDettaglioListView.ItemsSource = eventoDettaglio.Regali;
+            if(eventoDettaglio.Regali != null)
             {
-                Titolo = "Item 1",
-                Descrizione = "This is an item description."
-            };
-
-            viewModel = new EventoDetailViewModel(item);
-            BindingContext = viewModel;
+                RegaliDettaglioListView.HeightRequest = ((140) * eventoDettaglio.Regali.Count) + 70;
+            }
         }
     }
 }

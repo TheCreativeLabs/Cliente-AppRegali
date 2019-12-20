@@ -18,33 +18,42 @@ namespace AppRegali.Views
 
         UserProfiloViewModel viewModel;
         static Helpers.TranslateExtension translate = new Helpers.TranslateExtension();
-        Guid IdAmico;
+        UserInfoDto User;
 
-        public AmiciProfilo(Guid IdUser)
+
+        public AmiciProfilo(UserInfoDto user)
         {
             InitializeComponent();
 
-            IdAmico = IdUser;
+            Nome.Text = user.Nome;
+            Cognome.Text = user.Cognome;
+
+            if (user.DataDiNascita.HasValue)
+            {
+                DataNascita.Text = user.DataDiNascita.Value.ToString("dd/MM/yyyy");
+            }
+
+            if (user.FotoProfilo != null)
+            {
+                Stream stream = new MemoryStream(user.FotoProfilo);
+                imgProfilo.Source = ImageSource.FromStream(() => { return stream; });
+            }
+            else if (user.PhotoUrl != null)
+            {
+                imgProfilo.Source = ImageSource.FromUri(new Uri(user.PhotoUrl));
+            }
+
+            User = user;
             aiLoading.IsVisible = true;
             aiLoading.IsRunning = true;
-            //BindingContext = viewModel = new UserProfiloViewModel() { Nome = "provvisorio" };
         }
 
         protected async override void OnAppearing()
         {
             base.OnAppearing();
 
-            BindingContext = viewModel = await UserProfiloViewModel.ExecuteLoadCommandAsync(IdAmico);
-            if (viewModel.Info.FotoProfilo != null)
-            {
-                Stream stream = new MemoryStream(viewModel.Info.FotoProfilo);
-                imgProfilo.Source = ImageSource.FromStream(() => { return stream; });
-            }
-            else if (viewModel.Info.PhotoUrl != null)
-            {
-                imgProfilo.Source = ImageSource.FromUri(new Uri(viewModel.Info.PhotoUrl));
-            }
-
+            BindingContext = viewModel = await UserProfiloViewModel.ExecuteLoadCommandAsync(User.IdAspNetUser);
+            
             //ricarico ogni volta per recepire le modifiche
             viewModel.LoadItemsCommand.Execute(null); 
 

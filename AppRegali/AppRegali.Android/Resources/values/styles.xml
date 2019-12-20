@@ -11,9 +11,9 @@
     <item name="windowActionBar">false</item> 
     <!-- Set theme colors from https://aka.ms/material-colors -->
     <!-- colorPrimary is used for the default action bar background -->
-    <item name="colorPrimary">#c786d3</item>
+    <item name="colorPrimary">#fff</item>
     <!-- colorPrimaryDark is used for the status bar -->
-    <item name="colorPrimaryDark">#9558a2</item>
+    <item name="colorPrimaryDark">#000</item>
     <!-- originale era #11a7d4-->
     <!-- colorAccent is used as the default value for colorControlActivated
          which is used to tint widgets -->
@@ -23,13 +23,16 @@
          colorControlHighlight and colorSwitchThumbNormal. -->
     <item name="windowActionModeOverlay">true</item>
 
-    <item name="android:colorPressedHighlight">@color/ListViewSelected</item>
+    <!--
+        <item name="android:colorPressedHighlight">@color/ListViewSelected</item>
     <item name="android:colorLongPressedHighlight">@color/ListViewHighlighted</item>
     <item name="android:colorFocusedHighlight">@color/ListViewSelected</item>
     <item name="android:colorActivatedHighlight">@color/ListViewSelected</item>
-    <item name="android:activatedBackgroundIndicator">@color/ListViewSelected</item>
+    <item name="android:activatedBackgroundIndicator">@color/ListViewSelected</item>-->
 
     <item name="android:editTextStyle">@style/EditTextStyle</item>
+    <item name="android:textAllCaps">false</item>
+
   </style>
 
   <style name="EditTextStyle" parent="@android:style/Widget.EditText">

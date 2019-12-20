@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 
 namespace AppRegali.Api
@@ -12,8 +13,17 @@ namespace AppRegali.Api
     public static class ApiHelper
     {
 
+        public enum LoginProvider
+        {
+            Facebook = 0,
+            Google = 1,
+            Email = 2
+        }
+
         public const string AccessTokenKey = "Access_Token";
         public const string IsFacebookLoginKey = "Is_Facebook_Login";
+        public const string ProviderKey = "Provider_Key";
+        public const string UserInfoKey = "UserInfo_Key";
 
         public class BearerToken
         {
@@ -65,7 +75,7 @@ namespace AppRegali.Api
                     string jsonResponse = response.Content.ReadAsStringAsync().Result;
                     BearerToken token = JsonConvert.DeserializeObject<BearerToken>(jsonResponse);
 
-                    Application.Current.Properties[AccessTokenKey] = token.AccessToken;
+                    SetToken(token.AccessToken);
                 }
                 else
                 {
@@ -75,17 +85,17 @@ namespace AppRegali.Api
             }
         }
 
+        public static void SetToken(string AccessToken)
+        {
+            Preferences.Set(AccessTokenKey, AccessToken);
+        }
+
         // Ottiene il Token
         public static string GetToken()
         {
             string accessToken = null;
 
-            if (Application.Current.Properties.ContainsKey(AccessTokenKey))
-            {
-                accessToken = Application.Current.Properties[AccessTokenKey].ToString();
-
-                //TODO: controllare la validità del token.
-            }
+            accessToken = Preferences.Get(AccessTokenKey, null);
 
             return accessToken;
         }
@@ -94,44 +104,11 @@ namespace AppRegali.Api
         /// Rimuove il token.
         /// </summary>
         /// <returns></returns>
-        public static string DeleteToken()
+        public static async void DeleteToken()
         {
-            string accessToken = null;
-
-            if (Application.Current.Properties.ContainsKey(AccessTokenKey))
-            {
-
-
-                Application.Current.Properties.Remove(AccessTokenKey);
-            }
-
-            return accessToken;
+            Preferences.Remove(AccessTokenKey);
         }
 
-        /// <summary>
-        /// Salva nella cache se l'utente si è loggato con facebook.
-        /// </summary>
-        /// <param name="IsFacebookLogin"></param>
-        public static void SetFacebookLogin(bool IsFacebookLogin)
-        {
-            Application.Current.Properties[IsFacebookLoginKey] = IsFacebookLogin;
-        }
-
-        /// <summary>
-        /// Restituisce se l'utente si è loggato con facebook.
-        /// </summary>
-        /// <returns></returns>
-        public static bool GetFacebookLogin()
-        {
-            bool isFacebookLogin = false;
-
-            if (Application.Current.Properties.ContainsKey(IsFacebookLoginKey))
-            {
-                isFacebookLogin = (bool)Application.Current.Properties[IsFacebookLoginKey];
-            }
-
-            return isFacebookLogin;
-        }
 
         /// <summary>
         /// Restituisce il Client da usare per le chiamate all'api
@@ -175,6 +152,79 @@ namespace AppRegali.Api
                     throw new Exception("Si è verificato un errore" + ex.StatusCode);
                 }
             }
+        }
+
+
+        public static async Task<UserInfoDto> GetUserInfo()
+        {
+            UserInfoDto userInfo = null;
+
+            if (Preferences.Get(UserInfoKey, null) != null)
+            {
+                userInfo = JsonConvert.DeserializeObject<UserInfoDto>(Preferences.Get(UserInfoKey, null));
+            }
+
+            if (userInfo == null)
+            {
+                AmiciClient amiciClient = new AmiciClient(ApiHelper.GetApiClient());
+                userInfo = await amiciClient.GetCurrentUserInfoAsync();
+                Preferences.Set(UserInfoKey, JsonConvert.SerializeObject(userInfo));
+            }
+
+            return userInfo;
+        }
+
+        public static void RemoveUserInfo()
+        {
+            Preferences.Remove(UserInfoKey);
+        }
+
+        /// <summary>
+        /// Rimuove tutte le setting
+        /// </summary>
+        public static void RemoveSettings()
+        {
+            Preferences.Clear();
+        }
+
+
+        /// <summary>
+        /// Salva nella cache se l'utente si è loggato con facebook, google o email.
+        /// </summary>
+        /// <param name="Provider"></param>
+        public static async void SetProvider(LoginProvider Provider)
+        {
+            Preferences.Set(ProviderKey, Provider.ToString());
+
+        }
+
+        /// <summary>
+        /// Restituisce se l'utente si è loggato con facebook,google o email.
+        /// </summary>
+        /// <returns></returns>
+        public static LoginProvider GetProvider()
+        {
+            LoginProvider provider = LoginProvider.Email;
+
+            if (Preferences.Get(ProviderKey, null) != null)
+            {
+                Enum.TryParse(Preferences.Get(ProviderKey, null), out provider);
+            }
+
+            return provider;
+        }
+
+
+
+        /// <summary>
+        /// Rimuove il provider.
+        /// </summary>
+        /// <returns></returns>
+        public static async void RemoveProvider()
+        {
+
+            Preferences.Remove(ProviderKey);
+
         }
     }
 }

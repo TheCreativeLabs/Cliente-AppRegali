@@ -50,7 +50,7 @@ namespace AppRegali.Views.Account
                 Application.Current.Properties[Api.ApiHelper.AccessTokenKey] = accessToken;
 
                 //Salvo il nelle properties che l'utente ha fatto accesso con Facebook
-                Api.ApiHelper.SetFacebookLogin(true);
+                Api.ApiHelper.SetProvider(Api.ApiHelper.LoginProvider.Facebook);
 
                 //creo il client e setto il Baerer Token
                 HttpClient httpClient = new HttpClient();
@@ -86,7 +86,7 @@ namespace AppRegali.Views.Account
                 }
                 else
                 {
-  //Application.Current.MainPage = new NavigationPage( new MainPage());
+                //Application.Current.MainPage = new NavigationPage( new MainPage());
                 Application.Current.MainPage = new MainPage();
                 }
 

@@ -12,4 +12,8 @@ namespace AppRegali
     public class SearchEntry : Entry
     {
     }
+
+    public class SearchEntry2 : Entry
+    {
+    }
 }

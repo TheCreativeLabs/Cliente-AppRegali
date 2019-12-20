@@ -10,9 +10,17 @@
         <ResourceDictionary>
 
             <!-- Colors -->
-            <Color x:Key="PrimaryColor">#c786d3</Color>
+            <Color x:Key="PrimaryColor">#ff6b6b</Color>
+            <Color x:Key="DarkColor">#343a40</Color>
+            <Color x:Key="GrayColor">#868e96</Color>
+            <Color x:Key="SuccessColor">#20c997</Color>
+            <Color x:Key="DangerColor">#dc3545</Color>
+            <Color x:Key="LightColor">#f8f9fa</Color>
             <Color x:Key="NavigationTextColor">White</Color>
-            
+
+            <Color x:Key="SfondoColor">#fff</Color>
+
+
             <!--    Font Awesome     -->
             <OnPlatform x:TypeArguments="x:String" x:Key="FA-Brands">
                 <On Platform="Android" Value="Font Awesome 5 Brands-Regular-400.otf#Font Awesome 5 Brands Regular" />
@@ -22,15 +30,36 @@
                 <On Platform="Android" Value="Font Awesome 5 Free-Solid-900.otf#Font Awesome 5 Free Solid" />
             </OnPlatform>
 
+             <!--Font Awesome-->
+            <Style TargetType="NavigationPage">
+                <Setter Property="BarBackgroundColor" Value="{StaticResource PrimaryColor}"></Setter>
+                <Setter Property="BarTextColor" Value="{x:StaticResource DarkColor}"></Setter>
+            </Style>
+
             <Style TargetType="Button" x:Key="primaryButton">
-                <Setter Property="BackgroundColor" Value="#c786d3"/>
-                <Setter Property="Text" Value="White"/>
+                <Setter Property="BackgroundColor" Value="{x:StaticResource PrimaryColor}"/>
+                <Setter Property="TextColor" Value="White"/>
             </Style>
 
             <Style TargetType="Button" x:Key="deleteButton">
                 <Setter Property="BackgroundColor" Value="Red"/>
                 <Setter Property="Text" Value="White"/>
             </Style>
+
+              <OnPlatform x:TypeArguments="x:String" x:Key="BodyFont">
+                <On Platform="Android" Value="Roboto-Regular.ttf#Roboto" />
+                <On Platform="iOS" Value="Roboto-Regular" />
+            </OnPlatform>
+
+             <OnPlatform x:TypeArguments="x:String" x:Key="SubtitleFont">
+                <On Platform="Android" Value="Roboto-Bold.ttf#Roboto Medium" />
+                <On Platform="iOS" Value="Roboto-Medium" />
+            </OnPlatform>
+
+            <OnPlatform x:TypeArguments="x:String" x:Key="TitleFont">
+                <On Platform="Android" Value="Roboto-Bold.ttf#Roboto Bold" />
+                <On Platform="iOS" Value="Roboto-Bold" />
+            </OnPlatform>
 
             <OnPlatform x:TypeArguments="x:String" x:Key="BoldFont">
                 <On Platform="Android" Value="Montserrat-Light.ttf#Montserrat Light" />
@@ -46,20 +75,53 @@
             <Style TargetType="Entry">
                 <Setter Property="PlaceholderColor" Value="Gray"></Setter>
                 <Setter Property="FontFamily" Value="{StaticResource BoldFont2}" />
-                <Setter Property="HeightRequest" Value="58"></Setter>
             </Style>
-            
+
+            <Style TargetType="Label" x:Key="Title">
+                <Setter Property="FontSize" Value="26"></Setter>
+                <Setter Property="TextColor" Value="{StaticResource DarkColor}"></Setter>
+                <Setter Property="FontAttributes" Value="Bold"></Setter>
+                <Setter Property="FontFamily" Value="{StaticResource TitleFont}" />
+            </Style>
+
+            <Style TargetType="StackLayout" x:Key="StackContainer">
+               <Setter Property="Padding" Value="20"></Setter>
+            </Style>
+
+            <Style TargetType="Label" x:Key="Subtitle">
+                <Setter Property="FontFamily" Value="{StaticResource SubtitleFont}" />
+                <Setter Property="FontSize" Value="22"></Setter>
+                <Setter Property="TextColor" Value="{StaticResource DarkColor}"></Setter>
+            </Style>
+
             <Style TargetType="Editor">
                 <Setter Property="PlaceholderColor" Value="Gray"></Setter>
                 <Setter Property="FontFamily" Value="{StaticResource BoldFont2}" />
             </Style>
             
             <Style TargetType="Label">
-                <Setter Property="FontFamily" Value="{StaticResource BoldFont2}" />
+                <Setter Property="FontFamily" Value="{StaticResource BodyFont}" />
+                <Setter Property="TextColor" Value="{StaticResource DarkColor}"></Setter>
+            </Style>
+
+            <Style TargetType="Label" x:Key="HelpText">
+                <Setter Property="FontSize" Value="15"></Setter>
+            </Style>
+
+            <Style TargetType="Label" x:Key="AdTitle">
+                <Setter Property="FontFamily" Value="{StaticResource TitleFont}" />
+                <Setter Property="FontSize" Value="18"></Setter>
+                <Setter Property="TextColor" Value="{StaticResource DarkColor}"></Setter>
+            </Style>
+
+            <Style TargetType="Label" x:Key="AdSubtitle">
+                <Setter Property="FontFamily" Value="{StaticResource SubtitleFont}" />
+                <Setter Property="FontSize" Value="15"></Setter>
+                <Setter Property="TextColor" Value="{StaticResource DarkColor}"></Setter>
             </Style>
 
             <Style TargetType="Button">
-                <Setter Property="FontFamily" Value="{StaticResource BoldFont2}" />
+                <Setter Property="FontFamily" Value="{StaticResource SubtitleFont}" />
                 <Setter Property="HeightRequest" Value="40"></Setter>
             </Style>
 
@@ -67,7 +129,7 @@
                 <Setter Property="BackgroundColor" Value="Transparent"/>
                 <Setter Property="FontSize" Value="Title"/>
                 <Setter Property="FontAttributes" Value="Bold"/>
-                <Setter Property="HorizontalOptions" Value="Start"/>
+                <Setter Property="HorizontalOptions" Value="End"/>
                 <Setter Property="WidthRequest" Value="40"/>
                 <Setter Property="FontFamily" Value="{StaticResource FA-Solid}"/>
             </Style>

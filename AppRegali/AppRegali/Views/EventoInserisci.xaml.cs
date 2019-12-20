@@ -68,7 +68,7 @@ namespace AppRegali.Views
             //Torno alla pagina di lista
             await Navigation.PopModalAsync();
             //Redirect alla modifica dell'evento appena inserito, in questo modo l'utente può aggiungere regali
-            await Navigation.PushAsync(new EventoModifica(new EventoDetailViewModel(eventoInserito)));
+            //await Navigation.PushAsync(new EventoModifica(new EventoDetailViewModel(eventoInserito)));
         }
 
         private async void Cancel_Clicked(object sender, EventArgs e)

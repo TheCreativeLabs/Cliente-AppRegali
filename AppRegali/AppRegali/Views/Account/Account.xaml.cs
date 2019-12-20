@@ -24,9 +24,6 @@ namespace AppRegali.Views.Account
             InitializeComponent();
 
             viewModel = Model;
-
-           
-           
         }
 
         protected override async void OnAppearing()
@@ -106,7 +103,7 @@ namespace AppRegali.Views.Account
                     Name = entNome.Text,
                     Surname = entCognome.Text,
                     BirthName = entNome.Text,
-                    DataNascita = pkDataNascita.Date,
+                    //DataNascita = pkDataNascita.Date,
                     ImmagineProfilo = img,
                     Email = viewModel.Email
                 };

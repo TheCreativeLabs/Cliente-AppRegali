@@ -20,19 +20,17 @@ namespace AppRegali.Views
         static Helpers.TranslateExtension translate = new Helpers.TranslateExtension();
         EventoClient eventoClient = new EventoClient(ApiHelper.GetApiClient());
         public CategorieViewModel categorieViewModel { get; set; }
-
-        public EventoModifica(EventoDetailViewModel eventoDetailViewModel)
+        Guid EventoId;
+        public EventoModifica(Guid Id)
         {
             InitializeComponent();
-
-            BindingContext = this.viewModel = eventoDetailViewModel;
+            EventoId = Id;
         }
 
-        private async Task<int> LoadEventoDetailById(Guid id)
+        private async Task<EventoDtoOutput> LoadEventoDetailById()
         {
-            EventoDtoOutput eventoModel = await eventoClient.GetEventoByIdAsync(id);
-            this.viewModel.Item = eventoModel;
-            return 1;
+            EventoDtoOutput eventoModel = await eventoClient.GetEventoByIdAsync(EventoId);
+            return eventoModel;
         }
 
         protected override async void OnAppearing()
@@ -41,15 +39,16 @@ namespace AppRegali.Views
             //imgEventoModifica.Source = ImageSource.FromStream(() => { return stream; });
             base.OnAppearing();
 
-            await LoadEventoDetailById(new Guid(this.viewModel.Item.Id));
+            this.viewModel = new EventoDetailViewModel();
+            this.viewModel.Item = await LoadEventoDetailById();
+            BindingContext = this.viewModel;
             
             List<EventoCategoria> listaCategorie = (List<EventoCategoria>)await this.eventoClient.GetLookupEventoCategoriaAsync();
-
             pkCategoria.ItemsSource = listaCategorie;
             EventoCategoria categoria = listaCategorie.First(a => a.Id == this.viewModel.Item.IdCategoriaEvento);
             pkCategoria.SelectedItem = categoria;
-            //entCategoria.Text = categoria.Codice;
         }
+
         private void pkCategoria_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (pkCategoria.SelectedItem != null)
@@ -64,11 +63,8 @@ namespace AppRegali.Views
             pkCategoria.Focus();
         }
 
-
         private async void Update_Clicked(object sender, EventArgs e)
         {
-            
-
             EventoDtoInput eventoDtoInput = new EventoDtoInput()
             {
                 Cancellato = viewModel.Item.Cancellato,
@@ -80,13 +76,12 @@ namespace AppRegali.Views
             };
 
             Guid id = new Guid(viewModel.Item.Id);
+
             //Faccio update dell'evento
             var eventoInserito = await eventoClient.UpdateEventoAsync(new Guid(viewModel.Item.Id), eventoDtoInput);
             await DisplayAlert(null,
                 Helpers.TranslateExtension.ResMgr.Value.GetString("EventoModifica.SalvataggioOk", translate.ci),
                 Helpers.TranslateExtension.ResMgr.Value.GetString("EventoModifica.Ok", translate.ci));
-            //TODO APPENA RIPUBBLICO API this.viewModel = new EventoDetailViewModel(eventoInserito);
-
         }
 
         private async void Delete_Clicked(object sender, EventArgs e)

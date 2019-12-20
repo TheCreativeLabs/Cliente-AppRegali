@@ -9,25 +9,27 @@
               xmlns:translator="clr-namespace:AppRegali.Helpers">
 
     <StackLayout Orientation="Vertical">
-        <Frame  HeightRequest="330" Padding="0" HasShadow="True">
-            <StackLayout Orientation="Vertical" HeightRequest="330">
-                <Frame CornerRadius="100"
-           HeightRequest="130"
-           WidthRequest="130"
-           HorizontalOptions="Center"
-           Padding="0" Margin="0,15,0,0"
-           IsClippedToBounds="True"
-                   HasShadow="True" BorderColor="#0bbfb9">
-                    <Image x:Name="imgFotoUtente"  HorizontalOptions="Center"
-           VerticalOptions="Center" Aspect="AspectFill"></Image>
-                </Frame>
+        <Frame HasShadow="True" HeightRequest="150">
+                <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand">
+                    <Frame CornerRadius="40"
+                            HeightRequest="80"
+                            WidthRequest="80"
+                            IsClippedToBounds="True"
+                            HasShadow="False"
+                            HorizontalOptions="Center"
+                            VerticalOptions="Center"
+                            Padding="0">
+                        <Image x:Name="imgFotoUtente"
+                                Aspect="AspectFill"></Image>
+                    </Frame>
 
-                <Label x:Name="lblNomeCognome" FontSize="Large" FontAttributes="Bold" TextColor="Black" HorizontalOptions="Center"></Label>
-                <Label x:Name="lblEmail" Text="" TextColor="Gray" FontSize="Medium" HorizontalOptions="Center"></Label>
-            </StackLayout>
+                    <StackLayout VerticalOptions="Center">
+                            <Label x:Name="lblNomeCognome" Style="{x:StaticResource AdTitle}"></Label>
+                            <Label x:Name="lblEmail" IsVisible="False" Style="{x:StaticResource AdTitle}"></Label>
+                    </StackLayout>
+                </StackLayout>
         </Frame>
-
-        <StackLayout >
+        <StackLayout>
             <ListView x:Name="ListViewMenu"
                     HasUnevenRows="true" SeparatorVisibility="Default">
                 <d:ListView.ItemsSource>
@@ -39,15 +41,11 @@
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
-                            <Grid Padding="10">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="2*"></ColumnDefinition>
-                                    <ColumnDefinition Width="10*"></ColumnDefinition>
-                                </Grid.ColumnDefinitions>
-                                
-                                <Label Grid.Column="0" TextColor="Gray" Text="{Binding Icon}" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" FontFamily="{x:StaticResource FA-Solid}" FontSize="Large"></Label>
-                                <Label Grid.Column="1" Text="{Binding Title}" d:Text="{Binding .}" VerticalTextAlignment="Center" HorizontalTextAlignment="Start" FontSize="Large" TextColor="Black" />
-                            </Grid>
+                            <StackLayout Orientation="Horizontal" Padding="20">
+                                <Label Text="{Binding Icon}" FontSize="18" VerticalTextAlignment="Center"
+                                       FontFamily="{x:StaticResource FA-Solid}" ></Label>
+                                <Label Text="{Binding Title}" d:Text="{Binding .}" FontSize="18"  VerticalTextAlignment="Center" />
+                            </StackLayout>
                         </ViewCell>
                     </DataTemplate>
                 </ListView.ItemTemplate>

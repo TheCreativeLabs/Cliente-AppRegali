@@ -26,8 +26,7 @@ namespace AppRegali.Views.Login
             {
                 if (string.IsNullOrEmpty(entEmail.Text) || !Regex.IsMatch(entEmail.Text, Utility.Utility.EmailRegex))
                 {
-                    entEmail.BackgroundColor = Color.FromRgb(255, 175, 173);
-                    lblValidatorEntEmail.IsVisible = true;
+                    await DisplayAlert("Attenzione", "Inserire la email", "OK");
                 }
                 else
                 {
@@ -35,8 +34,10 @@ namespace AppRegali.Views.Login
                     AccountClient accountClient = new AccountClient(httpClient);
                     await accountClient.RestorePasswordAsync(entEmail.Text);
 
-                    stkFormRestore.IsVisible = false;
-                    stkRestoreAvvenuto.IsVisible = true;
+                    await DisplayAlert("Completato", "Ti abbiamo inviato una email contentente la tua nuova password", "OK");
+
+                    await Navigation.PopModalAsync();
+
                 }
             }
             catch (Exception ex)

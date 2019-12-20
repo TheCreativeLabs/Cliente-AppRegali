@@ -35,10 +35,7 @@ namespace AppRegali.Views
             if (item == null || item.Id == null)
                 return;
 
-            EventoClient eventoClient = new EventoClient(ApiHelper.GetApiClient());
-            EventoDtoOutput dettaglioEvento = await eventoClient.GetEventoByIdAsync(new Guid(item.Id));
-
-            await Navigation.PushAsync(new EventoDettaglio(new EventoDetailViewModel(dettaglioEvento)));
+            await Navigation.PushAsync(new EventoDettaglio(item));
 
             // Manually deselect item.
             EventiListView.SelectedItem = null;

@@ -29,8 +29,6 @@ namespace AppRegali.Views
             try
             {
                 InitializeComponent();
-
-                
             }
             catch (Exception ex)
             {
@@ -57,19 +55,19 @@ namespace AppRegali.Views
         public async Task UpdateMenuData(MenuItemType currentPage)
         {
             //visualizzo le informazioni sull'utente.
-            await SetUserInfo();
+            SetUserInfo();
 
             menuItems = new List<HomeMenuItem>
             {
                 new HomeMenuItem {Id = MenuItemType.Home, Title="Home", Icon="\uf015" },
-                new HomeMenuItem {Id = MenuItemType.EventiPersonali, Title="I miei eventi", Icon="\uf271" },
-                new HomeMenuItem {Id = MenuItemType.Amici, Title="I miei amici", Icon="\uf0c0"  },
-                new HomeMenuItem {Id = MenuItemType.Account, Title="Account", Icon="\uf2bd", Model = userInfoDto  },
+                new HomeMenuItem {Id = MenuItemType.EventiPersonali, Title="I miei eventi", Icon="\uf073" },
+                new HomeMenuItem {Id = MenuItemType.Amici, Title="I miei amici", Icon="\uf500"  },
+                new HomeMenuItem {Id = MenuItemType.Account, Title="Account", Icon="\uf007", Model = userInfoDto  },
             };
 
             ListViewMenu.ItemsSource = menuItems;
 
-            ListViewMenu.SelectedItem = menuItems.Where(x => x.Id == currentPage).FirstOrDefault();
+            //ListViewMenu.SelectedItem = menuItems.Where(x => x.Id == currentPage).FirstOrDefault();
             ListViewMenu.ItemSelected += async (sender, e) =>
             {
                 if (e.SelectedItem == null)
@@ -81,7 +79,6 @@ namespace AppRegali.Views
             };
         }
 
-
         /// <summary>
         /// Mostra nel menu le informazioni sull'utente
         /// </summary>
@@ -89,8 +86,7 @@ namespace AppRegali.Views
         {
             try
             {
-                AmiciClient amiciClient = new AmiciClient(ApiHelper.GetApiClient());
-                UserInfoDto userInfo = await amiciClient.GetCurrentUserInfoAsync();
+                UserInfoDto userInfo = await ApiHelper.GetUserInfo();
 
                 if (userInfo != null)
                 {
@@ -120,21 +116,24 @@ namespace AppRegali.Views
         {
             try
             {
-                if (Api.ApiHelper.GetFacebookLogin())
-                {
-                    //Vado alla pagina di logout di facebook
-                    Application.Current.MainPage = new NavigationPage(new Account.FacebookLogout());
-                }
-                else
-                {
+                DependencyService.Get<IClearCookies>().ClearAllCookies();
+
+
+                //if (Api.ApiHelper.GetFacebookLogin())
+                //{
+                //    //Vado alla pagina di logout di facebook
+                //    Application.Current.MainPage = new NavigationPage(new Account.FacebookLogout());
+                //}
+                //else
+                //{
                     //Eseguo il logout
                     AccountClient accountClient = new AccountClient(ApiHelper.GetApiClient());
                     await accountClient.LogoutAsync();
 
                     //Rimuovo il token e navigo alla home
-                    Api.ApiHelper.DeleteToken();
+                    Api.ApiHelper.RemoveSettings();
                     Application.Current.MainPage = new Login.Login();
-                }
+                //}
             }
             catch (Exception ex)
             {

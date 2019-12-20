@@ -36,38 +36,38 @@ namespace AppRegali.Views.Login
                 if (String.IsNullOrEmpty(entNome.Text))
                 {
                     formIsValid = false;
-                    lblValidatorEntNome.IsVisible = true;
+                    //lblValidatorEntNome.IsVisible = true;
                 }
 
                 //Controllo validità del cognome.
                 if (String.IsNullOrEmpty(entCognome.Text))
                 {
                     formIsValid = false;
-                    lblValidatorEntCognome.IsVisible = true;
+                    //lblValidatorEntCognome.IsVisible = true;
                 }
 
                 //Controllo validità della mail.
                 if (String.IsNullOrEmpty(entEmail.Text) || !Regex.IsMatch(entEmail.Text, Utility.Utility.EmailRegex))
                 {
                     formIsValid = false;
-                    entEmail.BackgroundColor = Color.FromRgb(255, 175, 173);
-                    lblValidatorEntEmail.IsVisible = true;
+                    //entEmail.BackgroundColor = Color.FromRgb(255, 175, 173);
+                    //lblValidatorEntEmail.IsVisible = true;
                 }
 
                 //Controllo validità della password.
                 if (String.IsNullOrEmpty(entPassword.Text) ||  !Regex.IsMatch(entPassword.Text, Utility.Utility.PasswordRegex))
                 {
                     formIsValid = false;
-                    entPassword.BackgroundColor = Color.FromRgb(255, 175, 173);
-                    lblValidatorEntPassword.IsVisible = true;
+                    //entPassword.BackgroundColor = Color.FromRgb(255, 175, 173);
+                    //lblValidatorEntPassword.IsVisible = true;
                 }
 
                 //Controllo che le due password siano uguali.
                 if (String.IsNullOrEmpty(entConfermaPassword.Text) || !(entPassword.Text == entConfermaPassword.Text))
                 {
                     formIsValid = false;
-                    entConfermaPassword.BackgroundColor = Color.FromRgb(255, 175, 173);
-                    lblValidatorEntConfermaPassword.IsVisible = true;
+                    //entConfermaPassword.BackgroundColor = Color.FromRgb(255, 175, 173);
+                    //lblValidatorEntConfermaPassword.IsVisible = true;
                 }
 
                 //Se la form è valida proseguo con la registrazione.
@@ -94,8 +94,13 @@ namespace AppRegali.Views.Login
 
                         await accountClient.RegisterAsync(registerBindingModel);
 
-                    stkFormRegistrazione.IsVisible = false;
-                    stkRegistrazioneAvvenuta.IsVisible = true;
+                        await DisplayAlert("Registrazione avvenuta!", "Riceverai una email per confermare il tuo account", "OK");
+
+                        await Navigation.PopModalAsync();
+                }
+                else
+                {
+                  await DisplayAlert("Attenzione", "è necessario compilare tutti i campi", "OK");
                 }
             }
             catch (Exception ex)

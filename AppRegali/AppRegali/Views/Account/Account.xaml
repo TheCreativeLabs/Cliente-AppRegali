@@ -5,40 +5,46 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
              x:Class="AppRegali.Views.Account.Account"
-                 xmlns:translator="clr-namespace:AppRegali.Helpers"
-             Title="Account">
+             xmlns:translator="clr-namespace:AppRegali.Helpers"
+             Title="Account"
+             BackgroundColor="{x:StaticResource SfondoColor}">
+
+
+    <NavigationPage.TitleView>
+        <StackLayout Orientation="Horizontal">
+            <Label Text="Account" TextColor="White" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" FontAttributes="Bold" FontSize="Large"></Label>
+        </StackLayout>
+    </NavigationPage.TitleView>
     <ContentPage.Content>
         <StackLayout  Margin="20">
-
             <Frame CornerRadius="100"
-           HeightRequest="130"
-           WidthRequest="130"
-           HorizontalOptions="Center"
-           Padding="0"
-           IsClippedToBounds="True"
-                   HasShadow="True" BorderColor="#0bbfb9">
-                <Image x:Name="imgFotoUtente"  HorizontalOptions="Center" Aspect="AspectFill"
-           VerticalOptions="Center"></Image>
+               HeightRequest="130"
+               WidthRequest="130"
+               HorizontalOptions="Center"
+               Padding="0"
+               IsClippedToBounds="True"
+               HasShadow="False">
+                <Image x:Name="imgFotoUtente"  Aspect="AspectFill"></Image>
             </Frame>
 
-            <Button HeightRequest="45" CornerRadius="15" FontSize="Medium" Visual="Material" WidthRequest="45"  TextColor="Black" BackgroundColor="#efefef" Text="&#xf083;" Margin="0,-20,0,10" FontFamily="{StaticResource FA-Solid}"  HorizontalOptions="Center" Clicked="OnPickPhotoButtonClicked">
+            <Button Text="Aggiorna foto" BackgroundColor="Transparent"  FontFamily="{StaticResource FA-Solid}"  HorizontalOptions="Center" Clicked="OnPickPhotoButtonClicked">
             </Button>
 
-            <Entry x:Name="entNome" Visual="Material" Placeholder="{translator:Translate Registrazione.Nome}" VerticalOptions="Center" TextChanged="Ent_TextChanged" Text="{Binding Nome}"></Entry>
+            <Entry x:Name="entNome" Placeholder="{translator:Translate Registrazione.Nome}" VerticalOptions="Center" TextChanged="Ent_TextChanged" Text="{Binding Nome}"></Entry>
             <Label Text="{translator:Translate Registrazione.MessaggioCampoObbligatorio}" Style="{x:StaticResource LabelValidatore}" x:Name="lblValidatorEntNome"></Label>
 
-            <Entry x:Name="entCognome" Visual="Material" Placeholder="{translator:Translate Registrazione.Cognome}" VerticalOptions="Center" TextChanged="Ent_TextChanged" Text="{Binding Cognome}"></Entry>
+            <Entry  x:Name="entCognome"  Placeholder="{translator:Translate Registrazione.Cognome}" VerticalOptions="Center" TextChanged="Ent_TextChanged" Text="{Binding Cognome}"></Entry>
             <Label Text="{translator:Translate Registrazione.MessaggioCampoObbligatorio}" Style="{x:StaticResource LabelValidatore}" x:Name="lblValidatorEntCognome"></Label>
 
-            <DatePicker   x:Name="pkDataNascita" Visual="Material" VerticalOptions="Center" Date="{Binding DataDiNascita}"></DatePicker>
+            <!--<DatePicker x:Name="pkDataNascita" VerticalOptions="Center" Date="{Binding DataDiNascita}"></DatePicker>-->
             <!--<Label Text="{translator:Translate Login.MessaggioValidazioneEmail}" Style="{x:StaticResource LabelValidatore}" x:Name="lblValidatorEntEmail"></Label>-->
 
-            <Entry   x:Name="entEmail" Visual="Material" Placeholder="{translator:Translate Login.Email}" VerticalOptions="Center" TextChanged="Ent_TextChanged" Text="{Binding Email}"></Entry>
+            <Entry IsVisible="False" x:Name="entEmail" Placeholder="{translator:Translate Login.Email}" VerticalOptions="Center" TextChanged="Ent_TextChanged" Text="{Binding Email}"></Entry>
             <Label Text="{translator:Translate Login.MessaggioValidazioneEmail}" Style="{x:StaticResource LabelValidatore}" x:Name="lblValidatorEntEmail"></Label>
 
-            <Button x:Name="btnSalva" Style="{x:StaticResource primaryButton}" Text="{translator:Translate Salva}" Visual="Material" Clicked="BtnSalva_Clicked"></Button>
+            <Button x:Name="btnSalva" Style="{x:StaticResource primaryButton}" Text="{translator:Translate Salva}" Clicked="BtnSalva_Clicked"></Button>
 
-            <Button x:Name="btnCambiaPassword" Text="{translator:Translate Account.CambiaPassword}" Visual="Material" Clicked="BtnCambiaPassword_Clicked"></Button>
+            <Button x:Name="btnCambiaPassword" Text="{translator:Translate Account.CambiaPassword}" Clicked="BtnCambiaPassword_Clicked"></Button>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

@@ -9,9 +9,12 @@
              x:Class="AppRegali.Views.Amici"
             xmlns:views1="clr-namespace:AppRegali.Views.Account"
             xmlns:views11="clr-namespace:AppRegali.Views.Account"
-             xmlns:translator="clr-namespace:AppRegali.Helpers"
-            BackgroundColor="#E8E8E8" BarBackgroundColor="White"
-            NavigationPage.HasNavigationBar="False">
+            xmlns:translator="clr-namespace:AppRegali.Helpers"
+            BackgroundColor="White"
+            BarBackgroundColor="White"
+            NavigationPage.HasNavigationBar="False"
+            SelectedTabColor="{x:StaticResource DarkColor}"
+            UnselectedTabColor="{x:StaticResource GrayColor}">
 
     <TabbedPage.Children>
         <NavigationPage Title="{translator:Translate Amici.Contatti}">
