@@ -39,5 +39,12 @@ namespace AppRegaliApi.Models
         public byte[] ImmagineEvento { get; set; }
 
         public List<RegaloDtoOutput> Regali { get; set; }
+
+
+        public byte[] ImmagineUserCreatoreEvento { get; set; }
+
+        public string NomeUserCreatoreEvento { get; set; }
+
+        public string CognomeUserCreatoreEvento { get; set; }
     }
 }
