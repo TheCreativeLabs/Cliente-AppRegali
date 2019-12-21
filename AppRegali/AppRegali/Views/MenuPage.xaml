@@ -52,12 +52,6 @@
                 </ListView.ItemTemplate>
             </ListView>
         </StackLayout>
-
-        <Label x:Name="lblLogout"  Text="{translator:Translate Menu.Logout}" HorizontalTextAlignment="Center" Margin="10" FontSize="Large">
-            <Label.GestureRecognizers>
-                <TapGestureRecognizer Tapped="btnLogout_Clicked"/>
-            </Label.GestureRecognizers>
-        </Label>
     </StackLayout>
 
 </ContentPage>

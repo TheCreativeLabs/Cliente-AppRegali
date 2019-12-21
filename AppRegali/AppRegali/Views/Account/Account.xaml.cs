@@ -1,6 +1,8 @@
 ﻿using Api;
 using AppRegali.ViewModels;
 using DependencyServiceDemos;
+using Plugin.Media;
+using Plugin.Media.Abstractions;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -52,25 +54,6 @@ namespace AppRegali.Views.Account
             }
         }
 
-        async void OnPickPhotoButtonClicked(object sender, EventArgs e)
-        {
-            (sender as Button).IsEnabled = false;
-
-            Stream stream = await DependencyService.Get<IPhotoPickerService>().GetImageStreamAsync();
-            if (stream != null)
-            {
-                imgFotoUtente.Source = ImageSource.FromStream(() => stream);
-
-                using (var memoryStream = new MemoryStream())
-                {
-                    stream.CopyTo(memoryStream);
-                    img = memoryStream.ToArray();
-                }
-            }
-
-            (sender as Button).IsEnabled = true;
-        }
-
         private async void Ent_TextChanged(object sender, TextChangedEventArgs e)
         {
             try
@@ -97,23 +80,30 @@ namespace AppRegali.Views.Account
         {
             try
             {
-                AccountClient accountClient = new AccountClient(Api.ApiHelper.GetApiClient());
-                UpdateUserBindingModel updateUserBindingModel = new UpdateUserBindingModel()
+                if(!string.IsNullOrEmpty(entCognome.Text) && !string.IsNullOrEmpty(entNome.Text))
                 {
-                    Name = entNome.Text,
-                    Surname = entCognome.Text,
-                    BirthName = entNome.Text,
-                    //DataNascita = pkDataNascita.Date,
-                    ImmagineProfilo = img,
-                    Email = viewModel.Email
-                };
+                    AccountClient accountClient = new AccountClient(Api.ApiHelper.GetApiClient());
+                    UpdateUserBindingModel updateUserBindingModel = new UpdateUserBindingModel()
+                    {
+                        Name = entNome.Text,
+                        Surname = entCognome.Text,
+                        BirthName = entNome.Text,
+                        //DataNascita = pkDataNascita.Date,
+                        ImmagineProfilo = img,
+                        Email = viewModel.Email
+                    };
 
-                //TODO: gestire la modifica della Email.
-                await accountClient.UpdateUserAsync(updateUserBindingModel);
+                    //TODO: gestire la modifica della Email.
+                    await accountClient.UpdateUserAsync(updateUserBindingModel);
 
-                //Refresh del menu
-                MenuPage menuPage = (MenuPage)((MasterDetailPage)Application.Current.MainPage).Master;
-                await menuPage.UpdateMenuData(Models.MenuItemType.Account);
+                    //Refresh del menu
+                    MenuPage menuPage = (MenuPage)((MasterDetailPage)Application.Current.MainPage).Master;
+                    await menuPage.UpdateMenuData(Models.MenuItemType.Account);
+                }
+                else
+                {
+                    await DisplayAlert("Attenzione", "è necessario compilare tutti i campi", "OK");
+                }
             }
             catch (Exception)
             {
@@ -132,6 +122,35 @@ namespace AppRegali.Views.Account
             {
                 //Navigo alla pagina d'errore.
                 await Navigation.PushAsync(new ErrorPage());
+            }
+        }
+
+        async void OnPickPhotoButtonClicked(object sender, EventArgs e)
+        {
+            (sender as Button).IsEnabled = false;
+
+            PickPhoto();
+
+            (sender as Button).IsEnabled = true;
+        }
+
+        async void PickPhoto()
+        {
+            await CrossMedia.Current.Initialize();
+
+            MediaFile foto = await CrossMedia.Current.PickPhotoAsync(new Plugin.Media.Abstractions.PickMediaOptions
+            {
+                PhotoSize = Plugin.Media.Abstractions.PhotoSize.Small
+            });
+
+            if (foto == null)
+                return;
+
+            using (MemoryStream memoryStream = new MemoryStream())
+            {
+                foto.GetStream().CopyTo(memoryStream);
+                viewModel.FotoProfilo = memoryStream.ToArray();
+                imgFotoUtente.Source = ImageSource.FromStream(() => { return new MemoryStream(viewModel.FotoProfilo); });
             }
         }
     }

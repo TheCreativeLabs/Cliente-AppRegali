@@ -9,7 +9,9 @@ namespace AppRegali.Models
         Home,
         EventiPersonali,
         Amici,
-        Account
+        Account,
+        Logout
+
     }
     public class HomeMenuItem
     {

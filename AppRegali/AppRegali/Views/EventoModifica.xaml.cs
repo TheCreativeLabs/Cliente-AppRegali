@@ -1,6 +1,8 @@
 ﻿using Api;
 using AppRegali.Api;
 using AppRegali.ViewModels;
+using Plugin.Media;
+using Plugin.Media.Abstractions;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -39,14 +41,17 @@ namespace AppRegali.Views
             //imgEventoModifica.Source = ImageSource.FromStream(() => { return stream; });
             base.OnAppearing();
 
-            this.viewModel = new EventoDetailViewModel();
-            this.viewModel.Item = await LoadEventoDetailById();
-            BindingContext = this.viewModel;
-            
-            List<EventoCategoria> listaCategorie = (List<EventoCategoria>)await this.eventoClient.GetLookupEventoCategoriaAsync();
-            pkCategoria.ItemsSource = listaCategorie;
-            EventoCategoria categoria = listaCategorie.First(a => a.Id == this.viewModel.Item.IdCategoriaEvento);
-            pkCategoria.SelectedItem = categoria;
+            if(this.viewModel == null)
+            {
+                this.viewModel = new EventoDetailViewModel();
+                this.viewModel.Item = await LoadEventoDetailById();
+                BindingContext = this.viewModel;
+
+                List<EventoCategoria> listaCategorie = (List<EventoCategoria>)await this.eventoClient.GetLookupEventoCategoriaAsync();
+                pkCategoria.ItemsSource = listaCategorie;
+                EventoCategoria categoria = listaCategorie.First(a => a.Id == this.viewModel.Item.IdCategoriaEvento);
+                pkCategoria.SelectedItem = categoria;
+            }
         }
 
         private void pkCategoria_SelectedIndexChanged(object sender, EventArgs e)
@@ -131,6 +136,36 @@ namespace AppRegali.Views
             RegaloDtoOutput item = args.SelectedItem as RegaloDtoOutput;
             await Navigation.PushAsync(new RegaloModifica(new RegaloDetailViewModel(item)));
            //await Navigation.PushModalAsync
+        }
+
+        async void OnPickPhotoButtonClicked(object sender, EventArgs e)
+        {
+            (sender as Button).IsEnabled = false;
+
+            PickPhoto();
+
+            (sender as Button).IsEnabled = true;
+        }
+
+        async void PickPhoto()
+        {
+            await CrossMedia.Current.Initialize();
+
+            MediaFile foto = await CrossMedia.Current.PickPhotoAsync(new Plugin.Media.Abstractions.PickMediaOptions
+            {
+                PhotoSize = Plugin.Media.Abstractions.PhotoSize.Small
+            });
+
+            if (foto == null)
+                return;
+
+            using (MemoryStream memoryStream = new MemoryStream())
+            {
+                foto.GetStream().CopyTo(memoryStream);
+
+                viewModel.Item.ImmagineEvento = memoryStream.ToArray();
+                imgEventoModifica.Source = ImageSource.FromStream(() => { return new MemoryStream(viewModel.Item.ImmagineEvento); });
+            }
         }
     }
 }

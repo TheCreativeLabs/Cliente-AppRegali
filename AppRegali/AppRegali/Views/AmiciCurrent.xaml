@@ -8,6 +8,7 @@
              xmlns:translator="clr-namespace:AppRegali.Helpers"
              x:Class="AppRegali.Views.AmiciCurrent"
              Title="Contacts"
+             BackgroundColor="{x:StaticResource SfondoColor}"
              >
     
     <ContentPage.Resources>

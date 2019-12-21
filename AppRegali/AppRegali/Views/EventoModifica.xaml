@@ -34,7 +34,7 @@
                                  <Image x:Name="imgEventoModifica" Source="{Binding Item.ImmagineEvento, Converter={StaticResource ByteArrayToImage}}" Aspect="AspectFill"></Image>
                             </Frame>
                             <AbsoluteLayout Grid.Row="0" Padding="5" HorizontalOptions="EndAndExpand">
-                                <Button HorizontalOptions="End" Margin="0,50,0,0" Style="{x:StaticResource PhotoButton}">
+                                <Button HorizontalOptions="End" Clicked="OnPickPhotoButtonClicked" Margin="0,50,0,0" Style="{x:StaticResource PhotoButton}">
                                     <!--Clicked="OnPickPhotoButtonClicked"-->
                                 </Button>
                             </AbsoluteLayout>

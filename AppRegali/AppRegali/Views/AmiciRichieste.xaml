@@ -5,7 +5,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
              xmlns:conv="clr-namespace:AppRegali.Converter;assembly=AppRegali"
-             x:Class="AppRegali.Views.AmiciRichieste">
+             x:Class="AppRegali.Views.AmiciRichieste"
+             BackgroundColor="{x:StaticResource SfondoColor}">
 
     <ContentPage.Resources>
         <ResourceDictionary>
