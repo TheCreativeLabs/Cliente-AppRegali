@@ -52,14 +52,17 @@ namespace AppRegali.Views
         {
             base.OnAppearing();
 
-            BindingContext = viewModel = await UserProfiloViewModel.ExecuteLoadCommandAsync(User.IdAspNetUser);
+            //BindingContext =
+            viewModel = await UserProfiloViewModel.ExecuteLoadCommandAsync(User.IdAspNetUser);
             
             //ricarico ogni volta per recepire le modifiche
-            viewModel.LoadItemsCommand.Execute(null); 
+            viewModel.LoadItemsCommand.Execute(null);
+
+            EventiProfiloListView.ItemsSource = viewModel.Eventi;
 
             if (viewModel.Info.Relation.Value == "CONTACT")
             {
-                btnDeleteContact.IsVisible = true;
+                btnContactSetting.IsVisible = true;
                 //viewModel.BtnDeleteContactVisible = true;
             } else if (viewModel.Info.Relation.Value == "REQUEST_IN")
             {
@@ -73,8 +76,6 @@ namespace AppRegali.Views
             {
                 btnSendRequest.IsVisible = true;
             }
-
-            frmImgProfilo.IsVisible = true;
 
             aiLoading.IsVisible = false;
             aiLoading.IsRunning = false;
@@ -99,6 +100,31 @@ namespace AppRegali.Views
             
         }
 
+        private async void UserSetting_Clicked(object sender, EventArgs e)
+        {
+            string action = await DisplayActionSheet("ActionSheet: Send to?", "Cancel", null, "Rimuovi amico");
+
+            if(action == "Rimuovi amico")
+            {
+                AmiciClient amiciClient = new AmiciClient(Api.ApiHelper.GetApiClient());
+
+                try
+                {
+                    await amiciClient.AmiciziaDeleteOrDenyAsync(viewModel.Info.IdAspNetUser);
+                    btnConfirmDenyContact.IsVisible = false;
+                    btnContactSetting.IsVisible = false;
+                    btnSendRequest.IsVisible = true;
+                    viewModel.LoadItemsCommand.Execute(null);
+                }
+                catch
+                {
+                    await DisplayAlert(null,
+                                Helpers.TranslateExtension.ResMgr.Value.GetString("AmiciProfilo.ErrorGeneric", translate.ci),
+                                Helpers.TranslateExtension.ResMgr.Value.GetString("AmiciProfilo.Ok", translate.ci));
+                }
+            }
+        }
+
         private async void btnConfirmContact_Clicked(object sender, EventArgs e)
         {
             AmiciClient amiciClient = new AmiciClient(Api.ApiHelper.GetApiClient());
@@ -107,7 +133,7 @@ namespace AppRegali.Views
             {
                 await amiciClient.AccettaAmiciziaAsync(viewModel.Info.IdAspNetUser.ToString());
                 btnConfirmDenyContact.IsVisible = false;
-                btnDeleteContact.IsVisible = true;
+                btnContactSetting.IsVisible = true;
                 viewModel.LoadItemsCommand.Execute(null);
             }
             catch
@@ -118,8 +144,8 @@ namespace AppRegali.Views
             }
 
         }
-
-        private async void btnDeleteContact_Clicked(object sender, EventArgs e)
+        
+          private async void btnDeleteContact_Clicked(object sender, EventArgs e)
         {
             AmiciClient amiciClient = new AmiciClient(Api.ApiHelper.GetApiClient());
 
@@ -127,7 +153,7 @@ namespace AppRegali.Views
             {
                 await amiciClient.AmiciziaDeleteOrDenyAsync(viewModel.Info.IdAspNetUser);
                 btnConfirmDenyContact.IsVisible = false;
-                btnDeleteContact.IsVisible = false;
+                btnContactSetting.IsVisible = false;
                 btnSendRequest.IsVisible = true;
                 viewModel.LoadItemsCommand.Execute(null);
             }

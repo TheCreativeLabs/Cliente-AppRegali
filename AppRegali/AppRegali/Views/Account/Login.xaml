@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
-             xmlns:translator="clr-namespace:AppRegali.Helpers"
+             xmlns:translator="clr-namespace:AppRegali.Helpers" xmlns:controls="clr-namespace:AppRegali.ContentViews"
              mc:Ignorable="d"
              x:Class="AppRegali.Views.Login.Login"
              NavigationPage.HasNavigationBar="False"
@@ -27,18 +27,8 @@
                 </Label.GestureRecognizers>
             </Label>
 
-            <Label Text="{translator:Translate Login.Or}" HorizontalTextAlignment="Center" Margin="0,15,0,10"></Label>
+                        <controls:FbButton/>
 
-            <Frame HasShadow="True" HeightRequest="40" BackgroundColor="#1e73be" CornerRadius="5" Padding="0" >
-                <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" Padding="0">
-                    <Label FontFamily="{x:StaticResource FA-Brands}" Text="&#xf082;" TextColor="White" FontAttributes="Bold" FontSize="Title"></Label>
-                    <Label Text="{translator:Translate Login.FacebookSignIn}" TextColor="White" FontAttributes="Bold" VerticalTextAlignment="Center">
-                        <Label.GestureRecognizers>
-                            <TapGestureRecognizer Tapped="btnAccediFacebook_Clicked"/>
-                        </Label.GestureRecognizers>
-                    </Label>
-                </StackLayout>
-            </Frame>
 
             <Label x:Name="lblRegistrati" Text="{translator:Translate Login.RegisterIfNoAccount}" HorizontalTextAlignment="Center" Margin="0,10,0,0" TextColor="black">
                 <Label.GestureRecognizers>

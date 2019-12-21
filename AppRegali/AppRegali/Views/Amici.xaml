@@ -29,7 +29,7 @@
 
         <NavigationPage Title="{translator:Translate Amici.Richieste}">
             <NavigationPage.IconImageSource>
-                <FontImageSource  FontFamily="{x:StaticResource FA-Solid}" Glyph="&#xf059;"/>
+                <FontImageSource  FontFamily="{x:StaticResource FA-Solid}" Glyph="&#xf4fc;"/>
             </NavigationPage.IconImageSource>
             <x:Arguments>
                 <views:AmiciRichieste Title="{translator:Translate Amici.Richieste}">

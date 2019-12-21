@@ -27,7 +27,7 @@
                 <Image x:Name="imgFotoUtente"  Aspect="AspectFill"></Image>
             </Frame>
 
-            <Button Text="Aggiorna foto" BackgroundColor="Transparent"  FontFamily="{StaticResource FA-Solid}"  HorizontalOptions="Center" Clicked="OnPickPhotoButtonClicked">
+            <Button Text="Aggiorna foto" BackgroundColor="Transparent"  HorizontalOptions="Center" Clicked="OnPickPhotoButtonClicked">
             </Button>
 
             <Entry x:Name="entNome" Placeholder="{translator:Translate Registrazione.Nome}" VerticalOptions="Center" TextChanged="Ent_TextChanged" Text="{Binding Nome}"></Entry>
@@ -44,7 +44,7 @@
 
             <Button x:Name="btnSalva" Style="{x:StaticResource primaryButton}" Text="{translator:Translate Salva}" Clicked="BtnSalva_Clicked"></Button>
 
-            <Button x:Name="btnCambiaPassword" Text="{translator:Translate Account.CambiaPassword}" Clicked="BtnCambiaPassword_Clicked"></Button>
+            <Button x:Name="btnCambiaPassword" Style="{x:StaticResource SecondaryButton}" Text="{translator:Translate Account.CambiaPassword}" Clicked="BtnCambiaPassword_Clicked"></Button>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

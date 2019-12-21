@@ -6,7 +6,8 @@
              mc:Ignorable="d"
              x:Class="AppRegali.Views.MenuPage"
              Title="Menu"
-              xmlns:translator="clr-namespace:AppRegali.Helpers">
+             xmlns:translator="clr-namespace:AppRegali.Helpers"
+             BackgroundColor="{x:StaticResource SfondoColor}">
 
     <StackLayout Orientation="Vertical">
         <Frame HasShadow="True" HeightRequest="150">
@@ -41,10 +42,10 @@
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
-                            <StackLayout Orientation="Horizontal" Padding="20">
-                                <Label Text="{Binding Icon}" FontSize="18" VerticalTextAlignment="Center"
-                                       FontFamily="{x:StaticResource FA-Solid}" ></Label>
+                            <StackLayout Orientation="Horizontal" Padding="20" HorizontalOptions="FillAndExpand">
                                 <Label Text="{Binding Title}" d:Text="{Binding .}" FontSize="18"  VerticalTextAlignment="Center" />
+                                <Label Text="{Binding Icon}" FontSize="18" VerticalTextAlignment="Center"
+                                       FontFamily="{x:StaticResource FA-Solid}" HorizontalOptions="EndAndExpand" ></Label>
                             </StackLayout>
                         </ViewCell>
                     </DataTemplate>

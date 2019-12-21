@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="AppRegali.ContentViews.FbButton"
+             xmlns:translator="clr-namespace:AppRegali.Helpers">
+    <ContentView.Content>
+        <StackLayout>
+        <StackLayout Orientation="Horizontal" Margin="0,20,0,20">
+                        <BoxView BackgroundColor="{x:StaticResource GrayColor}" HeightRequest="1" VerticalOptions="Center"  HorizontalOptions="FillAndExpand"/>
+                        <Label Text="{translator:Translate Login.Or}" VerticalTextAlignment="Center" VerticalOptions="Center" TextColor="{x:StaticResource GrayColor}"></Label>
+
+                <BoxView BackgroundColor="{x:StaticResource GrayColor}" HeightRequest="1" VerticalOptions="Center"  HorizontalOptions="FillAndExpand"/>
+            </StackLayout>
+
+        <Frame HorizontalOptions="FillAndExpand" Padding="0" HeightRequest="40" HasShadow="False" BackgroundColor="#1e73be">
+            <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Padding="0" VerticalOptions="Center">
+                <Label FontSize="20" FontFamily="{x:StaticResource FA-Brands}" TextColor="White"  Text="&#xf39e;"></Label>
+                <Label FontFamily="{x:StaticResource SubtitleFont}"
+                    Text="{translator:Translate Login.FacebookSignIn}"
+                    TextColor="White"></Label>
+            </StackLayout>
+
+            <Frame.GestureRecognizers>
+                <TapGestureRecognizer Tapped="btnAccediFacebook_Clicked"></TapGestureRecognizer>
+            </Frame.GestureRecognizers>
+        </Frame>
+
+            </StackLayout>
+    </ContentView.Content>
+</ContentView>

@@ -136,7 +136,7 @@
     <PackageReference Include="Plugin.Multilingual">
       <Version>1.0.2</Version>
     </PackageReference>
-    <PackageReference Include="Xamarin.Forms" Version="4.2.0.848062" />
+    <PackageReference Include="Xamarin.Forms" Version="4.4.0.991265" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
     <PackageReference Include="Xamarin.Essentials" Version="1.3.1" />
     <PackageReference Include="Xamarin.Forms.Visual.Material">
@@ -146,7 +146,7 @@
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <ItemGroup>
     <ProjectReference Include="..\AppRegali\AppRegali.csproj">
-      <Project>{7C8388BA-3BFE-4ED1-B084-32A6CB8C959B}</Project>
+      <Project>{F4D71BF3-C2A9-41E7-9516-F5E4C55EABFE}</Project>
       <Name>AppRegali</Name>
     </ProjectReference>
   </ItemGroup>

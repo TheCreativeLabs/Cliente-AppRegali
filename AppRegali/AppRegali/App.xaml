@@ -17,7 +17,6 @@
             <Color x:Key="DangerColor">#dc3545</Color>
             <Color x:Key="LightColor">#f8f9fa</Color>
             <Color x:Key="NavigationTextColor">White</Color>
-
             <Color x:Key="SfondoColor">#fff</Color>
 
 
@@ -33,12 +32,19 @@
              <!--Font Awesome-->
             <Style TargetType="NavigationPage">
                 <Setter Property="BarBackgroundColor" Value="{StaticResource PrimaryColor}"></Setter>
-                <Setter Property="BarTextColor" Value="{x:StaticResource DarkColor}"></Setter>
+                <Setter Property="BarTextColor" Value="{x:StaticResource SfondoColor}"></Setter>
             </Style>
 
             <Style TargetType="Button" x:Key="primaryButton">
                 <Setter Property="BackgroundColor" Value="{x:StaticResource PrimaryColor}"/>
                 <Setter Property="TextColor" Value="White"/>
+            </Style>
+
+            <Style TargetType="Button" x:Key="SecondaryButton">
+                <Setter Property="BackgroundColor" Value="{x:StaticResource SfondoColor}"/>
+                <Setter Property="TextColor" Value="{x:StaticResource DarkColor}"/>
+                <Setter Property="BorderColor" Value="{x:StaticResource DarkColor}"></Setter>
+                <Setter Property="BorderWidth" Value="2"></Setter> 
             </Style>
 
             <Style TargetType="Button" x:Key="deleteButton">

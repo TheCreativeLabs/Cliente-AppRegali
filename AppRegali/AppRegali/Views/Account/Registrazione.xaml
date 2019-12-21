@@ -5,7 +5,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
              x:Class="AppRegali.Views.Login.Registrazione"
-             xmlns:translator="clr-namespace:AppRegali.Helpers"
+             xmlns:translator="clr-namespace:AppRegali.Helpers" xmlns:controls="clr-namespace:AppRegali.ContentViews"
              NavigationPage.HasNavigationBar="False">
 
     <NavigationPage.TitleView>
@@ -54,6 +54,9 @@
                 <Label Text="{translator:Translate Login.MessaggioValidazioneConfermaPassword}" Style="{x:StaticResource LabelValidatore}" x:Name="lblValidatorEntConfermaPassword"></Label>
 
                 <Button Style="{x:StaticResource primaryButton}" x:Name="btnRegistrati" Text="{translator:Translate Registrazione.Bottone}" VerticalOptions="Center" Clicked="btnRegistrati_Clicked"></Button>
+
+
+            <controls:FbButton/>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
