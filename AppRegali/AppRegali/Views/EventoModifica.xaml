@@ -5,15 +5,17 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
              xmlns:conv="clr-namespace:AppRegali.Converter"
-             xmlns:translator="clr-namespace:AppRegali.Helpers"
-             x:Class="AppRegali.Views.EventoModifica">
+             xmlns:translator="clr-namespace:AppRegali.Helpers" xmlns:controls="clr-namespace:AppRegali.ContentViews"
+             x:Class="AppRegali.Views.EventoModifica"
+             NavigationPage.HasNavigationBar="False"
+             BackgroundColor="{x:StaticResource SfondoColor}">
     
-    <NavigationPage.TitleView>
+    <!--<NavigationPage.TitleView>
         <StackLayout Orientation="Horizontal">
             <Label Text="{Binding Item.Titolo}" TextColor="White" HorizontalOptions="StartAndExpand" VerticalTextAlignment="Center" FontAttributes="Bold" FontSize="Large"></Label>
             <Button Text="Salva" TextColor="White" BackgroundColor="Transparent"  HorizontalOptions="EndAndExpand"  Clicked="Update_Clicked"></Button>
         </StackLayout>
-    </NavigationPage.TitleView>
+    </NavigationPage.TitleView>-->
 
     <ContentPage.Resources>
         <ResourceDictionary>
@@ -25,22 +27,31 @@
     <ContentPage.Content>
         <StackLayout>
             <ScrollView>
-                <StackLayout>
+                <StackLayout Padding="20">
+                    <StackLayout Orientation="Horizontal">
+                        <controls:ProfileBackButton HeightRequest="40" HorizontalOptions="StartAndExpand"/>
+
+                        <Button BackgroundColor="Transparent" WidthRequest="80" BorderWidth="2" BorderColor="{x:StaticResource DangerColor}"  TextColor="{x:StaticResource DangerColor}"  Text="{translator:Translate EventoModifica.Elimina}" x:Name="btnDelete" Clicked="Delete_Clicked" ></Button>
+                        <Button BackgroundColor="Transparent" WidthRequest="60" BorderWidth="2" TextColor="{x:StaticResource PrimaryColor}" Text="Salva" x:Name="btnSave" Clicked="Delete_Clicked" ></Button>
+                    </StackLayout>
+
+
+                    <Label Style="{x:StaticResource Title}" Margin="0,20,0,0"  Text="Modifica il tuo evento"></Label>
+
                      <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="200"/>
                         </Grid.RowDefinitions>
                             <Frame Grid.Row="0" CornerRadius="0"  HeightRequest="200" IsClippedToBounds="True" Padding="0" HasShadow="True" Visual="Material">
-                                 <Image x:Name="imgEventoModifica" Source="{Binding Item.ImmagineEvento, Converter={StaticResource ByteArrayToImage}}" Aspect="AspectFill"></Image>
+                                    <Image x:Name="imgEventoModifica" Source="{Binding Item.ImmagineEvento, Converter={StaticResource ByteArrayToImage}}" Aspect="AspectFill"></Image>
                             </Frame>
                             <AbsoluteLayout Grid.Row="0" Padding="5" HorizontalOptions="EndAndExpand">
-                                <Button HorizontalOptions="End" Clicked="OnPickPhotoButtonClicked" Margin="0,50,0,0" Style="{x:StaticResource PhotoButton}">
+                                <Button HorizontalOptions="End" Clicked="OnPickPhotoButtonClicked" BackgroundColor="White"  Margin="0,60,0,0" Style="{x:StaticResource PhotoButton}">
                                     <!--Clicked="OnPickPhotoButtonClicked"-->
                                 </Button>
                             </AbsoluteLayout>
-                         </Grid>
+                    </Grid>
 
-                    <StackLayout Padding="20">
 
                         <Entry x:Name="entTitoloEvento" Placeholder="Titolo" VerticalOptions="Center" Text="{Binding Item.Titolo}" ></Entry>
 
@@ -58,56 +69,33 @@
                             <Button WidthRequest="50" BackgroundColor="Transparent" FontSize="Medium" Margin="0,0,-15,0" TextColor="{StaticResource PrimaryColor}" HorizontalOptions="EndAndExpand" Text="&#xf067;" FontFamily="{StaticResource FA-Solid}" Clicked="AddRegalo_Clicked">
                             </Button>
                         </StackLayout>
-                    </StackLayout>
 
-                    <ListView x:Name="RegaliModificaListView"
-                                    ItemsSource="{Binding Item.Regali}"
-                                    HeightRequest="{Binding HeightViewRegali}"
-                                    HasUnevenRows="true"
-                                    RefreshCommand="{Binding LoadItemsCommand}"
-                                    IsPullToRefreshEnabled="true"
-                                    CachingStrategy="RecycleElement"
-                                    SeparatorVisibility="None"
-                                    ItemSelected ="OnRegaloSelected">
-                            <ListView.ItemTemplate>
-                                <DataTemplate>
-                                    <ViewCell>
-                                        <StackLayout>
-                                            <Frame HasShadow="True" >
-                                                <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
-                                                    <Frame CornerRadius="10"
-                                               HeightRequest="100"
-                                               WidthRequest="100"
-                                               HorizontalOptions="Center"
-                                               Padding="0"
-                                               IsClippedToBounds="True"
-                                               HasShadow="True">
-                                                        <Image x:Name="imgFotoUtente"  HorizontalOptions="Center" Source="{Binding ImmagineRegalo, Converter={StaticResource ByteArrayToImage}}" VerticalOptions="Center"></Image>
-                                                    </Frame>
+                    <CollectionView x:Name="RegaliModificaListView">
+                             <CollectionView.ItemsLayout>
+                                    <LinearItemsLayout Orientation="Horizontal" />
+                                </CollectionView.ItemsLayout>
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <StackLayout Padding="10" WidthRequest="250" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+                                        <Frame HasShadow="True" Padding="0" CornerRadius="10" IsClippedToBounds="True">
+                                            <StackLayout>
+
+                                            <Image x:Name="imgFotoUtente" HeightRequest="180" Aspect="AspectFill" Source="{Binding ImmagineRegalo, Converter={StaticResource ByteArrayToImage}}" ></Image>
 
 
-                                                    <Grid VerticalOptions="Center" HorizontalOptions="FillAndExpand" HeightRequest="80" RowSpacing="1">
-                                                        <Label Grid.Row="0" FontSize="Large" FontAttributes="Bold" VerticalTextAlignment="Center" TextColor="Black" Text="{Binding Titolo}"></Label>
-                                                        <Label Grid.Row="1" FontSize="Medium" FontAttributes="Bold" VerticalTextAlignment="Center" Text="{Binding Descrizione}"></Label>
-                                                        <Grid Grid.Row="2" RowSpacing="2">
-                                                            <Grid.ColumnDefinitions>
-                                                                <ColumnDefinition Width="70*" />
-                                                                <ColumnDefinition Width="30*" />
-                                                            </Grid.ColumnDefinitions>
-                                                            <ProgressBar Grid.Row="0" Grid.Column="0" Progress="0.5" />
-                                                            <Label Grid.Row="0" Grid.Column="1" FontSize="Medium" Text="{Binding ImportoCollezionato}" VerticalTextAlignment="Center" />
-                                                        </Grid>
-                                                    </Grid>
+                                            <StackLayout Padding="10">
+                                                    <Label Style="{x:StaticResource AdTitle}" Text="{Binding Titolo}"></Label>
+                                                    <Label Style="{x:StaticResource AdSubtitle}" Text="{Binding Descrizione}"></Label>
+                                                    
+                                                    <ProgressBar Grid.Row="0" Grid.Column="0" Progress="0.5" />
+                                                    <Label Grid.Row="0" Grid.Column="1" FontSize="Medium" Text="{Binding ImportoCollezionato}"></Label>
+                                            </StackLayout>
                                                 </StackLayout>
-                                            </Frame>
-                                        </StackLayout>
-                                    </ViewCell>
-                                </DataTemplate>
-                            </ListView.ItemTemplate>
-                            <ListView.Footer >
-                            <Button Margin="0,20,0,0" Style="{x:StaticResource deleteButton}" Visual="Material" Text="{translator:Translate EventoModifica.Elimina}" x:Name="btnDelete" Clicked="Delete_Clicked" ></Button>
-                            </ListView.Footer>
-                        </ListView>
+                                        </Frame>
+                                    </StackLayout>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                        </CollectionView>
                     
                 </StackLayout>
             </ScrollView>
