@@ -126,6 +126,20 @@ namespace AppRegali.Views
             }
         }
 
+        private async void BtnModificaRegalo_Clicked(object sender, EventArgs e)
+        {
+            try
+            {
+                var btn = (Button)sender;
+                var item = (RegaloDtoOutput)btn.CommandParameter;
+                await Navigation.PushAsync(new RegaloModifica(new RegaloDetailViewModel(item)));
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
         async void AddRegalo_Clicked(object sender, EventArgs e)
         {
             RegaloDtoOutput regaloNew = new RegaloDtoOutput();

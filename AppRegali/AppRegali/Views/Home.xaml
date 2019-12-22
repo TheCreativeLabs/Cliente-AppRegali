@@ -17,7 +17,7 @@
 
     <NavigationPage.TitleView>
             <StackLayout Orientation="Horizontal">
-                <Label FontSize="35" HorizontalTextAlignment="Center" Margin="20,0,0,0" VerticalTextAlignment="Center" HorizontalOptions="CenterAndExpand"  FontFamily="{x:StaticResource FA-Solid}" TextColor="White" FontAttributes="Bold" Text="&#xf4be;"></Label>
+                <Label FontSize="35" HorizontalTextAlignment="Center" Margin="20,0,0,0" VerticalTextAlignment="Center" HorizontalOptions="CenterAndExpand"  FontFamily="{x:StaticResource FA-Solid}" TextColor="White" FontAttributes="Bold" Text="&#xf06b;"></Label>
 
                 <Button x:Name="btnAbilitaRicerca"  Clicked="btnAbilitaRicerca_Clicked" BackgroundColor="Transparent" FontSize="Medium" TextColor="White" HorizontalOptions="End" Text="&#xf002;" FontFamily="{StaticResource FA-Solid}" Margin="0,0,-15,0">
                 </Button>

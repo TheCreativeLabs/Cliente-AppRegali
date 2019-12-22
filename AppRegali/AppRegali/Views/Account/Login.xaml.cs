@@ -58,7 +58,7 @@ namespace AppRegali.Views.Login
                     Api.ApiHelper.SetProvider(Api.ApiHelper.LoginProvider.Email);
                     Application.Current.MainPage = new MainPage();
 
-                    await DisplayAlert("Registrazioen avvenuta", "Verifica la tua email prima di accedere", "OK");
+                    //await DisplayAlert("Registrazioen avvenuta", "Verifica la tua email prima di accedere", "OK");
 
                     await Navigation.PopModalAsync();
                 }

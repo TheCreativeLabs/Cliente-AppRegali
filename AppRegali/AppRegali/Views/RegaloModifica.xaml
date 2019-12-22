@@ -29,7 +29,7 @@
                     <Frame CornerRadius="10"  HeightRequest="200" IsClippedToBounds="True" Padding="0" HasShadow="True" Visual="Material">
                         <Image x:Name="imgRegaloModifica" Source="{Binding Item.ImmagineRegalo, Converter={StaticResource ByteArrayToImage}}" Aspect="AspectFill"></Image>
                     </Frame>
-                    <Button Style="{x:StaticResource PhotoButton}"><!--Clicked="OnPickPhotoButtonClicked"-->
+                    <Button Clicked="OnPickPhotoButtonClicked" Style="{x:StaticResource PhotoButton}"><!--Clicked="OnPickPhotoButtonClicked"-->
                     </Button>
 
                     <Entry x:Name="entTitoloRegalo" Visual="Material" Placeholder="{translator:Translate RegaloModifica.Titolo}" Text="{Binding Item.Titolo}"></Entry>
