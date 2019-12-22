@@ -1,6 +1,8 @@
 ﻿using Api;
 using AppRegali.Api;
 using AppRegali.ViewModels;
+using Plugin.Media;
+using Plugin.Media.Abstractions;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -76,6 +78,36 @@ namespace AppRegali.Views
             catch (Exception)
             {
                 throw;
+            }
+        }
+
+        async void OnPickPhotoButtonClicked(object sender, EventArgs e)
+        {
+            (sender as Button).IsEnabled = false;
+
+            PickPhoto();
+
+            (sender as Button).IsEnabled = true;
+        }
+
+        async void PickPhoto()
+        {
+            await CrossMedia.Current.Initialize();
+
+            MediaFile foto = await CrossMedia.Current.PickPhotoAsync(new Plugin.Media.Abstractions.PickMediaOptions
+            {
+                PhotoSize = Plugin.Media.Abstractions.PhotoSize.Small
+            });
+
+            if (foto == null)
+                return;
+
+            using (MemoryStream memoryStream = new MemoryStream())
+            {
+                foto.GetStream().CopyTo(memoryStream);
+
+                viewModel.Item.ImmagineRegalo = memoryStream.ToArray();
+                imgRegaloModifica.Source = ImageSource.FromStream(() => { return new MemoryStream(viewModel.Item.ImmagineRegalo); });
             }
         }
 

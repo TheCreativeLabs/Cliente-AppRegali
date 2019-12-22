@@ -32,7 +32,7 @@
                         <controls:ProfileBackButton HeightRequest="40" HorizontalOptions="StartAndExpand"/>
 
                         <Button BackgroundColor="Transparent" WidthRequest="80" BorderWidth="2" BorderColor="{x:StaticResource DangerColor}"  TextColor="{x:StaticResource DangerColor}"  Text="{translator:Translate EventoModifica.Elimina}" x:Name="btnDelete" Clicked="Delete_Clicked" ></Button>
-                        <Button BackgroundColor="Transparent" WidthRequest="60" BorderWidth="2" TextColor="{x:StaticResource PrimaryColor}" Text="Salva" x:Name="btnSave" Clicked="Delete_Clicked" ></Button>
+                        <Button BackgroundColor="Transparent" WidthRequest="60" BorderWidth="2" TextColor="{x:StaticResource PrimaryColor}" Text="Salva" x:Name="btnSave" Clicked="Update_Clicked" ></Button>
                     </StackLayout>
 
 
@@ -77,19 +77,22 @@
                         <CollectionView.ItemTemplate>
                             <DataTemplate>
                                 <StackLayout Padding="10" WidthRequest="250" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
-                                        <Frame HasShadow="True" Padding="0" CornerRadius="10" IsClippedToBounds="True">
-                                            <StackLayout>
+                                            <Frame HasShadow="True" Padding="0" CornerRadius="10" IsClippedToBounds="True">
+                                                    <StackLayout>
 
-                                            <Image x:Name="imgFotoUtente" HeightRequest="180" Aspect="AspectFill" Source="{Binding ImmagineRegalo, Converter={StaticResource ByteArrayToImage}}" ></Image>
+                                                    <Image x:Name="imgFotoUtente" HeightRequest="180" Aspect="AspectFill" Source="{Binding ImmagineRegalo, Converter={StaticResource ByteArrayToImage}}" ></Image>
 
 
-                                            <StackLayout Padding="10">
-                                                    <Label Style="{x:StaticResource AdTitle}" Text="{Binding Titolo}"></Label>
-                                                    <Label Style="{x:StaticResource AdSubtitle}" Text="{Binding Descrizione}"></Label>
+                                                    <StackLayout Padding="10">
+                                                            <Label Style="{x:StaticResource AdTitle}" Text="{Binding Titolo}"></Label>
+                                                            <Label Style="{x:StaticResource AdSubtitle}" Text="{Binding Descrizione}"></Label>
                                                     
-                                                    <ProgressBar Grid.Row="0" Grid.Column="0" Progress="0.5" />
-                                                    <Label Grid.Row="0" Grid.Column="1" FontSize="Medium" Text="{Binding ImportoCollezionato}"></Label>
-                                            </StackLayout>
+                                                            <ProgressBar Grid.Row="0" Grid.Column="0" Progress="0.5" />
+                                                            <Label Grid.Row="0" Grid.Column="1" FontSize="Medium" Text="{Binding ImportoCollezionato}"></Label>
+
+                                                            <Button Clicked="BtnModificaRegalo_Clicked" Text="Modifica" CommandParameter="{Binding .}" Style="{x:StaticResource SecondaryButton}">
+                                                            </Button>
+                                                    </StackLayout>
                                                 </StackLayout>
                                         </Frame>
                                     </StackLayout>
