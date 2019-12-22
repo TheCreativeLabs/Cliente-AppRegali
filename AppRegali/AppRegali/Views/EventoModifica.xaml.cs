@@ -51,6 +51,8 @@ namespace AppRegali.Views
                 pkCategoria.ItemsSource = listaCategorie;
                 EventoCategoria categoria = listaCategorie.First(a => a.Id == this.viewModel.Item.IdCategoriaEvento);
                 pkCategoria.SelectedItem = categoria;
+
+                RegaliModificaListView.ItemsSource = viewModel.Item.Regali;
             }
         }
 
