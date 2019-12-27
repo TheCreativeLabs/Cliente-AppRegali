@@ -48,7 +48,12 @@ namespace AppRegaliApi.Controllers
             //Controllo se Id è valorizzato.
             if (Id != Guid.Empty)
             {
-                evento = await dbDataContext.Evento.Include(x => x.Regalo).Include(x => x.Regalo.Select(y => y.ImmagineRegalo)).Include(x => x.ImmagineEvento).SingleOrDefaultAsync(x => x.Id == Id);
+                evento = await dbDataContext.Evento
+                    .Include(x => x.Regalo)
+                    .Include(x => x.Regalo.Select(y => y.ImmagineRegalo))
+                    .Include(x => x.ImmagineEvento)
+                    .Include(x => x.EventoCategoria)
+                    .SingleOrDefaultAsync(x => x.Id == Id);
             }
 
             return Ok(EventoMapper.EventoToEventoDto(evento));
@@ -61,7 +66,7 @@ namespace AppRegaliApi.Controllers
         {
             Guid currentUser = new Guid(User.Identity.GetUserId());
             List<Evento> eventi = await dbDataContext.Evento
-                           //.Include(x => x.ImmagineEvento) FIXME SCOMMENTARE
+                           .Include(x => x.ImmagineEvento)
                            .Where(x => x.IdUtenteCreazione == currentUser)
                            .OrderBy(x => x.DataEvento)
                            .ToListAsync();
@@ -74,7 +79,7 @@ namespace AppRegaliApi.Controllers
         //l'oggetto restituito è piatto: nella risposta non sono compresi gli oggetti figli
         [HttpGet]
         [Route("EventiAmiciFiltered")]
-        public async Task<List<EventoDtoOutput>> GetEventiByidUtente(string IdUtente = null, string IdCategoria = null)
+        public async Task<List<EventoDtoOutput>> GetEventiByidUtente(int pageNumber, int pageSize, string IdUtente = null, string IdCategoria = null)
         {
             //Ottengo la lista degli amici
             List<Guid> idAmici = await AmiciUtility.GetIdAmiciOfUser(new Guid(User.Identity.GetUserId()));
@@ -105,6 +110,9 @@ namespace AppRegaliApi.Controllers
                                                             & (IdUtente == null || eventoAndUserInfo.Evento.IdUtenteCreazione.ToString() == IdUtente)
                                                             & (IdCategoria == null || eventoAndUserInfo.Evento.IdCategoriaEvento.ToString() == IdCategoria))
                                    )   // where statement
+
+                            .Skip(pageSize * (pageNumber - 1))
+                            .Take(pageSize)
                             .Select(join => new EventoDtoOutput()
                             {
                                 Id = join.Evento.Id.ToString(),
@@ -485,6 +493,17 @@ namespace AppRegaliApi.Controllers
 
             return Ok();
         }
+
+        //[HttpPost]
+        //[Route("PartecipazioneRegaloCreate", Name = "PartecipazioneRegaloCreate")]
+        //[ResponseType(typeof(RegaloDtoOutput))]
+        //public async Task<IHttpActionResult> InserisciPartecipazioneRegalo(Guid idRegalo, double importo)
+        //{
+
+        //    return Ok();
+        //}
+
+
         #endregion
 
         protected override void Dispose(bool disposing)

@@ -45,6 +45,10 @@ namespace AppRegaliApi.Models
             {
                 dto.Regali = RegaloMapper.RegaloToRegaloDtoList(evento.Regalo.Cast<Regalo>().ToList());
             }
+            if ( evento.EventoCategoria != null )
+            {
+                dto.CodiceCategoriaEvento = evento.EventoCategoria.Codice;
+            }
             dto.Cancellato = evento.Cancellato;
             dto.DataEvento = evento.DataEvento;
             dto.Descrizione = evento.Descrizione;
