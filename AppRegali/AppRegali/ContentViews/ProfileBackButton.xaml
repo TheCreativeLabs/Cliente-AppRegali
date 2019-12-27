@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="AppRegali.ContentViews.ProfileBackButton">
+    <ContentView.Content>
+
+        <Frame Padding="0" HasShadow="False"
+               HeightRequest="65" WidthRequest="80" CornerRadius="20"  BackgroundColor="Transparent">
+            <StackLayout Orientation="Horizontal">
+                <Label FontSize="20" Text="&#xf053;" VerticalTextAlignment="Center" FontFamily="{x:StaticResource FA-Solid}" TextColor="{x:StaticResource DarkColor}"></Label>
+                <Label Text="Indietro" FontAttributes="Bold" VerticalTextAlignment="Center" FontFamily="{x:StaticResource Subtitle}"  TextColor="{x:StaticResource DarkColor}"></Label>
+            </StackLayout>
+
+            <Frame.GestureRecognizers>
+                <TapGestureRecognizer Tapped="BtnBack_Clicked"></TapGestureRecognizer>
+            </Frame.GestureRecognizers>
+        </Frame>
+    </ContentView.Content>
+</ContentView>

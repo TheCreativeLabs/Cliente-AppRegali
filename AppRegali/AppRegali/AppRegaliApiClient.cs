@@ -17,7 +17,7 @@ namespace Api
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "13.1.3.0 (NJsonSchema v10.0.27.0 (Newtonsoft.Json v11.0.0.0))")]
     public partial class AccountClient
     {
-        private string _baseUrl = "https://www.appregaliapitest.com";
+        private string _baseUrl = "https://appregaliapitest.com";
         private System.Net.Http.HttpClient _httpClient;
         private System.Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings;
 
@@ -1143,7 +1143,7 @@ namespace Api
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "13.1.3.0 (NJsonSchema v10.0.27.0 (Newtonsoft.Json v11.0.0.0))")]
     public partial class AmiciClient
     {
-        private string _baseUrl = "https://www.appregaliapitest.com";
+        private string _baseUrl = "https://appregaliapitest.com";
         private System.Net.Http.HttpClient _httpClient;
         private System.Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings;
 
@@ -1830,7 +1830,7 @@ namespace Api
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "13.1.3.0 (NJsonSchema v10.0.27.0 (Newtonsoft.Json v11.0.0.0))")]
     public partial class EventoClient
     {
-        private string _baseUrl = "https://www.appregaliapitest.com";
+        private string _baseUrl = "https://appregaliapitest.com";
         private System.Net.Http.HttpClient _httpClient;
         private System.Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings;
 
@@ -2066,18 +2066,26 @@ namespace Api
 
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task<System.Collections.Generic.ICollection<EventoDtoOutput>> GetEventiByidUtenteAsync(string idUtente, string idCategoria)
+        public System.Threading.Tasks.Task<System.Collections.Generic.ICollection<EventoDtoOutput>> GetEventiByidUtenteAsync(int pageNumber, int pageSize, string idUtente, string idCategoria)
         {
-            return GetEventiByidUtenteAsync(idUtente, idCategoria, System.Threading.CancellationToken.None);
+            return GetEventiByidUtenteAsync(pageNumber, pageSize, idUtente, idCategoria, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<EventoDtoOutput>> GetEventiByidUtenteAsync(string idUtente, string idCategoria, System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<EventoDtoOutput>> GetEventiByidUtenteAsync(int pageNumber, int pageSize, string idUtente, string idCategoria, System.Threading.CancellationToken cancellationToken)
         {
+            if (pageNumber == null)
+                throw new System.ArgumentNullException("pageNumber");
+
+            if (pageSize == null)
+                throw new System.ArgumentNullException("pageSize");
+
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/Evento/EventiAmiciFiltered?");
+            urlBuilder_.Append(System.Uri.EscapeDataString("pageNumber") + "=").Append(System.Uri.EscapeDataString(ConvertToString(pageNumber, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+            urlBuilder_.Append(System.Uri.EscapeDataString("pageSize") + "=").Append(System.Uri.EscapeDataString(ConvertToString(pageSize, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
             if (idUtente != null)
             {
                 urlBuilder_.Append(System.Uri.EscapeDataString("IdUtente") + "=").Append(System.Uri.EscapeDataString(ConvertToString(idUtente, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
@@ -2811,7 +2819,7 @@ namespace Api
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "13.1.3.0 (NJsonSchema v10.0.27.0 (Newtonsoft.Json v11.0.0.0))")]
     public partial class ValuesClient
     {
-        private string _baseUrl = "https://www.appregaliapitest.com";
+        private string _baseUrl = "https://appregaliapitest.com";
         private System.Net.Http.HttpClient _httpClient;
         private System.Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings;
 
@@ -3722,6 +3730,9 @@ namespace Api
         [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
         public System.Guid IdCategoriaEvento { get; set; }
 
+        [Newtonsoft.Json.JsonProperty("CodiceCategoriaEvento", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string CodiceCategoriaEvento { get; set; }
+
         [Newtonsoft.Json.JsonProperty("IdImmagineEvento", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string IdImmagineEvento { get; set; }
 
@@ -3730,6 +3741,15 @@ namespace Api
 
         [Newtonsoft.Json.JsonProperty("Regali", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public System.Collections.Generic.ICollection<RegaloDtoOutput> Regali { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("ImmagineUserCreatoreEvento", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public byte[] ImmagineUserCreatoreEvento { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("NomeUserCreatoreEvento", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string NomeUserCreatoreEvento { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("CognomeUserCreatoreEvento", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string CognomeUserCreatoreEvento { get; set; }
 
 
     }

@@ -10,11 +10,8 @@ namespace AppRegali.ViewModels
 
         public int HeightViewRegali { get; set; }
 
-        public EventoDetailViewModel(EventoDtoOutput item = null)
+        public EventoDetailViewModel()
         {
-            Title = item?.Titolo;
-            Item = item;
-            HeightViewRegali = ((140) * item.Regali.Count)+70;
         }
     }
 }

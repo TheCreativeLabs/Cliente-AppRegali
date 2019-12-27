@@ -6,8 +6,10 @@
              mc:Ignorable="d"
              xmlns:translator="clr-namespace:AppRegali.Helpers"
              xmlns:conv="clr-namespace:AppRegali.Converter"
-             x:Class="AppRegali.Views.AmiciProfilo">
-    
+             x:Class="AppRegali.Views.AmiciProfilo"
+             NavigationPage.HasNavigationBar="False"
+             xmlns:controls="clr-namespace:AppRegali.ContentViews" xmlns:xaml="http://xamarin.com/schemas/2014/forms"
+             BackgroundColor="{x:StaticResource SfondoColor}">
     <ContentPage.Resources>
         <ResourceDictionary>
             <conv:ByteArrayToImageSourceConverter x:Key="ByteArrayToImage" />
@@ -24,70 +26,79 @@
     </NavigationPage.TitleView>-->
 
     <ContentPage.Content>
-        <StackLayout>
-            <StackLayout>
-                <ActivityIndicator x:Name="aiLoading"/>
-            </StackLayout>
-            <StackLayout IsVisible="{Binding IsLoading, Converter={StaticResource InverseBool}}">
-                
-                <!--<ActivityIndicator IsRunning="{Binding IsLoading}" IsVisible="{Binding IsLoading}"/>
-                <Label Text="{Binding IsLoading}"/>
-                <Label Text="{Binding BtnDeleteContactVisible}"/>
-                <Label Text="{Binding IsLoading, Converter={StaticResource InverseBool}}"/>-->
-                <ScrollView>
-                    <StackLayout Margin="15" Padding="15">
-                        <Frame x:Name="frmImgEventoDett" CornerRadius="10"  HeightRequest="200" IsClippedToBounds="True" Padding="0" HasShadow="True" Visual="Material" IsVisible="False">
-                            <Image x:Name="imgEventoDettaglio" Aspect="AspectFill" Source="{Binding Info.FotoProfilo, Converter={StaticResource ByteArrayToImage}}"></Image>
-                        </Frame>
+        <StackLayout Padding="20">
+            <controls:ProfileBackButton HorizontalOptions="Start"/>
 
-                        <Label Text="{Binding Info.Nome}" FontSize="Large" TextColor="Black" VerticalTextAlignment="End" FontAttributes="Bold" HorizontalTextAlignment="Center" />
-                        <Label Text="{Binding Info.Cognome}" FontSize="Large" TextColor="Black" VerticalTextAlignment="End" FontAttributes="Bold" HorizontalTextAlignment="Center"/>
-                        <Label Text="{Binding Info.DataDiNascita, StringFormat='{0:dd/MM/yy}'}" FontSize="Medium" TextColor="Black" VerticalTextAlignment="End" HorizontalTextAlignment="Center"/>
+            <Frame HasShadow="True" CornerRadius="10" Padding="0" IsClippedToBounds="True">
+                <StackLayout>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="200"/>
+                            </Grid.RowDefinitions>
+                            <Image Grid.Row="0" x:Name="imgProfilo" Aspect="AspectFill"></Image> <!--Source="{Binding Info.FotoProfilo, Converter={StaticResource ByteArrayToImage}}"-->
 
-                        <Button x:Name="btnSendRequest" Text="{translator:Translate  AmiciProfilo.SendRequest}" Clicked="btnSendRequest_Clicked" Visual="Material" IsVisible="False" Style="{x:StaticResource primaryButton}" ></Button>
-                        <StackLayout x:Name="btnConfirmDenyContact" Orientation="Horizontal" IsVisible="False" >
-                            <Button x:Name="btnConfirmContact" Text="{translator:Translate  AmiciProfilo.ConfirmContact}" Clicked="btnConfirmContact_Clicked" Visual="Material" Style="{x:StaticResource primaryButton}" HorizontalOptions="FillAndExpand"></Button>
-                            <Button x:Name="btnDenyContact" Text="{translator:Translate  AmiciProfilo.DenyContact}" Clicked="btnDeleteContact_Clicked" Visual="Material" Style="{x:StaticResource deleteButton}" HorizontalOptions="FillAndExpand"></Button>
+                            <AbsoluteLayout Grid.Row="0" HorizontalOptions="EndAndExpand">
+                               <Button x:Name="btnContactSetting" Clicked="UserSetting_Clicked" BackgroundColor="Transparent" HeightRequest="50" WidthRequest="50" FontFamily="{x:StaticResource FA-Solid}" FontSize="Large" FontAttributes="Bold" TextColor="White" Text="&#xf4fe;"></Button>
+                            </AbsoluteLayout>
+                        </Grid>
+
+                        <StackLayout Orientation="Horizontal" Margin="0,10,0,0" HorizontalOptions="CenterAndExpand">
+                            <Label x:Name="Nome" Margin="0" Style="{x:StaticResource Title}" HorizontalTextAlignment="Center" />
+                            <Label x:Name="Cognome" Margin="0"  Style="{x:StaticResource Title}" HorizontalTextAlignment="Center"/>
                         </StackLayout>
-                        <Button x:Name="btnDeleteContact" TextColor="White" Text="{translator:Translate  AmiciProfilo.DeleteContact}" Visual="Material" IsVisible="False" Style="{x:StaticResource primaryButton}"></Button> <!--IsVisible="{Binding BtnDeleteContactVisible}"-->
-                        <Button x:Name="btnRequestSent" Text="{translator:Translate  AmiciProfilo.RequestSent}" Visual="Material" IsVisible="False" IsEnabled="False" Style="{x:StaticResource primaryButton}"></Button>
-                        <!--<Button x:Name="btnContact" Text="{Binding AmiciProfilo.Contact}" Visual="Material" IsVisible="False" Style="{x:StaticResource primaryButton}"></Button>-->
+                        <Label x:Name="DataNascita" Margin="0" Style="{x:StaticResource AdTitle}" HorizontalTextAlignment="Center"/>
+                        
+                        <StackLayout Padding="10,0,10,0">
+                                <Button x:Name="btnSendRequest" IsVisible="False" Text="{translator:Translate  AmiciProfilo.SendRequest}"
+                                        Clicked="btnSendRequest_Clicked" Style="{x:StaticResource primaryButton}" ></Button>
+                                <StackLayout x:Name="btnConfirmDenyContact" Orientation="Horizontal" IsVisible="False" >
+                                    <Button x:Name="btnConfirmContact" Text="{translator:Translate  AmiciProfilo.ConfirmContact}" Clicked="btnConfirmContact_Clicked"
+                                             Style="{x:StaticResource primaryButton}"
+                                            HorizontalOptions="FillAndExpand"></Button>
+                                    <Button x:Name="btnDenyContact" Text="{translator:Translate  AmiciProfilo.DenyContact}"
+                                            Clicked="btnDeleteContact_Clicked" Style="{x:StaticResource SecondaryButton}"
+                                            HorizontalOptions="FillAndExpand"></Button>
+                                </StackLayout>
+                                <Button x:Name="btnRequestSent" Text="{translator:Translate  AmiciProfilo.RequestSent}" IsVisible="False" IsEnabled="False" Style="{x:StaticResource primaryButton}"></Button>
 
+                                <Label Style="{x:StaticResource AdTitle}" Text="Prossimi eventi"></Label>
+                        <StackLayout>
+                            <ActivityIndicator x:Name="aiLoading"/>
+                        </StackLayout>
 
-                        <ListView x:Name="EventiProfiloListView"
-                                    ItemsSource="{Binding Eventi}"
-                                    VerticalOptions="FillAndExpand"
-                                    HasUnevenRows="true"
-                                    RefreshCommand="{Binding LoadItemsCommand}"
-                                    IsPullToRefreshEnabled="true"
-                                    IsRefreshing="{Binding IsBusy, Mode=OneWay}"
-                                    CachingStrategy="RecycleElement"
-                                
-                                    SeparatorVisibility="None">
-                            <!--ItemSelected="OnItemSelected" FIXME ANDARE ALLA PAGINAE eVENTO-->
-                            <ListView.ItemTemplate>
-                                <DataTemplate>
-                                    <ViewCell>
-                                        <Frame HasShadow="True" Padding="0" HeightRequest="260" Margin="20,10,20,10"  CornerRadius="5" IsClippedToBounds="True">
-                                            <StackLayout>
-                                                <Image Aspect="AspectFill" HeightRequest="190" Source="{Binding ImmagineEvento, Converter={StaticResource ByteArrayToImage}}" Margin="0,0,0,150"></Image>
+                        <ScrollView VerticalScrollBarVisibility="Never" IsVisible="{Binding IsLoading, Converter={StaticResource InverseBool}}">
 
-                                                <Label Text="{Binding Titolo}"
-                                                        LineBreakMode="NoWrap" 
-                                                        FontSize="Large" TextColor="Black" VerticalTextAlignment="End" Margin="15,-150,0,0" FontAttributes="Bold"/>
-                                                <Label Text="{Binding Descrizione}" 
-                                                        VerticalTextAlignment="End"
-                                                        LineBreakMode="NoWrap" Margin="15,0,0,0" />
+                         <CollectionView HorizontalScrollBarVisibility="Always"
+                                         x:Name="EventiProfiloListView">
+                                <CollectionView.ItemsLayout>
+                                    <LinearItemsLayout Orientation="Horizontal" />
+                                </CollectionView.ItemsLayout>
+                                <CollectionView.ItemTemplate>
+                                    <DataTemplate>
+                                            <StackLayout Padding="10" HeightRequest="250" WidthRequest="250" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+                                                <Frame HasShadow="True" Padding="0" CornerRadius="10" IsClippedToBounds="True">
+                                                    <StackLayout>
+                                                        <Image Aspect="AspectFill" HeightRequest="190" Source="{Binding ImmagineEvento, Converter={StaticResource ByteArrayToImage}}"></Image>
+
+                                                        <StackLayout Padding="10">
+                                                                <Label  Text="{Binding Titolo}" Style="{x:StaticResource AdSubtitle}"
+                                                                        LineBreakMode="NoWrap" 
+                                                                        />
+                                                                <Label Text="{Binding Descrizione}" Style="{x:StaticResource AdSubtitle}"
+                                                                        VerticalTextAlignment="End"
+                                                                        LineBreakMode="NoWrap" />
+                                                        </StackLayout>
+                                                    </StackLayout>
+                                                </Frame>
                                             </StackLayout>
-                                        </Frame>
-                                    </ViewCell>
-                                </DataTemplate>
-                            </ListView.ItemTemplate>
-                        </ListView>
+                                    </DataTemplate>
+                                </CollectionView.ItemTemplate>
+                            </CollectionView>
+                         </ScrollView>
 
-                    </StackLayout>
-                </ScrollView>
-            </StackLayout>
+                            </StackLayout>
+                </StackLayout>
+            </Frame>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

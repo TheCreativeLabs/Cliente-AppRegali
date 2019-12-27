@@ -6,7 +6,9 @@
              mc:Ignorable="d"
              xmlns:conv="clr-namespace:AppRegali.Converter"
              xmlns:translator="clr-namespace:AppRegali.Helpers"
-             x:Class="AppRegali.Views.RegaloInserisci">
+             x:Class="AppRegali.Views.RegaloInserisci"
+             NavigationPage.HasNavigationBar="False"
+             BackgroundColor="{x:StaticResource SfondoColor}">
 
     <ContentPage.Resources>
         <ResourceDictionary>
@@ -14,36 +16,33 @@
         </ResourceDictionary>
     </ContentPage.Resources>
 
-    <NavigationPage.TitleView>
+    <!--<NavigationPage.TitleView>
         <StackLayout Orientation="Horizontal" Padding="5">
             <Button Text="&#xf00d;" Style="{x:StaticResource ButtonCloseIconApplication}" Clicked="Cancel_Clicked">
             </Button>
 
             <Label FontSize="Large" HorizontalTextAlignment="Center" Margin="-50,0,0,0" VerticalTextAlignment="Center" HorizontalOptions="CenterAndExpand"  FontFamily="{x:StaticResource FA-Solid}" TextColor="White" FontAttributes="Bold" Text="{translator:Translate RegaloInserisci.Title}"></Label>
         </StackLayout>
-    </NavigationPage.TitleView>
+    </NavigationPage.TitleView>-->
 
     <ContentPage.Content>
-        <StackLayout>
-            <ScrollView>
-                <StackLayout Margin="15" Padding="15">
-                    <Frame CornerRadius="10"  HeightRequest="200" IsClippedToBounds="True" Padding="0" HasShadow="True" Visual="Material">
+        <StackLayout Padding="20">
+                    <Label Style="{x:StaticResource Title}" Text="Aggiungi un regalo"></Label>
+
+                    <Frame CornerRadius="10" BackgroundColor="{x:StaticResource PrimaryColor}"  HeightRequest="200" IsClippedToBounds="True" Padding="0" HasShadow="True" Visual="Material">
                         <Image x:Name="imgRegaloModifica"  Aspect="AspectFill"></Image> <!--Source="{Binding Item.ImmagineRegalo, Converter={StaticResource ByteArrayToImage}}"-->
                     </Frame>
-                    <Button Style="{x:StaticResource PhotoButton}" Clicked="OnPickPhotoButtonClicked">
-                        <!--Clicked="OnPickPhotoButtonClicked"-->
-                    </Button>
 
-                    <Entry x:Name="entTitoloRegalo" Visual="Material" Placeholder="{translator:Translate RegaloInserisci.Titolo}" Text="{Binding Item.Titolo}"></Entry>
+                    <Button Clicked="OnPickPhotoButtonClicked" TextColor="white" Visual="Default"  Margin="0,-125,0,90" BackgroundColor="Transparent" Style="{x:StaticResource PhotoButton}">
+                </Button>
 
-                    <Entry x:Name="entPrezzoRegalo" Visual="Material" Placeholder="{translator:Translate RegaloInserisci.Prezzo}" Text="{Binding Item.Prezzo}"></Entry>
+                    <Entry x:Name="entTitoloRegalo" Placeholder="{translator:Translate RegaloInserisci.Titolo}" Text="{Binding Item.Titolo}"></Entry>
 
-                    <Entry x:Name="entDescrizioneRegalo" Visual="Material" Placeholder="{translator:Translate RegaloInserisci.Descrizione}" Text="{Binding Item.Descrizione}"></Entry>
+                    <Entry x:Name="entPrezzoRegalo"  Placeholder="{translator:Translate RegaloInserisci.Prezzo}" Text="{Binding Item.Prezzo}"></Entry>
 
-                    <Button Style="{x:StaticResource primaryButton}"  Visual="Material" Text="{translator:Translate RegaloInserisci.CreaNuovo}" x:Name="btnSalva" Clicked="Create_Clicked"></Button>
+                    <Entry x:Name="entDescrizioneRegalo"  Placeholder="{translator:Translate RegaloInserisci.Descrizione}" Text="{Binding Item.Descrizione}"></Entry>
 
-                </StackLayout>
-            </ScrollView>
+                    <Button Style="{x:StaticResource primaryButton}"  Text="{translator:Translate RegaloInserisci.CreaNuovo}" x:Name="btnSalva" Clicked="Create_Clicked"></Button>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

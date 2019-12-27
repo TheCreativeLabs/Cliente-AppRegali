@@ -37,7 +37,7 @@ namespace AppRegali.Views
             if (current == null || current.IdAspNetUser == null)
                 return;
 
-            await Navigation.PushAsync(new AmiciProfilo(current.IdAspNetUser));
+            await Navigation.PushModalAsync(new AmiciProfilo(current));
         }
     }
 }

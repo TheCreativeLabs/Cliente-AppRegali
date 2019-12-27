@@ -6,7 +6,10 @@
              mc:Ignorable="d"
              xmlns:conv="clr-namespace:AppRegali.Converter;assembly=AppRegali"
              xmlns:translator="clr-namespace:AppRegali.Helpers"
-             x:Class="AppRegali.Views.AmiciCurrent">
+             x:Class="AppRegali.Views.AmiciCurrent"
+             Title="Contacts"
+             BackgroundColor="{x:StaticResource SfondoColor}"
+             >
     
     <ContentPage.Resources>
         <ResourceDictionary>
@@ -21,14 +24,6 @@
                 ItemsSource="{Binding Items}"
                 SelectionMode="Single"
                 SelectionChanged="OnContattiSelectionChanged">
-                <!--ItemSelected="OnItemSelected"
-                VerticalOptions="FillAndExpand"
-                HasUnevenRows="true"
-                RefreshCommand="{Binding LoadItemsCommand}"
-                IsPullToRefreshEnabled="true"
-                IsRefreshing="{Binding IsBusy, Mode=OneWay}"
-                CachingStrategy="RecycleElement"
-                SeparatorVisibility="None"-->
 
                 <CollectionView.ItemsLayout>
                     <GridItemsLayout Orientation="Vertical" Span="3" />
@@ -36,33 +31,17 @@
                 
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <Grid Padding="15">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="3*" />
-                                <RowDefinition Height="2*" />
-                            </Grid.RowDefinitions>
-                            <Frame Grid.Row="0"
-                                CornerRadius="100"
-                               HeightRequest="80"
-                               WidthRequest="80"
-                               HorizontalOptions="Center"
-                               Padding="0"
-                               IsClippedToBounds="True"
-                               HasShadow="True" BorderColor="#0bbfb9"
-                               >
-                                <Image x:Name="imgContatto"  HorizontalOptions="Center" Aspect="AspectFill" Source="{Binding FotoProfilo, Converter={StaticResource ByteArrayToImage}}" 
-                               VerticalOptions="Center"></Image>
+                        <StackLayout Padding="10">
+                            <Frame HasShadow="True"  CornerRadius="10" HeightRequest="170" Padding="0" IsClippedToBounds="True">
+                                <StackLayout>
+                                        <Image x:Name="imgContatto" HeightRequest="100" Aspect="AspectFill"
+                                               Source="{Binding FotoProfilo, Converter={StaticResource ByteArrayToImage}}" ></Image>
+                                    
+                                        <Label Text="{Binding Nome}" Margin="10,0,0,0" Style="{x:StaticResource AdSubtitle}"/>
+                                        <Label Text="{Binding Cognome}" Margin="10,0,0,0" Style="{x:StaticResource AdSubtitle}"/>
+                                </StackLayout>
                             </Frame>
-                            <Label Grid.Row="1" HorizontalOptions="Center">
-                                <Label.FormattedText>
-                                    <FormattedString>
-                                        <Span Text="{Binding Nome}" FontAttributes="Bold"/>
-                                        <Span Text=" "/>
-                                        <Span Text="{Binding Cognome}" FontAttributes="Bold" />
-                                    </FormattedString>
-                                </Label.FormattedText>
-                            </Label>
-                        </Grid>
+                        </StackLayout>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>

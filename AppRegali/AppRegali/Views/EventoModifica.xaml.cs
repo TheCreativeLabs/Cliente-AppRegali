@@ -1,6 +1,8 @@
 ﻿using Api;
 using AppRegali.Api;
 using AppRegali.ViewModels;
+using Plugin.Media;
+using Plugin.Media.Abstractions;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -20,19 +22,17 @@ namespace AppRegali.Views
         static Helpers.TranslateExtension translate = new Helpers.TranslateExtension();
         EventoClient eventoClient = new EventoClient(ApiHelper.GetApiClient());
         public CategorieViewModel categorieViewModel { get; set; }
-
-        public EventoModifica(EventoDetailViewModel eventoDetailViewModel)
+        Guid EventoId;
+        public EventoModifica(Guid Id)
         {
             InitializeComponent();
-
-            BindingContext = this.viewModel = eventoDetailViewModel;
+            EventoId = Id;
         }
 
-        private async Task<int> LoadEventoDetailById(Guid id)
+        private async Task<EventoDtoOutput> LoadEventoDetailById()
         {
-            EventoDtoOutput eventoModel = await eventoClient.GetEventoByIdAsync(id);
-            this.viewModel.Item = eventoModel;
-            return 1;
+            EventoDtoOutput eventoModel = await eventoClient.GetEventoByIdAsync(EventoId);
+            return eventoModel;
         }
 
         protected override async void OnAppearing()
@@ -40,16 +40,28 @@ namespace AppRegali.Views
             //Stream stream = new MemoryStream(viewModel.Item.ImmagineEvento);
             //imgEventoModifica.Source = ImageSource.FromStream(() => { return stream; });
             base.OnAppearing();
+            EventoModificaActivityIndicator.IsRunning = true;
+            EventoModificaActivityIndicator.IsVisible = true;
 
-            await LoadEventoDetailById(new Guid(this.viewModel.Item.Id));
-            
-            List<EventoCategoria> listaCategorie = (List<EventoCategoria>)await this.eventoClient.GetLookupEventoCategoriaAsync();
+            //if (this.viewModel == null) ricarico SEMPRE e non solo se è null, altrimenti non si percepiscono le modifiche dei regali
+            //{
+                this.viewModel = new EventoDetailViewModel();
+                this.viewModel.Item = await LoadEventoDetailById();
+                BindingContext = this.viewModel;
 
-            pkCategoria.ItemsSource = listaCategorie;
-            EventoCategoria categoria = listaCategorie.First(a => a.Id == this.viewModel.Item.IdCategoriaEvento);
-            pkCategoria.SelectedItem = categoria;
-            //entCategoria.Text = categoria.Codice;
+                RegaliModificaListView.ItemsSource = viewModel.Item.Regali;
+
+                List<EventoCategoria> listaCategorie = (List<EventoCategoria>)await this.eventoClient.GetLookupEventoCategoriaAsync();
+                pkCategoria.ItemsSource = listaCategorie;
+                EventoCategoria categoria = listaCategorie.First(a => a.Id == this.viewModel.Item.IdCategoriaEvento);
+                pkCategoria.SelectedItem = categoria;
+            //}
+
+            EventoModificaActivityIndicator.IsRunning = false;
+            EventoModificaActivityIndicator.IsVisible = false;
+            ScrollViewEventoModifica.IsVisible = true;
         }
+
         private void pkCategoria_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (pkCategoria.SelectedItem != null)
@@ -64,11 +76,8 @@ namespace AppRegali.Views
             pkCategoria.Focus();
         }
 
-
         private async void Update_Clicked(object sender, EventArgs e)
         {
-            
-
             EventoDtoInput eventoDtoInput = new EventoDtoInput()
             {
                 Cancellato = viewModel.Item.Cancellato,
@@ -80,13 +89,12 @@ namespace AppRegali.Views
             };
 
             Guid id = new Guid(viewModel.Item.Id);
+
             //Faccio update dell'evento
             var eventoInserito = await eventoClient.UpdateEventoAsync(new Guid(viewModel.Item.Id), eventoDtoInput);
             await DisplayAlert(null,
                 Helpers.TranslateExtension.ResMgr.Value.GetString("EventoModifica.SalvataggioOk", translate.ci),
                 Helpers.TranslateExtension.ResMgr.Value.GetString("EventoModifica.Ok", translate.ci));
-            //TODO APPENA RIPUBBLICO API this.viewModel = new EventoDetailViewModel(eventoInserito);
-
         }
 
         private async void Delete_Clicked(object sender, EventArgs e)
@@ -124,6 +132,20 @@ namespace AppRegali.Views
             }
         }
 
+        private async void BtnModificaRegalo_Clicked(object sender, EventArgs e)
+        {
+            try
+            {
+                var btn = (Button)sender;
+                var item = (RegaloDtoOutput)btn.CommandParameter;
+                await Navigation.PushAsync(new RegaloModifica(new RegaloDetailViewModel(item)));
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
         async void AddRegalo_Clicked(object sender, EventArgs e)
         {
             RegaloDtoOutput regaloNew = new RegaloDtoOutput();
@@ -135,7 +157,52 @@ namespace AppRegali.Views
         {
             RegaloDtoOutput item = args.SelectedItem as RegaloDtoOutput;
             await Navigation.PushAsync(new RegaloModifica(new RegaloDetailViewModel(item)));
-           //await Navigation.PushModalAsync
+            //await Navigation.PushModalAsync
+        }
+
+        private void entDataEvento_Focused(object sender, FocusEventArgs e)
+        {
+            entDataEvento.Unfocus();
+            dpDataEvento.Focus();
+        }
+
+        private void dpDataEvento_DateSelected(object sender, DateChangedEventArgs e)
+        {
+            if (dpDataEvento.Date != null)
+            {
+                entDataEvento.Text = dpDataEvento.Date.ToString("dd/MM/yyyy");
+                viewModel.Item.DataEvento = dpDataEvento.Date;
+            }
+        }
+
+        async void OnPickPhotoButtonClicked(object sender, EventArgs e)
+        {
+            (sender as Button).IsEnabled = false;
+
+            PickPhoto();
+
+            (sender as Button).IsEnabled = true;
+        }
+
+        async void PickPhoto()
+        {
+            await CrossMedia.Current.Initialize();
+
+            MediaFile foto = await CrossMedia.Current.PickPhotoAsync(new Plugin.Media.Abstractions.PickMediaOptions
+            {
+                PhotoSize = Plugin.Media.Abstractions.PhotoSize.Small
+            });
+
+            if (foto == null)
+                return;
+
+            using (MemoryStream memoryStream = new MemoryStream())
+            {
+                foto.GetStream().CopyTo(memoryStream);
+
+                viewModel.Item.ImmagineEvento = memoryStream.ToArray();
+                imgEventoModifica.Source = ImageSource.FromStream(() => { return new MemoryStream(viewModel.Item.ImmagineEvento); });
+            }
         }
     }
 }

@@ -7,7 +7,10 @@
              x:Class="AppRegali.Views.EventoInserisci"
              Title="Crea un evento"
              xmlns:conv="clr-namespace:AppRegali.Converter"
-             xmlns:translator="clr-namespace:AppRegali.Helpers"  NavigationPage.HasNavigationBar="True">
+             xmlns:translator="clr-namespace:AppRegali.Helpers"
+             xmlns:controls="clr-namespace:AppRegali.ContentViews"
+             NavigationPage.HasNavigationBar="False"
+             BackgroundColor="{x:StaticResource SfondoColor}">
 
 
     <NavigationPage.TitleView>
@@ -27,31 +30,33 @@
 
     <ContentPage.Content>
         <ScrollView>
-            <StackLayout>
-                <Frame Margin="15" CornerRadius="10"  HeightRequest="200" IsClippedToBounds="True" Padding="0" HasShadow="True" Visual="Material">
+            <StackLayout Padding="20">
+                     <controls:ProfileBackButton HeightRequest="40" HorizontalOptions="Start"/>
+
+                    <Label Style="{x:StaticResource Title}" VerticalTextAlignment="Center" Text="{translator:Translate EventoInserisci.Title}"></Label>
+
+                <Frame  BackgroundColor="{x:StaticResource GrayColor}" CornerRadius="10"  HeightRequest="200" IsClippedToBounds="True" Padding="0" HasShadow="True" Visual="Material">
                     <Image x:Name="imgTest" Aspect="AspectFill"></Image>
                 </Frame>
 
-                <Button Clicked="OnPickPhotoButtonClicked" Style="{x:StaticResource PhotoButton}">
+                <Button Clicked="OnPickPhotoButtonClicked" TextColor="white" Visual="Default"  Margin="0,-125,0,90" BackgroundColor="Transparent" Style="{x:StaticResource PhotoButton}">
                 </Button>
                 
 
-                <StackLayout Padding="15">
-                    <Entry x:Name="entTitolo" Visual="Material" Placeholder="Titolo" TextChanged="ent_TextChanged"></Entry>
+                    <Entry x:Name="entTitolo" Placeholder="Titolo" TextChanged="ent_TextChanged"></Entry>
 
-                    <Entry x:Name="entDataEvento" Visual="Material" Placeholder="Data evento" Focused="entDataEvento_Focused" TextChanged="ent_TextChanged"></Entry>
+                    <Entry x:Name="entDataEvento" Placeholder="Data evento" Focused="entDataEvento_Focused" TextChanged="ent_TextChanged"></Entry>
 
                     <DatePicker x:Name="dpDataEvento" IsVisible="False"  Visual="Material" DateSelected="dpDataEvento_DateSelected" ></DatePicker>
 
-                    <Entry x:Name="entCategoria"  Visual="Material" Placeholder="Categoria" Focused="entCategoria_Focused" TextChanged="ent_TextChanged"></Entry>
+                    <Entry x:Name="entCategoria" Placeholder="Categoria" Focused="entCategoria_Focused" TextChanged="ent_TextChanged"></Entry>
                     
-                    <Picker x:Name="pkCategoria" Visual="Material" IsVisible="False" ItemsSource="{Binding Items}"
+                    <Picker x:Name="pkCategoria" IsVisible="False" ItemsSource="{Binding Items}"
                         ItemDisplayBinding="{Binding Codice, Converter={StaticResource TranslateConverter}}" Title="Seleziona categoria" SelectedIndexChanged="pkCategoria_SelectedIndexChanged"></Picker>
 
-                    <Editor x:Name="edDescrizione" Keyboard="Chat" AutoSize="TextChanges" Visual="Material" TextChanged="ent_TextChanged" Placeholder="Descrizione"></Editor>
+                    <Entry x:Name="edDescrizione" TextChanged="ent_TextChanged" Placeholder="Descrizione"></Entry> <!--Keyboard="Chat" AutoSize="TextChanges"-->
 
-                    <Button Style="{x:StaticResource primaryButton}"  Visual="Material" Text="{translator:Translate EventoInserisci.CreaNuovo}" x:Name="btnSalva" Clicked="Save_Clicked" IsEnabled="False"></Button>
-                </StackLayout>
+                <Button Style="{x:StaticResource primaryButton}" Text="{translator:Translate EventoInserisci.CreaNuovo}" x:Name="btnSalva" Clicked="Save_Clicked" ></Button>
             </StackLayout>
         </ScrollView>
     </ContentPage.Content>

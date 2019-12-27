@@ -29,7 +29,7 @@ namespace AppRegali.Views.Login
             //Se ho il token allora vado direttamente alla home
             if (ApiHelper.GetToken() != null)
             {
-                //Application.Current.MainPage = new MainPage();
+                //ApiHelper.GetUserInfo();
                 Application.Current.MainPage = new MainPage();
             }
         }
@@ -55,7 +55,16 @@ namespace AppRegali.Views.Login
                 if (formIsValid)
                 {
                     await ApiHelper.SetTokenAsync(entUsername.Text, entPassword.Text);
+                    Api.ApiHelper.SetProvider(Api.ApiHelper.LoginProvider.Email);
                     Application.Current.MainPage = new MainPage();
+
+                    //await DisplayAlert("Registrazioen avvenuta", "Verifica la tua email prima di accedere", "OK");
+
+                    await Navigation.PopModalAsync();
+                }
+                else
+                {
+                    await DisplayAlert("Attenzione", "Inserire la email e la password per accedere", "OK");
                 }
             }
             catch (ApplicationException Ex)
@@ -118,13 +127,13 @@ namespace AppRegali.Views.Login
         {
             try
             {
-                btnAccedi.IsEnabled = false;
+                //btnAccedi.IsEnabled = false;
 
-                //Controllo che username e password siano valorizzati, se lo sono abilito il pulsante.
-                if (!(String.IsNullOrEmpty(entUsername.Text)) && !(String.IsNullOrEmpty(entPassword.Text)))
-                {
-                    btnAccedi.IsEnabled = true;
-                }
+                ////Controllo che username e password siano valorizzati, se lo sono abilito il pulsante.
+                //if (!(String.IsNullOrEmpty(entUsername.Text)) && !(String.IsNullOrEmpty(entPassword.Text)))
+                //{
+                //    btnAccedi.IsEnabled = true;
+                //}
             }
             catch (Exception ex)
             {

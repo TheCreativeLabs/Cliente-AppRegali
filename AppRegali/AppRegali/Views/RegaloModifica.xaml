@@ -6,15 +6,17 @@
              mc:Ignorable="d"
              xmlns:translator="clr-namespace:AppRegali.Helpers"
              xmlns:conv="clr-namespace:AppRegali.Converter"
+             xmlns:controls="clr-namespace:AppRegali.ContentViews"
+             NavigationPage.HasNavigationBar="False"
              x:Class="AppRegali.Views.RegaloModifica">
     
-    <NavigationPage.TitleView>
+    <!--<NavigationPage.TitleView>
         <StackLayout Orientation="Horizontal" Padding="5">
             <Label FontSize="Large" VerticalTextAlignment="Center" HorizontalOptions="StartAndExpand" TextColor="White" FontAttributes="Bold" Text="{Binding Item.Titolo}"></Label>
             <Button Text="Salva" TextColor="White" BackgroundColor="Transparent"  HorizontalOptions="EndAndExpand" Clicked="Update_Clicked" ></Button>
 
         </StackLayout>
-    </NavigationPage.TitleView>
+    </NavigationPage.TitleView>-->
 
     <ContentPage.Resources>
         <ResourceDictionary>
@@ -26,19 +28,27 @@
         <StackLayout>
             <ScrollView>
                 <StackLayout Margin="15" Padding="15">
+                    <StackLayout Orientation="Horizontal">
+                        <controls:ProfileBackButton HeightRequest="40" HorizontalOptions="StartAndExpand"/>
+
+                        <Button BackgroundColor="Transparent" WidthRequest="80" BorderWidth="2" BorderColor="{x:StaticResource DangerColor}"  TextColor="{x:StaticResource DangerColor}"  Text="{translator:Translate RegaloModifica.Elimina}" x:Name="btnDelete" Clicked="Delete_Clicked" ></Button>
+                        <Button BackgroundColor="Transparent" WidthRequest="60" BorderWidth="2" TextColor="{x:StaticResource PrimaryColor}" Text="{translator:Translate RegaloModifica.Salva}" x:Name="btnSave" Clicked="Update_Clicked" ></Button>
+                    </StackLayout>
+
+                    
                     <Frame CornerRadius="10"  HeightRequest="200" IsClippedToBounds="True" Padding="0" HasShadow="True" Visual="Material">
                         <Image x:Name="imgRegaloModifica" Source="{Binding Item.ImmagineRegalo, Converter={StaticResource ByteArrayToImage}}" Aspect="AspectFill"></Image>
                     </Frame>
-                    <Button Style="{x:StaticResource PhotoButton}"><!--Clicked="OnPickPhotoButtonClicked"-->
+                    <Button Clicked="OnPickPhotoButtonClicked" Style="{x:StaticResource PhotoButton}"><!--Clicked="OnPickPhotoButtonClicked"-->
                     </Button>
 
-                    <Entry x:Name="entTitoloRegalo" Visual="Material" Placeholder="{translator:Translate RegaloModifica.Titolo}" Text="{Binding Item.Titolo}"></Entry>
+                    <Entry x:Name="entTitoloRegalo" Placeholder="{translator:Translate RegaloModifica.Titolo}" Text="{Binding Item.Titolo}"></Entry>
 
-                    <Entry x:Name="entPrezzoRegalo" Visual="Material" Placeholder="{translator:Translate RegaloModifica.Prezzo}" Text="{Binding Item.Prezzo}"></Entry>
+                    <Entry x:Name="entPrezzoRegalo" Placeholder="{translator:Translate RegaloModifica.Prezzo}" Text="{Binding Item.Prezzo}"></Entry>
 
-                    <Entry x:Name="entDescrizioneRegalo" Visual="Material" Placeholder="{translator:Translate RegaloModifica.Descrizione}" Text="{Binding Item.Descrizione}"></Entry>
+                    <Entry x:Name="entDescrizioneRegalo" Placeholder="{translator:Translate RegaloModifica.Descrizione}" Text="{Binding Item.Descrizione}"></Entry>
 
-                    <Button Style="{x:StaticResource deleteButton}" Visual="Material" Text="{translator:Translate RegaloModifica.Elimina}" x:Name="btnDelete" Clicked="Delete_Clicked" ></Button>
+                    <!--<Button Style="{x:StaticResource deleteButton}" Visual="Material" Text="{translator:Translate RegaloModifica.Elimina}" x:Name="btnDelete" Clicked="Delete_Clicked" ></Button>-->
 
                 </StackLayout>
             </ScrollView>

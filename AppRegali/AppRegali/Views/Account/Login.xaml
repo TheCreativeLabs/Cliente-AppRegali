@@ -3,42 +3,35 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
-             xmlns:translator="clr-namespace:AppRegali.Helpers"
+             xmlns:translator="clr-namespace:AppRegali.Helpers" xmlns:controls="clr-namespace:AppRegali.ContentViews"
              mc:Ignorable="d"
              x:Class="AppRegali.Views.Login.Login"
              NavigationPage.HasNavigationBar="False"
+             BackgroundColor="{x:StaticResource SfondoColor}"
              >
     <ContentPage.Content>
         <StackLayout VerticalOptions="CenterAndExpand" Margin="20">
-            <Label FontSize="90" HorizontalTextAlignment="Center" FontFamily="{x:StaticResource FA-Solid}" TextColor="#c786d3" FontAttributes="Bold" Margin="0,0,0,10" Text="&#xf4be;"></Label>
+            <!--<Label FontSize="90" HorizontalTextAlignment="Center" FontFamily="{x:StaticResource FA-Solid}" TextColor="{x:StaticResource PrimaryColor}" FontAttributes="Bold" Margin="0,0,0,10" Text="&#xf06b;"></Label>-->
+
+            <Image Source="logobiancoblu.png" Margin="0,0,0,40" IsVisible="true" HorizontalOptions="CenterAndExpand" HeightRequest="100"></Image>
+
 
             <Label Text="{translator:Translate Login.ErroreLogin}" FontSize="Medium"  FontAttributes="Bold" TextColor="Red" IsVisible="False" x:Name="lblValidazioneLogin"></Label>
             
-            <Entry x:Name="entUsername" Visual="Material" Placeholder="{translator:Translate Login.Username}" TextChanged="ent_TextChanged"></Entry>
+            <Entry x:Name="entUsername"  Placeholder="{translator:Translate Login.Username}" TextChanged="ent_TextChanged"></Entry>
 
-            <Entry Visual="Material" x:Name="entPassword" Placeholder="{translator:Translate Login.Password}" IsPassword="True" TextChanged="ent_TextChanged"></Entry>
+            <Entry x:Name="entPassword" Placeholder="{translator:Translate Login.Password}" IsPassword="True" TextChanged="ent_TextChanged"></Entry>
 
-            <Button Style="{x:StaticResource primaryButton}"  Visual="Material" Text="{translator:Translate Login.SignIn}" x:Name="btnAccedi" IsEnabled="False" Clicked="btnAccedi_ClickedAsync"></Button>
+            <Button Style="{x:StaticResource primaryButton}" Text="{translator:Translate Login.SignIn}" x:Name="btnAccedi"  Clicked="btnAccedi_ClickedAsync"></Button>
 
-            <Label Text="{translator:Translate Login.ForgotPassword}" HorizontalTextAlignment="Center" TextColor="black">
+            <Label Text="{translator:Translate Login.ForgotPassword}" HorizontalTextAlignment="Center" Style="{x:StaticResource HelpText}">
                 <Label.GestureRecognizers>
                     <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped"/>
                 </Label.GestureRecognizers>
             </Label>
 
-            <Label Text="{translator:Translate Login.Or}" HorizontalTextAlignment="Center" Margin="0,15,0,10"></Label>
+                        <controls:FbButton/>
 
-
-            <Frame HasShadow="True" HeightRequest="40" BackgroundColor="#1e73be" CornerRadius="5" Padding="0" >
-                <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" Padding="0">
-                    <Label FontFamily="{x:StaticResource FA-Brands}" Text="&#xf082;" TextColor="White" FontAttributes="Bold" FontSize="Title"></Label>
-                    <Label Text="{translator:Translate Login.FacebookSignIn}" TextColor="White" FontAttributes="Bold" VerticalTextAlignment="Center">
-                        <Label.GestureRecognizers>
-                            <TapGestureRecognizer Tapped="btnAccediFacebook_Clicked"/>
-                        </Label.GestureRecognizers>
-                    </Label>
-                </StackLayout>
-            </Frame>
 
             <Label x:Name="lblRegistrati" Text="{translator:Translate Login.RegisterIfNoAccount}" HorizontalTextAlignment="Center" Margin="0,10,0,0" TextColor="black">
                 <Label.GestureRecognizers>

@@ -8,7 +8,8 @@
              xmlns:conv="clr-namespace:AppRegali.Converter;assembly=AppRegali"
              x:Class="AppRegali.Views.RicercaAmici"
              xmlns:translator="clr-namespace:AppRegali.Helpers"
-             NavigationPage.HasNavigationBar="False">
+             NavigationPage.HasNavigationBar="False"
+             BackgroundColor="{x:StaticResource SfondoColor}">
 
     <ContentPage.Resources>
         <ResourceDictionary>
@@ -16,131 +17,48 @@
         </ResourceDictionary>
     </ContentPage.Resources>
 
-    <!--<NavigationPage.TitleView>-->
-        <!--<StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand" Padding="10">
-            <Entry x:Name="entRicerca" TextColor="White" Placeholder="Ricerca amici" Margin="-10,0,10,10" PlaceholderColor="White" VerticalOptions="CenterAndExpand" HorizontalOptions="FillAndExpand"/>
-        </StackLayout>-->
-        
-    <!--<NavigationPage.TitleView>
-        <StackLayout Orientation="Horizontal">
-        --><!--<Entry x:Name="SampleEntry" HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand" TextColor="White" Placeholder="Ricerca amici" Visual="Material"></Entry>
-            <Button x:Name="btnCerca"  Clicked="btnCerca_Clicked" BackgroundColor="Transparent" FontSize="Medium" TextColor="White" HorizontalOptions="End" Text="&#xf002;" FontFamily="{StaticResource FA-Solid}" Margin="0,0,-15,0">
-            </Button>-->
-            <!--<SearchBar Placeholder="Search items..."/>--><!--
-            <appregali:SearchEntry HorizontalOptions="FillAndExpand" 
-                                Placeholder="Ricerca contatti"
-                                x:Name="entRicerca"
-                                Visual="Default"/>
-        </StackLayout>
-        </NavigationPage.TitleView>-->
-    
     <ContentPage.Content>
         <StackLayout Padding="20">
-            <StackLayout Orientation="Horizontal" VerticalOptions="Start" >
-                <appregali:SearchEntry HorizontalOptions="FillAndExpand" 
-                                    Placeholder="{translator:Translate RicercaAmici.SearchBar}" 
-                                    x:Name="entRicerca"
-                                    Visual="Default"/> <!--gestione dell'evento quando si preme enter nel controller-->
-                <Label Text="Cancel" VerticalOptions="Center" FontSize="Medium" TextColor="{x:StaticResource PrimaryColor}">
-                    <Label.GestureRecognizers>
-                        <TapGestureRecognizer Tapped="lblCancel_Tapped"/>
-                    </Label.GestureRecognizers>
-                </Label>
-            </StackLayout>
+            <Frame HasShadow="True" Padding="10,5,5,5">
+                <StackLayout Orientation="Horizontal">
+                 <Label FontSize="17" VerticalTextAlignment="Center" FontFamily="{x:StaticResource FA-Solid}" TextColor="{x:StaticResource GrayColor}" Text="&#xf002;"></Label>
+
+                     <appregali:SearchEntry2 HorizontalOptions="FillAndExpand" 
+                                        Placeholder="{translator:Translate RicercaAmici.SearchBar}" 
+                                        x:Name="entRicerca"
+                                        Visual="Default"/>
+                </StackLayout>
+            </Frame>
 
             <ActivityIndicator IsRunning="{Binding IsLoading}" IsVisible="{Binding IsLoading}"/>
-            <CollectionView  x:Name="RichiesteCollectionView"
+
+            <CollectionView x:Name="RichiesteCollectionView"
                 ItemsSource="{Binding Items}"
                 SelectionMode="Single"
                 SelectionChanged="OnPeopleSelectionChanged"
                 >
-
-                <!--ItemSelected="OnItemSelected"
-                VerticalOptions="FillAndExpand"
-                HasUnevenRows="true"
-                RefreshCommand="{Binding LoadItemsFilteredCommand}"
-                IsPullToRefreshEnabled="true"
-                IsRefreshing="{Binding IsBusy, Mode=OneWay}"
-                CachingStrategy="RecycleElement"
-                SeparatorVisibility="None"-->
-
                 <CollectionView.ItemsLayout>
-                    <GridItemsLayout Orientation="Vertical" Span="3" />
+                    <GridItemsLayout Orientation="Vertical"/>
                 </CollectionView.ItemsLayout>
 
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <Grid Padding="15">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="3*" />
-                                <RowDefinition Height="2*" />
-                            </Grid.RowDefinitions>
-                            <Frame Grid.Row="0"
-                                CornerRadius="100"
-                               HeightRequest="80"
-                               WidthRequest="80"
-                               HorizontalOptions="Center"
-                               Padding="0"
-                               IsClippedToBounds="True"
-                               HasShadow="True" BorderColor="#0bbfb9"
-                               >
-                                <Image x:Name="imgContatto"  HorizontalOptions="Center" Aspect="AspectFill" Source="{Binding FotoProfilo, Converter={StaticResource ByteArrayToImage}}" 
-                               VerticalOptions="Center"></Image>
+                        <StackLayout Padding="1" Margin="0,20,0,0">
+                            <Frame HasShadow="True"  CornerRadius="10" Padding="10">
+                                <StackLayout Orientation="Horizontal" VerticalOptions="CenterAndExpand">
+                                    <Frame HasShadow="False" Padding="0" CornerRadius="10" HeightRequest="80" WidthRequest="80" IsClippedToBounds="True">
+                                        <Image x:Name="imgContatto"  Aspect="AspectFill"
+                                               Source="{Binding FotoProfilo, Converter={StaticResource ByteArrayToImage}}" ></Image>
+                                    </Frame>
+                                   
+                                    <Label Text="{Binding Nome}" Style="{x:StaticResource AdSubtitle}" VerticalTextAlignment="Center"/>
+                                    <Label Text="{Binding Cognome}" Style="{x:StaticResource AdSubtitle}" VerticalTextAlignment="Center"/>
+                                </StackLayout>
                             </Frame>
-                            <Label Grid.Row="1" HorizontalOptions="Center">
-                                <Label.FormattedText>
-                                    <FormattedString>
-                                        <Span Text="{Binding Nome}" FontAttributes="Bold"/>
-                                        <Span Text=" "/>
-                                        <Span Text="{Binding Cognome}" FontAttributes="Bold" />
-                                    </FormattedString>
-                                </Label.FormattedText>
-                            </Label>
-                        </Grid>
+                       </StackLayout>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
-        </StackLayout>
-    </ContentPage.Content>
-
-    <!--</NavigationPage.TitleView>-->
-    
-    <!--<ListView x:Name="MyListView"
-            ItemsSource="{Binding Items}"
-            ItemTapped="Handle_ItemTapped"
-            CachingStrategy="RecycleElement">
-    <d:ListView.ItemsSource>
-        <x:Array Type="{x:Type x:String}">
-            <x:String>Item 1</x:String>
-            <x:String>Item 2</x:String>
-            <x:String>Item 3</x:String>
-            <x:String>Item 4</x:String>
-            <x:String>Item 5</x:String>
-        </x:Array>
-    </d:ListView.ItemsSource>
-    --><!--Built in Cells--><!--
-    <ListView.ItemTemplate>
-        <DataTemplate>
-            <TextCell Text="{Binding .}" d:Text="{Binding .}" />
-        </DataTemplate>
-    </ListView.ItemTemplate>-->
-    
-    <!--Custom View Cells-->
-    <!--
-    <ListView.ItemTemplate>
-      <DataTemplate>
-        <ViewCell>
-          <StackLayout>
-            <Label Text="{Binding Text}" 
-                   d:Text="{Binding .}"
-                   Style="{DynamicResource ListItemTextStyle}" />
-            <Label Text="{Binding Detail}" 
-                   d:Text="Detail"
-                   Style="{DynamicResource ListItemDetailTextStyle}"/>
-          </StackLayout>
-        </ViewCell>
-      </DataTemplate>
-    </ListView.ItemTemplate>
-    -->
-  <!--</ListView>-->
+            </StackLayout>
+      </ContentPage.Content>
 </ContentPage>

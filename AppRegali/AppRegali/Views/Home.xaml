@@ -6,27 +6,53 @@
              xmlns:conv="clr-namespace:AppRegali.Converter"
              mc:Ignorable="d"
              x:Class="AppRegali.Views.Home"
-             x:Name="BrowseItemsPage">
+              xmlns:controls="clr-namespace:AppRegali.ContentViews"
+             x:Name="BrowseItemsPage"
+             xmlns:translator="clr-namespace:AppRegali.Helpers"
+             BackgroundColor="{x:StaticResource SfondoColor}">
 
     <ContentPage.Resources>
         <ResourceDictionary>
             <conv:ByteArrayToImageSourceConverter x:Key="ByteArrayToImage" />
+            <conv:KeyToTranslateConverter x:Key="TranslateConverter" />
         </ResourceDictionary>
     </ContentPage.Resources>
 
     <NavigationPage.TitleView>
             <StackLayout Orientation="Horizontal">
-                <Label FontSize="35" HorizontalTextAlignment="Center" Margin="20,0,0,0" VerticalTextAlignment="Center" HorizontalOptions="CenterAndExpand"  FontFamily="{x:StaticResource FA-Solid}" TextColor="White" FontAttributes="Bold" Text="&#xf4be;"></Label>
+                <!--<Label FontSize="35" HorizontalTextAlignment="Center" Margin="20,0,0,0" VerticalTextAlignment="Center" HorizontalOptions="CenterAndExpand"  FontFamily="{x:StaticResource FA-Solid}" TextColor="White" FontAttributes="Bold" Text="&#xf06b;"></Label>-->
 
-                <Button x:Name="btnAbilitaRicerca"  Clicked="btnAbilitaRicerca_Clicked" BackgroundColor="Transparent" FontSize="Medium" TextColor="White" HorizontalOptions="End" Text="&#xf002;" FontFamily="{StaticResource FA-Solid}" Margin="0,0,-15,0">
+            <Image Source="logobianco.png" HeightRequest="50" Margin="0,0,0,0" IsVisible="true" HorizontalOptions="CenterAndExpand"></Image>
+
+            <Button x:Name="btnAbilitaRicerca"  Clicked="btnAbilitaRicerca_Clicked" BackgroundColor="Transparent" FontSize="Medium" TextColor="White" HorizontalOptions="End" Text="&#xf002;" FontFamily="{StaticResource FA-Solid}" Margin="0,0,-15,0">
                 </Button>
             </StackLayout>
     </NavigationPage.TitleView>
 
-    <StackLayout>
+    <StackLayout Margin="20,20,20,20">
         <!--<ActivityIndicator IsRunning="{Binding IsLoading}" IsVisible="{Binding IsLoading}"/>-->
+        <!--<Entry x:Name="entCategoria" Placeholder="Categoria" Focused="entCategoria_Focused" TextChanged="ent_TextChanged"></Entry>-->
+        <!--<Entry x:Name="entCategoria" Placeholder="Categoria" Focused="entCategoria_Focused" ></Entry>--> <!--TextChanged="ent_TextChanged"-->
+
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2*" />
+                <ColumnDefinition Width="7*" />
+                <ColumnDefinition Width="1*" />
+            </Grid.ColumnDefinitions>
+            <Label Grid.Row="0" Grid.Column="0" Text="Categoria: "  VerticalTextAlignment="Center"></Label>
+            <Entry Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" x:Name="entCategoria" HeightRequest="50" Placeholder="{translator:Translate Home.SelectCategory}" Focused="entCategoria_Focused" ></Entry>
+            <!--<Label Grid.Row="0" Grid.Column="1" FontFamily="{x:StaticResource FA-Solid}"  Text="&#xf107" ></Label>-->
+            <Label  Grid.Row="0" Grid.Column="2" VerticalTextAlignment="Center" FontFamily="{x:StaticResource FA-Solid}" Text="&#xf107;"></Label>
+
+
+            <Picker  x:Name="pkCategoria" IsVisible="False" Visual="Material"
+                        ItemDisplayBinding="{Binding Codice, Converter={StaticResource TranslateConverter}}" Title="{translator:Translate Home.SelectCategory}" SelectedIndexChanged="pkCategoria_SelectedIndexChanged"></Picker>
+        </Grid>
+            <!---->
+
+
         <ListView 
-             
             x:Name="EventiListView"
                 ItemsSource="{Binding Items}"
                 VerticalOptions="FillAndExpand"
@@ -36,23 +62,41 @@
                 IsRefreshing="{Binding IsBusy, Mode=OneWay}"
                 CachingStrategy="RecycleElement"
                 ItemSelected="OnItemSelected"
-                SeparatorVisibility="None">
+                SeparatorVisibility="Default" SeparatorColor="LightGray">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
-                        <Frame HasShadow="True" Padding="0" HeightRequest="260" Margin="20,10,20,10"  CornerRadius="5" IsClippedToBounds="True">
-                            <StackLayout>
-                                <Image Aspect="AspectFill" HeightRequest="190" Source="{Binding ImmagineEvento, Converter={StaticResource ByteArrayToImage}}" Margin="0,0,0,150"></Image>
+                        <StackLayout Margin="0,20,0,20">
+                                <StackLayout HeightRequest="50" Orientation="Horizontal" HorizontalOptions="FillAndExpand">
+                                    <Frame HeightRequest="40" WidthRequest="50" Padding="0" CornerRadius="50" IsClippedToBounds="True">
+                                            <Image Aspect="AspectFill"
+                                                Source="{Binding ImmagineUserCreatoreEvento, Converter={StaticResource ByteArrayToImage}}"></Image>
+                                    </Frame>
+
+                                    <StackLayout>
+                                        <Label Text="{Binding NomeUserCreatoreEvento}" 
+                                        LineBreakMode="NoWrap" Style="{x:StaticResource AdTitle}"/>
+
+                                             <Label Text="{Binding DataCreazione, StringFormat='{0:dd/MM/yyyy}'}" 
+                                        LineBreakMode="NoWrap" Style="{x:StaticResource HelpText}" Margin="0,-5,0,0" TextColor="{x:StaticResource GrayColor}"/>
+
+                                    </StackLayout>
+                                </StackLayout>
+
+                                <Frame Grid.Row="0" HasShadow="False" Padding="0" HeightRequest="210" CornerRadius="0" IsClippedToBounds="True">
+                                    <Image Aspect="AspectFill"
+                                           Source="{Binding ImmagineEvento, Converter={StaticResource ByteArrayToImage}}"></Image>
+                                </Frame>
 
                                 <Label Text="{Binding Titolo}" 
-                                d:Text="{Binding .}"
-                                LineBreakMode="NoWrap" 
-                                FontSize="Large" TextColor="Black" VerticalTextAlignment="End" Margin="15,-150,0,0" FontAttributes="Bold"/>
+                                        d:Text="{Binding .}"
+                                        LineBreakMode="NoWrap" Style="{x:StaticResource AdTitle}"
+                                       />
+
                                 <Label Text="{Binding Descrizione}" 
-                                d:Text="Item descripton" VerticalTextAlignment="End"
-                                LineBreakMode="NoWrap" Margin="15,0,0,0" />
+                                        d:Text="Item descripton" Style="{x:StaticResource AdSubtitle}"/>
+
                             </StackLayout>
-                        </Frame>
                     </ViewCell>
                 </DataTemplate>
             </ListView.ItemTemplate>

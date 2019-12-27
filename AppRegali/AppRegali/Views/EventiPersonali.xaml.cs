@@ -23,7 +23,7 @@ namespace AppRegali.Views
     {
         EventiViewModel viewModel;
         static Helpers.TranslateExtension translate = new Helpers.TranslateExtension();
-        private EventoClient eventoClient = new EventoClient(ApiHelper.GetApiClient());
+        //private EventoClient eventoClient = new EventoClient(ApiHelper.GetApiClient());
 
         public string textModifica = Helpers.TranslateExtension.ResMgr.Value.GetString("EventiPersonali.Modifica", translate.ci);
         public string textEliminaEvento = Helpers.TranslateExtension.ResMgr.Value.GetString("EventiPersonali.EliminaEvento", translate.ci);
@@ -42,10 +42,7 @@ namespace AppRegali.Views
             if (item == null || item.Id == null)
                 return;
 
-            EventoDtoOutput dettaglioEvento = await eventoClient.GetEventoByIdAsync(new Guid(item.Id));
-
-
-            await Navigation.PushAsync(new EventoModifica(new EventoDetailViewModel(dettaglioEvento)));
+            await Navigation.PushAsync(new EventoModifica(new Guid(item.Id)));
 
             // Manually deselect item.
             EventiListView.SelectedItem = null;
