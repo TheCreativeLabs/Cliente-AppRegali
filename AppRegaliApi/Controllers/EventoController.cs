@@ -100,8 +100,7 @@ namespace AppRegaliApi.Controllers
             //Ottengo gli eventi
             //List<Evento> eventi
             List<EventoDtoOutput> eventiDto = await dbDataContext.Evento
-                           .Include(x => x.ImmagineEvento)
-                           .OrderBy(x => x.DataEvento)
+                           
                            .Join(dbDataContext.UserInfo, // the source table of the inner join
                                      evento => evento.IdUtenteCreazione,        // Select the primary key (the first part of the "on" clause in an sql "join" statement)
                                      userInfo => userInfo.IdAspNetUser,   // Select the foreign key (the second part of the "on" clause)
@@ -110,7 +109,8 @@ namespace AppRegaliApi.Controllers
                                                             & (IdUtente == null || eventoAndUserInfo.Evento.IdUtenteCreazione.ToString() == IdUtente)
                                                             & (IdCategoria == null || eventoAndUserInfo.Evento.IdCategoriaEvento.ToString() == IdCategoria))
                                    )   // where statement
-
+                            .Include(eventoAndUserInfo => eventoAndUserInfo.Evento.ImmagineEvento)
+                           .OrderBy(eventoAndUserInfo => eventoAndUserInfo.Evento.DataEvento)
                             .Skip(pageSize * (pageNumber - 1))
                             .Take(pageSize)
                             .Select(join => new EventoDtoOutput()
