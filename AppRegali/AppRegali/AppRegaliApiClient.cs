@@ -2066,18 +2066,26 @@ namespace Api
 
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task<System.Collections.Generic.ICollection<EventoDtoOutput>> GetEventiByidUtenteAsync(string idUtente, string idCategoria)
+        public System.Threading.Tasks.Task<System.Collections.Generic.ICollection<EventoDtoOutput>> GetEventiByidUtenteAsync(int pageNumber, int pageSize, string idUtente, string idCategoria)
         {
-            return GetEventiByidUtenteAsync(idUtente, idCategoria, System.Threading.CancellationToken.None);
+            return GetEventiByidUtenteAsync(pageNumber, pageSize, idUtente, idCategoria, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<EventoDtoOutput>> GetEventiByidUtenteAsync(string idUtente, string idCategoria, System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<EventoDtoOutput>> GetEventiByidUtenteAsync(int pageNumber, int pageSize, string idUtente, string idCategoria, System.Threading.CancellationToken cancellationToken)
         {
+            if (pageNumber == null)
+                throw new System.ArgumentNullException("pageNumber");
+
+            if (pageSize == null)
+                throw new System.ArgumentNullException("pageSize");
+
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/Evento/EventiAmiciFiltered?");
+            urlBuilder_.Append(System.Uri.EscapeDataString("pageNumber") + "=").Append(System.Uri.EscapeDataString(ConvertToString(pageNumber, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+            urlBuilder_.Append(System.Uri.EscapeDataString("pageSize") + "=").Append(System.Uri.EscapeDataString(ConvertToString(pageSize, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
             if (idUtente != null)
             {
                 urlBuilder_.Append(System.Uri.EscapeDataString("IdUtente") + "=").Append(System.Uri.EscapeDataString(ConvertToString(idUtente, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
