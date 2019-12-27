@@ -26,13 +26,15 @@
 
     <ContentPage.Content>
         <StackLayout>
-            <ScrollView>
+            <ActivityIndicator x:Name="EventoModificaActivityIndicator" IsRunning="False" IsVisible="False"/>
+
+            <ScrollView x:Name="ScrollViewEventoModifica" IsVisible="False">
                 <StackLayout Padding="20">
                     <StackLayout Orientation="Horizontal">
                         <controls:ProfileBackButton HeightRequest="40" HorizontalOptions="StartAndExpand"/>
 
                         <Button BackgroundColor="Transparent" WidthRequest="80" BorderWidth="2" BorderColor="{x:StaticResource DangerColor}"  TextColor="{x:StaticResource DangerColor}"  Text="{translator:Translate EventoModifica.Elimina}" x:Name="btnDelete" Clicked="Delete_Clicked" ></Button>
-                        <Button BackgroundColor="Transparent" WidthRequest="60" BorderWidth="2" TextColor="{x:StaticResource PrimaryColor}" Text="Salva" x:Name="btnSave" Clicked="Update_Clicked" ></Button>
+                        <Button BackgroundColor="Transparent" WidthRequest="60" BorderWidth="2" TextColor="{x:StaticResource PrimaryColor}" Text="{translator:Translate EventoModifica.Save}" x:Name="btnSave" Clicked="Update_Clicked" ></Button>
                     </StackLayout>
 
 
@@ -55,12 +57,14 @@
 
                         <Entry x:Name="entTitoloEvento" Placeholder="Titolo" VerticalOptions="Center" Text="{Binding Item.Titolo}" ></Entry>
 
-                        <Entry Placeholder="Data Evento" VerticalOptions="Center" Text="{Binding Item.DataEvento, StringFormat='{0:dd/MM/yy}'}" ></Entry>
+                    <Entry x:Name="entDataEvento" Placeholder="Data Evento" Focused="entDataEvento_Focused"  VerticalOptions="Center" Text="{Binding Item.DataEvento, StringFormat='{0:dd/MM/yyyy}'}" ></Entry>
+
+                        <DatePicker x:Name="dpDataEvento" IsVisible="False"  Visual="Material" DateSelected="dpDataEvento_DateSelected" ></DatePicker>
 
                         <Entry x:Name="entCategoria"  Placeholder="Categoria" Focused="entCategoria_Focused"></Entry>
                     
                         <Picker x:Name="pkCategoria" IsVisible="False" ItemDisplayBinding="{Binding Codice, Converter={StaticResource TranslateConverter}}"
-                                SelectedItem="{Binding Id}" Title="Seleziona categoria" SelectedIndexChanged="pkCategoria_SelectedIndexChanged"></Picker>
+                                SelectedItem="{Binding Id}" Title="{translator:Translate EventoModifca.SelezionaCategoria}" SelectedIndexChanged="pkCategoria_SelectedIndexChanged"></Picker>
 
                         <Entry Placeholder="Descrizione" VerticalOptions="Center" Text="{Binding Item.Descrizione}" ></Entry>
 
@@ -78,23 +82,27 @@
                             <DataTemplate>
                                 <StackLayout Padding="10" WidthRequest="250" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
                                             <Frame HasShadow="True" Padding="0" CornerRadius="10" IsClippedToBounds="True">
-                                                    <StackLayout>
+                                        <StackLayout>
 
-                                                    <Image x:Name="imgFotoUtente" HeightRequest="180" Aspect="AspectFill" Source="{Binding ImmagineRegalo, Converter={StaticResource ByteArrayToImage}}" ></Image>
+                                            <Image x:Name="imgFotoUtente" HeightRequest="180" Aspect="AspectFill" Source="{Binding ImmagineRegalo, Converter={StaticResource ByteArrayToImage}}" ></Image>
 
 
-                                                    <StackLayout Padding="10">
-                                                            <Label Style="{x:StaticResource AdTitle}" Text="{Binding Titolo}"></Label>
-                                                            <Label Style="{x:StaticResource AdSubtitle}" Text="{Binding Descrizione}"></Label>
-                                                    
-                                                            <ProgressBar Grid.Row="0" Grid.Column="0" Progress="0.5" />
-                                                            <Label Grid.Row="0" Grid.Column="1" FontSize="Medium" Text="{Binding ImportoCollezionato}"></Label>
+                                            <StackLayout Padding="10">
+                                                <Label Style="{x:StaticResource AdTitle}" Text="{Binding Titolo}"></Label>
+                                                <Label Style="{x:StaticResource AdSubtitle}" Text="{Binding Descrizione}"></Label>
 
-                                                            <Button Clicked="BtnModificaRegalo_Clicked" Text="Modifica" CommandParameter="{Binding .}" Style="{x:StaticResource SecondaryButton}">
-                                                            </Button>
-                                                    </StackLayout>
+                                                <ProgressBar Grid.Row="0" Grid.Column="0" Progress="0.5" />
+                                                <StackLayout Grid.Row="0" Grid.Column="1" Orientation="Horizontal">
+                                                    <Label FontSize="Medium" Text="{Binding ImportoCollezionato}"></Label>
+                                                    <Label FontSize="Medium" Text="/"></Label>
+                                                    <Label FontSize="Medium" Text="{Binding Prezzo}"></Label>
                                                 </StackLayout>
-                                        </Frame>
+
+                                                <Button Clicked="BtnModificaRegalo_Clicked" Text="Modifica" CommandParameter="{Binding .}" Style="{x:StaticResource SecondaryButton}">
+                                                </Button>
+                                            </StackLayout>
+                                        </StackLayout>
+                                    </Frame>
                                     </StackLayout>
                             </DataTemplate>
                         </CollectionView.ItemTemplate>

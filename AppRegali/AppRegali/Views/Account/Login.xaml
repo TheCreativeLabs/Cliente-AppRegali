@@ -11,7 +11,10 @@
              >
     <ContentPage.Content>
         <StackLayout VerticalOptions="CenterAndExpand" Margin="20">
-            <Label FontSize="90" HorizontalTextAlignment="Center" FontFamily="{x:StaticResource FA-Solid}" TextColor="{x:StaticResource PrimaryColor}" FontAttributes="Bold" Margin="0,0,0,10" Text="&#xf06b;"></Label>
+            <!--<Label FontSize="90" HorizontalTextAlignment="Center" FontFamily="{x:StaticResource FA-Solid}" TextColor="{x:StaticResource PrimaryColor}" FontAttributes="Bold" Margin="0,0,0,10" Text="&#xf06b;"></Label>-->
+
+            <Image Source="logobiancoblu.png" Margin="0,0,0,40" IsVisible="true" HorizontalOptions="CenterAndExpand" HeightRequest="100"></Image>
+
 
             <Label Text="{translator:Translate Login.ErroreLogin}" FontSize="Medium"  FontAttributes="Bold" TextColor="Red" IsVisible="False" x:Name="lblValidazioneLogin"></Label>
             

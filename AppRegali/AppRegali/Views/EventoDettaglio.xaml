@@ -6,14 +6,17 @@
              mc:Ignorable="d"
              x:Class="AppRegali.Views.EventoDettaglio"
              xmlns:conv="clr-namespace:AppRegali.Converter"
+             xmlns:controls="clr-namespace:AppRegali.ContentViews"
+             xmlns:translator="clr-namespace:AppRegali.Helpers" 
              Title="{Binding Item.Titolo}" NavigationPage.HasNavigationBar="False">
 
     <ContentPage.Resources>
         <ResourceDictionary>
             <conv:ByteArrayToImageSourceConverter x:Key="ByteArrayToImage" />
+            <conv:KeyToTranslateConverter x:Key="TranslateConverter" />
         </ResourceDictionary>
     </ContentPage.Resources>
-
+    
     <NavigationPage.TitleView>
         <StackLayout Orientation="Horizontal">
             <Label Text="{Binding Item.Titolo}" TextColor="White" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" FontAttributes="Bold" FontSize="Large"></Label>
@@ -21,55 +24,82 @@
     </NavigationPage.TitleView>
 
     <ContentPage.Content>
-        <StackLayout>
-            <ScrollView>
-                <StackLayout Padding="20">
-                    <Frame HeightRequest="220" Margin="-20" CornerRadius="0" IsClippedToBounds="True" Padding="0" HasShadow="false">
-                        <Image x:Name="imgEventoDettaglio" Aspect="AspectFill" Source="{Binding Item.ImmagineEvento, Converter={StaticResource ByteArrayToImage}}"></Image>
-                    </Frame>
+        <StackLayout VerticalOptions="FillAndExpand">
+            <Grid VerticalOptions="FillAndExpand">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="4*" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <ScrollView>
+                    <StackLayout Padding="20">
+                        <Frame HeightRequest="220" Margin="-20" CornerRadius="0" IsClippedToBounds="True" Padding="0" HasShadow="false">
+                            <Image x:Name="imgEventoDettaglio" Aspect="AspectFill" Source="{Binding Item.ImmagineEvento, Converter={StaticResource ByteArrayToImage}}"></Image>
+                        </Frame>
 
-                    <Frame HasShadow="True" Margin="0,-90,0,0">
-                        <StackLayout>
-                            <Label Text="{Binding Item.Titolo}" Margin="0,0,0,10" Style="{x:StaticResource Title}" HorizontalTextAlignment="Center"/>
-                            <Label Text="{Binding Item.DataEvento, StringFormat='Data: {0:dd/MM/yy}'}"/>
-                            <Label Text="Categoria evento: fixme CAT" HorizontalTextAlignment="Start"/>
-                        </StackLayout>
-                    </Frame>
+                        <Frame HasShadow="True" Margin="0,-90,0,0">
+                            <StackLayout>
+                                <Label Text="{Binding Item.Titolo}" Margin="0,0,0,10" Style="{x:StaticResource Title}" HorizontalTextAlignment="Center"/>
+                                <StackLayout Orientation="Horizontal">
+                                    <Label Text="{translator:Translate EventoDettaglio.Date}"/>
+                                    <Label Text="{Binding Item.DataEvento, StringFormat='{0:dd/MM/yyyy}'}"/>
+                                </StackLayout>
+                                <StackLayout Orientation="Horizontal">
+                                    <Label Text="{translator:Translate EventoDettaglio.Category}"/>
+                                    <Label Text="{Binding Item.CodiceCategoriaEvento, Converter={StaticResource TranslateConverter}}" HorizontalTextAlignment="Start"/>
+                                </StackLayout>
+                            </StackLayout>
+                        </Frame>
 
-                     <!--HasUnevenRows="true"
+                        <!--HasUnevenRows="true"
                                 IsPullToRefreshEnabled="true"
                                 CachingStrategy="RecycleElement"
                                 SeparatorVisibility="None">-->
-                    <CollectionView x:Name="RegaliDettaglioListView"
-                                VerticalOptions="FillAndExpand">
-                               <CollectionView.ItemsLayout>
-                                    <LinearItemsLayout Orientation="Horizontal" />
-                                </CollectionView.ItemsLayout>
-                        <CollectionView.ItemTemplate>
-                            <DataTemplate>
-                                <StackLayout Padding="10" WidthRequest="250" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+                        <ActivityIndicator x:Name="RegaliActivityIndicator" IsRunning="False" IsVisible="False"/>
+
+                        <CollectionView x:Name="RegaliDettaglioListView"
+                                VerticalOptions="FillAndExpand"
+                                 ><!--SelectionChanged=""-->
+                            <CollectionView.ItemsLayout>
+                                <LinearItemsLayout Orientation="Horizontal" />
+                            </CollectionView.ItemsLayout>
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate>
+                                    <StackLayout Padding="10" WidthRequest="250" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
                                         <Frame HasShadow="True" Padding="0" CornerRadius="10" IsClippedToBounds="True">
                                             <StackLayout>
 
-                                            <Image x:Name="imgFotoUtente" HeightRequest="180" Aspect="AspectFill" Source="{Binding ImmagineRegalo, Converter={StaticResource ByteArrayToImage}}" ></Image>
+                                                <Image x:Name="imgFotoUtente" HeightRequest="180" Aspect="AspectFill" Source="{Binding ImmagineRegalo, Converter={StaticResource ByteArrayToImage}}" ></Image>
 
 
-                                            <StackLayout Padding="10">
+                                                <StackLayout Padding="10">
                                                     <Label Style="{x:StaticResource AdTitle}" Text="{Binding Titolo}"></Label>
                                                     <Label Style="{x:StaticResource AdSubtitle}" Text="{Binding Descrizione}"></Label>
-                                                    
+
                                                     <ProgressBar Grid.Row="0" Grid.Column="0" Progress="0.5" />
-                                                    <Label Grid.Row="0" Grid.Column="1" FontSize="Medium" Text="{Binding ImportoCollezionato}"></Label>
-                                            </StackLayout>
+                                                    <StackLayout  Grid.Row="0" Grid.Column="1" Orientation="Horizontal">
+                                                        <Label FontSize="Medium" Text="{Binding ImportoCollezionato}"></Label>
+                                                        <Label FontSize="Medium" Text="/"></Label>
+                                                        <Label FontSize="Medium" Text="{Binding Prezzo}"></Label>
+                                                    </StackLayout>
                                                 </StackLayout>
+                                            </StackLayout>
                                         </Frame>
                                     </StackLayout>
-                            </DataTemplate>
-                        </CollectionView.ItemTemplate>
-                    </CollectionView>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+
+                    </StackLayout>
+                </ScrollView>
+
+                <StackLayout Grid.Row="0" Grid.Column="0" x:Name="stkHeader" VerticalOptions="StartAndExpand"  Orientation="Horizontal" Margin="0,0,0,0" >
+                    <controls:ProfileBackButton HeightRequest="40" HorizontalOptions="StartAndExpand"/>
 
                 </StackLayout>
-            </ScrollView>
+            </Grid>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

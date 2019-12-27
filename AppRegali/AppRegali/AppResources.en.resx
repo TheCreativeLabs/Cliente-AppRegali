@@ -120,6 +120,9 @@
   <data name="Account.CambiaPassword" xml:space="preserve">
     <value>Cambia Password</value>
   </data>
+  <data name="ALL_CATEGORIES" xml:space="preserve">
+    <value>Select category</value>
+  </data>
   <data name="Amici.Contatti" xml:space="preserve">
     <value>Contacts</value>
   </data>
@@ -156,6 +159,12 @@
   <data name="AmiciProfilo.SendRequest" xml:space="preserve">
     <value>Send request</value>
   </data>
+  <data name="ANNIVERSARY" xml:space="preserve">
+    <value>Anniversary</value>
+  </data>
+  <data name="BAPTISM" xml:space="preserve">
+    <value>Baptism</value>
+  </data>
   <data name="BIRTHDAY" xml:space="preserve">
     <value>Birthday</value>
   </data>
@@ -177,11 +186,26 @@
   <data name="ChangePassword.OldPassword" xml:space="preserve">
     <value>Inserisci la vecchia password</value>
   </data>
+  <data name="CHRISTMAS" xml:space="preserve">
+    <value>Christmas</value>
+  </data>
+  <data name="CONFIRMATION" xml:space="preserve">
+    <value>Confirmation</value>
+  </data>
+  <data name="DEGREE" xml:space="preserve">
+    <value>Degree</value>
+  </data>
   <data name="EventiPersonali.Annulla" xml:space="preserve">
     <value>Cancel</value>
   </data>
   <data name="EventiPersonali.Modifica" xml:space="preserve">
     <value>Modify</value>
+  </data>
+  <data name="EventoDettaglio.Category" xml:space="preserve">
+    <value>Category: </value>
+  </data>
+  <data name="EventoDettaglio.Date" xml:space="preserve">
+    <value>Date: </value>
   </data>
   <data name="EventoInserisci.Annulla" xml:space="preserve">
     <value>Annulla</value>
@@ -197,6 +221,9 @@
   </data>
   <data name="EventoInserisci.Title" xml:space="preserve">
     <value>New Event</value>
+  </data>
+  <data name="EventoModifca.SelezionaCategoria" xml:space="preserve">
+    <value>Select category</value>
   </data>
   <data name="EventoModifica.ConfirmDelete" xml:space="preserve">
     <value>Do you really want to delete the event? Presents of this event will be removed too.</value>
@@ -219,8 +246,17 @@
   <data name="EventoModifica.SalvataggioOk" xml:space="preserve">
     <value>Saved</value>
   </data>
+  <data name="EventoModifica.Save" xml:space="preserve">
+    <value>Save</value>
+  </data>
   <data name="EventoModifica.Yes" xml:space="preserve">
     <value>Yes</value>
+  </data>
+  <data name="HOLY_COMMUNION" xml:space="preserve">
+    <value>Holy communion</value>
+  </data>
+  <data name="Home.SelectCategory" xml:space="preserve">
+    <value>Select category</value>
   </data>
   <data name="Login.ConfermaPassword" xml:space="preserve">
     <value>Conferma Password</value>
@@ -279,6 +315,12 @@
   <data name="MieiEventi.Titolo" xml:space="preserve">
     <value>My events</value>
   </data>
+  <data name="NAME_DAY" xml:space="preserve">
+    <value>Name day</value>
+  </data>
+  <data name="OTHER" xml:space="preserve">
+    <value>Other</value>
+  </data>
   <data name="RegaloInserisci.CreaNuovo" xml:space="preserve">
     <value>Create new present</value>
   </data>
@@ -305,6 +347,9 @@
   </data>
   <data name="RegaloModifica.Prezzo" xml:space="preserve">
     <value>Price</value>
+  </data>
+  <data name="RegaloModifica.Salva" xml:space="preserve">
+    <value>Save</value>
   </data>
   <data name="RegaloModifica.SalvataggioOk" xml:space="preserve">
     <value>Saved</value>

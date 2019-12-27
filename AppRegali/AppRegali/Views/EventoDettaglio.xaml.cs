@@ -31,13 +31,18 @@ namespace AppRegali.Views
         {
             base.OnAppearing();
 
+            RegaliActivityIndicator.IsRunning = true;
+            RegaliActivityIndicator.IsVisible = true;
             EventoClient eventoClient = new EventoClient(ApiHelper.GetApiClient());
             EventoDtoOutput eventoDettaglio = await eventoClient.GetEventoByIdAsync(new Guid(viewModel.Item.Id));
             RegaliDettaglioListView.ItemsSource = eventoDettaglio.Regali;
             if(eventoDettaglio.Regali != null)
             {
-                RegaliDettaglioListView.HeightRequest = ((140) * eventoDettaglio.Regali.Count) + 70;
+               // RegaliDettaglioListView.HeightRequest = ((140) * eventoDettaglio.Regali.Count) + 70;
             }
+
+            RegaliActivityIndicator.IsRunning = false;
+            RegaliActivityIndicator.IsVisible = false;
         }
     }
 }

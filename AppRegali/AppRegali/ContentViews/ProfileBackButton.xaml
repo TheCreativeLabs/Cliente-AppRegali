@@ -3,7 +3,7 @@
     <ContentView.Content>
 
         <Frame Padding="0" HasShadow="False"
-               HeightRequest="65" WidthRequest="80" CornerRadius="20">
+               HeightRequest="65" WidthRequest="80" CornerRadius="20"  BackgroundColor="Transparent">
             <StackLayout Orientation="Horizontal">
                 <Label FontSize="20" Text="&#xf053;" VerticalTextAlignment="Center" FontFamily="{x:StaticResource FA-Solid}" TextColor="{x:StaticResource DarkColor}"></Label>
                 <Label Text="Indietro" FontAttributes="Bold" VerticalTextAlignment="Center" FontFamily="{x:StaticResource Subtitle}"  TextColor="{x:StaticResource DarkColor}"></Label>

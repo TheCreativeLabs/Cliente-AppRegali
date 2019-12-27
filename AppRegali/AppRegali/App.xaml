@@ -10,7 +10,9 @@
         <ResourceDictionary>
 
             <!-- Colors -->
-            <Color x:Key="PrimaryColor">#ff6b6b</Color>
+            <!--<Color x:Key="PrimaryColor">#ff6b6b</Color>-->
+
+            <Color x:Key="PrimaryColor">#046ea8</Color>
             <Color x:Key="DarkColor">#343a40</Color>
             <Color x:Key="GrayColor">#868e96</Color>
             <Color x:Key="SuccessColor">#20c997</Color>

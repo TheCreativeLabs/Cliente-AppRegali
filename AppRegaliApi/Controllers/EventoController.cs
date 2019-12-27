@@ -74,7 +74,7 @@ namespace AppRegaliApi.Controllers
         //l'oggetto restituito è piatto: nella risposta non sono compresi gli oggetti figli
         [HttpGet]
         [Route("EventiAmiciFiltered")]
-        public async Task<List<EventoDtoOutput>> GetEventiByidUtente(string IdUtente = null, string IdCategoria = null)
+        public async Task<List<EventoDtoOutput>> GetEventiByidUtente(int pageNumber, int pageSize, string IdUtente = null, string IdCategoria = null)
         {
             //Ottengo la lista degli amici
             List<Guid> idAmici = await AmiciUtility.GetIdAmiciOfUser(new Guid(User.Identity.GetUserId()));
@@ -82,10 +82,13 @@ namespace AppRegaliApi.Controllers
             //Ottengo gli eventi
             List<Evento> eventi = await dbDataContext.Evento
                            .Include(x => x.ImmagineEvento)
+                           .Include(x => x.EventoCategoria)
                            .Where(x => (idAmici.Contains(x.IdUtenteCreazione)
                                      & (IdUtente == null || x.IdUtenteCreazione.ToString() == IdUtente))
                                      & (IdCategoria == null || x.IdCategoriaEvento.ToString() == IdCategoria))
                            .OrderBy(x => x.DataEvento)
+                           .Skip(pageSize * (pageNumber - 1))
+                           .Take(pageSize)
                            .ToListAsync();
                           
             return EventoMapper.EventoToEventoDtoList(eventi);

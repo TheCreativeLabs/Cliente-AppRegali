@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AppRegali.Views;
+using System;
 using System.Collections.Generic;
 using Xamarin.Forms;
 
@@ -13,7 +14,20 @@ namespace AppRegali.ContentViews
 
         private async void BtnBack_Clicked(object sender, EventArgs e)
         {
-            await Navigation.PopModalAsync();
+            try
+            {
+                await Navigation.PopModalAsync();
+            }
+            catch 
+            {
+                try {
+                    await Navigation.PopAsync();
+                }
+                catch
+                {
+                    await Navigation.PushAsync(new ErrorPage());
+                }
+            }
         }
     }
 }

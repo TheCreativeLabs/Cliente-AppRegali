@@ -15,6 +15,7 @@ namespace AppRegali.ViewModels
     {
         public ObservableCollection<EventoDtoOutput> Items { get; set; }
         public Command LoadItemsCommand { get; set; }
+        public EventoCategoria Categoria { get; set; }
 
         bool isLoading = false;
         public bool IsLoading
@@ -104,7 +105,12 @@ namespace AppRegali.ViewModels
                 }
                 else
                 {
-                    listaEventi = await eventoClient.GetEventiByidUtenteAsync(null, null);
+                    string idCategoria = null;
+                    if(Categoria != null)
+                    {
+                        idCategoria = Categoria.Id.ToString();
+                    }
+                    listaEventi = await eventoClient.GetEventiByidUtenteAsync(null, idCategoria);
                 }
 
                 foreach (var evento in listaEventi)

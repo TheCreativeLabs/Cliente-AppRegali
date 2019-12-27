@@ -54,9 +54,9 @@
                     <Picker x:Name="pkCategoria" IsVisible="False" ItemsSource="{Binding Items}"
                         ItemDisplayBinding="{Binding Codice, Converter={StaticResource TranslateConverter}}" Title="Seleziona categoria" SelectedIndexChanged="pkCategoria_SelectedIndexChanged"></Picker>
 
-                    <Editor x:Name="edDescrizione" Visual="Material" Keyboard="Chat" AutoSize="TextChanges" TextChanged="ent_TextChanged" Placeholder="Descrizione"></Editor>
+                    <Entry x:Name="edDescrizione" TextChanged="ent_TextChanged" Placeholder="Descrizione"></Entry> <!--Keyboard="Chat" AutoSize="TextChanges"-->
 
-                    <Button Style="{x:StaticResource primaryButton}" Text="{translator:Translate EventoInserisci.CreaNuovo}" x:Name="btnSalva" Clicked="Save_Clicked" ></Button>
+                <Button Style="{x:StaticResource primaryButton}" Text="{translator:Translate EventoInserisci.CreaNuovo}" x:Name="btnSalva" Clicked="Save_Clicked" ></Button>
             </StackLayout>
         </ScrollView>
     </ContentPage.Content>

@@ -40,20 +40,26 @@ namespace AppRegali.Views
             //Stream stream = new MemoryStream(viewModel.Item.ImmagineEvento);
             //imgEventoModifica.Source = ImageSource.FromStream(() => { return stream; });
             base.OnAppearing();
+            EventoModificaActivityIndicator.IsRunning = true;
+            EventoModificaActivityIndicator.IsVisible = true;
 
-            if(this.viewModel == null)
-            {
+            //if (this.viewModel == null) ricarico SEMPRE e non solo se è null, altrimenti non si percepiscono le modifiche dei regali
+            //{
                 this.viewModel = new EventoDetailViewModel();
                 this.viewModel.Item = await LoadEventoDetailById();
                 BindingContext = this.viewModel;
+
+                RegaliModificaListView.ItemsSource = viewModel.Item.Regali;
 
                 List<EventoCategoria> listaCategorie = (List<EventoCategoria>)await this.eventoClient.GetLookupEventoCategoriaAsync();
                 pkCategoria.ItemsSource = listaCategorie;
                 EventoCategoria categoria = listaCategorie.First(a => a.Id == this.viewModel.Item.IdCategoriaEvento);
                 pkCategoria.SelectedItem = categoria;
+            //}
 
-                RegaliModificaListView.ItemsSource = viewModel.Item.Regali;
-            }
+            EventoModificaActivityIndicator.IsRunning = false;
+            EventoModificaActivityIndicator.IsVisible = false;
+            ScrollViewEventoModifica.IsVisible = true;
         }
 
         private void pkCategoria_SelectedIndexChanged(object sender, EventArgs e)
@@ -151,7 +157,22 @@ namespace AppRegali.Views
         {
             RegaloDtoOutput item = args.SelectedItem as RegaloDtoOutput;
             await Navigation.PushAsync(new RegaloModifica(new RegaloDetailViewModel(item)));
-           //await Navigation.PushModalAsync
+            //await Navigation.PushModalAsync
+        }
+
+        private void entDataEvento_Focused(object sender, FocusEventArgs e)
+        {
+            entDataEvento.Unfocus();
+            dpDataEvento.Focus();
+        }
+
+        private void dpDataEvento_DateSelected(object sender, DateChangedEventArgs e)
+        {
+            if (dpDataEvento.Date != null)
+            {
+                entDataEvento.Text = dpDataEvento.Date.ToString("dd/MM/yyyy");
+                viewModel.Item.DataEvento = dpDataEvento.Date;
+            }
         }
 
         async void OnPickPhotoButtonClicked(object sender, EventArgs e)
