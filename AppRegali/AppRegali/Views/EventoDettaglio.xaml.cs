@@ -46,7 +46,7 @@ namespace AppRegali.Views
                 RegaliActivityIndicator.IsRunning = true;
                 RegaliActivityIndicator.IsVisible = true;
 
-                EventoClient eventoClient = new EventoClient(ApiHelper.GetApiClient());
+                EventoClient eventoClient = new EventoClient(await ApiHelper.GetApiClient());
                 var item = await eventoClient.GetEventoByIdAsync(new Guid(viewModel.Item.Id));
                 viewModel.Item.Regali = item.Regali;
             }

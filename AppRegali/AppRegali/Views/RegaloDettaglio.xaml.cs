@@ -35,7 +35,7 @@ namespace AppRegali.Views
                 return;
             }
 
-            EventoClient eventoClient = new EventoClient(ApiHelper.GetApiClient());
+            EventoClient eventoClient = new EventoClient(await ApiHelper.GetApiClient());
             await eventoClient.InserisciPartecipazioneRegaloAsync(new Guid(Regalo.Id), double.Parse(entDonazione.Text), chkAnonimo.IsChecked);
 
             await DisplayAlert("Complimenti", "la donazione è avvenuta con successo", "OK");

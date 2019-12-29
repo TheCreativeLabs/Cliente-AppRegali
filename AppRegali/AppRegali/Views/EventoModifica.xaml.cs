@@ -20,13 +20,16 @@ namespace AppRegali.Views
     {
         EventoDetailViewModel viewModel;
         static Helpers.TranslateExtension translate = new Helpers.TranslateExtension();
-        EventoClient eventoClient = new EventoClient(ApiHelper.GetApiClient());
         public CategorieViewModel categorieViewModel { get; set; }
         Guid EventoId;
+
+        EventoClient eventoClient;
+
         public EventoModifica(Guid Id)
         {
             InitializeComponent();
             EventoId = Id;
+
         }
 
         private async Task<EventoDtoOutput> LoadEventoDetailById()
@@ -41,6 +44,7 @@ namespace AppRegali.Views
             //imgEventoModifica.Source = ImageSource.FromStream(() => { return stream; });
             base.OnAppearing();
 
+            eventoClient = new EventoClient(await ApiHelper.GetApiClient());
 
             EventoModificaActivityIndicator.IsRunning = true;
             EventoModificaActivityIndicator.IsVisible = true;
@@ -53,6 +57,7 @@ namespace AppRegali.Views
 
                 RegaliModificaListView.ItemsSource = viewModel.Item.Regali;
 
+               
                 List<EventoCategoria> listaCategorie = (List<EventoCategoria>)await this.eventoClient.GetLookupEventoCategoriaAsync();
                 pkCategoria.ItemsSource = listaCategorie;
                 EventoCategoria categoria = listaCategorie.First(a => a.Id == this.viewModel.Item.IdCategoriaEvento);

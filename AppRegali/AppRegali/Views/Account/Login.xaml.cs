@@ -22,12 +22,12 @@ namespace AppRegali.Views.Login
             InitializeComponent();
         }
 
-        protected override void OnAppearing()
+        protected async override void OnAppearing()
         {
             base.OnAppearing();
 
             //Se ho il token allora vado direttamente alla home
-            if (ApiHelper.GetToken() != null)
+            if (await ApiHelper.GetToken() != null)
             {
                 //ApiHelper.GetUserInfo();
                 Application.Current.MainPage = new MainPage();

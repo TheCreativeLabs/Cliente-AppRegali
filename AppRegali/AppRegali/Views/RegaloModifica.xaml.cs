@@ -21,7 +21,7 @@ namespace AppRegali.Views
     {
         RegaloDetailViewModel viewModel;
         static Helpers.TranslateExtension translate = new Helpers.TranslateExtension();
-        EventoClient eventoClient = new EventoClient(ApiHelper.GetApiClient());
+        
 
         public RegaloModifica(RegaloDetailViewModel RegaloDetailViewModel)
         {
@@ -46,6 +46,7 @@ namespace AppRegali.Views
             Guid id = new Guid(viewModel.Item.Id);
             //Faccio update del regalo
             //var regaloAggiornato =
+            EventoClient eventoClient = new EventoClient(await ApiHelper.GetApiClient());
             await eventoClient.UpdateRegaloAsync(id, regaloDtoInput);
             await DisplayAlert(null,
                 Helpers.TranslateExtension.ResMgr.Value.GetString("RegaloModifica.SalvataggioOk", translate.ci),
@@ -63,6 +64,7 @@ namespace AppRegali.Views
                 {
                     try
                     {
+                        EventoClient eventoClient = new EventoClient(await ApiHelper.GetApiClient());
                         await eventoClient.DeleteRegaloAsync(new Guid(viewModel.Item.Id));
                         await DisplayAlert(null, "Regalo eliminato", "Ok");
                         //torno indietro alla lista degli eventi personali

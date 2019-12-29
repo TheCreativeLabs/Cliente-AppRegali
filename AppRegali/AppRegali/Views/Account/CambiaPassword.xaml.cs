@@ -53,9 +53,7 @@ namespace AppRegali.Views.Login
                 //Se la form è valida proseguo con la registrazione.
                 if (formIsValid)
                 {
-                    HttpClient httpClient = new HttpClient();
-                    httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", ApiHelper.GetToken());
-                    AccountClient accountClient = new AccountClient(httpClient);
+                    AccountClient accountClient = new AccountClient(await ApiHelper.GetApiClient());
 
                     ChangePasswordBindingModel changePasswordBindingModel = new ChangePasswordBindingModel()
                     {

@@ -2805,7 +2805,7 @@ namespace Api
 
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task<System.Collections.Generic.ICollection<PartecipazioneDtoOutput>> GetPartecipazioniRegaloAsync(System.Guid idRegalo)
+        public System.Threading.Tasks.Task<PartecipazioneDtoOutput> GetPartecipazioniRegaloAsync(System.Guid idRegalo)
         {
             return GetPartecipazioniRegaloAsync(idRegalo, System.Threading.CancellationToken.None);
         }
@@ -2813,7 +2813,7 @@ namespace Api
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<PartecipazioneDtoOutput>> GetPartecipazioniRegaloAsync(System.Guid idRegalo, System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task<PartecipazioneDtoOutput> GetPartecipazioniRegaloAsync(System.Guid idRegalo, System.Threading.CancellationToken cancellationToken)
         {
             if (idRegalo == null)
                 throw new System.ArgumentNullException("idRegalo");
@@ -2851,7 +2851,7 @@ namespace Api
                         var status_ = ((int)response_.StatusCode).ToString();
                         if (status_ == "200")
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<System.Collections.Generic.ICollection<PartecipazioneDtoOutput>>(response_, headers_).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<PartecipazioneDtoOutput>(response_, headers_).ConfigureAwait(false);
                             return objectResponse_.Object;
                         }
                         else
@@ -2861,7 +2861,7 @@ namespace Api
                             throw new ApiException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", (int)response_.StatusCode, responseData_, headers_, null);
                         }
 
-                        return default(System.Collections.Generic.ICollection<PartecipazioneDtoOutput>);
+                        return default(PartecipazioneDtoOutput);
                     }
                     finally
                     {
@@ -4050,6 +4050,18 @@ namespace Api
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.0.24.0 (Newtonsoft.Json v11.0.0.0)")]
     public partial class PartecipazioneDtoOutput
     {
+        [Newtonsoft.Json.JsonProperty("UtentiPartecipanti", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public System.Collections.Generic.ICollection<UtentePartecipazioneDtoOutput> UtentiPartecipanti { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("NumeroAnonimi", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public int? NumeroAnonimi { get; set; }
+
+
+    }
+
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.0.24.0 (Newtonsoft.Json v11.0.0.0)")]
+    public partial class UtentePartecipazioneDtoOutput
+    {
         [Newtonsoft.Json.JsonProperty("NomePartecipante", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         [System.ComponentModel.DataAnnotations.StringLength(256)]
         public string NomePartecipante { get; set; }
@@ -4061,9 +4073,6 @@ namespace Api
         [Newtonsoft.Json.JsonProperty("IdUserPartecipante", Required = Newtonsoft.Json.Required.Always)]
         [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
         public System.Guid IdUserPartecipante { get; set; }
-
-        [Newtonsoft.Json.JsonProperty("Importo", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public double? Importo { get; set; }
 
         [Newtonsoft.Json.JsonProperty("IdRegalo", Required = Newtonsoft.Json.Required.Always)]
         [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]

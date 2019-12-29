@@ -38,6 +38,9 @@ namespace AppRegali.Api
             [JsonProperty("expires_in")]
             public string ExpiresIn { get; set; }
 
+            [JsonProperty("refresh_token")]
+            public string RefreshToken { get; set; }
+
             [JsonProperty("userName")]
             public string UserName { get; set; }
 
@@ -75,9 +78,8 @@ namespace AppRegali.Api
                 if (response != null && response.StatusCode == System.Net.HttpStatusCode.OK)
                 {
                     string jsonResponse = response.Content.ReadAsStringAsync().Result;
-                    BearerToken token = JsonConvert.DeserializeObject<BearerToken>(jsonResponse);
 
-                    SetToken(token.AccessToken);
+                    SetToken(jsonResponse);
                 }
                 else
                 {
@@ -87,17 +89,74 @@ namespace AppRegali.Api
             }
         }
 
+
+        public static async Task<string> GetRefreshToken(string RefreshToken)
+        {
+            using (var httpClient = new HttpClient())
+            {
+                Uri Endpoint = new Uri($"{AppSetting.ApiEndpoint}Token");
+
+                var tokenRequest =
+                    new List<KeyValuePair<string, string>>
+                        {
+                        new KeyValuePair<string, string>("grant_type", "refresh_token"),
+                        new KeyValuePair<string, string>("refresh_token", RefreshToken)
+                        };
+
+                HttpContent encodedRequest = new FormUrlEncodedContent(tokenRequest);
+
+                HttpResponseMessage response = await httpClient.PostAsync(Endpoint, encodedRequest);
+
+                if (response != null && response.StatusCode == System.Net.HttpStatusCode.OK)
+                {
+                    string jsonResponse = response.Content.ReadAsStringAsync().Result;
+
+                    SetToken(jsonResponse);
+
+                    BearerToken token = JsonConvert.DeserializeObject<BearerToken>(jsonResponse);
+
+                    return token.AccessToken;
+                }
+                else
+                {
+                    //Se arrivo qui allora email e password sono sbagliati.
+                    throw new ApplicationException("Password o Email errati.");
+                }
+            }
+        }
+
+
         public static void SetToken(string AccessToken)
         {
             Preferences.Set(AccessTokenKey, AccessToken);
         }
 
         // Ottiene il Token
-        public static string GetToken()
+        public async static Task<string> GetToken()
         {
             string accessToken = null;
 
-            accessToken = Preferences.Get(AccessTokenKey, null);
+            var bearerToken = Preferences.Get(AccessTokenKey, null);
+
+            if (bearerToken != null && !string.IsNullOrEmpty(bearerToken))
+            {
+                BearerToken token = JsonConvert.DeserializeObject<BearerToken>(bearerToken);
+
+                var expireDate = DateTime.Parse(token.Expires);
+                //DateTime.ParseExact(
+                //            token.Expires,
+                //            "ddd MMM dd yyyy HH:mm:ss 'GMT'",
+                //            CultureInfo.InvariantCulture);
+                if (expireDate < DateTime.Now)
+                {
+                    accessToken = await GetRefreshToken(token.RefreshToken);
+                }
+                else
+                {
+                    accessToken = token.AccessToken;
+                }
+            }
+
 
             return accessToken;
         }
@@ -116,10 +175,10 @@ namespace AppRegali.Api
         /// Restituisce il Client da usare per le chiamate all'api
         /// </summary>
         /// <returns></returns>
-        public static HttpClient GetApiClient()
+        public async static Task<HttpClient> GetApiClient()
         {
             HttpClient httpClient = new HttpClient();
-            httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", Api.ApiHelper.GetToken());
+            httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", await Api.ApiHelper.GetToken());
             return httpClient;
         }
 
@@ -168,7 +227,7 @@ namespace AppRegali.Api
 
             if (userInfo == null)
             {
-                AmiciClient amiciClient = new AmiciClient(ApiHelper.GetApiClient());
+                AmiciClient amiciClient = new AmiciClient(await ApiHelper.GetApiClient());
                 userInfo = await amiciClient.GetCurrentUserInfoAsync();
                 Preferences.Set(UserInfoKey, JsonConvert.SerializeObject(userInfo));
             }
@@ -245,11 +304,10 @@ namespace AppRegali.Api
 
             if (!listCategorie.Any())
             {
-                EventoClient eventoClient = new EventoClient(ApiHelper.GetApiClient());
+                EventoClient eventoClient = new EventoClient(await ApiHelper.GetApiClient());
                 ICollection<EventoCategoria> categorie = await eventoClient.GetLookupEventoCategoriaAsync();
                 listCategorie = categorie.ToList();
                 Preferences.Set(CategorieKey, JsonConvert.SerializeObject(listCategorie));
-
             }
 
             return listCategorie;

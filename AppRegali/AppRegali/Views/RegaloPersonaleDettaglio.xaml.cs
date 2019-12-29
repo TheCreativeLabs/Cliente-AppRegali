@@ -27,9 +27,11 @@ namespace AppRegali.Views
         {
             base.OnAppearing();
 
-            EventoClient eventoClient = new EventoClient(ApiHelper.GetApiClient());
-            ICollection<PartecipazioneDtoOutput> partecipanti =  await eventoClient.GetPartecipazioniRegaloAsync(new Guid(Regalo.Id));
-            lvPartecipanti.ItemsSource = partecipanti.ToList();
+            EventoClient eventoClient = new EventoClient(await  ApiHelper.GetApiClient());
+            PartecipazioneDtoOutput partecipazione =  await eventoClient.GetPartecipazioniRegaloAsync(new Guid(Regalo.Id));
+            lvPartecipanti.ItemsSource = partecipazione.UtentiPartecipanti.ToList();
+            if(partecipazione.NumeroAnonimi.HasValue && partecipazione.NumeroAnonimi.Value > 0)
+                NumeroPartecipanti.Text = partecipazione.NumeroAnonimi.ToString();
         }
     }
 }

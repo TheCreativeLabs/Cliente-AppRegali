@@ -9,6 +9,7 @@ using AppRegali.Views;
 using System.Net.Http;
 using System.Collections.Generic;
 using System.Linq;
+using AppRegali.Api;
 
 namespace AppRegali.ViewModels
 {
@@ -33,10 +34,7 @@ namespace AppRegali.ViewModels
             {
                 Items.Clear();
 
-                HttpClient httpClient = new HttpClient();
-                httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", Api.ApiHelper.GetToken());
-                EventoClient eventoClient = new EventoClient(httpClient);
-
+                EventoClient eventoClient = new EventoClient(await ApiHelper.GetApiClient());
                 List<EventoCategoria> listaCategorie = (List<EventoCategoria>) await eventoClient.GetLookupEventoCategoriaAsync();
 
                 foreach (var categoria in listaCategorie)

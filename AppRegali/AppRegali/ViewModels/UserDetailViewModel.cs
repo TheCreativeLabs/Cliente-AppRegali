@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Api;
+using AppRegali.Api;
 using AppRegali.Models;
 using Xamarin.Forms;
 
@@ -36,10 +37,10 @@ namespace AppRegali.ViewModels
             try
             {
 
-                HttpClient httpClient = new HttpClient();
-                httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", Api.ApiHelper.GetToken());
-                AmiciClient amiciClient = new AmiciClient(httpClient);
-                UserInfoDto userInfo = await amiciClient.GetCurrentUserInfoAsync();
+                //HttpClient httpClient = new HttpClient();
+                //httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", Api.ApiHelper.GetToken());
+                //AmiciClient amiciClient = new AmiciClient(httpClient);
+                UserInfoDto userInfo = await ApiHelper.GetUserInfo();// await amiciClient.GetCurrentUserInfoAsync();
 
                 Item = userInfo;
 

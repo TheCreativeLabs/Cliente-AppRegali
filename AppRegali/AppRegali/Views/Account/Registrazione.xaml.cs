@@ -89,7 +89,7 @@ namespace AppRegali.Views.Login
                             Surname = entCognome.Text,
                             BirthName = entNome.Text,
                             ImmagineProfilo = img,
-                            DataNascita = dpDataNascita.DateSelected,
+                            DataNascita = dpDataNascita.Date,
                             Email = entEmail.Text,
                             Password = entPassword.Text,
                             ConfirmPassword = entConfermaPassword.Text

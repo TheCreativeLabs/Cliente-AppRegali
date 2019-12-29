@@ -10,6 +10,7 @@ using System.Net.Http;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using AppRegali.Api;
 
 namespace AppRegali.ViewModels
 {
@@ -26,7 +27,6 @@ namespace AppRegali.ViewModels
         public int CurrentPage { get; set; }
         private int PageSize = 5;
 
-        EventoClient eventoClient = new EventoClient(Api.ApiHelper.GetApiClient());
 
         private bool SoloPersonali { get; set; }
 
@@ -148,6 +148,8 @@ namespace AppRegali.ViewModels
 
         private async Task<ICollection<EventoDtoOutput>> GetEventi() {
             ICollection<EventoDtoOutput> listaEventi;
+            EventoClient eventoClient = new EventoClient(await ApiHelper.GetApiClient());
+
             if (SoloPersonali)
             {
                 listaEventi = await eventoClient.GetEventoCurrentUserAsync();
