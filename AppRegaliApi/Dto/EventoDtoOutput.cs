@@ -34,10 +34,19 @@ namespace AppRegaliApi.Models
         [Required]
         public Guid IdCategoriaEvento { get; set; }
 
+        public string CodiceCategoriaEvento { get; set; }
+
         public string IdImmagineEvento { get; set; }
 
         public byte[] ImmagineEvento { get; set; }
 
         public List<RegaloDtoOutput> Regali { get; set; }
+
+
+        public byte[] ImmagineUserCreatoreEvento { get; set; }
+
+        public string NomeUserCreatoreEvento { get; set; }
+
+        public string CognomeUserCreatoreEvento { get; set; }
     }
 }

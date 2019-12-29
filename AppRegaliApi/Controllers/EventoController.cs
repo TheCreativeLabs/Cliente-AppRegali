@@ -48,7 +48,12 @@ namespace AppRegaliApi.Controllers
             //Controllo se Id è valorizzato.
             if (Id != Guid.Empty)
             {
-                evento = await dbDataContext.Evento.Include(x => x.Regalo).Include(x => x.Regalo.Select(y => y.ImmagineRegalo)).Include(x => x.ImmagineEvento).SingleOrDefaultAsync(x => x.Id == Id);
+                evento = await dbDataContext.Evento
+                    .Include(x => x.Regalo)
+                    .Include(x => x.Regalo.Select(y => y.ImmagineRegalo))
+                    .Include(x => x.ImmagineEvento)
+                    .Include(x => x.EventoCategoria)
+                    .SingleOrDefaultAsync(x => x.Id == Id);
             }
 
             return Ok(EventoMapper.EventoToEventoDto(evento));
@@ -80,18 +85,54 @@ namespace AppRegaliApi.Controllers
             List<Guid> idAmici = await AmiciUtility.GetIdAmiciOfUser(new Guid(User.Identity.GetUserId()));
 
             //Ottengo gli eventi
-            List<Evento> eventi = await dbDataContext.Evento
-                           .Include(x => x.ImmagineEvento)
-                           .Include(x => x.EventoCategoria)
-                           .Where(x => (idAmici.Contains(x.IdUtenteCreazione)
-                                     & (IdUtente == null || x.IdUtenteCreazione.ToString() == IdUtente))
-                                     & (IdCategoria == null || x.IdCategoriaEvento.ToString() == IdCategoria))
-                           .OrderBy(x => x.DataEvento)
-                           .Skip(pageSize * (pageNumber - 1))
-                           .Take(pageSize)
+            //List<Evento> eventi = await dbDataContext.Evento
+            //               .Include(x => x.ImmagineEvento)
+            //               .Where(x => (idAmici.Contains(x.IdUtenteCreazione)
+            //                         & (IdUtente == null || x.IdUtenteCreazione.ToString() == IdUtente))
+            //                         & (IdCategoria == null || x.IdCategoriaEvento.ToString() == IdCategoria))
+            //               .OrderBy(x => x.DataEvento)
+            //               //.Skip(pageSize * (pageNumber - 1))
+            //               //.Take(pageSize)
+            //               .ToListAsync();
+
+            //return EventoMapper.EventoToEventoDtoList(eventi);
+
+            //Ottengo gli eventi
+            //List<Evento> eventi
+            List<EventoDtoOutput> eventiDto = await dbDataContext.Evento
+                           
+                           .Join(dbDataContext.UserInfo, // the source table of the inner join
+                                     evento => evento.IdUtenteCreazione,        // Select the primary key (the first part of the "on" clause in an sql "join" statement)
+                                     userInfo => userInfo.IdAspNetUser,   // Select the foreign key (the second part of the "on" clause)
+                                     (evento, userInfo) => new { Evento = evento, UserInfo = userInfo }) // selection
+                                  .Where(eventoAndUserInfo => (idAmici.Contains(eventoAndUserInfo.Evento.IdUtenteCreazione)
+                                                            & (IdUtente == null || eventoAndUserInfo.Evento.IdUtenteCreazione.ToString() == IdUtente)
+                                                            & (IdCategoria == null || eventoAndUserInfo.Evento.IdCategoriaEvento.ToString() == IdCategoria))
+                                   )   // where statement
+                            .Include(eventoAndUserInfo => eventoAndUserInfo.Evento.ImmagineEvento)
+                           .OrderBy(eventoAndUserInfo => eventoAndUserInfo.Evento.DataEvento)
+                            .Skip(pageSize * (pageNumber - 1))
+                            .Take(pageSize)
+                            .Select(join => new EventoDtoOutput()
+                            {
+                                Id = join.Evento.Id.ToString(),
+                                Cancellato = join.Evento.Cancellato,
+                                DataEvento = join.Evento.DataEvento,
+                                Descrizione = join.Evento.Descrizione,
+                                IdCategoriaEvento = join.Evento.IdCategoriaEvento,
+                                DataCreazione = join.Evento.DataCreazione,
+                                DataModifica = join.Evento.DataModifica,
+                                IdImmagineEvento = join.Evento.IdImmagineEvento.ToString(),
+                                Titolo = join.Evento.Titolo,
+                                ImmagineEvento = join.Evento.ImmagineEvento.Immagine,
+                                NomeUserCreatoreEvento = join.UserInfo.Nome,
+                                CognomeUserCreatoreEvento = join.UserInfo.Cognome,
+                                ImmagineUserCreatoreEvento = join.UserInfo.FotoProfilo
+                            })
                            .ToListAsync();
-                          
-            return EventoMapper.EventoToEventoDtoList(eventi);
+
+            //return EventoMapper.EventoToEventoDtoList(eventi);
+            return eventiDto;
         }
 
         // PUT: api/Evento/EventoUpdate/1
@@ -119,6 +160,7 @@ namespace AppRegaliApi.Controllers
             evento.DataModifica = DateTime.Now;
             evento.DataEvento = Evento.DataEvento;
             evento.Cancellato = Evento.Cancellato;
+            //L'immagine esiste sempre
             evento.ImmagineEvento.Immagine = Evento.ImmagineEvento;
 
             try
@@ -451,6 +493,17 @@ namespace AppRegaliApi.Controllers
 
             return Ok();
         }
+
+        //[HttpPost]
+        //[Route("PartecipazioneRegaloCreate", Name = "PartecipazioneRegaloCreate")]
+        //[ResponseType(typeof(RegaloDtoOutput))]
+        //public async Task<IHttpActionResult> InserisciPartecipazioneRegalo(Guid idRegalo, double importo)
+        //{
+
+        //    return Ok();
+        //}
+
+
         #endregion
 
         protected override void Dispose(bool disposing)
