@@ -105,5 +105,10 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="ContentViews\" />
+    <Folder Include="Behaviors\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove=".DS_Store" />
+    <None Remove="Views\.DS_Store" />
   </ItemGroup>
 </Project>

@@ -60,7 +60,7 @@ namespace AppRegali.Views.Login
 
                     //await DisplayAlert("Registrazioen avvenuta", "Verifica la tua email prima di accedere", "OK");
 
-                    await Navigation.PopModalAsync();
+                    //await Navigation.PopModalAsync();
                 }
                 else
                 {

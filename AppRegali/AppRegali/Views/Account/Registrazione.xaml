@@ -5,7 +5,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
              x:Class="AppRegali.Views.Login.Registrazione"
-             xmlns:translator="clr-namespace:AppRegali.Helpers" xmlns:controls="clr-namespace:AppRegali.ContentViews"
+             xmlns:translator="clr-namespace:AppRegali.Helpers" xmlns:controls="clr-namespace:AppRegali.ContentViews" xmlns:appappartamenti="clr-namespace:AppRegali"
              NavigationPage.HasNavigationBar="False">
 
     <NavigationPage.TitleView>
@@ -44,6 +44,8 @@
                 <Entry x:Name="entCognome" Placeholder="{translator:Translate Registrazione.Cognome}" VerticalOptions="Center" TextChanged="ent_TextChanged"></Entry>
                 <Label Text="{translator:Translate Registrazione.MessaggioCampoObbligatorio}" Style="{x:StaticResource LabelValidatore}" x:Name="lblValidatorEntCognome"></Label>
 
+                <appappartamenti:DatePickerCtrl Format="dd/MM/yyyy" HeightRequest="40" x:Name="dpDataNascita" Placeholder="{translator:Translate Registrazione.DataNascita}"></appappartamenti:DatePickerCtrl>
+             
                 <Entry   x:Name="entEmail" Placeholder="{translator:Translate Login.Email}" VerticalOptions="Center" TextChanged="ent_TextChanged"></Entry>
                 <Label Text="{translator:Translate Login.MessaggioValidazioneEmail}" Style="{x:StaticResource LabelValidatore}" x:Name="lblValidatorEntEmail"></Label>
 
@@ -54,8 +56,6 @@
                 <Label Text="{translator:Translate Login.MessaggioValidazioneConfermaPassword}" Style="{x:StaticResource LabelValidatore}" x:Name="lblValidatorEntConfermaPassword"></Label>
 
                 <Button Style="{x:StaticResource primaryButton}" x:Name="btnRegistrati" Text="{translator:Translate Registrazione.Bottone}" VerticalOptions="Center" Clicked="btnRegistrati_Clicked"></Button>
-
-
             <controls:FbButton/>
         </StackLayout>
     </ContentPage.Content>

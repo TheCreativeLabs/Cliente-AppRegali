@@ -8,12 +8,15 @@
              xmlns:conv="clr-namespace:AppRegali.Converter"
              xmlns:controls="clr-namespace:AppRegali.ContentViews"
              xmlns:translator="clr-namespace:AppRegali.Helpers" 
-             Title="{Binding Item.Titolo}" NavigationPage.HasNavigationBar="False">
+             Title="{Binding Item.Titolo}"
+             NavigationPage.HasNavigationBar="False">
 
     <ContentPage.Resources>
         <ResourceDictionary>
             <conv:ByteArrayToImageSourceConverter x:Key="ByteArrayToImage" />
             <conv:KeyToTranslateConverter x:Key="TranslateConverter" />
+            <conv:DonazioneProgress x:Key="ProgressConverter" />
+            <conv:ProgressColorConverter x:Key="ProgressColorConverter" />
         </ResourceDictionary>
     </ContentPage.Resources>
     
@@ -27,13 +30,12 @@
         <StackLayout VerticalOptions="FillAndExpand">
             <Grid VerticalOptions="FillAndExpand">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="4*" />
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <ScrollView>
+                <ScrollView Grid.Row="0">
                     <StackLayout Padding="20">
                         <Frame HeightRequest="220" Margin="-20" CornerRadius="0" IsClippedToBounds="True" Padding="0" HasShadow="false">
                             <Image x:Name="imgEventoDettaglio" Aspect="AspectFill" Source="{Binding Item.ImmagineEvento, Converter={StaticResource ByteArrayToImage}}"></Image>
@@ -54,13 +56,15 @@
                         </Frame>
 
                         <!--HasUnevenRows="true"
-                                IsPullToRefreshEnabled="true"
-                                CachingStrategy="RecycleElement"
-                                SeparatorVisibility="None">-->
+                        IsPullToRefreshEnabled="true"
+                        CachingStrategy="RecycleElement"
+                        SeparatorVisibility="None">-->
                         <ActivityIndicator x:Name="RegaliActivityIndicator" IsRunning="False" IsVisible="False"/>
 
                         <CollectionView x:Name="RegaliDettaglioListView"
-                                VerticalOptions="FillAndExpand"
+                                        SelectionChanged="OnCollectionViewSelectionChanged"
+                                        VerticalOptions="FillAndExpand"
+                                        SelectionMode="Single"
                                  ><!--SelectionChanged=""-->
                             <CollectionView.ItemsLayout>
                                 <LinearItemsLayout Orientation="Horizontal" />
@@ -70,19 +74,17 @@
                                     <StackLayout Padding="10" WidthRequest="250" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
                                         <Frame HasShadow="True" Padding="0" CornerRadius="10" IsClippedToBounds="True">
                                             <StackLayout>
-
                                                 <Image x:Name="imgFotoUtente" HeightRequest="180" Aspect="AspectFill" Source="{Binding ImmagineRegalo, Converter={StaticResource ByteArrayToImage}}" ></Image>
-
 
                                                 <StackLayout Padding="10">
                                                     <Label Style="{x:StaticResource AdTitle}" Text="{Binding Titolo}"></Label>
                                                     <Label Style="{x:StaticResource AdSubtitle}" Text="{Binding Descrizione}"></Label>
 
-                                                    <ProgressBar Grid.Row="0" Grid.Column="0" Progress="0.5" />
+                                                    <ProgressBar ProgressColor="{Binding ., Converter={StaticResource ProgressColorConverter}}" Grid.Row="0" Grid.Column="0" Progress="{Binding ., Converter= {StaticResource ProgressConverter}}" />
                                                     <StackLayout  Grid.Row="0" Grid.Column="1" Orientation="Horizontal">
                                                         <Label FontSize="Medium" Text="{Binding ImportoCollezionato}"></Label>
                                                         <Label FontSize="Medium" Text="/"></Label>
-                                                        <Label FontSize="Medium" Text="{Binding Prezzo}"></Label>
+                                                        <Label FontSize="Medium" Text="{Binding Prezzo, StringFormat='{0}€'}"></Label>
                                                     </StackLayout>
                                                 </StackLayout>
                                             </StackLayout>
@@ -91,7 +93,6 @@
                                 </DataTemplate>
                             </CollectionView.ItemTemplate>
                         </CollectionView>
-
                     </StackLayout>
                 </ScrollView>
 

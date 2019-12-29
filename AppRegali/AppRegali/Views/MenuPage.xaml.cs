@@ -43,6 +43,8 @@ namespace AppRegali.Views
             {
                 base.OnAppearing();
 
+                SetUserInfo();
+
                 await UpdateMenuData(MenuItemType.Home);
             }
             catch (Exception ex)
@@ -55,8 +57,6 @@ namespace AppRegali.Views
         public async Task UpdateMenuData(MenuItemType currentPage)
         {
             //visualizzo le informazioni sull'utente.
-            SetUserInfo();
-
             menuItems = new List<HomeMenuItem>
             {
                 new HomeMenuItem {Id = MenuItemType.Home, Title="Home", Icon="\uf015" },

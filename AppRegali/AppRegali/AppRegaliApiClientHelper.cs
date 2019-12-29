@@ -24,6 +24,8 @@ namespace AppRegali.Api
         public const string IsFacebookLoginKey = "Is_Facebook_Login";
         public const string ProviderKey = "Provider_Key";
         public const string UserInfoKey = "UserInfo_Key";
+        public const string CategorieKey = "Categorie_Key";
+
 
         public class BearerToken
         {
@@ -225,6 +227,32 @@ namespace AppRegali.Api
 
             Preferences.Remove(ProviderKey);
 
+        }
+
+        /// <summary>
+        /// Restituisce se l'utente si è loggato con facebook,google o email.
+        /// </summary>
+        /// <returns></returns>
+        public static async Task<List<EventoCategoria>> GetCategorie()
+        {
+            List<EventoCategoria> listCategorie = new List<EventoCategoria>();
+
+
+            if (Preferences.Get(CategorieKey, null) != null)
+            {
+              listCategorie = JsonConvert.DeserializeObject<List<EventoCategoria>>(Preferences.Get(CategorieKey, null));
+            }
+
+            if (!listCategorie.Any())
+            {
+                EventoClient eventoClient = new EventoClient(ApiHelper.GetApiClient());
+                ICollection<EventoCategoria> categorie = await eventoClient.GetLookupEventoCategoriaAsync();
+                listCategorie = categorie.ToList();
+                Preferences.Set(CategorieKey, JsonConvert.SerializeObject(listCategorie));
+
+            }
+
+            return listCategorie;
         }
     }
 }

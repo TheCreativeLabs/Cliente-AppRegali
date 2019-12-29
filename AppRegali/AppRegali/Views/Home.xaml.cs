@@ -21,8 +21,7 @@ namespace AppRegali.Views
     public partial class Home: ContentPage
     {
         EventiViewModel viewModel;
-        EventoClient eventoClient = new EventoClient(ApiHelper.GetApiClient());
-        ICollection<EventoCategoria> categorie;
+        List<EventoCategoria> categorie  = new List<EventoCategoria>();
         static Helpers.TranslateExtension translate = new Helpers.TranslateExtension();
 
 
@@ -43,7 +42,6 @@ namespace AppRegali.Views
             await Navigation.PushAsync(new EventoDettaglio(item));
 
             // Manually deselect item.
-
             EventiListView.SelectedItem = null;
         }
 
@@ -57,20 +55,15 @@ namespace AppRegali.Views
 
             base.OnAppearing();
 
-            if (categorie == null || categorie.Count == 0)
+            if (!categorie.Any())
             {
-                ICollection<EventoCategoria> categorie = eventoClient.GetLookupEventoCategoriaAsync().Result;
-                List<EventoCategoria> listCategorie = categorie.ToList();
-
-                listCategorie.Insert(0, new EventoCategoria() { Id = null, Codice = "ALL_CATEGORIES"});
-
-                pkCategoria.ItemsSource = listCategorie;
+                categorie = await ApiHelper.GetCategorie();
+                categorie.Insert(0, new EventoCategoria() { Id = null, Codice = "ALL_CATEGORIES"});
+                pkCategoria.ItemsSource = categorie;
             }
 
             if (viewModel.Items.Count == 0)
                 viewModel.LoadItemsCommand.Execute(null);
-
-            
         }
 
         private async void btnAbilitaRicerca_Clicked(object sender, EventArgs e)
@@ -80,16 +73,17 @@ namespace AppRegali.Views
 
         private void pkCategoria_SelectedIndexChanged(object sender, EventArgs e)
         {
-            EventoCategoria categoriaSelected = (EventoCategoria)pkCategoria.SelectedItem;
-            entCategoria.Text = Helpers.TranslateExtension.ResMgr.Value.GetString((categoriaSelected).Codice, translate.ci);
-            viewModel.Categoria = categoriaSelected;
-            viewModel.LoadItemsCommand.Execute(null);
+            if(pkCategoria.SelectedItem != null)
+            {
+                EventoCategoria categoriaSelected = (EventoCategoria)pkCategoria.SelectedItem;
+                viewModel.Categoria = categoriaSelected;
+                viewModel.CurrentPage = 1;
+                viewModel.LoadItemsCommand.Execute(null);
+            }
         }
-
 
         private void entCategoria_Focused(object sender, FocusEventArgs e)
         {
-            entCategoria.Unfocus();
             pkCategoria.Focus();
         }
     }

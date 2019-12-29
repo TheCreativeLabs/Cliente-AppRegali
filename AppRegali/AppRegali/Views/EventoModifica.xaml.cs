@@ -40,6 +40,8 @@ namespace AppRegali.Views
             //Stream stream = new MemoryStream(viewModel.Item.ImmagineEvento);
             //imgEventoModifica.Source = ImageSource.FromStream(() => { return stream; });
             base.OnAppearing();
+
+
             EventoModificaActivityIndicator.IsRunning = true;
             EventoModificaActivityIndicator.IsVisible = true;
 
@@ -203,6 +205,18 @@ namespace AppRegali.Views
                 viewModel.Item.ImmagineEvento = memoryStream.ToArray();
                 imgEventoModifica.Source = ImageSource.FromStream(() => { return new MemoryStream(viewModel.Item.ImmagineEvento); });
             }
+        }
+
+        async void OnCollectionViewSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var item = e.CurrentSelection.FirstOrDefault() as RegaloDtoOutput;
+
+            if (item == null || item.Id == null)
+                return;
+
+            await Navigation.PushModalAsync(new RegaloPersonaleDettaglio(item));
+
+            RegaliModificaListView.SelectedItem = null;
         }
     }
 }
