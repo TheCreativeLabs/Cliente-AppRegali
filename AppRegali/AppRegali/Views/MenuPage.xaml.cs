@@ -1,6 +1,7 @@
 ﻿using Api;
 using AppRegali.Api;
 using AppRegali.Models;
+using AppRegali.Utility;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -24,6 +25,8 @@ namespace AppRegali.Views
 
         UserInfoDto userInfoDto;
 
+        List<Language> languages;
+
         public MenuPage()
         {
             try
@@ -37,11 +40,26 @@ namespace AppRegali.Views
             }
         }
 
+        private class Language
+        {
+            public string Codice { get; set; }
+            public string Local { get; set; }
+        }
+
         protected override async void OnAppearing()
         {
             try
             {
                 base.OnAppearing();
+                changeLanguageIcon();
+
+                languages = new List<Language>()
+                {
+                    new Language(){ Codice="Language.it", Local="it" },
+                    new Language(){ Codice="Language.en", Local="en" }
+                };
+
+                pkLanguage.ItemsSource = languages;
 
                 await UpdateMenuData(MenuItemType.Home);
             }
@@ -57,13 +75,21 @@ namespace AppRegali.Views
             //visualizzo le informazioni sull'utente.
             SetUserInfo();
 
+            string homeTitle = Helpers.TranslateExtension.ResMgr.Value.GetString("Menu.Home", CurrentCulture.Ci);
+            string mieiEventiTitle = Helpers.TranslateExtension.ResMgr.Value.GetString("Menu.MyEvents", CurrentCulture.Ci);
+            string mieiAmiciTitle = Helpers.TranslateExtension.ResMgr.Value.GetString("Menu.MyFriends", CurrentCulture.Ci); 
+            string accountTitle = Helpers.TranslateExtension.ResMgr.Value.GetString("Menu.Account", CurrentCulture.Ci);
+            string logOutTitle = Helpers.TranslateExtension.ResMgr.Value.GetString("Menu.Logout", CurrentCulture.Ci);
+
             menuItems = new List<HomeMenuItem>
             {
-                new HomeMenuItem {Id = MenuItemType.Home, Title="Home", Icon="\uf015" },
-                new HomeMenuItem {Id = MenuItemType.EventiPersonali, Title="I miei eventi", Icon="\uf073" },
-                new HomeMenuItem {Id = MenuItemType.Amici, Title="I miei amici", Icon="\uf500"  },
-                new HomeMenuItem {Id = MenuItemType.Account, Title="Account", Icon="\uf007", Model = userInfoDto  },
-                new HomeMenuItem {Id = MenuItemType.Logout, Title="Log out", Icon="\uf2f5", Model = userInfoDto  },
+
+
+            new HomeMenuItem {Id = MenuItemType.Home, Title=homeTitle, Icon="\uf015" }, 
+                new HomeMenuItem {Id = MenuItemType.EventiPersonali, Title=mieiEventiTitle, Icon="\uf073" }, 
+                new HomeMenuItem {Id = MenuItemType.Amici, Title=mieiAmiciTitle, Icon="\uf500"  }, 
+                new HomeMenuItem {Id = MenuItemType.Account, Title=accountTitle, Icon="\uf007", Model = userInfoDto  }, 
+                new HomeMenuItem {Id = MenuItemType.Logout, Title=logOutTitle, Icon="\uf2f5", Model = userInfoDto  }, 
             };
 
             ListViewMenu.ItemsSource = menuItems;
@@ -120,6 +146,57 @@ namespace AppRegali.Views
             {
                 //Navigo alla pagina d'errore.
                 await Navigation.PushAsync(new NavigationPage( new ErrorPage()));
+            }
+        }
+
+        private async void btnCambiaLingua_Clicked(object sender, EventArgs e)
+        {
+            pkLanguage.Focus();
+
+            //if (CurrentCulture.Ci.Name == "en")
+            //{
+            //    CurrentCulture.Instance.SetCultureInfo("it");
+            //}
+            //else if (CurrentCulture.Ci.Name == "it")
+            //{
+            //    CurrentCulture.Instance.SetCultureInfo("en");
+            //}
+
+            //changeLanguageIcon();
+
+            //MenuPage menuPage = (MenuPage)((MasterDetailPage)Application.Current.MainPage).Master;
+            //await menuPage.UpdateMenuData(MenuItemType.Home);
+            //Application.Current.MainPage = new MainPage();
+
+        }
+
+        private async void pkLanguage_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            Language languageSelected = (Language)pkLanguage.SelectedItem;
+            //entCategoria.Text = Helpers.TranslateExtension.ResMgr.Value.GetString((categoriaSelected).Codice, CurrentCulture.Ci);
+            //viewModel.Categoria = categoriaSelected;
+            //viewModel.LoadItemsCommand.Execute(null);
+
+            CurrentCulture.Instance.SetCultureInfo(languageSelected.Local);
+
+            changeLanguageIcon();
+
+
+            MenuPage menuPage = (MenuPage)((MasterDetailPage)Application.Current.MainPage).Master;
+            await menuPage.UpdateMenuData(MenuItemType.Home);
+            Application.Current.MainPage = new MainPage();
+        }
+        
+
+        private void changeLanguageIcon()
+        {
+            if (CurrentCulture.Ci.Name == "en")
+            {
+                imgEn.IsVisible = true;
+            }
+            else if (CurrentCulture.Ci.Name == "it")
+            {
+                imgIt.IsVisible = true;
             }
         }
 

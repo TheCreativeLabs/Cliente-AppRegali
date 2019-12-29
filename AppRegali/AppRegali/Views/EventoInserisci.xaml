@@ -29,8 +29,12 @@
     </ContentPage.Resources>
 
     <ContentPage.Content>
+        
         <ScrollView>
-            <StackLayout Padding="20">
+            <StackLayout>
+            <ActivityIndicator x:Name="LoadingEventoInserirsci" IsVisible="False"/>
+            <StackLayout Padding="20" x:Name="StackContent" IsVisible="False">
+                
                      <controls:ProfileBackButton HeightRequest="40" HorizontalOptions="Start"/>
 
                     <Label Style="{x:StaticResource Title}" VerticalTextAlignment="Center" Text="{translator:Translate EventoInserisci.Title}"></Label>
@@ -57,6 +61,7 @@
                     <Entry x:Name="edDescrizione" TextChanged="ent_TextChanged" Placeholder="Descrizione"></Entry> <!--Keyboard="Chat" AutoSize="TextChanges"-->
 
                 <Button Style="{x:StaticResource primaryButton}" Text="{translator:Translate EventoInserisci.CreaNuovo}" x:Name="btnSalva" Clicked="Save_Clicked" ></Button>
+            </StackLayout>
             </StackLayout>
         </ScrollView>
     </ContentPage.Content>

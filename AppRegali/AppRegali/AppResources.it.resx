@@ -252,8 +252,17 @@
   <data name="HOLY_COMMUNION" xml:space="preserve">
     <value>Comunione</value>
   </data>
+  <data name="Home.Category" xml:space="preserve">
+    <value>Categoria: </value>
+  </data>
   <data name="Home.SelectCategory" xml:space="preserve">
     <value>Seleziona categoria</value>
+  </data>
+  <data name="Language.en" xml:space="preserve">
+    <value>Inglese</value>
+  </data>
+  <data name="Language.it" xml:space="preserve">
+    <value>Italiano</value>
   </data>
   <data name="Login.ConfermaPassword" xml:space="preserve">
     <value>Conferma Password</value>
@@ -303,8 +312,23 @@
   <data name="MARRIAGE" xml:space="preserve">
     <value>Matrimonio</value>
   </data>
+  <data name="Menu.Account" xml:space="preserve">
+    <value>Account</value>
+  </data>
+  <data name="Menu.ChangeLanguage" xml:space="preserve">
+    <value>Cambia lingua</value>
+  </data>
+  <data name="Menu.Home" xml:space="preserve">
+    <value>Home</value>
+  </data>
   <data name="Menu.Logout" xml:space="preserve">
     <value>Esci</value>
+  </data>
+  <data name="Menu.MyEvents" xml:space="preserve">
+    <value>I miei eventi</value>
+  </data>
+  <data name="Menu.MyFriends" xml:space="preserve">
+    <value>I miei amici</value>
   </data>
   <data name="MieiEventi.Titolo" xml:space="preserve">
     <value>I miei eventi</value>

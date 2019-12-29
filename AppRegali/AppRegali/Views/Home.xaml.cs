@@ -12,6 +12,7 @@ using AppRegali.Views;
 using AppRegali.ViewModels;
 using Api;
 using AppRegali.Api;
+using AppRegali.Utility;
 
 namespace AppRegali.Views
 {
@@ -23,7 +24,7 @@ namespace AppRegali.Views
         EventiViewModel viewModel;
         EventoClient eventoClient = new EventoClient(ApiHelper.GetApiClient());
         ICollection<EventoCategoria> categorie;
-        static Helpers.TranslateExtension translate = new Helpers.TranslateExtension();
+        //static Helpers.TranslateExtension translate = new Helpers.TranslateExtension();
 
 
         public Home()
@@ -81,13 +82,29 @@ namespace AppRegali.Views
         private void pkCategoria_SelectedIndexChanged(object sender, EventArgs e)
         {
             EventoCategoria categoriaSelected = (EventoCategoria)pkCategoria.SelectedItem;
-            entCategoria.Text = Helpers.TranslateExtension.ResMgr.Value.GetString((categoriaSelected).Codice, translate.ci);
+            entCategoria.Text = Helpers.TranslateExtension.ResMgr.Value.GetString((categoriaSelected).Codice, CurrentCulture.Ci);
             viewModel.Categoria = categoriaSelected;
             viewModel.LoadItemsCommand.Execute(null);
         }
 
+        private async void btnCambiaLingua_Clicked(object sender, EventArgs e)
+        {
+            if(CurrentCulture.Ci.Name == "en")
+            {
+                CurrentCulture.Instance.SetCultureInfo("it");
+            } else if (CurrentCulture.Ci.Name == "it")
+            {
+                CurrentCulture.Instance.SetCultureInfo("en");
+            }
 
-        private void entCategoria_Focused(object sender, FocusEventArgs e)
+            MenuPage menuPage = (MenuPage)((MasterDetailPage)Application.Current.MainPage).Master;
+            await menuPage.UpdateMenuData(MenuItemType.Home);
+            Application.Current.MainPage = new MainPage();
+
+        }
+
+
+            private void entCategoria_Focused(object sender, FocusEventArgs e)
         {
             entCategoria.Unfocus();
             pkCategoria.Focus();

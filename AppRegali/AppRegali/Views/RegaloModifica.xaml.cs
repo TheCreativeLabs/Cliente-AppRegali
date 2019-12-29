@@ -1,5 +1,6 @@
 ﻿using Api;
 using AppRegali.Api;
+using AppRegali.Utility;
 using AppRegali.ViewModels;
 using Plugin.Media;
 using Plugin.Media.Abstractions;
@@ -20,7 +21,7 @@ namespace AppRegali.Views
     public partial class RegaloModifica : ContentPage
     {
         RegaloDetailViewModel viewModel;
-        static Helpers.TranslateExtension translate = new Helpers.TranslateExtension();
+        //static Helpers.TranslateExtension translate = new Helpers.TranslateExtension();
         EventoClient eventoClient = new EventoClient(ApiHelper.GetApiClient());
 
         public RegaloModifica(RegaloDetailViewModel RegaloDetailViewModel)
@@ -48,8 +49,8 @@ namespace AppRegali.Views
             //var regaloAggiornato =
             await eventoClient.UpdateRegaloAsync(id, regaloDtoInput);
             await DisplayAlert(null,
-                Helpers.TranslateExtension.ResMgr.Value.GetString("RegaloModifica.SalvataggioOk", translate.ci),
-                Helpers.TranslateExtension.ResMgr.Value.GetString("RegaloModifica.Ok", translate.ci));
+                Helpers.TranslateExtension.ResMgr.Value.GetString("RegaloModifica.SalvataggioOk", CurrentCulture.Ci),
+                Helpers.TranslateExtension.ResMgr.Value.GetString("RegaloModifica.Ok", CurrentCulture.Ci));
             //TODO APPENA RIPUBBLICO API this.viewModel = new EventoDetailViewModel(eventoInserito);
 
         }

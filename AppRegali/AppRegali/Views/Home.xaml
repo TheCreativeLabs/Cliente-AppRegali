@@ -26,6 +26,7 @@
 
             <Button x:Name="btnAbilitaRicerca"  Clicked="btnAbilitaRicerca_Clicked" BackgroundColor="Transparent" FontSize="Medium" TextColor="White" HorizontalOptions="End" Text="&#xf002;" FontFamily="{StaticResource FA-Solid}" Margin="0,0,-15,0">
                 </Button>
+
             </StackLayout>
     </NavigationPage.TitleView>
 
@@ -40,7 +41,7 @@
                 <ColumnDefinition Width="7*" />
                 <ColumnDefinition Width="1*" />
             </Grid.ColumnDefinitions>
-            <Label Grid.Row="0" Grid.Column="0" Text="Categoria: "  VerticalTextAlignment="Center"></Label>
+            <Label Grid.Row="0" Grid.Column="0" Text="{translator:Translate Home.Category}"  VerticalTextAlignment="Center"></Label>
             <Entry Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" x:Name="entCategoria" HeightRequest="50" Placeholder="{translator:Translate Home.SelectCategory}" Focused="entCategoria_Focused" ></Entry>
             <!--<Label Grid.Row="0" Grid.Column="1" FontFamily="{x:StaticResource FA-Solid}"  Text="&#xf107" ></Label>-->
             <Label  Grid.Row="0" Grid.Column="2" VerticalTextAlignment="Center" FontFamily="{x:StaticResource FA-Solid}" Text="&#xf107;"></Label>

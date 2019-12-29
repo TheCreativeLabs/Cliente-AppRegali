@@ -15,6 +15,7 @@ using DependencyServiceDemos;
 using System.Text;
 using Plugin.Media;
 using Plugin.Media.Abstractions;
+using AppRegali.Utility;
 
 namespace AppRegali.Views
 {
@@ -24,7 +25,7 @@ namespace AppRegali.Views
     public partial class EventoInserisci : ContentPage
     {
         CategorieViewModel viewModel;
-        static Helpers.TranslateExtension translate = new Helpers.TranslateExtension();
+        //static Helpers.TranslateExtension translate = new Helpers.TranslateExtension();
 
 
         byte[] img;
@@ -33,16 +34,26 @@ namespace AppRegali.Views
             InitializeComponent();
 
             BindingContext = viewModel = new CategorieViewModel();
+                  
         }
 
-        protected override void OnAppearing()
+        protected async override void OnAppearing()
         {
-            base.OnAppearing();
 
+            base.OnAppearing();
+            //fixme loading on 
+            LoadingEventoInserirsci.IsRunning = true;
+            LoadingEventoInserirsci.IsVisible = true;
             if (viewModel.Items.Count == 0)
             {
-                viewModel.LoadItemsCommand.Execute(null);
+                //viewModel.LoadItemsCommand.Execute(null);
+                await viewModel.LoadCategorie();
             }
+
+            LoadingEventoInserirsci.IsRunning = false;
+            LoadingEventoInserirsci.IsVisible = false;
+            StackContent.IsVisible = true;
+            //fixme loading off
         }
 
         private async void Save_Clicked(object sender, EventArgs e)
@@ -100,7 +111,7 @@ namespace AppRegali.Views
 
         private void pkCategoria_SelectedIndexChanged(object sender, EventArgs e)
         {
-            entCategoria.Text = Helpers.TranslateExtension.ResMgr.Value.GetString(((EventoCategoria)pkCategoria.SelectedItem).Codice, translate.ci);
+            entCategoria.Text = Helpers.TranslateExtension.ResMgr.Value.GetString(((EventoCategoria)pkCategoria.SelectedItem).Codice, CurrentCulture.Ci);
         }
 
         private void ent_TextChanged(object sender, TextChangedEventArgs e)

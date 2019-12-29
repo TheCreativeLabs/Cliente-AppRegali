@@ -1,4 +1,5 @@
 ﻿using Api;
+using AppRegali.Utility;
 using AppRegali.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -17,7 +18,7 @@ namespace AppRegali.Views
     {
 
         UserProfiloViewModel viewModel;
-        static Helpers.TranslateExtension translate = new Helpers.TranslateExtension();
+        //static Helpers.TranslateExtension translate = new Helpers.TranslateExtension();
         UserInfoDto User;
 
 
@@ -94,8 +95,8 @@ namespace AppRegali.Views
             catch
             {
                 await DisplayAlert(null,
-                            Helpers.TranslateExtension.ResMgr.Value.GetString("AmiciProfilo.ErrorSendRequest", translate.ci),
-                            Helpers.TranslateExtension.ResMgr.Value.GetString("AmiciProfilo.Ok", translate.ci));
+                            Helpers.TranslateExtension.ResMgr.Value.GetString("AmiciProfilo.ErrorSendRequest", CurrentCulture.Ci),
+                            Helpers.TranslateExtension.ResMgr.Value.GetString("AmiciProfilo.Ok", CurrentCulture.Ci));
             }
             
         }
@@ -119,8 +120,8 @@ namespace AppRegali.Views
                 catch
                 {
                     await DisplayAlert(null,
-                                Helpers.TranslateExtension.ResMgr.Value.GetString("AmiciProfilo.ErrorGeneric", translate.ci),
-                                Helpers.TranslateExtension.ResMgr.Value.GetString("AmiciProfilo.Ok", translate.ci));
+                                Helpers.TranslateExtension.ResMgr.Value.GetString("AmiciProfilo.ErrorGeneric", CurrentCulture.Ci),
+                                Helpers.TranslateExtension.ResMgr.Value.GetString("AmiciProfilo.Ok", CurrentCulture.Ci));
                 }
             }
         }
@@ -139,8 +140,8 @@ namespace AppRegali.Views
             catch
             {
                 await DisplayAlert(null,
-                            Helpers.TranslateExtension.ResMgr.Value.GetString("AmiciProfilo.ErrorGeneric", translate.ci),
-                            Helpers.TranslateExtension.ResMgr.Value.GetString("AmiciProfilo.Ok", translate.ci));
+                            Helpers.TranslateExtension.ResMgr.Value.GetString("AmiciProfilo.ErrorGeneric", CurrentCulture.Ci),
+                            Helpers.TranslateExtension.ResMgr.Value.GetString("AmiciProfilo.Ok", CurrentCulture.Ci));
             }
 
         }
@@ -160,8 +161,8 @@ namespace AppRegali.Views
             catch
             {
                 await DisplayAlert(null,
-                            Helpers.TranslateExtension.ResMgr.Value.GetString("AmiciProfilo.ErrorGeneric", translate.ci),
-                            Helpers.TranslateExtension.ResMgr.Value.GetString("AmiciProfilo.Ok", translate.ci));
+                            Helpers.TranslateExtension.ResMgr.Value.GetString("AmiciProfilo.ErrorGeneric", CurrentCulture.Ci),
+                            Helpers.TranslateExtension.ResMgr.Value.GetString("AmiciProfilo.Ok", CurrentCulture.Ci));
             }
 
         }

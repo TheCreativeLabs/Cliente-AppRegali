@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AppRegali.Utility;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
@@ -8,12 +9,12 @@ namespace AppRegali.Converter
 {
     public class KeyToTranslateConverter : IValueConverter {
 
-        static Helpers.TranslateExtension translate = new Helpers.TranslateExtension();
+        //static Helpers.TranslateExtension translate = new Helpers.TranslateExtension();
 
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture) { 
             String retSource = null; if (value != null) {
                 string valueAsString = (string)value;
-                retSource = Helpers.TranslateExtension.ResMgr.Value.GetString(valueAsString, translate.ci);
+                retSource = Helpers.TranslateExtension.ResMgr.Value.GetString(valueAsString, CurrentCulture.Ci);
             } 
             
             return retSource; 

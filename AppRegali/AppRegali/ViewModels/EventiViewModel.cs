@@ -110,7 +110,7 @@ namespace AppRegali.ViewModels
                     {
                         idCategoria = Categoria.Id.ToString();
                     }
-                    listaEventi = await eventoClient.GetEventiByidUtenteAsync(null, idCategoria);
+                    listaEventi = await eventoClient.GetEventiByidUtenteAsync(1, 5, null, idCategoria);
                 }
 
                 foreach (var evento in listaEventi)
@@ -129,17 +129,17 @@ namespace AppRegali.ViewModels
             }
         }
 
-        private async Task<ICollection<EventoDtoOutput>> getAnnunci(string idUtente = null, string idCategoria = null) {
-            ICollection<EventoDtoOutput> listaEventi;
-            if (SoloPersonali)
-            {
-                listaEventi = await eventoClient.GetEventoCurrentUserAsync();
-            }
-            else
-            {
-                listaEventi = await eventoClient.GetEventiByidUtenteAsync(null, null);
-            }
-            return listaEventi;
-        }
+        //private async Task<ICollection<EventoDtoOutput>> getAnnunci(string idUtente = null, string idCategoria = null) {
+        //    ICollection<EventoDtoOutput> listaEventi;
+        //    if (SoloPersonali)
+        //    {
+        //        listaEventi = await eventoClient.GetEventoCurrentUserAsync();
+        //    }
+        //    else
+        //    {
+        //        listaEventi = await eventoClient.GetEventiByidUtenteAsync(null, null);
+        //    }
+        //    return listaEventi;
+        //}
     }
 }
