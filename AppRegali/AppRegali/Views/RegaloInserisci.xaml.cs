@@ -36,7 +36,7 @@ namespace AppRegali.Views
 
         private async void Create_Clicked(object sender, EventArgs e)
         {
-            EventoClient eventoClient = new EventoClient(ApiHelper.GetApiClient());
+            EventoClient eventoClient = new EventoClient(await ApiHelper.GetApiClient());
 
             RegaloDtoInput regaloDtoInput = new RegaloDtoInput()
             {

@@ -4,6 +4,7 @@ using System.Reflection;
 using System.Resources;
 using Xamarin.Forms.Xaml;
 using Xamarin.Forms;
+using AppRegali.Utility;
 
 namespace AppRegali.Helpers
 {
@@ -11,7 +12,7 @@ namespace AppRegali.Helpers
     [ContentProperty ("Text")]
     public class TranslateExtension : IMarkupExtension
     {
-        public CultureInfo ci;
+        //public CultureInfo ci;
         const string ResourceId = "AppRegali.AppResources";
 
         public static readonly Lazy<ResourceManager> ResMgr = new Lazy<ResourceManager>(()=> new ResourceManager(ResourceId, typeof(TranslateExtension).GetTypeInfo().Assembly));
@@ -20,7 +21,8 @@ namespace AppRegali.Helpers
         {
             if (Device.RuntimePlatform == Device.iOS || Device.RuntimePlatform == Device.Android)
             {
-                ci = new CultureInfo("en"); //DependencyService.Get<ILocalize>().GetCurrentCultureInfo();
+                //ci = new CultureInfo("en");
+                //DependencyService.Get<ILocalize>().GetCurrentCultureInfo();
             }
         }
 
@@ -31,13 +33,16 @@ namespace AppRegali.Helpers
             if (Text == null)
                 return "";
 
-            var translation = ResMgr.Value.GetString(Text, ci);
+            //var translation = ResMgr.Value.GetString(Text, ci);
+            var translation = ResMgr.Value.GetString(Text, CurrentCulture.Ci);
+            
 
             if (translation == null)
             {
                 #if DEBUG
                 throw new ArgumentException(
-                    String.Format("Key '{0}' was not found in resources '{1}' for culture '{2}'.", Text, ResourceId, ci.Name),
+                    //String.Format("Key '{0}' was not found in resources '{1}' for culture '{2}'.", Text, ResourceId, ci.Name),
+                    String.Format("Key '{0}' was not found in resources '{1}' for culture '{2}'.", Text, ResourceId, CurrentCulture.Ci.Name),
                     "Text");
                 #else
                 translation = Text; // returns the key, which GETS DISPLAYED TO THE USER

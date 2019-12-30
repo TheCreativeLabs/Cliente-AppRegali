@@ -1,4 +1,5 @@
 ﻿using Api;
+using AppRegali.Api;
 using AppRegali.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -47,7 +48,8 @@ namespace AppRegali.Views.Account
             if (accessToken != "")
             {
                 //Salva il token nelle properties
-                Application.Current.Properties[Api.ApiHelper.AccessTokenKey] = accessToken;
+                //Application.Current.Properties[Api.ApiHelper.AccessTokenKey] = accessToken;
+                ApiHelper.SetToken(accessToken);
 
                 //Salvo il nelle properties che l'utente ha fatto accesso con Facebook
                 Api.ApiHelper.SetProvider(Api.ApiHelper.LoginProvider.Facebook);
@@ -64,7 +66,7 @@ namespace AppRegali.Views.Account
 
                 //Se l'utente non è registrato allora lo registro
                 //TODO: Controllare che userInfoViewModel sia valorizzato (.HasRegistered potrebbe andare in errore)
-                if (userInfoViewModel.HasRegistered.HasValue && userInfoViewModel.HasRegistered.Value == false)
+                if (userInfoViewModel != null && userInfoViewModel.HasRegistered != null && userInfoViewModel.HasRegistered.HasValue && userInfoViewModel.HasRegistered.Value == false)
                 {
                     RegisterExternalBindingModel registerExternalBindingModel = new RegisterExternalBindingModel()
                     {

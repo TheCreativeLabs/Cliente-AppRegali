@@ -13,6 +13,7 @@ using AppRegali.ViewModels;
 using Api;
 //using Java.Util;
 using AppRegali.Api;
+using AppRegali.Utility;
 
 namespace AppRegali.Views
 {
@@ -22,11 +23,11 @@ namespace AppRegali.Views
     public partial class EventiPersonali : ContentPage
     {
         EventiViewModel viewModel;
-        static Helpers.TranslateExtension translate = new Helpers.TranslateExtension();
+        //static Helpers.TranslateExtension translate = new Helpers.TranslateExtension();
         //private EventoClient eventoClient = new EventoClient(ApiHelper.GetApiClient());
 
-        public string textModifica = Helpers.TranslateExtension.ResMgr.Value.GetString("EventiPersonali.Modifica", translate.ci);
-        public string textEliminaEvento = Helpers.TranslateExtension.ResMgr.Value.GetString("EventiPersonali.EliminaEvento", translate.ci);
+        public string textModifica = Helpers.TranslateExtension.ResMgr.Value.GetString("EventiPersonali.Modifica", CurrentCulture.Ci);
+        public string textEliminaEvento = Helpers.TranslateExtension.ResMgr.Value.GetString("EventiPersonali.EliminaEvento", CurrentCulture.Ci);
 
         public EventiPersonali()
         {

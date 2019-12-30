@@ -82,7 +82,7 @@ namespace AppRegali.Views.Account
             {
                 if(!string.IsNullOrEmpty(entCognome.Text) && !string.IsNullOrEmpty(entNome.Text))
                 {
-                    AccountClient accountClient = new AccountClient(Api.ApiHelper.GetApiClient());
+                    AccountClient accountClient = new AccountClient(await Api.ApiHelper.GetApiClient());
                     UpdateUserBindingModel updateUserBindingModel = new UpdateUserBindingModel()
                     {
                         Name = entNome.Text,

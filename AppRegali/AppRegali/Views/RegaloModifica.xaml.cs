@@ -1,5 +1,6 @@
 ﻿using Api;
 using AppRegali.Api;
+using AppRegali.Utility;
 using AppRegali.ViewModels;
 using Plugin.Media;
 using Plugin.Media.Abstractions;
@@ -20,8 +21,6 @@ namespace AppRegali.Views
     public partial class RegaloModifica : ContentPage
     {
         RegaloDetailViewModel viewModel;
-        static Helpers.TranslateExtension translate = new Helpers.TranslateExtension();
-        EventoClient eventoClient = new EventoClient(ApiHelper.GetApiClient());
 
         public RegaloModifica(RegaloDetailViewModel RegaloDetailViewModel)
         {
@@ -46,10 +45,12 @@ namespace AppRegali.Views
             Guid id = new Guid(viewModel.Item.Id);
             //Faccio update del regalo
             //var regaloAggiornato =
+
+            EventoClient eventoClient = new EventoClient(await ApiHelper.GetApiClient());
             await eventoClient.UpdateRegaloAsync(id, regaloDtoInput);
             await DisplayAlert(null,
-                Helpers.TranslateExtension.ResMgr.Value.GetString("RegaloModifica.SalvataggioOk", translate.ci),
-                Helpers.TranslateExtension.ResMgr.Value.GetString("RegaloModifica.Ok", translate.ci));
+                Helpers.TranslateExtension.ResMgr.Value.GetString("RegaloModifica.SalvataggioOk", CurrentCulture.Ci),
+                Helpers.TranslateExtension.ResMgr.Value.GetString("RegaloModifica.Ok", CurrentCulture.Ci));
             //TODO APPENA RIPUBBLICO API this.viewModel = new EventoDetailViewModel(eventoInserito);
 
         }
@@ -63,6 +64,8 @@ namespace AppRegali.Views
                 {
                     try
                     {
+
+                        EventoClient eventoClient = new EventoClient(await ApiHelper.GetApiClient());
                         await eventoClient.DeleteRegaloAsync(new Guid(viewModel.Item.Id));
                         await DisplayAlert(null, "Regalo eliminato", "Ok");
                         //torno indietro alla lista degli eventi personali

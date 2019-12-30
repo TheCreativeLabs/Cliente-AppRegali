@@ -1,21 +1,23 @@
-﻿using AppRegali.Utility;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using Api;
 using Xamarin.Forms;
 
 namespace AppRegali.Converter
 {
-    public class KeyToTranslateConverter : IValueConverter {
+    public class DonazioneProgress : IValueConverter {
 
-        //static Helpers.TranslateExtension translate = new Helpers.TranslateExtension();
 
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture) { 
-            String retSource = null; if (value != null) {
-                string valueAsString = (string)value;
-                retSource = Helpers.TranslateExtension.ResMgr.Value.GetString(valueAsString, CurrentCulture.Ci);
-            } 
+            double retSource = 0;
+
+            if (value != null) {
+                RegaloDtoOutput regalo = (RegaloDtoOutput)value;
+                if (regalo.ImportoCollezionato.HasValue)
+                    retSource = regalo.ImportoCollezionato.Value / regalo.Prezzo;
+            }  
             
             return retSource; 
         } 

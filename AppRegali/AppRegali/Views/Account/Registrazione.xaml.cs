@@ -46,6 +46,11 @@ namespace AppRegali.Views.Login
                     //lblValidatorEntCognome.IsVisible = true;
                 }
 
+                if (dpDataNascita.Date == null)
+                {
+                    formIsValid = false;
+                }
+
                 //Controllo validità della mail.
                 if (String.IsNullOrEmpty(entEmail.Text) || !Regex.IsMatch(entEmail.Text, Utility.Utility.EmailRegex))
                 {
@@ -84,7 +89,7 @@ namespace AppRegali.Views.Login
                             Surname = entCognome.Text,
                             BirthName = entNome.Text,
                             ImmagineProfilo = img,
-                            DataNascita = new DateTime(),
+                            DataNascita = dpDataNascita.Date,
                             Email = entEmail.Text,
                             Password = entPassword.Text,
                             ConfirmPassword = entConfermaPassword.Text

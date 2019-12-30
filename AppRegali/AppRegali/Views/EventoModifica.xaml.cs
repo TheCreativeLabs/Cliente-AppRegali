@@ -1,5 +1,6 @@
 ﻿using Api;
 using AppRegali.Api;
+using AppRegali.Utility;
 using AppRegali.ViewModels;
 using Plugin.Media;
 using Plugin.Media.Abstractions;
@@ -20,13 +21,16 @@ namespace AppRegali.Views
     {
         EventoDetailViewModel viewModel;
         static Helpers.TranslateExtension translate = new Helpers.TranslateExtension();
-        EventoClient eventoClient = new EventoClient(ApiHelper.GetApiClient());
         public CategorieViewModel categorieViewModel { get; set; }
         Guid EventoId;
+
+        EventoClient eventoClient;
+
         public EventoModifica(Guid Id)
         {
             InitializeComponent();
             EventoId = Id;
+
         }
 
         private async Task<EventoDtoOutput> LoadEventoDetailById()
@@ -40,6 +44,9 @@ namespace AppRegali.Views
             //Stream stream = new MemoryStream(viewModel.Item.ImmagineEvento);
             //imgEventoModifica.Source = ImageSource.FromStream(() => { return stream; });
             base.OnAppearing();
+
+            eventoClient = new EventoClient(await ApiHelper.GetApiClient());
+
             EventoModificaActivityIndicator.IsRunning = true;
             EventoModificaActivityIndicator.IsVisible = true;
 
@@ -51,6 +58,7 @@ namespace AppRegali.Views
 
                 RegaliModificaListView.ItemsSource = viewModel.Item.Regali;
 
+               
                 List<EventoCategoria> listaCategorie = (List<EventoCategoria>)await this.eventoClient.GetLookupEventoCategoriaAsync();
                 pkCategoria.ItemsSource = listaCategorie;
                 EventoCategoria categoria = listaCategorie.First(a => a.Id == this.viewModel.Item.IdCategoriaEvento);
@@ -66,7 +74,7 @@ namespace AppRegali.Views
         {
             if (pkCategoria.SelectedItem != null)
             {
-                entCategoria.Text = Helpers.TranslateExtension.ResMgr.Value.GetString(((EventoCategoria)pkCategoria.SelectedItem).Codice, translate.ci);
+                entCategoria.Text = Helpers.TranslateExtension.ResMgr.Value.GetString(((EventoCategoria)pkCategoria.SelectedItem).Codice, CurrentCulture.Ci);
             }
         }
 
@@ -93,8 +101,8 @@ namespace AppRegali.Views
             //Faccio update dell'evento
             var eventoInserito = await eventoClient.UpdateEventoAsync(new Guid(viewModel.Item.Id), eventoDtoInput);
             await DisplayAlert(null,
-                Helpers.TranslateExtension.ResMgr.Value.GetString("EventoModifica.SalvataggioOk", translate.ci),
-                Helpers.TranslateExtension.ResMgr.Value.GetString("EventoModifica.Ok", translate.ci));
+                Helpers.TranslateExtension.ResMgr.Value.GetString("EventoModifica.SalvataggioOk", CurrentCulture.Ci),
+                Helpers.TranslateExtension.ResMgr.Value.GetString("EventoModifica.Ok", CurrentCulture.Ci));
         }
 
         private async void Delete_Clicked(object sender, EventArgs e)
@@ -102,9 +110,9 @@ namespace AppRegali.Views
             try
             {
                 bool answer = await DisplayAlert("Attenzione",
-                    Helpers.TranslateExtension.ResMgr.Value.GetString("EventoModifica.ConfirmDelete", translate.ci),
-                    Helpers.TranslateExtension.ResMgr.Value.GetString("EventoModifica.Yes", translate.ci),
-                    Helpers.TranslateExtension.ResMgr.Value.GetString("EventoModifica.No", translate.ci));
+                    Helpers.TranslateExtension.ResMgr.Value.GetString("EventoModifica.ConfirmDelete", CurrentCulture.Ci),
+                    Helpers.TranslateExtension.ResMgr.Value.GetString("EventoModifica.Yes", CurrentCulture.Ci),
+                    Helpers.TranslateExtension.ResMgr.Value.GetString("EventoModifica.No", CurrentCulture.Ci));
                 
                 if (answer)
                 {
@@ -112,16 +120,16 @@ namespace AppRegali.Views
                     {
                         await eventoClient.DeleteEventoAsync(new Guid(viewModel.Item.Id));
                         await DisplayAlert(null,
-                            Helpers.TranslateExtension.ResMgr.Value.GetString("EventoModifica.EventDeleted", translate.ci),
-                            Helpers.TranslateExtension.ResMgr.Value.GetString("EventoModifica.Ok", translate.ci));
+                            Helpers.TranslateExtension.ResMgr.Value.GetString("EventoModifica.EventDeleted", CurrentCulture.Ci),
+                            Helpers.TranslateExtension.ResMgr.Value.GetString("EventoModifica.Ok", CurrentCulture.Ci));
                         //torno indietro alla lista degli eventi personali
                         await Navigation.PopAsync();
                     }
                     catch
                     {
                         await DisplayAlert(null,
-                            Helpers.TranslateExtension.ResMgr.Value.GetString("EventoModifica.DeleteError", translate.ci),
-                            Helpers.TranslateExtension.ResMgr.Value.GetString("EventoModifica.Ok", translate.ci)); //FIXME
+                            Helpers.TranslateExtension.ResMgr.Value.GetString("EventoModifica.DeleteError", CurrentCulture.Ci),
+                            Helpers.TranslateExtension.ResMgr.Value.GetString("EventoModifica.Ok", CurrentCulture.Ci)); //FIXME
                     }
                 }
                 
@@ -203,6 +211,18 @@ namespace AppRegali.Views
                 viewModel.Item.ImmagineEvento = memoryStream.ToArray();
                 imgEventoModifica.Source = ImageSource.FromStream(() => { return new MemoryStream(viewModel.Item.ImmagineEvento); });
             }
+        }
+
+        async void OnCollectionViewSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var item = e.CurrentSelection.FirstOrDefault() as RegaloDtoOutput;
+
+            if (item == null || item.Id == null)
+                return;
+
+            await Navigation.PushModalAsync(new RegaloPersonaleDettaglio(item));
+
+            RegaliModificaListView.SelectedItem = null;
         }
     }
 }

@@ -10,6 +10,7 @@ using System.Net.Http;
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
+using AppRegali.Api;
 
 namespace AppRegali.ViewModels
 {
@@ -61,7 +62,7 @@ namespace AppRegali.ViewModels
             {
                 Items.Clear();
 
-                AmiciClient amiciClient = new AmiciClient(Api.ApiHelper.GetApiClient());
+                AmiciClient amiciClient = new AmiciClient(await ApiHelper.GetApiClient());
 
                 ICollection<UserInfoDto> listaUsers;
 
@@ -115,7 +116,7 @@ namespace AppRegali.ViewModels
             {
                 Items.Clear();
 
-                AmiciClient amiciClient = new AmiciClient(Api.ApiHelper.GetApiClient());
+                AmiciClient amiciClient = new AmiciClient(await ApiHelper.GetApiClient());
 
                 ICollection<UserInfoDto> listaUsers;
 

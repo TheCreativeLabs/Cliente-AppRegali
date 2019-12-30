@@ -113,6 +113,8 @@ namespace AppRegaliApi.Controllers
                             .Include(eventoAndUserInfo => eventoAndUserInfo.Evento.ImmagineEvento)
                            //.OrderBy(eventoAndUserInfo => eventoAndUserInfo.Evento.DataEvento)
                            .OrderByDescending(eventoAndUserInfo => eventoAndUserInfo.Evento.DataCreazione)
+                            .Include(eventoAndUserInfo => eventoAndUserInfo.Evento.EventoCategoria)
+                           .OrderBy(eventoAndUserInfo => eventoAndUserInfo.Evento.DataEvento)
                             .Skip(pageSize * (pageNumber - 1))
                             .Take(pageSize)
                             .Select(join => new EventoDtoOutput()
@@ -129,7 +131,8 @@ namespace AppRegaliApi.Controllers
                                 ImmagineEvento = join.Evento.ImmagineEvento.Immagine,
                                 NomeUserCreatoreEvento = join.UserInfo.Nome,
                                 CognomeUserCreatoreEvento = join.UserInfo.Cognome,
-                                ImmagineUserCreatoreEvento = join.UserInfo.FotoProfilo
+                                ImmagineUserCreatoreEvento = join.UserInfo.FotoProfilo,
+                                CodiceCategoriaEvento = join.Evento.EventoCategoria.Codice
                             })
                            .ToListAsync();
 

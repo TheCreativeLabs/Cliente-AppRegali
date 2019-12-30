@@ -19,6 +19,7 @@ using AppRegaliApi.Results;
 using System.Linq;
 using System.Web.Script.Serialization;
 using AppRegaliApi.Utility;
+using System.Net;
 
 namespace AppRegaliApi.Controllers
 {
@@ -337,6 +338,16 @@ namespace AppRegaliApi.Controllers
                 return BadRequest(ModelState);
             }
 
+
+            var code2 = await UserManager.GenerateEmailConfirmationTokenAsync("81528296-b274-49f3-af51-7afc430a38c6");
+
+            var callbackUrl2 = Url.Link("Default", new { Controller = "Api/Account", Action = "ConfirmEmail", UserId = "81528296-b274-49f3-af51-7afc430a38c6", Code = code2 });
+
+            await EmailService.SendAsync(model.Email,
+               "Confirm your account",
+               "Please confirm your account by clicking this link: <a href=\""
+                                               + callbackUrl2 + "\">link</a>");
+
             var user = new ApplicationUser() { UserName = model.Email, Email = model.Email };
 
             IdentityResult result = await UserManager.CreateAsync(user, model.Password);
@@ -493,6 +504,12 @@ namespace AppRegaliApi.Controllers
                 var url = datiPicture.Value.Substring(datiPicture.Value.IndexOf("url\": \"")+7);
                 url = url.Substring(0, url.IndexOf("\""));
                 userInfo.PhotoUrl = url;
+                using (var webClient = new WebClient())
+                {
+                    byte[] imageBytes = webClient.DownloadData(url);
+                    userInfo.FotoProfilo = imageBytes;
+                }
+
             }
 
 

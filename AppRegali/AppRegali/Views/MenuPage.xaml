@@ -7,7 +7,14 @@
              x:Class="AppRegali.Views.MenuPage"
              Title="Menu"
              xmlns:translator="clr-namespace:AppRegali.Helpers"
+             xmlns:conv="clr-namespace:AppRegali.Converter"
              BackgroundColor="{x:StaticResource SfondoColor}">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <conv:KeyToTranslateConverter x:Key="TranslateConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
 
     <StackLayout Orientation="Vertical">
         <Frame HasShadow="True" HeightRequest="150">
@@ -51,7 +58,44 @@
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
+
+
+
+            <!--<StackLayout Orientation="Horizontal">-->
+            <!--<Frame>-->
+            <!--<Button x:Name="CambiaLingua" Clicked="btnCambiaLingua_Clicked" BackgroundColor="Transparent" Text="{translator:Translate Menu.ChangeLanguage}" HorizontalOptions="Start">
+                </Button>-->
+            <!--<Label x:Name="CambiaLingua" Text="{translator:Translate Menu.ChangeLanguage}" HorizontalOptions="Start"></Label>
+
+                <Image x:Name="imgEn" Source="en.png" Margin="0,0,0,0" IsVisible="false" HorizontalOptions="EndAndExpand"></Image>
+                <Image x:Name="imgIt" Source="it.png" Margin="0,0,0,0" IsVisible="false" HorizontalOptions="EndAndExpand"></Image>
+
+                <Picker  x:Name="pkLanguage" IsVisible="False"   ItemDisplayBinding="{Binding Codice, Converter={StaticResource TranslateConverter}}" 
+                      Title="{translator:Translate Menu.ChangeLanguage}" SelectedIndexChanged="pkLanguage_SelectedIndexChanged"></Picker>-->
+
+            <!--<Frame.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="btnCambiaLingua_Clicked"></TapGestureRecognizer>
+                    </Frame.GestureRecognizers>
+                </Frame>-->
+
+            <!--</StackLayout>-->
         </StackLayout>
+        
+        <Frame VerticalOptions="Start">
+            <StackLayout Orientation="Horizontal">
+                <Label x:Name="CambiaLingua" Text="{translator:Translate Menu.ChangeLanguage}" HorizontalOptions="Start" VerticalOptions="Center"></Label>
+
+                <Image x:Name="imgEn" Source="en.png" Margin="0,0,0,0" IsVisible="false" HorizontalOptions="EndAndExpand" VerticalOptions="Center"></Image>
+                <Image x:Name="imgIt" Source="it.png" Margin="0,0,0,0" IsVisible="false" HorizontalOptions="EndAndExpand" VerticalOptions="Center"></Image>
+
+                <Picker  x:Name="pkLanguage" IsVisible="False"   ItemDisplayBinding="{Binding Codice, Converter={StaticResource TranslateConverter}}" 
+                      Title="{translator:Translate Menu.ChangeLanguage}" SelectedIndexChanged="pkLanguage_SelectedIndexChanged"></Picker>
+
+                <StackLayout.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="btnCambiaLingua_Clicked"></TapGestureRecognizer>
+                </StackLayout.GestureRecognizers>
+            </StackLayout>
+        </Frame>
     </StackLayout>
 
 </ContentPage>
