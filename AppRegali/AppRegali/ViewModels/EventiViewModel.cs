@@ -8,25 +8,24 @@ using AppRegali.Models;
 using AppRegali.Views;
 using System.Net.Http;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
+using AppRegali.Api;
 
 namespace AppRegali.ViewModels
 {
-    public class EventiViewModel : BaseViewModel
+    public class EventiViewModel : BaseViewModel, INotifyPropertyChanged
     {
         public ObservableCollection<EventoDtoOutput> Items { get; set; }
         public Command LoadItemsCommand { get; set; }
+        public Command LoadMore { get; set; }
+        public event PropertyChangedEventHandler PropertyChanged;
+
         public EventoCategoria Categoria { get; set; }
+        public Guid? IdUtente { get; set; }
 
-        bool isLoading = false;
-        public bool IsLoading
-        {
-            get { return isLoading; }
-            set { SetProperty(ref isLoading, value); }
-        }
-
-        private int CurrentPage = 1;
+        public int CurrentPage { get; set; }
         private int PageSize = 5;
-        EventoClient eventoClient = new EventoClient(Api.ApiHelper.GetApiClient());
 
 
         private bool SoloPersonali { get; set; }
@@ -36,6 +35,11 @@ namespace AppRegali.ViewModels
             Items = new ObservableCollection<EventoDtoOutput>();
             LoadItemsCommand = new Command(async () => await ExecuteLoadItemsCommand());
             SoloPersonali = SoloEventiPersonali;
+            OnpropertyChanged("Items");
+            CurrentPage = 1;
+
+            this.LoadMore = new Command(async () => await LoadMoreCommand());
+
             //MessagingCenter.Subscribe<NewItemPage, Item>(this, "AddItem", async (obj, item) =>
             //{
             //    var newItem = item as Item;
@@ -44,26 +48,36 @@ namespace AppRegali.ViewModels
             //});
         }
 
+        void OnpropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            var handler = PropertyChanged;
+            if (handler != null)
+            {
+                handler(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
+
         async Task LoadMoreCommand()
         {
             if (IsBusy)
                 return;
 
             IsBusy = true;
+            OnpropertyChanged("IsBusy");
 
             ICollection<EventoDtoOutput> news = null;
             try
             {
                 CurrentPage += 1;
 
-                //news = await GetAnnunci();
+                news = await GetEventi();
 
                 if (news != null)
                 {
                     foreach (var item in news)
                     {
                         Items.Add(item);
-                        //OnpropertyChanged("Items");
+                        OnpropertyChanged("Items");
                     }
                 }
             }
@@ -77,6 +91,8 @@ namespace AppRegali.ViewModels
                 //if(news != null && news.Count == PageSize )
                 //{
                 IsBusy = false;
+                OnpropertyChanged("IsBusy");
+
                 //}
             }
         }
@@ -90,6 +106,8 @@ namespace AppRegali.ViewModels
             //    return;
 
             IsBusy = true;
+            OnpropertyChanged("IsBusy");
+
             //IsLoading = true;
 
             try
@@ -97,26 +115,25 @@ namespace AppRegali.ViewModels
                 Items.Clear();
 
 
-                ICollection<EventoDtoOutput> listaEventi;// = await getAnnunci(null, null);
+                ICollection<EventoDtoOutput> listaEventi;
 
                 if (SoloPersonali)
                 {
-                    listaEventi = await eventoClient.GetEventoCurrentUserAsync();
+                    listaEventi = await GetEventi();
                 }
                 else
                 {
-                    string idCategoria = null;
-                    if(Categoria != null)
-                    {
-                        idCategoria = Categoria.Id.ToString();
-                    }
-                    listaEventi = await eventoClient.GetEventiByidUtenteAsync(1, 5, null, idCategoria);
+
+                    listaEventi = await GetEventi();
                 }
 
                 foreach (var evento in listaEventi)
                 {
                     Items.Add(evento);
                 }
+
+                OnpropertyChanged("Items");
+
             }
             catch (Exception ex)
             {
@@ -125,21 +142,34 @@ namespace AppRegali.ViewModels
             finally
             {
                 IsBusy = false;
-                //IsLoading = false;
+                OnpropertyChanged("IsBusy");
             }
         }
 
-        //private async Task<ICollection<EventoDtoOutput>> getAnnunci(string idUtente = null, string idCategoria = null) {
-        //    ICollection<EventoDtoOutput> listaEventi;
-        //    if (SoloPersonali)
-        //    {
-        //        listaEventi = await eventoClient.GetEventoCurrentUserAsync();
-        //    }
-        //    else
-        //    {
-        //        listaEventi = await eventoClient.GetEventiByidUtenteAsync(null, null);
-        //    }
-        //    return listaEventi;
-        //}
+        private async Task<ICollection<EventoDtoOutput>> GetEventi() {
+            ICollection<EventoDtoOutput> listaEventi;
+            EventoClient eventoClient = new EventoClient(await ApiHelper.GetApiClient());
+
+            if (SoloPersonali)
+            {
+                listaEventi = await eventoClient.GetEventoCurrentUserAsync();
+            }
+            else
+            {
+                string idCategoria = null;
+                if (Categoria != null)
+                {
+                    idCategoria = Categoria.Id.ToString();
+                }
+
+                string idUser = null;
+
+                if (IdUtente.HasValue)
+                    idUser = IdUtente.Value.ToString();
+
+                listaEventi = await eventoClient.GetEventiByidUtenteAsync(CurrentPage, PageSize, idUser, idCategoria);
+            }
+            return listaEventi;
+        }
     }
 }

@@ -48,9 +48,7 @@ namespace AppRegali.ViewModels
 
         public UserProfiloViewModel()
         {
-            this.httpClient = new HttpClient();
-            httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", Api.ApiHelper.GetToken());
-            Info = new UserInfoDto();
+             Info = new UserInfoDto();
             Eventi = new ObservableCollection<EventoDtoOutput>();
 
             LoadItemsCommand = new Command(async () => await ExecuteLoadItemsCommand());
@@ -72,7 +70,7 @@ namespace AppRegali.ViewModels
 
             try
             {
-                AmiciClient amiciClient = new AmiciClient(Api.ApiHelper.GetApiClient());
+                AmiciClient amiciClient = new AmiciClient(await  Api.ApiHelper.GetApiClient());
 
                 userProfiloViewModel.Info = await amiciClient.GetUserInfoByIdUsersAsync(Id);
                 userProfiloViewModel.Nome = userProfiloViewModel.Info.Nome;
@@ -108,9 +106,7 @@ namespace AppRegali.ViewModels
                 //UserInfoDto userInfo = await amiciClient.GetUserInfoByIdUsersAsync(UserId);
 
                 EventoClient eventoClient = new EventoClient(httpClient);
-                listaEventi = await eventoClient.GetEventiByidUtenteAsync(1, 10, UserId.ToString(), null);
-
-               
+                listaEventi = await eventoClient.GetEventiByidUtenteAsync(1, 1000, UserId.ToString(), null);
 
                 foreach (var evento in listaEventi)
                 {

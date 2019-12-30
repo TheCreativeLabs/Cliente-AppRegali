@@ -61,6 +61,8 @@ namespace AppRegali.Views
 
                 pkLanguage.ItemsSource = languages;
 
+                SetUserInfo();
+
                 await UpdateMenuData(MenuItemType.Home);
             }
             catch (Exception ex)
@@ -207,7 +209,7 @@ namespace AppRegali.Views
                 DependencyService.Get<IClearCookies>().ClearAllCookies();
                
                 //Eseguo il logout
-                AccountClient accountClient = new AccountClient(ApiHelper.GetApiClient());
+                AccountClient accountClient = new AccountClient(await  ApiHelper.GetApiClient());
                 await accountClient.LogoutAsync();
 
                 //Rimuovo il token e navigo alla home

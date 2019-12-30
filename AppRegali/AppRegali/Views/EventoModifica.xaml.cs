@@ -20,14 +20,17 @@ namespace AppRegali.Views
     public partial class EventoModifica : ContentPage
     {
         EventoDetailViewModel viewModel;
-        //static Helpers.TranslateExtension translate = new Helpers.TranslateExtension();
-        EventoClient eventoClient = new EventoClient(ApiHelper.GetApiClient());
+        static Helpers.TranslateExtension translate = new Helpers.TranslateExtension();
         public CategorieViewModel categorieViewModel { get; set; }
         Guid EventoId;
+
+        EventoClient eventoClient;
+
         public EventoModifica(Guid Id)
         {
             InitializeComponent();
             EventoId = Id;
+
         }
 
         private async Task<EventoDtoOutput> LoadEventoDetailById()
@@ -41,6 +44,9 @@ namespace AppRegali.Views
             //Stream stream = new MemoryStream(viewModel.Item.ImmagineEvento);
             //imgEventoModifica.Source = ImageSource.FromStream(() => { return stream; });
             base.OnAppearing();
+
+            eventoClient = new EventoClient(await ApiHelper.GetApiClient());
+
             EventoModificaActivityIndicator.IsRunning = true;
             EventoModificaActivityIndicator.IsVisible = true;
 
@@ -52,6 +58,7 @@ namespace AppRegali.Views
 
                 RegaliModificaListView.ItemsSource = viewModel.Item.Regali;
 
+               
                 List<EventoCategoria> listaCategorie = (List<EventoCategoria>)await this.eventoClient.GetLookupEventoCategoriaAsync();
                 pkCategoria.ItemsSource = listaCategorie;
                 EventoCategoria categoria = listaCategorie.First(a => a.Id == this.viewModel.Item.IdCategoriaEvento);
@@ -204,6 +211,18 @@ namespace AppRegali.Views
                 viewModel.Item.ImmagineEvento = memoryStream.ToArray();
                 imgEventoModifica.Source = ImageSource.FromStream(() => { return new MemoryStream(viewModel.Item.ImmagineEvento); });
             }
+        }
+
+        async void OnCollectionViewSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var item = e.CurrentSelection.FirstOrDefault() as RegaloDtoOutput;
+
+            if (item == null || item.Id == null)
+                return;
+
+            await Navigation.PushModalAsync(new RegaloPersonaleDettaglio(item));
+
+            RegaliModificaListView.SelectedItem = null;
         }
     }
 }

@@ -84,7 +84,7 @@ namespace AppRegali.Views
 
         private async void btnSendRequest_Clicked(object sender, EventArgs e)
         {
-            AmiciClient amiciClient = new AmiciClient(Api.ApiHelper.GetApiClient());
+            AmiciClient amiciClient = new AmiciClient(await  Api.ApiHelper.GetApiClient());
 
             try 
             { 
@@ -107,7 +107,7 @@ namespace AppRegali.Views
 
             if(action == "Rimuovi amico")
             {
-                AmiciClient amiciClient = new AmiciClient(Api.ApiHelper.GetApiClient());
+                AmiciClient amiciClient = new AmiciClient(await Api.ApiHelper.GetApiClient());
 
                 try
                 {
@@ -128,7 +128,7 @@ namespace AppRegali.Views
 
         private async void btnConfirmContact_Clicked(object sender, EventArgs e)
         {
-            AmiciClient amiciClient = new AmiciClient(Api.ApiHelper.GetApiClient());
+            AmiciClient amiciClient = new AmiciClient(await Api.ApiHelper.GetApiClient());
 
             try
             {
@@ -148,7 +148,7 @@ namespace AppRegali.Views
         
           private async void btnDeleteContact_Clicked(object sender, EventArgs e)
         {
-            AmiciClient amiciClient = new AmiciClient(Api.ApiHelper.GetApiClient());
+            AmiciClient amiciClient = new AmiciClient(await Api.ApiHelper.GetApiClient());
 
             try
             {

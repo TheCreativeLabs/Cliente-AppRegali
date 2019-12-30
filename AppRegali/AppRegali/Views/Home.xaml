@@ -8,7 +8,7 @@
              x:Class="AppRegali.Views.Home"
               xmlns:controls="clr-namespace:AppRegali.ContentViews"
              x:Name="BrowseItemsPage"
-             xmlns:translator="clr-namespace:AppRegali.Helpers"
+             xmlns:translator="clr-namespace:AppRegali.Helpers" xmlns:b="clr-namespace:AppRegali.Behaviors"
              BackgroundColor="{x:StaticResource SfondoColor}">
 
     <ContentPage.Resources>
@@ -31,28 +31,12 @@
     </NavigationPage.TitleView>
 
     <StackLayout Margin="20,20,20,20">
-        <!--<ActivityIndicator IsRunning="{Binding IsLoading}" IsVisible="{Binding IsLoading}"/>-->
-        <!--<Entry x:Name="entCategoria" Placeholder="Categoria" Focused="entCategoria_Focused" TextChanged="ent_TextChanged"></Entry>-->
-        <!--<Entry x:Name="entCategoria" Placeholder="Categoria" Focused="entCategoria_Focused" ></Entry>--> <!--TextChanged="ent_TextChanged"-->
-
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="2*" />
-                <ColumnDefinition Width="7*" />
-                <ColumnDefinition Width="1*" />
-            </Grid.ColumnDefinitions>
-            <Label Grid.Row="0" Grid.Column="0" Text="{translator:Translate Home.Category}"  VerticalTextAlignment="Center"></Label>
-            <Entry Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" x:Name="entCategoria" HeightRequest="50" Placeholder="{translator:Translate Home.SelectCategory}" Focused="entCategoria_Focused" ></Entry>
-            <!--<Label Grid.Row="0" Grid.Column="1" FontFamily="{x:StaticResource FA-Solid}"  Text="&#xf107" ></Label>-->
-            <Label  Grid.Row="0" Grid.Column="2" VerticalTextAlignment="Center" FontFamily="{x:StaticResource FA-Solid}" Text="&#xf107;"></Label>
-
-
-            <Picker  x:Name="pkCategoria" IsVisible="False" Visual="Material"
-                        ItemDisplayBinding="{Binding Codice, Converter={StaticResource TranslateConverter}}" Title="{translator:Translate Home.SelectCategory}" SelectedIndexChanged="pkCategoria_SelectedIndexChanged"></Picker>
+        <Grid HeightRequest="45">
+         <Picker Grid.Row="0" Grid.Column="0"  x:Name="pkCategoria" IsVisible="true" 
+              ItemDisplayBinding="{Binding Codice, Converter={StaticResource TranslateConverter}}" Title="{translator:Translate Home.SelectCategory}" SelectedIndexChanged="pkCategoria_SelectedIndexChanged"></Picker>
+         <Label Grid.Row="0" Grid.Column="0" Margin="0,0,20,0" Style="{x:StaticResource AdTitle}"  HorizontalOptions="End"  VerticalTextAlignment="Center" FontFamily="{x:StaticResource FA-Solid}" Text="&#xf107;"></Label>
         </Grid>
-            <!---->
-
-
+     
         <ListView 
             x:Name="EventiListView"
                 ItemsSource="{Binding Items}"
@@ -60,10 +44,13 @@
                 HasUnevenRows="true"
                 RefreshCommand="{Binding LoadItemsCommand}"
                 IsPullToRefreshEnabled="true"
-                IsRefreshing="{Binding IsBusy, Mode=OneWay}"
-                CachingStrategy="RecycleElement"
+                IsRefreshing="{Binding IsBusy}"
                 ItemSelected="OnItemSelected"
-                SeparatorVisibility="Default" SeparatorColor="LightGray">
+                SeparatorVisibility="Default"
+            SeparatorColor="LightGray">
+              <ListView.Behaviors>
+                <b:InfiniteScroll LoadMoreCommand="{Binding LoadMore}" />
+            </ListView.Behaviors>
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>

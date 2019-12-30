@@ -58,7 +58,7 @@ namespace AppRegali.Views
 
         private async void Save_Clicked(object sender, EventArgs e)
         {
-            EventoClient eventoClient = new EventoClient(ApiHelper.GetApiClient());
+            EventoClient eventoClient = new EventoClient(await ApiHelper.GetApiClient());
 
             if (img == null)
             {

@@ -5,7 +5,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
              x:Class="AppRegali.Views.Account.Account"
-             xmlns:translator="clr-namespace:AppRegali.Helpers"
+             xmlns:translator="clr-namespace:AppRegali.Helpers" xmlns:appappartamenti="clr-namespace:AppRegali"
              Title="Account"
              BackgroundColor="{x:StaticResource SfondoColor}">
 
@@ -38,6 +38,8 @@
 
             <!--<DatePicker x:Name="pkDataNascita" VerticalOptions="Center" Date="{Binding DataDiNascita}"></DatePicker>-->
             <!--<Label Text="{translator:Translate Login.MessaggioValidazioneEmail}" Style="{x:StaticResource LabelValidatore}" x:Name="lblValidatorEntEmail"></Label>-->
+
+            <appappartamenti:DatePickerCtrl Format="dd/MM/yyyy" x:Name="dpDataNascita"  HeightRequest="40" Placeholder="Data di nascita"></appappartamenti:DatePickerCtrl>
 
             <Entry IsVisible="False" x:Name="entEmail" Placeholder="{translator:Translate Login.Email}" VerticalOptions="Center" TextChanged="Ent_TextChanged" Text="{Binding Email}"></Entry>
             <Label Text="{translator:Translate Login.MessaggioValidazioneEmail}" Style="{x:StaticResource LabelValidatore}" x:Name="lblValidatorEntEmail"></Label>

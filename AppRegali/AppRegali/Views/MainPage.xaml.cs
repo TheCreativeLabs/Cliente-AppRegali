@@ -52,8 +52,8 @@ namespace AppRegali.Views
             {
                 Detail = newPage;
 
-                if (Device.RuntimePlatform == Device.Android)
-                    await Task.Delay(100);
+                //if (Device.RuntimePlatform == Device.Android)
+                //    await Task.Delay(100);
 
                 IsPresented = false;
             }
