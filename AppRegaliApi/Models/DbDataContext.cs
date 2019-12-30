@@ -50,6 +50,12 @@ namespace AppRegaliApi.Models
                 .WithRequired(e => e.Regalo)
                 .HasForeignKey(e => e.IdRegalo)
                 .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<UserInfo>()
+                .HasMany(e => e.RegaloUserPartecipazioni)
+                .WithRequired(e => e.UserInfoPartecipante)
+                .HasForeignKey(e => e.IdUser)
+                .WillCascadeOnDelete(false);
         }
     }
 }

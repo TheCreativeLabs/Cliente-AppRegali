@@ -1,5 +1,6 @@
 namespace AppRegaliApi
 {
+    using AppRegaliApi.Models;
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
@@ -9,6 +10,12 @@ namespace AppRegaliApi
     [Table("UserInfo")]
     public partial class UserInfo
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public UserInfo()
+        {
+            RegaloUserPartecipazioni = new HashSet<RegaloUserPartecipazione>();
+        }
+
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid Id { get; set; }
@@ -27,5 +34,8 @@ namespace AppRegaliApi
         public Guid IdAspNetUser { get; set; }
 
         public string PhotoUrl { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<RegaloUserPartecipazione> RegaloUserPartecipazioni { get; set; }
     }
 }

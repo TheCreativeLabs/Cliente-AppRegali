@@ -344,8 +344,10 @@
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Dto\EventoDtoInput.cs" />
     <Compile Include="Dto\EventoDtoOutput.cs" />
+    <Compile Include="Dto\PartecipazioneDtoOutput-.cs" />
     <Compile Include="Dto\RegaloDtoInput.cs" />
     <Compile Include="Dto\RegaloDtoOutput.cs" />
+    <Compile Include="Dto\UtentePartecipazioneDtoOutput.cs" />
     <Compile Include="Dto\UserInfoDto.cs" />
     <Compile Include="FacebookBackChannelHandler.cs" />
     <Compile Include="Global.asax.cs">

@@ -107,10 +107,12 @@ namespace AppRegaliApi.Controllers
                                      (evento, userInfo) => new { Evento = evento, UserInfo = userInfo }) // selection
                                   .Where(eventoAndUserInfo => (idAmici.Contains(eventoAndUserInfo.Evento.IdUtenteCreazione)
                                                             & (IdUtente == null || eventoAndUserInfo.Evento.IdUtenteCreazione.ToString() == IdUtente)
-                                                            & (IdCategoria == null || eventoAndUserInfo.Evento.IdCategoriaEvento.ToString() == IdCategoria))
+                                                            & (IdCategoria == null || eventoAndUserInfo.Evento.IdCategoriaEvento.ToString() == IdCategoria)
+                                                            & (eventoAndUserInfo.Evento.DataEvento >= DateTime.Today) ) //PER ORA SI VISUALIZZANO SOLO EVENTI FUTURI
                                    )   // where statement
                             .Include(eventoAndUserInfo => eventoAndUserInfo.Evento.ImmagineEvento)
-                           .OrderBy(eventoAndUserInfo => eventoAndUserInfo.Evento.DataEvento)
+                           //.OrderBy(eventoAndUserInfo => eventoAndUserInfo.Evento.DataEvento)
+                           .OrderByDescending(eventoAndUserInfo => eventoAndUserInfo.Evento.DataCreazione)
                             .Skip(pageSize * (pageNumber - 1))
                             .Take(pageSize)
                             .Select(join => new EventoDtoOutput()
@@ -494,14 +496,94 @@ namespace AppRegaliApi.Controllers
             return Ok();
         }
 
-        //[HttpPost]
-        //[Route("PartecipazioneRegaloCreate", Name = "PartecipazioneRegaloCreate")]
-        //[ResponseType(typeof(RegaloDtoOutput))]
-        //public async Task<IHttpActionResult> InserisciPartecipazioneRegalo(Guid idRegalo, double importo)
-        //{
+        [HttpPost]
+        [Route("PartecipazioneRegaloCreate", Name = "PartecipazioneRegaloCreate")]
+        [ResponseType(typeof(RegaloUserPartecipazione))]
+        public async Task<IHttpActionResult> InserisciPartecipazioneRegalo(Guid IdRegalo, double Importo, bool Anonimo)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
 
-        //    return Ok();
-        //}
+            Regalo regalo = await dbDataContext.Regalo.FirstOrDefaultAsync(x => x.Id == IdRegalo);
+            if (regalo == null)
+            {
+                return NotFound();
+            }
+
+            if (regalo.Prezzo <= regalo.ImportoCollezionato)
+            {
+                throw new Exception("PRICE_REACHED"); //gestire eccezione: non si può più partecipare perchè il regalo è già al completo
+            }
+
+            RegaloUserPartecipazione partecipazione = new RegaloUserPartecipazione()
+            {
+                Id = Guid.NewGuid(),
+                IdRegalo = IdRegalo,
+                Importo = Importo,
+                Anonimo = Anonimo,
+                IdUser = new Guid(User.Identity.GetUserId())
+            };
+
+            regalo.ImportoCollezionato = regalo.ImportoCollezionato + Importo;
+
+
+            dbDataContext.RegaloUserPartecipazione.Add(partecipazione);
+
+
+            try
+            {
+                await dbDataContext.SaveChangesAsync();
+            }
+            catch
+            {
+                throw;
+            }
+            return Ok(partecipazione);
+        }
+
+        [HttpGet]
+        [Route("PartecipazioniRegalo")]
+        public async Task<PartecipazioneDtoOutput> GetPartecipazioniRegalo(Guid IdRegalo)
+        {
+            DateTime dataEvento = await dbDataContext.Regalo.Include(x => x.Evento)
+                                            .Where(x => x.Id == IdRegalo)
+                                            .Select(x => x.Evento.DataEvento).FirstOrDefaultAsync();
+
+            List<UtentePartecipazioneDtoOutput> partecipanti = await dbDataContext.RegaloUserPartecipazione
+                                    .Join(dbDataContext.UserInfo, // the source table of the inner join
+                                     partecipazione => partecipazione.IdUser,        // Select the primary key (the first part of the "on" clause in an sql "join" statement)
+                                     userInfo => userInfo.IdAspNetUser,   // Select the foreign key (the second part of the "on" clause)
+                                     (partecipazione, userInfo) => new { RegaloUserPartecipazione = partecipazione, UserInfo = userInfo }) // selection
+                                  .Where(partecipazioneAndUserInfo =>
+                                                            (partecipazioneAndUserInfo.RegaloUserPartecipazione.IdRegalo == IdRegalo)
+                                   )
+                                                .Select(partecipazioneAndUserInfo => new UtentePartecipazioneDtoOutput()
+                                                {
+                                                    IdRegalo = partecipazioneAndUserInfo.RegaloUserPartecipazione.IdRegalo,
+                                                    IdUserPartecipante = partecipazioneAndUserInfo.RegaloUserPartecipazione.IdUser,
+                                                    CognomePartecipante = partecipazioneAndUserInfo.UserInfo.Cognome,
+                                                    NomePartecipante = partecipazioneAndUserInfo.UserInfo.Nome,
+                                                    Anonimo = partecipazioneAndUserInfo.RegaloUserPartecipazione.Anonimo
+                                                }).Distinct()
+                                                .ToListAsync();
+
+
+            int anonimi = 0;
+            if (dataEvento.Date > DateTime.Today) //Evento futuro
+            {
+                anonimi = partecipanti.Where(x => x.Anonimo).Count();
+                partecipanti.RemoveAll(x => x.Anonimo);
+
+            }
+
+            PartecipazioneDtoOutput res = new PartecipazioneDtoOutput();
+            res.NumeroAnonimi = anonimi;
+            res.UtentiPartecipanti = partecipanti;
+
+             return res;
+        }
 
 
         #endregion
