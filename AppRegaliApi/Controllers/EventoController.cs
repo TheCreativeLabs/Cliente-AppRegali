@@ -111,10 +111,9 @@ namespace AppRegaliApi.Controllers
                                                             & (eventoAndUserInfo.Evento.DataEvento >= DateTime.Today) ) //PER ORA SI VISUALIZZANO SOLO EVENTI FUTURI
                                    )   // where statement
                             .Include(eventoAndUserInfo => eventoAndUserInfo.Evento.ImmagineEvento)
+                            .Include(eventoAndUserInfo => eventoAndUserInfo.Evento.EventoCategoria)
                            //.OrderBy(eventoAndUserInfo => eventoAndUserInfo.Evento.DataEvento)
                            .OrderByDescending(eventoAndUserInfo => eventoAndUserInfo.Evento.DataCreazione)
-                            .Include(eventoAndUserInfo => eventoAndUserInfo.Evento.EventoCategoria)
-                           .OrderBy(eventoAndUserInfo => eventoAndUserInfo.Evento.DataEvento)
                             .Skip(pageSize * (pageNumber - 1))
                             .Take(pageSize)
                             .Select(join => new EventoDtoOutput()
