@@ -138,24 +138,31 @@ namespace AppRegali.Api
 
             var bearerToken = Preferences.Get(AccessTokenKey, null);
 
-            if (bearerToken != null && !string.IsNullOrEmpty(bearerToken))
+            if (Api.ApiHelper.LoginProvider.Facebook.Equals(GetProvider())) //provider facebook: non serve fare refresh token. ho direttamente il token in bearerToken
             {
-                BearerToken token = JsonConvert.DeserializeObject<BearerToken>(bearerToken);
+                accessToken = bearerToken;
+            } else
+            { //registrazione con mail: se necessario si fa refreshToken
+                if (bearerToken != null && !string.IsNullOrEmpty(bearerToken))
+                {
+                    BearerToken token = JsonConvert.DeserializeObject<BearerToken>(bearerToken);
 
-                var expireDate = DateTime.Parse(token.Expires);
-                //DateTime.ParseExact(
-                //            token.Expires,
-                //            "ddd MMM dd yyyy HH:mm:ss 'GMT'",
-                //            CultureInfo.InvariantCulture);
-                if (expireDate < DateTime.Now)
-                {
-                    accessToken = await GetRefreshToken(token.RefreshToken);
-                }
-                else
-                {
-                    accessToken = token.AccessToken;
+                    var expireDate = DateTime.Parse(token.Expires);
+                    //DateTime.ParseExact(
+                    //            token.Expires,
+                    //            "ddd MMM dd yyyy HH:mm:ss 'GMT'",
+                    //            CultureInfo.InvariantCulture);
+                    if (expireDate < DateTime.Now)
+                    {
+                        accessToken = await GetRefreshToken(token.RefreshToken);
+                    }
+                    else
+                    {
+                        accessToken = token.AccessToken;
+                    }
                 }
             }
+            
 
 
             return accessToken;

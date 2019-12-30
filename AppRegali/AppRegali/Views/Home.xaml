@@ -31,6 +31,7 @@
     </NavigationPage.TitleView>
 
     <StackLayout Margin="20,20,20,20">
+        
         <Grid HeightRequest="45">
          <Picker Grid.Row="0" Grid.Column="0"  x:Name="pkCategoria" IsVisible="true" 
               ItemDisplayBinding="{Binding Codice, Converter={StaticResource TranslateConverter}}" Title="{translator:Translate Home.SelectCategory}" SelectedIndexChanged="pkCategoria_SelectedIndexChanged"></Picker>
@@ -65,7 +66,7 @@
                                         <Label Text="{Binding NomeUserCreatoreEvento}" 
                                         LineBreakMode="NoWrap" Style="{x:StaticResource AdTitle}"/>
 
-                                             <Label Text="{Binding DataCreazione, StringFormat='{0:dd/MM/yyyy}'}" 
+                                             <Label Text="{Binding DataEvento, StringFormat='{0:dd/MM/yyyy}'}" 
                                         LineBreakMode="NoWrap" Style="{x:StaticResource HelpText}" Margin="0,-5,0,0" TextColor="{x:StaticResource GrayColor}"/>
 
                                     </StackLayout>
