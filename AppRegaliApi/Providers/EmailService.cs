@@ -16,7 +16,7 @@ namespace AppRegaliApi.Providers
         }
         public  static async Task SendAsync(string EmailTo,string Subject, string Body)
         {
-            var apiKey = "";
+            var apiKey = Properties.Settings.Default.SendGridApiKey;
             var client = new SendGridClient(apiKey);
             var from = new EmailAddress("AppRegalo@app.com", "AppRegalo");
             var subject = Subject;
