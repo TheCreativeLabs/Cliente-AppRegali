@@ -52,7 +52,8 @@
                             <StackLayout Orientation="Horizontal" Padding="20" HorizontalOptions="FillAndExpand">
                                 <Label Text="{Binding Title}" d:Text="{Binding .}" FontSize="18"  VerticalTextAlignment="Center" />
                                 <Label Text="{Binding Icon}" FontSize="18" VerticalTextAlignment="Center"
-                                       FontFamily="{x:StaticResource FA-Solid}" HorizontalOptions="EndAndExpand" ></Label>
+                                       FontFamily="{x:StaticResource FA-Solid}" HorizontalOptions="EndAndExpand" IsVisible="{Binding Icon}" ></Label>
+                                <Image x:Name="imgEn" Source="{Binding Image}" HeightRequest="10" VerticalOptions="Center" IsVisible="{Binding Image}"></Image>
                             </StackLayout>
                         </ViewCell>
                     </DataTemplate>
@@ -81,21 +82,21 @@
             <!--</StackLayout>-->
         </StackLayout>
         
-        <Frame VerticalOptions="Start">
+        <!--<Frame VerticalOptions="Start">
             <StackLayout Orientation="Horizontal">
                 <Label x:Name="CambiaLingua" Text="{translator:Translate Menu.ChangeLanguage}" HorizontalOptions="Start" VerticalOptions="Center"></Label>
 
                 <Image x:Name="imgEn" Source="en.png" Margin="0,0,0,0" IsVisible="false" HorizontalOptions="EndAndExpand" VerticalOptions="Center"></Image>
-                <Image x:Name="imgIt" Source="it.png" Margin="0,0,0,0" IsVisible="false" HorizontalOptions="EndAndExpand" VerticalOptions="Center"></Image>
+                <Image x:Name="imgIt" Source="it.png" Margin="0,0,0,0" IsVisible="false" HorizontalOptions="EndAndExpand" VerticalOptions="Center"></Image>-->
 
                 <Picker  x:Name="pkLanguage" IsVisible="False"   ItemDisplayBinding="{Binding Codice, Converter={StaticResource TranslateConverter}}" 
                       Title="{translator:Translate Menu.ChangeLanguage}" SelectedIndexChanged="pkLanguage_SelectedIndexChanged"></Picker>
 
-                <StackLayout.GestureRecognizers>
+                <!--<StackLayout.GestureRecognizers>
                     <TapGestureRecognizer Tapped="btnCambiaLingua_Clicked"></TapGestureRecognizer>
                 </StackLayout.GestureRecognizers>
             </StackLayout>
-        </Frame>
+        </Frame>-->
     </StackLayout>
 
 </ContentPage>

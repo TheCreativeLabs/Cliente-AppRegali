@@ -41,7 +41,7 @@
                             <Image x:Name="imgEventoDettaglio" Aspect="AspectFill" Source="{Binding Item.ImmagineEvento, Converter={StaticResource ByteArrayToImage}}"></Image>
                         </Frame>
 
-                        <Frame HasShadow="True" Margin="0,-90,0,0">
+                        <Frame HasShadow="True" Margin="0,-90,0,0" x:Name="FrameTitle" IsVisible="False">
                             <StackLayout>
                                 <Label Text="{Binding Item.Titolo}" Margin="0,0,0,10" Style="{x:StaticResource Title}" HorizontalTextAlignment="Center"/>
                                 <StackLayout Orientation="Horizontal">
@@ -96,7 +96,7 @@
                     </StackLayout>
                 </ScrollView>
 
-                <StackLayout Grid.Row="0" Grid.Column="0" x:Name="stkHeader" VerticalOptions="StartAndExpand"  Orientation="Horizontal" Margin="0,0,0,0" >
+                <StackLayout Grid.Row="0" Grid.Column="0" x:Name="stkHeader" VerticalOptions="StartAndExpand"  Orientation="Horizontal" Margin="10" >
                     <controls:ProfileBackButton HeightRequest="40" HorizontalOptions="StartAndExpand"/>
 
                 </StackLayout>

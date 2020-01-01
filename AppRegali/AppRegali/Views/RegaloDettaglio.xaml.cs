@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Api;
 using AppRegali.Api;
+using AppRegali.ViewModels;
 using Xamarin.Forms;
 
 namespace AppRegali.Views
@@ -40,7 +41,7 @@ namespace AppRegali.Views
 
             await DisplayAlert("Complimenti", "la donazione è avvenuta con successo", "OK");
 
-            MessagingCenter.Send(this, "RefreshLista", "OK");
+            MessagingCenter.Send(this, "RefreshListaRegaliDettaglio", "OK");
 
             await Navigation.PopModalAsync();
         }

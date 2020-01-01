@@ -33,7 +33,7 @@ namespace AppRegali.Views
         {
             base.OnAppearing();
 
-            MessagingCenter.Subscribe<RegaloDettaglio, string>(this, "RefreshLista", async (sender, arg) =>
+            MessagingCenter.Subscribe<RegaloDettaglio, string>(this, "RefreshListaRegaliDettaglio", async (sender, arg) =>
             {
                 if (!string.IsNullOrEmpty(arg))
                 {
@@ -48,6 +48,8 @@ namespace AppRegali.Views
 
                 EventoClient eventoClient = new EventoClient(await ApiHelper.GetApiClient());
                 var item = await eventoClient.GetEventoByIdAsync(new Guid(viewModel.Item.Id));
+                viewModel.Item.CodiceCategoriaEvento = item.CodiceCategoriaEvento;
+                FrameTitle.IsVisible = true;
                 viewModel.Item.Regali = item.Regali;
             }
 

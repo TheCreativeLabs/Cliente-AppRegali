@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Api;
 using AppRegali.Api;
+using AppRegali.ViewModels;
 using Xamarin.Forms;
 
 namespace AppRegali.Views
@@ -30,8 +31,61 @@ namespace AppRegali.Views
             EventoClient eventoClient = new EventoClient(await  ApiHelper.GetApiClient());
             PartecipazioneDtoOutput partecipazione =  await eventoClient.GetPartecipazioniRegaloAsync(new Guid(Regalo.Id));
             lvPartecipanti.ItemsSource = partecipazione.UtentiPartecipanti.ToList();
-            if(partecipazione.NumeroAnonimi.HasValue && partecipazione.NumeroAnonimi.Value > 0)
+            if (partecipazione.NumeroAnonimi.HasValue && partecipazione.NumeroAnonimi.Value > 0)
+            {
                 NumeroPartecipanti.Text = partecipazione.NumeroAnonimi.ToString();
+                LabelAnonimi.IsVisible = true;
+            }
+        }
+
+        private async void BtnModificaRegalo_Clicked(object sender, EventArgs e)
+        {
+            try
+            {
+                await Navigation.PushAsync(new RegaloModifica(new RegaloDetailViewModel(Regalo)));
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        private async void Delete_Clicked(object sender, EventArgs e)
+        {
+            try
+            {
+                bool answer = await DisplayAlert("Attenzione", "Vuoi davvero eliminare il regalo?", "Yes", "No");
+                if (answer)
+                {
+                    try
+                    {
+                        RegaloPersonaleDettaglioActivityIndicator.IsVisible = true;
+
+                        EventoClient eventoClient = new EventoClient(await ApiHelper.GetApiClient());
+                        await eventoClient.DeleteRegaloAsync(new Guid(Regalo.Id));
+
+                        MessagingCenter.Send(this, "RefreshListaRegaliPersonaliElimina", "OK");
+
+                        await DisplayAlert(null, "Regalo eliminato", "Ok");
+                        //torno indietro alla lista degli eventi personali
+                        await Navigation.PopAsync();
+                        await Navigation.PopModalAsync();
+                    }
+                    catch
+                    {
+                        await DisplayAlert(null, "Errore durante l'eliminazione del regalo", "Ok");
+                    }
+                    finally
+                    {
+                        RegaloPersonaleDettaglioActivityIndicator.IsVisible = false;
+                    }
+                }
+
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
     }
 }

@@ -27,9 +27,8 @@ namespace AppRegali.ViewModels
         {
             if (Items.Count == 0)
             {
-                EventoClient eventoClient = new EventoClient(await ApiHelper.GetApiClient());
 
-                List<EventoCategoria> listaCategorie = (List<EventoCategoria>)await eventoClient.GetLookupEventoCategoriaAsync();
+                List<EventoCategoria> listaCategorie = await ApiHelper.GetCategorie(); ;
 
                 foreach (var categoria in listaCategorie)
                 {

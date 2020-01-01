@@ -51,7 +51,7 @@ namespace AppRegali.Views
             try
             {
                 base.OnAppearing();
-                changeLanguageIcon();
+                //changeLanguageIcon();
 
                 languages = new List<Language>()
                 {
@@ -82,6 +82,7 @@ namespace AppRegali.Views
             string mieiAmiciTitle = Helpers.TranslateExtension.ResMgr.Value.GetString("Menu.MyFriends", CurrentCulture.Ci); 
             string accountTitle = Helpers.TranslateExtension.ResMgr.Value.GetString("Menu.Account", CurrentCulture.Ci);
             string logOutTitle = Helpers.TranslateExtension.ResMgr.Value.GetString("Menu.Logout", CurrentCulture.Ci);
+            string languageTitle = Helpers.TranslateExtension.ResMgr.Value.GetString("Menu.ChangeLanguage", CurrentCulture.Ci);
 
             menuItems = new List<HomeMenuItem>
             {
@@ -91,8 +92,11 @@ namespace AppRegali.Views
                 new HomeMenuItem {Id = MenuItemType.EventiPersonali, Title=mieiEventiTitle, Icon="\uf073" }, 
                 new HomeMenuItem {Id = MenuItemType.Amici, Title=mieiAmiciTitle, Icon="\uf500"  }, 
                 new HomeMenuItem {Id = MenuItemType.Account, Title=accountTitle, Icon="\uf007", Model = userInfoDto  }, 
-                new HomeMenuItem {Id = MenuItemType.Logout, Title=logOutTitle, Icon="\uf2f5", Model = userInfoDto  }, 
+                new HomeMenuItem {Id = MenuItemType.Logout, Title=logOutTitle, Icon="\uf2f5", Model = userInfoDto  },
+                new HomeMenuItem {Id = MenuItemType.Language, Title=languageTitle }
             };
+
+            changeLanguageIcon();
 
             ListViewMenu.ItemsSource = menuItems;
 
@@ -110,6 +114,10 @@ namespace AppRegali.Views
                     if(action == "Log out") {
                         Logout();
                     }
+                } else if (homeMenuItem.Id == MenuItemType.Language)
+                {
+                    pkLanguage.Focus();
+                    ListViewMenu.SelectedItem = null;
                 }
                 else
                 {
@@ -192,14 +200,18 @@ namespace AppRegali.Views
 
         private void changeLanguageIcon()
         {
-            if (CurrentCulture.Ci.Name == "en")
-            {
-                imgEn.IsVisible = true;
-            }
-            else if (CurrentCulture.Ci.Name == "it")
-            {
-                imgIt.IsVisible = true;
-            }
+            //if (CurrentCulture.Ci.Name == "en")
+            //{
+            //    imgEn.IsVisible = true;
+            //}
+            //else if (CurrentCulture.Ci.Name == "it")
+            //{
+            //    imgIt.IsVisible = true;
+            //}
+            
+            HomeMenuItem itemLang = menuItems.Where(x => x.Id == MenuItemType.Language).FirstOrDefault();
+                itemLang.Image = CurrentCulture.Ci.Name + ".png";
+            ListViewMenu.ItemsSource = menuItems.ToArray();
         }
 
         private async void Logout()

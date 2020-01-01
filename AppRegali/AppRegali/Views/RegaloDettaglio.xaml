@@ -14,11 +14,11 @@
 
 
     <ContentPage.Content>
-       <StackLayout Padding="20" VerticalOptions="FillAndExpand">
+       <StackLayout VerticalOptions="FillAndExpand">
 
-            <controls:ProfileBackButton Margin="0,-10,0,-10"  HorizontalOptions="Start"/>
+            <controls:ProfileBackButton Margin="10"  HorizontalOptions="Start"/>
 
-            <Frame HasShadow="True" CornerRadius="10" Padding="0" VerticalOptions="FillAndExpand" IsClippedToBounds="True">
+            <Frame  Margin="20" HasShadow="True" CornerRadius="10" Padding="0" VerticalOptions="FillAndExpand" IsClippedToBounds="True">
                 <StackLayout>
                     <Image Aspect="AspectFill" HeightRequest="200" Source="{Binding ImmagineRegalo, Converter={StaticResource ByteArrayToImage}}"></Image>
 
@@ -41,7 +41,7 @@
 
                         <StackLayout Margin="0,20,0,20" Orientation="Horizontal">
                             <CheckBox x:Name="chkAnonimo"></CheckBox>
-                            <Label VerticalTextAlignment="Center" Text="Voglio restare anonimo"></Label>
+                            <Label VerticalTextAlignment="Center" Text="Voglio restare anonimo. Spuntando questa opzione, il festeggiato non visualizzerà il tuo nome tra i partecipanti al regalo fino alla data dell'evento."></Label>
                         </StackLayout>
 
                         <Grid>

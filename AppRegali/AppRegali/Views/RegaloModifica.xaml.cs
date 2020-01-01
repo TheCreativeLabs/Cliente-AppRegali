@@ -31,6 +31,8 @@ namespace AppRegali.Views
 
         private async void Update_Clicked(object sender, EventArgs e)
         {
+            RegaloModificaActivityIndicator.IsVisible = true;
+
             RegaloDtoInput regaloDtoInput = new RegaloDtoInput()
             {
                 Cancellato = viewModel.Item.Cancellato,
@@ -48,6 +50,10 @@ namespace AppRegali.Views
 
             EventoClient eventoClient = new EventoClient(await ApiHelper.GetApiClient());
             await eventoClient.UpdateRegaloAsync(id, regaloDtoInput);
+            MessagingCenter.Send(this, "RefreshListaRegaliPersonaliModifica", "OK");
+
+            RegaloModificaActivityIndicator.IsVisible = false;
+
             await DisplayAlert(null,
                 Helpers.TranslateExtension.ResMgr.Value.GetString("RegaloModifica.SalvataggioOk", CurrentCulture.Ci),
                 Helpers.TranslateExtension.ResMgr.Value.GetString("RegaloModifica.Ok", CurrentCulture.Ci));
@@ -55,34 +61,43 @@ namespace AppRegali.Views
 
         }
 
-        private async void Delete_Clicked(object sender, EventArgs e)
-        {
-            try
-            {
-                bool answer = await DisplayAlert("Attenzione", "Vuoi davvero eliminare il regalo?", "Yes", "No");
-                if (answer)
-                {
-                    try
-                    {
+        //private async void Delete_Clicked(object sender, EventArgs e)
+        //{
+        //    try
+        //    {
+        //        bool answer = await DisplayAlert("Attenzione", "Vuoi davvero eliminare il regalo?", "Yes", "No");
+        //        if (answer)
+        //        {
+        //            try
+        //            {
+        //                RegaloModificaActivityIndicator.IsVisible = true;
 
-                        EventoClient eventoClient = new EventoClient(await ApiHelper.GetApiClient());
-                        await eventoClient.DeleteRegaloAsync(new Guid(viewModel.Item.Id));
-                        await DisplayAlert(null, "Regalo eliminato", "Ok");
-                        //torno indietro alla lista degli eventi personali
-                        await Navigation.PopAsync();
-                    }
-                    catch
-                    {
-                        await DisplayAlert(null, "Errore durante l'eliminazione del regalo", "Ok");
-                    }
-                }
+        //                EventoClient eventoClient = new EventoClient(await ApiHelper.GetApiClient());
+        //                await eventoClient.DeleteRegaloAsync(new Guid(viewModel.Item.Id));
 
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-        }
+        //                MessagingCenter.Send(this, "RefreshListaRegaliPersonaliElimina", "OK");
+
+        //                await DisplayAlert(null, "Regalo eliminato", "Ok");
+        //                //torno indietro alla lista degli eventi personali
+        //                await Navigation.PopAsync();
+        //                await Navigation.PopModalAsync();
+        //            }
+        //            catch
+        //            {
+        //                await DisplayAlert(null, "Errore durante l'eliminazione del regalo", "Ok");
+        //            }
+        //            finally
+        //            {
+        //                RegaloModificaActivityIndicator.IsVisible = false;
+        //            }
+        //        }
+
+        //    }
+        //    catch (Exception)
+        //    {
+        //        throw;
+        //    }
+        //}
 
         async void OnPickPhotoButtonClicked(object sender, EventArgs e)
         {

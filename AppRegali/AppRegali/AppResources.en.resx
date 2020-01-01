@@ -168,6 +168,9 @@
   <data name="BIRTHDAY" xml:space="preserve">
     <value>Birthday</value>
   </data>
+  <data name="ButtonBack" xml:space="preserve">
+    <value>Back</value>
+  </data>
   <data name="CambiaPassword.MessaggioValidazionePassword" xml:space="preserve">
     <value>La Password inserita non è valida.</value>
   </data>
@@ -280,7 +283,7 @@
     <value>Sign in with Facebook</value>
   </data>
   <data name="Login.ForgotPassword" xml:space="preserve">
-    <value>Hai dimenticato la password? Ti aiuteremo a recuperarla.</value>
+    <value>Forgotten password?</value>
   </data>
   <data name="Login.MessaggioPasswordObbligatoria" xml:space="preserve">
     <value>Inserire una password</value>

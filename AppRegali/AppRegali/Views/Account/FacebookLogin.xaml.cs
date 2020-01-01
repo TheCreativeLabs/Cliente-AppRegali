@@ -24,9 +24,9 @@ namespace AppRegali.Views.Account
 
             //ottengo l'url da chiamare per l'autenticazione su Facebook
             AccountClient accountClient = new AccountClient(new System.Net.Http.HttpClient());
-            ExternalLoginViewModel externalLoginViewModel = accountClient.GetExternalLoginsAsync("/", true).Result.First();
-            string apiRequest = "https://appregaliapitest.com" + externalLoginViewModel.Url;
-            apiRequest= apiRequest.Replace("www.", "");
+            ExternalLoginViewModel externalLoginViewModel = accountClient.GetExternalLoginsAsync("/FacebookLoading", true).Result.First();
+            string apiRequest = $"{AppSetting.ApiEndpoint.Replace(".com/",".com")}{externalLoginViewModel.Url}";
+            apiRequest = apiRequest.Replace("www.", "");
             ApiRequest = apiRequest;
             //mostro l'url nella pagina
             var webView = new WebView
@@ -88,11 +88,11 @@ namespace AppRegali.Views.Account
                 }
                 else
                 {
-                //Application.Current.MainPage = new NavigationPage( new MainPage());
-                Application.Current.MainPage = new MainPage();
+                    //Application.Current.MainPage = new NavigationPage( new MainPage());
+                    Application.Current.MainPage = new MainPage();
                 }
 
-              
+
 
             }
         }
@@ -106,11 +106,11 @@ namespace AppRegali.Views.Account
         {
             if (url.Contains("access_token") && url.Contains("&expires_in="))
             {
-                var at = url.Replace("https://appregaliapitest.com/#access_token=", "");
+                var at = url.Replace($"{AppSetting.ApiEndpoint}"+"FacebookLoading#access_token=", "");
 
                 if (Device.OS == TargetPlatform.WinPhone || Device.OS == TargetPlatform.Windows)
                 {
-                    at = url.Replace("https://appregaliapitest.com/#access_token=", "");
+                    at = url.Replace($"{AppSetting.ApiEndpoint}FacebookLoading#access_token=", "");
                 }
 
                 var accessToken = at.Remove(at.IndexOf("&token_type=bearer&expires_in="));

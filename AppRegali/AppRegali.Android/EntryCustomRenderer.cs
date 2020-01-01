@@ -124,40 +124,40 @@ namespace CustomRenderer
             }
         }
 
-        public class DatePickerCtrlRenderer : DatePickerRenderer
-        {
-            public DatePickerCtrlRenderer(Context context) : base(context)
-            {
-            }
+        //public class DatePickerCtrlRenderer : DatePickerRenderer
+        //{
+        //    public DatePickerCtrlRenderer(Context context) : base(context)
+        //    {
+        //    }
 
-            protected override void OnElementChanged(ElementChangedEventArgs<Xamarin.Forms.DatePicker> e)
-            {
-                base.OnElementChanged(e);
+        //    protected override void OnElementChanged(ElementChangedEventArgs<Xamarin.Forms.DatePicker> e)
+        //    {
+        //        base.OnElementChanged(e);
 
-                //this.Control.SetTextColor(Android.Graphics.Color.LightGray);
-                this.Control.SetBackgroundColor(Android.Graphics.Color.Transparent);
-                this.Control.SetPadding(20, 0, 0, 0);
-                GradientDrawable gd = new GradientDrawable();
-                gd.SetCornerRadius(10); //increase or decrease to changes the corner look
-                gd.SetColor(Android.Graphics.Color.Transparent);
-                gd.SetStroke(1, Xamarin.Forms.Color.FromRgb(211, 211, 211).ToAndroid());
-                this.Control.SetBackgroundDrawable(gd);
+        //        //this.Control.SetTextColor(Android.Graphics.Color.LightGray);
+        //        this.Control.SetBackgroundColor(Android.Graphics.Color.Transparent);
+        //        this.Control.SetPadding(20, 0, 0, 0);
+        //        GradientDrawable gd = new GradientDrawable();
+        //        gd.SetCornerRadius(10); //increase or decrease to changes the corner look
+        //        gd.SetColor(Android.Graphics.Color.Transparent);
+        //        gd.SetStroke(1, Xamarin.Forms.Color.FromRgb(211, 211, 211).ToAndroid());
+        //        this.Control.SetBackgroundDrawable(gd);
 
-                DatePickerCtrl element = Element as DatePickerCtrl;
+        //        DatePickerCtrl element = Element as DatePickerCtrl;
 
-                if (!string.IsNullOrWhiteSpace(element.Placeholder))
-                {
-                    Control.Text = element.Placeholder;
-                }
-                this.Control.TextChanged += (sender, arg) => {
-                    var selectedDate = arg.Text.ToString();
-                    if (selectedDate == element.Placeholder)
-                    {
-                        Control.Text = DateTime.Now.ToString("dd/MM/yyyy");
-                    }
-                };
-            }
-        }
+        //        if (!string.IsNullOrWhiteSpace(element.Placeholder))
+        //        {
+        //            Control.Text = element.Placeholder;
+        //        }
+        //        this.Control.TextChanged += (sender, arg) => {
+        //            var selectedDate = arg.Text.ToString();
+        //            if (selectedDate == element.Placeholder)
+        //            {
+        //                Control.Text = DateTime.Now.ToString("dd/MM/yyyy");
+        //            }
+        //        };
+        //    }
+        //}
     }
 
     public class DatePickerCtrlRenderer : DatePickerRenderer

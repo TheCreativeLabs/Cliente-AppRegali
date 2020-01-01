@@ -168,6 +168,9 @@
   <data name="BIRTHDAY" xml:space="preserve">
     <value>Compleanno</value>
   </data>
+  <data name="ButtonBack" xml:space="preserve">
+    <value>Indietro</value>
+  </data>
   <data name="CambiaPassword.MessaggioValidazionePassword" xml:space="preserve">
     <value>La Password inserita non è valida.</value>
   </data>
@@ -225,6 +228,9 @@
   <data name="EventoModifca.SelezionaCategoria" xml:space="preserve">
     <value>Seleziona categoria</value>
   </data>
+  <data name="EventoModifica.ConfirmDelete" xml:space="preserve">
+    <value>Vuoi davvero eliminare l'evento? Anche i regali associati saranno eliminati.</value>
+  </data>
   <data name="EventoModifica.DeleteError" xml:space="preserve">
     <value>Errore durante l'eliminazione dell'evento</value>
   </data>
@@ -277,7 +283,7 @@
     <value>Accedi con Facebook</value>
   </data>
   <data name="Login.ForgotPassword" xml:space="preserve">
-    <value>Password dimenticata?</value>
+    <value>Hai dimenticato la password? Ti aiuteremo a recuperarla.</value>
   </data>
   <data name="Login.MessaggioPasswordObbligatoria" xml:space="preserve">
     <value>Inserire una password</value>

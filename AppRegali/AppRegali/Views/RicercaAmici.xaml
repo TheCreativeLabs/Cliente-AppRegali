@@ -8,6 +8,7 @@
              xmlns:conv="clr-namespace:AppRegali.Converter;assembly=AppRegali"
              x:Class="AppRegali.Views.RicercaAmici"
              xmlns:translator="clr-namespace:AppRegali.Helpers"
+             xmlns:controls="clr-namespace:AppRegali.ContentViews"
              NavigationPage.HasNavigationBar="False"
              BackgroundColor="{x:StaticResource SfondoColor}">
 
@@ -19,16 +20,26 @@
 
     <ContentPage.Content>
         <StackLayout Padding="20">
-            <Frame HasShadow="True" Padding="10,5,5,5">
-                <StackLayout Orientation="Horizontal">
-                 <Label FontSize="17" VerticalTextAlignment="Center" FontFamily="{x:StaticResource FA-Solid}" TextColor="{x:StaticResource GrayColor}" Text="&#xf002;"></Label>
 
-                     <appregali:SearchEntry2 HorizontalOptions="FillAndExpand" 
-                                        Placeholder="{translator:Translate RicercaAmici.SearchBar}" 
-                                        x:Name="entRicerca"
-                                        Visual="Default"/>
-                </StackLayout>
-            </Frame>
+            <!--<Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                </Grid.ColumnDefinitions>-->
+                <controls:ProfileBackButton Grid.Column="0" HeightRequest="40" HorizontalOptions="FillAndExpand"/>
+
+                <Frame Grid.Column="1" HasShadow="True" Padding="10,5,5,5" HorizontalOptions="FillAndExpand" >
+                    <StackLayout Orientation="Horizontal">
+                     <Label FontSize="17" VerticalTextAlignment="Center" FontFamily="{x:StaticResource FA-Solid}" TextColor="{x:StaticResource GrayColor}" Text="&#xf002;"></Label>
+
+                         <appregali:SearchEntry2 HorizontalOptions="FillAndExpand" 
+                                            Placeholder="{translator:Translate RicercaAmici.SearchBar}" 
+                                            x:Name="entRicerca"
+                                            Visual="Default"/>
+                    </StackLayout>
+                </Frame>
+            <!--</Grid>-->
+
 
             <ActivityIndicator IsRunning="{Binding IsLoading}" IsVisible="{Binding IsLoading}"/>
 

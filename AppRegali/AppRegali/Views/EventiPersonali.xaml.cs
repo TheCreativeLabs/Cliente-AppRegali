@@ -14,6 +14,7 @@ using Api;
 //using Java.Util;
 using AppRegali.Api;
 using AppRegali.Utility;
+using System.Collections.ObjectModel;
 
 namespace AppRegali.Views
 {
@@ -58,8 +59,36 @@ namespace AppRegali.Views
         {
             base.OnAppearing();
 
-            //ricarico ogni volta per recepire le modifiche
-            viewModel.LoadItemsCommand.Execute(null);
+            MessagingCenter.Subscribe<EventoModifica, string>(this, "RefreshListaEventiPersonaliModifica", async (sender, arg) =>
+            {
+                if (!string.IsNullOrEmpty(arg))
+                {
+                    viewModel.Items = new ObservableCollection<EventoDtoOutput>();
+                }
+            });
+
+            MessagingCenter.Subscribe<EventoInserisci, string>(this, "RefreshListaEventiPersonaliInsert", async (sender, arg) =>
+            {
+                if (!string.IsNullOrEmpty(arg))
+                {
+                    viewModel.Items = new ObservableCollection<EventoDtoOutput>();
+                }
+            });
+
+            MessagingCenter.Subscribe<EventoModifica, string>(this, "RefreshListaEventiPersonaliElimina", async (sender, arg) =>
+            {
+                if (!string.IsNullOrEmpty(arg))
+                {
+                    viewModel.Items = new ObservableCollection<EventoDtoOutput>();
+                }
+            });
+
+
+            //ricarico quando devo recepire le modifiche
+            if (viewModel.Items == null || viewModel.Items.Count == 0)
+            {
+                viewModel.LoadItemsCommand.Execute(null);
+            }
         }
 
         //private async void lblComandiRapidi_Tapped(object sender, EventArgs e)

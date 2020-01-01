@@ -36,6 +36,9 @@ namespace AppRegali.Views
 
         private async void Create_Clicked(object sender, EventArgs e)
         {
+
+            RegaloInserisciActivityIndicator.IsVisible = true;
+
             EventoClient eventoClient = new EventoClient(await ApiHelper.GetApiClient());
 
             RegaloDtoInput regaloDtoInput = new RegaloDtoInput()
@@ -51,6 +54,11 @@ namespace AppRegali.Views
 
             //Creo il regalo
             RegaloDtoOutput regaloInserito = await eventoClient.InserisciRegaloAsync(regaloDtoInput);
+
+            MessagingCenter.Send(this, "RefreshListaRegaliPersonaliInserisci", "OK");
+
+            RegaloInserisciActivityIndicator.IsVisible = false;
+
             await Navigation.PopModalAsync();
 
         }
