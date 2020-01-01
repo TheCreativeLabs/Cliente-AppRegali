@@ -12,6 +12,7 @@ using Microsoft.Owin.Security.OAuth;
 using AppRegaliApi.Models;
 using Microsoft.Owin.Security.Infrastructure;
 using System.Collections.Concurrent;
+using System.Web.Http.Routing;
 
 namespace AppRegaliApi.Providers
 {
@@ -38,6 +39,23 @@ namespace AppRegaliApi.Providers
             if (user == null)
             {
                 context.SetError("invalid_grant", "The user name or password is incorrect.");
+                return;
+            }
+            else if (user.EmailConfirmed == false)
+            {
+
+                //Reinvio la email
+                var code = await userManager.GenerateEmailConfirmationTokenAsync(user.Id);
+
+                UrlHelper url = new UrlHelper();
+                var callbackUrl = url.Link("Default", new { Controller = "Api/Account", Action = "ConfirmEmail", UserId = user.Id, Code = code });
+
+                await EmailService.SendAsync(user.Email,
+                   "Confirm your account",
+                   "Please confirm your account by clicking this link: <a href=\""
+                                                   + callbackUrl + "\">link</a>");
+
+                context.SetError("invalid_grant", "The user email is not confirmed.");
                 return;
             }
 
@@ -77,12 +95,12 @@ namespace AppRegaliApi.Providers
         {
             if (context.ClientId == _publicClientId)
             {
-                Uri expectedRootUri = new Uri(context.Request.Uri, "/");
+                //Uri expectedRootUri = new Uri(context.Request.Uri, "/");
 
-                if (expectedRootUri.AbsoluteUri == context.RedirectUri)
-                {
+                //if (expectedRootUri.AbsoluteUri == context.RedirectUri)
+                //{
                     context.Validated();
-                }
+                //}
             }
 
             return Task.FromResult<object>(null);

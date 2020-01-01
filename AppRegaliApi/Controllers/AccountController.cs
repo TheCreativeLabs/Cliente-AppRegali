@@ -338,16 +338,6 @@ namespace AppRegaliApi.Controllers
                 return BadRequest(ModelState);
             }
 
-
-            var code2 = await UserManager.GenerateEmailConfirmationTokenAsync("81528296-b274-49f3-af51-7afc430a38c6");
-
-            var callbackUrl2 = Url.Link("Default", new { Controller = "Api/Account", Action = "ConfirmEmail", UserId = "81528296-b274-49f3-af51-7afc430a38c6", Code = code2 });
-
-            await EmailService.SendAsync(model.Email,
-               "Confirm your account",
-               "Please confirm your account by clicking this link: <a href=\""
-                                               + callbackUrl2 + "\">link</a>");
-
             var user = new ApplicationUser() { UserName = model.Email, Email = model.Email };
 
             IdentityResult result = await UserManager.CreateAsync(user, model.Password);
