@@ -6,6 +6,7 @@ using AppRegali.Services;
 using AppRegali.Views;
 using AppRegali.Views.Login;
 using Plugin.Multilingual;
+using AppRegali.Api;
 
 namespace AppRegali
 {
@@ -16,7 +17,19 @@ namespace AppRegali
             InitializeComponent();
 
             DependencyService.Register<Helpers.TranslateExtension>();
-            MainPage = new NavigationPage(new Login());
+            // MainPage = new NavigationPage(new Login());
+            SetMainPage();
+        }
+
+        public async void SetMainPage()
+        {
+            if (await ApiHelper.GetToken() != null)
+            {
+                MainPage = new MainPage();
+            } else
+            {
+                MainPage = new NavigationPage(new Login());
+            }
         }
 
         protected override void OnStart()

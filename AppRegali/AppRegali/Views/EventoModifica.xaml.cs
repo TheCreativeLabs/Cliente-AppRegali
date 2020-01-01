@@ -23,12 +23,15 @@ namespace AppRegali.Views
         static Helpers.TranslateExtension translate = new Helpers.TranslateExtension();
         public CategorieViewModel categorieViewModel { get; set; }
         Guid EventoId;
+        //bool isPhotoLoading = false;
 
         EventoClient eventoClient;
 
         public EventoModifica(Guid Id)
         {
             InitializeComponent();
+            categorieViewModel = new CategorieViewModel();
+            viewModel = new EventoDetailViewModel();
             EventoId = Id;
 
         }
@@ -45,27 +48,67 @@ namespace AppRegali.Views
             //imgEventoModifica.Source = ImageSource.FromStream(() => { return stream; });
             base.OnAppearing();
 
-            eventoClient = new EventoClient(await ApiHelper.GetApiClient());
 
-            EventoModificaActivityIndicator.IsRunning = true;
             EventoModificaActivityIndicator.IsVisible = true;
 
-            //if (this.viewModel == null) ricarico SEMPRE e non solo se è null, altrimenti non si percepiscono le modifiche dei regali
+            if (categorieViewModel.Items == null || categorieViewModel.Items.Count == 0)
+            {
+                await categorieViewModel.LoadCategorie();
+                pkCategoria.ItemsSource = categorieViewModel.Items;
+            }
+
+            //if (!isPhotoLoading) //durante il caricamento della foto non si deve ricaricare il viewModel
             //{
+
+            MessagingCenter.Subscribe<RegaloModifica, string>(this, "RefreshListaRegaliPersonaliModifica", async (sender, arg) =>
+            {
+                if (!string.IsNullOrEmpty(arg))
+                {
+                    //si potrebbe ricaricare solo la lista dei regali ma x ora ricarichiamo tutto 
+                    viewModel.Item = null;
+                }
+            });
+
+
+            MessagingCenter.Subscribe<RegaloInserisci, string>(this, "RefreshListaRegaliPersonaliInserisci", async (sender, arg) =>
+            {
+                if (!string.IsNullOrEmpty(arg))
+                {
+                    //si potrebbe ricaricare solo la lista dei regali ma x ora ricarichiamo tutto 
+                    viewModel.Item = null;
+                }
+            });
+
+
+            MessagingCenter.Subscribe<RegaloPersonaleDettaglio, string>(this, "RefreshListaRegaliPersonaliElimina", async (sender, arg) =>
+            {
+                if (!string.IsNullOrEmpty(arg))
+                {
+                    //si potrebbe ricaricare solo la lista dei regali ma x ora ricarichiamo tutto 
+                    viewModel.Item = null;
+                }
+            });
+            
+
+            if (this.viewModel.Item == null) { 
+                eventoClient = new EventoClient(await ApiHelper.GetApiClient());
+
                 this.viewModel = new EventoDetailViewModel();
                 this.viewModel.Item = await LoadEventoDetailById();
                 BindingContext = this.viewModel;
 
                 RegaliModificaListView.ItemsSource = viewModel.Item.Regali;
+            }
 
-               
-                List<EventoCategoria> listaCategorie = (List<EventoCategoria>)await this.eventoClient.GetLookupEventoCategoriaAsync();
-                pkCategoria.ItemsSource = listaCategorie;
-                EventoCategoria categoria = listaCategorie.First(a => a.Id == this.viewModel.Item.IdCategoriaEvento);
-                pkCategoria.SelectedItem = categoria;
+
+
+            //EventoModificaActivityIndicator.IsRunning = false;
+
             //}
 
-            EventoModificaActivityIndicator.IsRunning = false;
+            EventoCategoria categoria = categorieViewModel.Items.First(a => a.Id == this.viewModel.Item.IdCategoriaEvento);
+            pkCategoria.SelectedItem = categoria;
+
             EventoModificaActivityIndicator.IsVisible = false;
             ScrollViewEventoModifica.IsVisible = true;
         }
@@ -86,6 +129,9 @@ namespace AppRegali.Views
 
         private async void Update_Clicked(object sender, EventArgs e)
         {
+
+            EventoModificaActivityIndicator.IsVisible = true;
+
             EventoDtoInput eventoDtoInput = new EventoDtoInput()
             {
                 Cancellato = viewModel.Item.Cancellato,
@@ -100,6 +146,10 @@ namespace AppRegali.Views
 
             //Faccio update dell'evento
             var eventoInserito = await eventoClient.UpdateEventoAsync(new Guid(viewModel.Item.Id), eventoDtoInput);
+
+            MessagingCenter.Send(this, "RefreshListaEventiPersonaliModifica", "OK");
+
+            EventoModificaActivityIndicator.IsVisible = false;
             await DisplayAlert(null,
                 Helpers.TranslateExtension.ResMgr.Value.GetString("EventoModifica.SalvataggioOk", CurrentCulture.Ci),
                 Helpers.TranslateExtension.ResMgr.Value.GetString("EventoModifica.Ok", CurrentCulture.Ci));
@@ -118,7 +168,14 @@ namespace AppRegali.Views
                 {
                     try
                     {
+                        EventoModificaActivityIndicator.IsVisible = true;
+
                         await eventoClient.DeleteEventoAsync(new Guid(viewModel.Item.Id));
+
+                        EventoModificaActivityIndicator.IsVisible = false;
+
+                        MessagingCenter.Send(this, "RefreshListaEventiPersonaliElimina", "OK");
+
                         await DisplayAlert(null,
                             Helpers.TranslateExtension.ResMgr.Value.GetString("EventoModifica.EventDeleted", CurrentCulture.Ci),
                             Helpers.TranslateExtension.ResMgr.Value.GetString("EventoModifica.Ok", CurrentCulture.Ci));
@@ -140,19 +197,19 @@ namespace AppRegali.Views
             }
         }
 
-        private async void BtnModificaRegalo_Clicked(object sender, EventArgs e)
-        {
-            try
-            {
-                var btn = (Button)sender;
-                var item = (RegaloDtoOutput)btn.CommandParameter;
-                await Navigation.PushAsync(new RegaloModifica(new RegaloDetailViewModel(item)));
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-        }
+        //private async void BtnModificaRegalo_Clicked(object sender, EventArgs e)
+        //{
+        //    try
+        //    {
+        //        var btn = (Button)sender;
+        //        var item = (RegaloDtoOutput)btn.CommandParameter;
+        //        await Navigation.PushAsync(new RegaloModifica(new RegaloDetailViewModel(item)));
+        //    }
+        //    catch (Exception)
+        //    {
+        //        throw;
+        //    }
+        //}
 
         async void AddRegalo_Clicked(object sender, EventArgs e)
         {
@@ -194,6 +251,8 @@ namespace AppRegali.Views
 
         async void PickPhoto()
         {
+            //isPhotoLoading = true;
+
             await CrossMedia.Current.Initialize();
 
             MediaFile foto = await CrossMedia.Current.PickPhotoAsync(new Plugin.Media.Abstractions.PickMediaOptions
@@ -211,6 +270,7 @@ namespace AppRegali.Views
                 viewModel.Item.ImmagineEvento = memoryStream.ToArray();
                 imgEventoModifica.Source = ImageSource.FromStream(() => { return new MemoryStream(viewModel.Item.ImmagineEvento); });
             }
+            //isPhotoLoading = false;
         }
 
         async void OnCollectionViewSelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -220,7 +280,7 @@ namespace AppRegali.Views
             if (item == null || item.Id == null)
                 return;
 
-            await Navigation.PushModalAsync(new RegaloPersonaleDettaglio(item));
+            await Navigation.PushModalAsync(new NavigationPage(new RegaloPersonaleDettaglio(item)));
 
             RegaliModificaListView.SelectedItem = null;
         }

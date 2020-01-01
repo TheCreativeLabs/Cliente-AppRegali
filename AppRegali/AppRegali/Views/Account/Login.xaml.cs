@@ -36,9 +36,11 @@ namespace AppRegali.Views.Login
 
         private async void btnAccedi_ClickedAsync(object sender, EventArgs e)
         {
+            //var btn = (Button)sender;
             try
             {
                 bool formIsValid = true;
+                //btn.IsEnabled = false;
 
                 //Controllo che username e password siano valorizzati.
                 if (String.IsNullOrEmpty(entUsername.Text))
@@ -66,11 +68,15 @@ namespace AppRegali.Views.Login
                 {
                     await DisplayAlert("Attenzione", "Inserire la email e la password per accedere", "OK");
                 }
+                //btn.IsEnabled = true;
             }
             catch (ApplicationException Ex)
             {
                 //Se sono qui significa che non ho i diritti per accedere.
-                await DisplayAlert("Attenzione", "L'indirizzo email o la password non sono validi.", "OK");
+                await DisplayAlert("Attenzione",
+                    "L'indirizzo email o la password non sono validi. Se pensi che i tuoi dati siano corretti, verifica di aver confermato l'account al link che ti abbiamo inviato per email",
+                    "OK");
+                //btn.IsEnabled = true;
             }
             catch (Exception Ex)
             {

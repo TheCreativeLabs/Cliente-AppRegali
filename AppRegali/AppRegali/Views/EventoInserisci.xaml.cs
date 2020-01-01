@@ -58,6 +58,8 @@ namespace AppRegali.Views
 
         private async void Save_Clicked(object sender, EventArgs e)
         {
+            EventoInserisciActivityIndicator.IsVisible = true;
+
             EventoClient eventoClient = new EventoClient(await ApiHelper.GetApiClient());
 
             if (img == null)
@@ -77,6 +79,9 @@ namespace AppRegali.Views
 
             //Inserisco l'evento
             EventoDtoOutput eventoInserito = await eventoClient.InserisciEventoAsync(evento);
+
+            MessagingCenter.Send(this, "RefreshListaEventiPersonaliInsert", "OK");
+            EventoInserisciActivityIndicator.IsVisible = false;
 
             //Torno alla pagina di lista
             await Navigation.PopModalAsync();

@@ -14,7 +14,7 @@ namespace AppRegali.Utility
     {
         private static CurrentCulture instance = null;
         //private static readonly object padlock = new object();
-        public static CultureInfo Ci { get; set; } = new CultureInfo("en");
+        public static CultureInfo Ci { get; set; } = new CultureInfo("it");
 
         CurrentCulture()
         {

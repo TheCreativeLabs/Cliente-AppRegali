@@ -10,7 +10,8 @@ namespace AppRegali.Models
         EventiPersonali,
         Amici,
         Account,
-        Logout
+        Logout,
+        Language
 
     }
     public class HomeMenuItem
@@ -22,5 +23,7 @@ namespace AppRegali.Models
         public string Icon { get; set; }
 
         public object Model { get; set; }
+
+        public string Image { get; set; }
     }
 }

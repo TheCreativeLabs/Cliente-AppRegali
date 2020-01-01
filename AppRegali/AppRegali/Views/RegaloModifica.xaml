@@ -25,34 +25,50 @@
     </ContentPage.Resources>
 
     <ContentPage.Content>
-        <StackLayout>
-            <ScrollView>
-                <StackLayout Margin="15" Padding="15">
-                    <StackLayout Orientation="Horizontal">
-                        <controls:ProfileBackButton HeightRequest="40" HorizontalOptions="StartAndExpand"/>
+        <Grid>
+            <StackLayout>
+                <ScrollView>
+                    <StackLayout Padding="20">
+                        <StackLayout Orientation="Horizontal">
+                            <controls:ProfileBackButton HeightRequest="40" HorizontalOptions="StartAndExpand"/>
 
-                        <Button BackgroundColor="Transparent" WidthRequest="80" BorderWidth="2" BorderColor="{x:StaticResource DangerColor}"  TextColor="{x:StaticResource DangerColor}"  Text="{translator:Translate RegaloModifica.Elimina}" x:Name="btnDelete" Clicked="Delete_Clicked" ></Button>
-                        <Button BackgroundColor="Transparent" WidthRequest="60" BorderWidth="2" TextColor="{x:StaticResource PrimaryColor}" Text="{translator:Translate RegaloModifica.Salva}" x:Name="btnSave" Clicked="Update_Clicked" ></Button>
+                            <!--<Button BackgroundColor="Transparent" WidthRequest="80" BorderWidth="2" BorderColor="{x:StaticResource DangerColor}"  TextColor="{x:StaticResource DangerColor}"  Text="{translator:Translate RegaloModifica.Elimina}" x:Name="btnDelete" Clicked="Delete_Clicked" ></Button>-->
+                            <Button BackgroundColor="Transparent" WidthRequest="60" BorderWidth="2" TextColor="{x:StaticResource PrimaryColor}" Text="{translator:Translate RegaloModifica.Salva}" x:Name="btnSave" Clicked="Update_Clicked" ></Button>
+                        </StackLayout>
+
+                        <Label Style="{x:StaticResource Title}" Margin="0,20,0,0"  Text="Modifica il tuo regalo"></Label>
+
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="200"/>
+                            </Grid.RowDefinitions>
+                            <Frame Grid.Row="0" CornerRadius="0"  HeightRequest="200" IsClippedToBounds="True" Padding="0" HasShadow="True" Visual="Material">
+                                <Image x:Name="imgRegaloModifica" Source="{Binding Item.ImmagineRegalo, Converter={StaticResource ByteArrayToImage}}" Aspect="AspectFill"></Image>
+                            </Frame>
+                            <AbsoluteLayout Grid.Row="0" Padding="5" HorizontalOptions="EndAndExpand" VerticalOptions="End">
+                                <Button Clicked="OnPickPhotoButtonClicked" Style="{x:StaticResource PhotoButton}" BackgroundColor="White"  >
+                                </Button>
+                            </AbsoluteLayout>
+                        </Grid>
+
+                        <Entry x:Name="entTitoloRegalo" Placeholder="{translator:Translate RegaloModifica.Titolo}" Text="{Binding Item.Titolo}"></Entry>
+
+                        <Entry x:Name="entPrezzoRegalo" Placeholder="{translator:Translate RegaloModifica.Prezzo}" Text="{Binding Item.Prezzo}"></Entry>
+
+                        <Entry x:Name="entDescrizioneRegalo" Placeholder="{translator:Translate RegaloModifica.Descrizione}" Text="{Binding Item.Descrizione}"></Entry>
+
+                        <!--<Button Style="{x:StaticResource deleteButton}" Visual="Material" Text="{translator:Translate RegaloModifica.Elimina}" x:Name="btnDelete" Clicked="Delete_Clicked" ></Button>-->
+
                     </StackLayout>
+                </ScrollView>
+            </StackLayout>
 
-                    
-                    <Frame CornerRadius="10"  HeightRequest="200" IsClippedToBounds="True" Padding="0" HasShadow="True" Visual="Material">
-                        <Image x:Name="imgRegaloModifica" Source="{Binding Item.ImmagineRegalo, Converter={StaticResource ByteArrayToImage}}" Aspect="AspectFill"></Image>
-                    </Frame>
-                    <Button Clicked="OnPickPhotoButtonClicked" Style="{x:StaticResource PhotoButton}"><!--Clicked="OnPickPhotoButtonClicked"-->
-                    </Button>
-
-                    <Entry x:Name="entTitoloRegalo" Placeholder="{translator:Translate RegaloModifica.Titolo}" Text="{Binding Item.Titolo}"></Entry>
-
-                    <Entry x:Name="entPrezzoRegalo" Placeholder="{translator:Translate RegaloModifica.Prezzo}" Text="{Binding Item.Prezzo}"></Entry>
-
-                    <Entry x:Name="entDescrizioneRegalo" Placeholder="{translator:Translate RegaloModifica.Descrizione}" Text="{Binding Item.Descrizione}"></Entry>
-
-                    <!--<Button Style="{x:StaticResource deleteButton}" Visual="Material" Text="{translator:Translate RegaloModifica.Elimina}" x:Name="btnDelete" Clicked="Delete_Clicked" ></Button>-->
-
+            <ContentView IsVisible="false" x:Name="RegaloModificaActivityIndicator" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" BackgroundColor="LightGray" Opacity="0.5">
+                <StackLayout VerticalOptions="Center">
+                    <ActivityIndicator IsRunning="true"  HeightRequest="50" />
                 </StackLayout>
-            </ScrollView>
-        </StackLayout>
+            </ContentView>
+        </Grid>
     </ContentPage.Content>
 
 </ContentPage>

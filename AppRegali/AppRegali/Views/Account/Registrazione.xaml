@@ -5,7 +5,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
              x:Class="AppRegali.Views.Login.Registrazione"
-             xmlns:translator="clr-namespace:AppRegali.Helpers" xmlns:controls="clr-namespace:AppRegali.ContentViews" xmlns:appappartamenti="clr-namespace:AppRegali"
+             xmlns:translator="clr-namespace:AppRegali.Helpers" xmlns:controls="clr-namespace:AppRegali.ContentViews" xmlns:appregali="clr-namespace:AppRegali"
              NavigationPage.HasNavigationBar="False">
 
     <NavigationPage.TitleView>
@@ -44,7 +44,7 @@
                 <Entry x:Name="entCognome" Placeholder="{translator:Translate Registrazione.Cognome}" VerticalOptions="Center" TextChanged="ent_TextChanged"></Entry>
                 <Label Text="{translator:Translate Registrazione.MessaggioCampoObbligatorio}" Style="{x:StaticResource LabelValidatore}" x:Name="lblValidatorEntCognome"></Label>
 
-                <appappartamenti:DatePickerCtrl Format="dd/MM/yyyy" HeightRequest="40" x:Name="dpDataNascita" Placeholder="{translator:Translate Registrazione.DataNascita}"></appappartamenti:DatePickerCtrl>
+                <appregali:DatePickerCtrl Format="dd/MM/yyyy" HeightRequest="40" x:Name="dpDataNascita" Placeholder="{translator:Translate Registrazione.DataNascita}"></appregali:DatePickerCtrl>
              
                 <Entry   x:Name="entEmail" Placeholder="{translator:Translate Login.Email}" VerticalOptions="Center" TextChanged="ent_TextChanged"></Entry>
                 <Label Text="{translator:Translate Login.MessaggioValidazioneEmail}" Style="{x:StaticResource LabelValidatore}" x:Name="lblValidatorEntEmail"></Label>

@@ -53,6 +53,9 @@ namespace AppRegali.Views.Login
                 //Se la form è valida proseguo con la registrazione.
                 if (formIsValid)
                 {
+                    lblValidatorEntConfermaPassword.IsVisible = false;
+                    entNuovaPassword.BackgroundColor = Color.White;
+                    entConfermaPassword.BackgroundColor = Color.White;
                     AccountClient accountClient = new AccountClient(await ApiHelper.GetApiClient());
 
                     ChangePasswordBindingModel changePasswordBindingModel = new ChangePasswordBindingModel()
@@ -62,7 +65,10 @@ namespace AppRegali.Views.Login
                         ConfirmPassword = entConfermaPassword.Text
                     };
 
+                    ChangePasswordLoading.IsVisible = true;
                     await accountClient.ChangePasswordAsync(changePasswordBindingModel);
+                    ChangePasswordLoading.IsVisible = false;
+                    await DisplayAlert(null, "Password cambiata correttamente", "OK");
                 }
             }
             catch (ApiException Ex)

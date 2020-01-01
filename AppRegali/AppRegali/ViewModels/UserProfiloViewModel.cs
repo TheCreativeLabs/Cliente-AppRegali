@@ -105,7 +105,7 @@ namespace AppRegali.ViewModels
                 //AmiciClient amiciClient = new AmiciClient(httpClient);
                 //UserInfoDto userInfo = await amiciClient.GetUserInfoByIdUsersAsync(UserId);
 
-                EventoClient eventoClient = new EventoClient(httpClient);
+                EventoClient eventoClient = new EventoClient(await Api.ApiHelper.GetApiClient());
                 listaEventi = await eventoClient.GetEventiByidUtenteAsync(1, 1000, UserId.ToString(), null);
 
                 foreach (var evento in listaEventi)

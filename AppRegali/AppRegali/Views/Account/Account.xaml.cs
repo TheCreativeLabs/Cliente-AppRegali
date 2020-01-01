@@ -1,4 +1,5 @@
 ﻿using Api;
+using AppRegali.Api;
 using AppRegali.ViewModels;
 using DependencyServiceDemos;
 using Plugin.Media;
@@ -46,6 +47,11 @@ namespace AppRegali.Views.Account
                         img = stream.ToArray();
                     }
                 }
+
+                if(viewModel.DataDiNascita != null)
+                {
+                    dpDataNascita.Date = viewModel.DataDiNascita.Value.Date;
+                }
             }
             catch (Exception ex)
             {
@@ -89,16 +95,21 @@ namespace AppRegali.Views.Account
                         Surname = entCognome.Text,
                         BirthName = entNome.Text,
                         //DataNascita = pkDataNascita.Date,
-                        ImmagineProfilo = img,
+                        DataNascita = dpDataNascita.Date,
+                    ImmagineProfilo = viewModel.FotoProfilo,
                         Email = viewModel.Email
                     };
 
                     //TODO: gestire la modifica della Email.
                     await accountClient.UpdateUserAsync(updateUserBindingModel);
 
+                    ApiHelper.RemoveUserInfo();
+
                     //Refresh del menu
                     MenuPage menuPage = (MenuPage)((MasterDetailPage)Application.Current.MainPage).Master;
                     await menuPage.UpdateMenuData(Models.MenuItemType.Account);
+
+                    await DisplayAlert(null, "Salvataggio effettuato", "OK");
                 }
                 else
                 {
@@ -153,5 +164,22 @@ namespace AppRegali.Views.Account
                 imgFotoUtente.Source = ImageSource.FromStream(() => { return new MemoryStream(viewModel.FotoProfilo); });
             }
         }
+
+        private void dpDataNascita_DateSelected(object sender, DateChangedEventArgs e)
+        {
+            if (dpDataNascita.Date != null)
+            {
+                //entDataNascita.Text = dpDataNascita.Date.ToString("dd/MM/yyyy");
+                viewModel.DataDiNascita = dpDataNascita.Date;
+            }
+        }
+
+        //private void entDataNascita_Focused(object sender, FocusEventArgs e)
+        //{
+        //    entDataNascita.Unfocus();
+        //    dpDataNascita.Focus();
+        //}
+        
+
     }
 }

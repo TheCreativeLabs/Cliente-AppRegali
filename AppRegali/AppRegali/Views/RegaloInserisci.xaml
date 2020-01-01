@@ -26,8 +26,13 @@
     </NavigationPage.TitleView>-->
 
     <ContentPage.Content>
-        <StackLayout Padding="20">
-                    <Label Style="{x:StaticResource Title}" Text="Aggiungi un regalo"></Label>
+        <Grid>
+            <StackLayout Padding="20">
+
+            <Button Text="&#xf00d;" Margin="-15" Style="{x:StaticResource ButtonCloseIconApplication}" HorizontalOptions="EndAndExpand" Clicked="Cancel_Clicked">
+            </Button>
+            
+            <Label Style="{x:StaticResource Title}" Text="Aggiungi un regalo"></Label>
 
                     <Frame CornerRadius="10" BackgroundColor="{x:StaticResource PrimaryColor}"  HeightRequest="200" IsClippedToBounds="True" Padding="0" HasShadow="True" Visual="Material">
                         <Image x:Name="imgRegaloModifica"  Aspect="AspectFill"></Image> <!--Source="{Binding Item.ImmagineRegalo, Converter={StaticResource ByteArrayToImage}}"-->
@@ -44,5 +49,12 @@
 
                     <Button Style="{x:StaticResource primaryButton}"  Text="{translator:Translate RegaloInserisci.CreaNuovo}" x:Name="btnSalva" Clicked="Create_Clicked"></Button>
         </StackLayout>
+
+            <ContentView IsVisible="false" x:Name="RegaloInserisciActivityIndicator" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" BackgroundColor="LightGray" Opacity="0.5">
+                <StackLayout VerticalOptions="Center">
+                    <ActivityIndicator IsRunning="true"  HeightRequest="50" />
+                </StackLayout>
+            </ContentView>
+        </Grid>
     </ContentPage.Content>
 </ContentPage>
