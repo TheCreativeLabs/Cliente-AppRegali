@@ -110,7 +110,7 @@ namespace AppRegali.Views
 
                 if(homeMenuItem.Id == MenuItemType.Logout)
                 {
-                    string action = await DisplayActionSheet("Continuare", "Cancel","Log out");
+                    string action = await DisplayActionSheet("Procedere con il logout?", "Annulla","Log out");
                     if(action == "Log out") {
                         Logout();
                     }
