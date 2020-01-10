@@ -9,6 +9,8 @@
               xmlns:controls="clr-namespace:AppRegali.ContentViews"
              x:Name="BrowseItemsPage"
              xmlns:translator="clr-namespace:AppRegali.Helpers" xmlns:b="clr-namespace:AppRegali.Behaviors"
+             xmlns:android="clr-namespace:Xamarin.Forms.PlatformConfiguration.AndroidSpecific.AppCompat;assembly=Xamarin.Forms.Core"
+             android:NavigationPage.BarHeight="450"
              BackgroundColor="{x:StaticResource SfondoColor}">
 
     <ContentPage.Resources>
@@ -20,18 +22,18 @@
 
     <NavigationPage.TitleView>
             <StackLayout Orientation="Horizontal">
-                <!--<Label FontSize="35" HorizontalTextAlignment="Center" Margin="20,0,0,0" VerticalTextAlignment="Center" HorizontalOptions="CenterAndExpand"  FontFamily="{x:StaticResource FA-Solid}" TextColor="White" FontAttributes="Bold" Text="&#xf06b;"></Label>-->
+                <Label FontSize="35" HorizontalTextAlignment="Center" Margin="20,0,0,0" VerticalTextAlignment="Center" HorizontalOptions="CenterAndExpand"  FontFamily="{x:StaticResource FA-Solid}" TextColor="White" FontAttributes="Bold" Text="&#xf06b;"></Label>
 
-            <Image Source="logobianco.png" HeightRequest="50" Margin="0,0,0,0" IsVisible="true" HorizontalOptions="Start"></Image>
-            <Label Text="Gift Fulfill" x:Name="appName" IsVisible="true" HorizontalOptions="StartAndExpand" VerticalTextAlignment="Center" TextColor="White"  HeightRequest="50"></Label>
+            <Image Source="logonero.png" HeightRequest="50" Margin="0,0,0,0" IsVisible="true" HorizontalOptions="Start"></Image>
+            <Label Text="Gift Fulfill" x:Name="appName" IsVisible="false" HorizontalOptions="StartAndExpand" VerticalTextAlignment="Center" HeightRequest="50"></Label>
 
-            <Button x:Name="btnAbilitaRicerca"  Clicked="btnAbilitaRicerca_Clicked" BackgroundColor="Transparent" FontSize="Medium" TextColor="White" HorizontalOptions="End" Text="&#xf002;" FontFamily="{StaticResource FA-Solid}" Margin="0,0,-15,0">
+            <Button x:Name="btnAbilitaRicerca" HorizontalOptions="EndAndExpand"  Clicked="btnAbilitaRicerca_Clicked" BackgroundColor="Transparent" FontSize="Medium" Text="&#xf002;" FontFamily="{StaticResource FA-Solid}" Margin="0,0,-15,0">
                 </Button>
 
             </StackLayout>
     </NavigationPage.TitleView>
 
-    <StackLayout Margin="20,0,20,0">
+    <StackLayout>
         
         <!--<Grid HeightRequest="45">
          <Picker Grid.Row="0" Grid.Column="0"  x:Name="pkCategoria" IsVisible="true" 
@@ -48,7 +50,8 @@
                 IsPullToRefreshEnabled="true"
                 IsRefreshing="{Binding IsBusy}"
                 ItemSelected="OnItemSelected"
-                SeparatorVisibility="Default"
+                SeparatorVisibility="None"
+            VerticalScrollBarVisibility="Never"
             SeparatorColor="LightGray">
               <ListView.Behaviors>
                 <b:InfiniteScroll LoadMoreCommand="{Binding LoadMore}" />
@@ -56,34 +59,39 @@
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
-                        <StackLayout Margin="0,20,0,20">
-                                <StackLayout HeightRequest="50" Orientation="Horizontal" HorizontalOptions="FillAndExpand">
-                                    <Frame HeightRequest="40" WidthRequest="50" Padding="0" CornerRadius="50" IsClippedToBounds="True">
-                                            <Image Aspect="AspectFill"
-                                                Source="{Binding ImmagineUserCreatoreEvento, Converter={StaticResource ByteArrayToImage}}"></Image>
-                                    </Frame>
+                        <StackLayout Padding="0,20,0,20" HorizontalOptions="FillAndExpand">
+                                <Grid Margin="10,0,0,0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="auto">
+                                        </ColumnDefinition>
+                                        <ColumnDefinition Width="auto">
+                                        </ColumnDefinition>
+                                    </Grid.ColumnDefinitions>
+                                      <Frame Grid.Column="0" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" HeightRequest="40" WidthRequest="40" Padding="0" CornerRadius="20" IsClippedToBounds="True">
+                                                <Image Aspect="AspectFill"
+                                                    Source="{Binding ImmagineUserCreatoreEvento, Converter={StaticResource ByteArrayToImage}}"></Image>
+                                        </Frame>
+                                    <StackLayout Grid.Column="1">
+                                            <Label Text="{Binding NomeUserCreatoreEvento}" 
+                                            LineBreakMode="NoWrap" Style="{x:StaticResource AdTitle}"/>
 
-                                    <StackLayout>
-                                        <Label Text="{Binding NomeUserCreatoreEvento}" 
-                                        LineBreakMode="NoWrap" Style="{x:StaticResource AdTitle}"/>
+                                                 <Label Text="{Binding DataEvento, StringFormat='{0:dd/MM/yyyy}'}" FontSize="13"
+                                            LineBreakMode="NoWrap" Style="{x:StaticResource HelpText}" Margin="0,-5,0,0" TextColor="{x:StaticResource GrayColor}"/>
 
-                                             <Label Text="{Binding DataEvento, StringFormat='{0:dd/MM/yyyy}'}" 
-                                        LineBreakMode="NoWrap" Style="{x:StaticResource HelpText}" Margin="0,-5,0,0" TextColor="{x:StaticResource GrayColor}"/>
-
-                                    </StackLayout>
-                                </StackLayout>
+                                        </StackLayout>
+                                </Grid>
 
                                 <Frame Grid.Row="0" HasShadow="False" Padding="0" HeightRequest="210" CornerRadius="0" IsClippedToBounds="True">
                                     <Image Aspect="AspectFill"
                                            Source="{Binding ImmagineEvento, Converter={StaticResource ByteArrayToImage}}"></Image>
                                 </Frame>
 
-                                <Label Text="{Binding Titolo}" 
+                                <Label Text="{Binding Titolo}" Margin="10,0,0,0"
                                         d:Text="{Binding .}"
                                         LineBreakMode="NoWrap" Style="{x:StaticResource AdTitle}"
                                        />
 
-                                <Label Text="{Binding Descrizione}" 
+                                <Label Text="{Binding Descrizione}" Margin="10,0,0,0"
                                         d:Text="Item descripton" Style="{x:StaticResource AdSubtitle}"/>
 
                             </StackLayout>
