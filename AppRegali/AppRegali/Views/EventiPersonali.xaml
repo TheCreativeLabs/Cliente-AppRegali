@@ -133,7 +133,7 @@
                                     <StackLayout Margin="20,20,20,20">
                                         <Frame HasShadow="False" Padding="0" HeightRequest="210" CornerRadius="0" IsClippedToBounds="True">
                                             <Image Aspect="AspectFill"
-                                                   Source="{Binding ImmagineEvento, Converter={StaticResource ByteArrayToImage}}"></Image>
+                                                   Source="{Binding ImmagineEvento, Converter={StaticResource ByteArrayToImage}}" ></Image>
                                         </Frame>
 
                                         <Label Text="{Binding Titolo}" 

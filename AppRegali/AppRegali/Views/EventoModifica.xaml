@@ -83,9 +83,9 @@
                             </StackLayout>
 
                         <CollectionView SelectionChanged="OnCollectionViewSelectionChanged" SelectionMode="Single" x:Name="RegaliModificaListView">
-                                 <CollectionView.ItemsLayout>
-                                        <LinearItemsLayout Orientation="Horizontal" />
-                                    </CollectionView.ItemsLayout>
+                            <CollectionView.ItemsLayout>
+                                <GridItemsLayout Orientation="Vertical" Span="2" />
+                            </CollectionView.ItemsLayout>
                             <CollectionView.ItemTemplate>
                                 <DataTemplate>
                                     <StackLayout Padding="10" WidthRequest="250" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
@@ -96,8 +96,8 @@
 
 
                                                 <StackLayout Padding="10">
-                                                    <Label Style="{x:StaticResource AdTitle}" Text="{Binding Titolo}"></Label>
-                                                    <Label Style="{x:StaticResource AdSubtitle}" Text="{Binding Descrizione}"></Label>
+                                                    <Label Style="{x:StaticResource AdTitle}" Text="{Binding Titolo}"  MaxLines="1"></Label>
+                                                    <Label Style="{x:StaticResource AdSubtitle}" Text="{Binding Descrizione}" MaxLines="1"></Label>
 
                                                      <ProgressBar ProgressColor="{Binding ., Converter={StaticResource ProgressColorConverter}}" Grid.Row="0" Grid.Column="0" Progress="{Binding ., Converter= {StaticResource ProgressConverter}}" />
                                                    

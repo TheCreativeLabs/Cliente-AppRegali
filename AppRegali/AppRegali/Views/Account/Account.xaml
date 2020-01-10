@@ -7,16 +7,20 @@
              x:Class="AppRegali.Views.Account.Account"
              xmlns:translator="clr-namespace:AppRegali.Helpers" xmlns:appregali="clr-namespace:AppRegali"
              Title="Account"
-             BackgroundColor="{x:StaticResource SfondoColor}">
+             BackgroundColor="{x:StaticResource SfondoColor}"
+              xmlns:controls="clr-namespace:AppRegali.ContentViews"
+             NavigationPage.HasNavigationBar="False">
 
 
-    <NavigationPage.TitleView>
+    <!--<NavigationPage.TitleView>
         <StackLayout Orientation="Horizontal">
             <Label Text="Account" TextColor="White" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" FontAttributes="Bold" FontSize="Large"></Label>
         </StackLayout>
-    </NavigationPage.TitleView>
+    </NavigationPage.TitleView>-->
     <ContentPage.Content>
         <StackLayout  Margin="20">
+            <controls:ProfileBackButton HeightRequest="40" HorizontalOptions="StartAndExpand"/>
+
             <Frame CornerRadius="100"
                HeightRequest="130"
                WidthRequest="130"

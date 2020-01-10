@@ -80,8 +80,8 @@
                                                 <Image x:Name="imgFotoUtente" HeightRequest="180" Aspect="AspectFill" Source="{Binding ImmagineRegalo, Converter={StaticResource ByteArrayToImage}}" ></Image>
 
                                                 <StackLayout Padding="10">
-                                                    <Label Style="{x:StaticResource AdTitle}" Text="{Binding Titolo}"></Label>
-                                                    <Label Style="{x:StaticResource AdSubtitle}" Text="{Binding Descrizione}"></Label>
+                                                    <Label Style="{x:StaticResource AdTitle}" Text="{Binding Titolo}"  MaxLines="1"></Label>
+                                                    <Label Style="{x:StaticResource AdSubtitle}" Text="{Binding Descrizione}" MaxLines="1"></Label>
 
                                                     <ProgressBar ProgressColor="{Binding ., Converter={StaticResource ProgressColorConverter}}" Grid.Row="0" Grid.Column="0" Progress="{Binding ., Converter= {StaticResource ProgressConverter}}" />
                                                     <StackLayout  Grid.Row="0" Grid.Column="1" Orientation="Horizontal">

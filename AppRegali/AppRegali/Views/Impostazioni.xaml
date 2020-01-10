@@ -44,11 +44,11 @@
                 </StackLayout>
             </appappartamenti:ShadowFrame>-->
 
-            <ListView  x:Name="listView" Margin="0,-3,0,0" SelectionMode="None" RowHeight="60" SeparatorColor="LightGray" ItemTapped="OnItemTapped"><!---->
+            <ListView  x:Name="listView" Margin="0,-3,0,0" SelectionMode="None" RowHeight="60" SeparatorColor="LightGray" ItemTapped="OnItemTapped">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
-                            <Grid Padding="20,10,20,10">
+                            <!--<Grid Padding="20,10,20,10">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="90*" />
                                     <ColumnDefinition Width="10*" />
@@ -58,7 +58,13 @@
                                 <Label FontFamily="{x:StaticResource FA-Solid}"
                                            Grid.Column="1"
                                            Text="{Binding Icona}" FontSize="Large" HorizontalOptions="EndAndExpand" VerticalOptions="Center" HorizontalTextAlignment="End"/>
-                            </Grid>
+                            </Grid>-->
+                            <StackLayout Orientation="Horizontal" Padding="20" HorizontalOptions="FillAndExpand">
+                                <Label Text="{Binding DisplayName}" d:Text="{Binding .}" FontSize="18"  VerticalTextAlignment="Center" />
+                                <Label Text="{Binding Icona}" FontSize="18" VerticalTextAlignment="Center"
+                                       FontFamily="{x:StaticResource FA-Solid}" HorizontalOptions="EndAndExpand" IsVisible="{Binding Icon}" ></Label>
+                                <Image x:Name="imgEn" Source="{Binding Image}" HeightRequest="10" VerticalOptions="Center" IsVisible="{Binding Image}"></Image>
+                            </StackLayout>
                         </ViewCell>
                     </DataTemplate>
                 </ListView.ItemTemplate>
@@ -66,6 +72,32 @@
                     <Label />
                 </ListView.Footer>
             </ListView>
+
+            <!--<ListView x:Name="ListViewMenu"
+                    HasUnevenRows="true" SeparatorVisibility="Default">
+                <d:ListView.ItemsSource>
+                    <x:Array Type="{x:Type x:String}">
+                        <x:String>Item 1</x:String>
+                        <x:String>Item 2</x:String>
+                    </x:Array>
+                </d:ListView.ItemsSource>
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <StackLayout Orientation="Horizontal" Padding="20" HorizontalOptions="FillAndExpand">
+                                <Label Text="{Binding Title}" d:Text="{Binding .}" FontSize="18"  VerticalTextAlignment="Center" />
+                                <Label Text="{Binding Icon}" FontSize="18" VerticalTextAlignment="Center"
+                                       FontFamily="{x:StaticResource FA-Solid}" HorizontalOptions="EndAndExpand" IsVisible="{Binding Icon}" ></Label>
+                                <Image x:Name="imgEn" Source="{Binding Image}" HeightRequest="10" VerticalOptions="Center" IsVisible="{Binding Image}"></Image>
+                            </StackLayout>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>-->
+
+            <!--<Picker  x:Name="pkLanguage" IsVisible="False"   ItemDisplayBinding="{Binding Codice, Converter={StaticResource TranslateConverter}}" 
+                      Title="{translator:Translate Menu.ChangeLanguage}" SelectedIndexChanged="pkLanguage_SelectedIndexChanged"></Picker>-->
+            
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

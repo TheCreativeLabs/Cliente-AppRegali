@@ -61,7 +61,7 @@
             </OnPlatform>
 
              <OnPlatform x:TypeArguments="x:String" x:Key="SubtitleFont">
-                <On Platform="Android" Value="Roboto-Bold.ttf#Roboto Medium" />
+                <On Platform="Android" Value="Roboto-Regular.ttf#Roboto Medium" />
                 <On Platform="iOS" Value="Roboto-Medium" />
             </OnPlatform>
 
