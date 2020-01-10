@@ -30,8 +30,8 @@
 
              <!--Font Awesome-->
             <Style TargetType="NavigationPage">
-                <Setter Property="BarBackgroundColor" Value="{StaticResource PrimaryColor}"></Setter>
-                <Setter Property="BarTextColor" Value="{x:StaticResource SfondoColor}"></Setter>
+                <Setter Property="BarBackgroundColor" Value="White"></Setter>
+                <Setter Property="BarTextColor" Value="{x:StaticResource DarkColor}"></Setter>
             </Style>
 
             <Style TargetType="Button" x:Key="primaryButton">

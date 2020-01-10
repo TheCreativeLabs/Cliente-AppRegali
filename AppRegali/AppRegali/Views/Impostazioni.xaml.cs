@@ -6,12 +6,10 @@ using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
-
 using AppRegali.Models;
 using AppRegali.Views;
 using AppRegali.ViewModels;
 using Api;
-using Java.Util;
 using AppRegali.Api;
 using AppRegali.Utility;
 using System.Collections.ObjectModel;

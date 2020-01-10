@@ -12,13 +12,13 @@
             xmlns:views1="clr-namespace:AppRegali.Views.Account"
             xmlns:translator="clr-namespace:AppRegali.Helpers"
             android:TabbedPage.IsSwipePagingEnabled="False"
-            NavigationPage.HasNavigationBar="False"
+            NavigationPage.HasNavigationBar="True"
             NavigationPage.HasBackButton="False"
 >
 
-    <!--<NavigationPage.TitleView>
+    <NavigationPage.TitleView>
         <controls:ProfileBackButton HeightRequest="40" HorizontalOptions="StartAndExpand"/>
-    </NavigationPage.TitleView>-->
+    </NavigationPage.TitleView>
 
     <ContentPage.Resources>
         <ResourceDictionary>
@@ -28,18 +28,19 @@
 
     <ContentPage.Content>
         <StackLayout>
-            <controls:ProfileBackButton HeightRequest="40" HorizontalOptions="StartAndExpand" Margin="20"/>
-            <Grid HeightRequest="70" HorizontalOptions="FillAndExpand">
+            <Grid Margin="0,10,0,10" HeightRequest="70" HorizontalOptions="FillAndExpand">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="50*" ></ColumnDefinition>
-                    <ColumnDefinition Width="50*"></ColumnDefinition>
+                    <ColumnDefinition Width="1*" ></ColumnDefinition>
+                    <ColumnDefinition Width="1*"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
-                <Button Grid.Column="0" HorizontalOptions="CenterAndExpand" Text="Contatti" Clicked="ShowContacts" x:Name="btnContact" CornerRadius="20" Margin="5" Padding="1" TextColor="White" BackgroundColor="{StaticResource PrimaryColor}" HeightRequest="40">
-
-                </Button>
-                <Button Grid.Column="1" HorizontalOptions="CenterAndExpand" Text="Richieste"  Clicked="ShowRequests" x:Name="btnRequests" CornerRadius="20" Margin="5"  TextColor="{StaticResource PrimaryColor}" BackgroundColor="White"  Padding="1"  HeightRequest="40">
-
-                </Button>
+                <Frame Grid.Column="0"  HasShadow="True" HorizontalOptions="EndAndExpand" Padding="0" CornerRadius="20">
+                    <Button HorizontalOptions="EndAndExpand" Text="Contatti" Clicked="ShowContacts" x:Name="btnContact" CornerRadius="20" Margin="0" Padding="1" TextColor="White" BackgroundColor="{StaticResource PrimaryColor}" HeightRequest="40">
+                    </Button>
+                </Frame>
+                <Frame Grid.Column="1"  HasShadow="True" Padding="0"  HorizontalOptions="StartAndExpand" CornerRadius="20">
+                    <Button HorizontalOptions="StartAndExpand" Text="Richieste"  Clicked="ShowRequests" x:Name="btnRequests" CornerRadius="20" Margin="0"  TextColor="{StaticResource PrimaryColor}" BackgroundColor="White"  Padding="1"  HeightRequest="40">
+                    </Button>
+                </Frame>
             </Grid>
 
             <StackLayout x:Name="stkContatti" IsVisible="True">

@@ -16,6 +16,7 @@
             SelectedTabColor="{x:StaticResource DarkColor}"
             UnselectedTabColor="{x:StaticResource GrayColor}"
             NavigationPage.HasNavigationBar="False"
+            android:TabbedPage.IsSmoothScrollEnabled="false"
             BackgroundColor="{OnPlatform Android=White, iOS=White}">
 
     <!---->
@@ -27,6 +28,17 @@
     </TabbedPage.Resources>-->
 
     <TabbedPage.Children>
+        <NavigationPage ><!--Title="Eventi"-->
+            <!--tutti eventi-->
+            <NavigationPage.IconImageSource>
+                <FontImageSource  FontFamily="{x:StaticResource FA-Solid}" Glyph="&#xf015;" Size="25"/>
+            </NavigationPage.IconImageSource>
+            <x:Arguments>
+                <views:Home Title="">
+                </views:Home>
+            </x:Arguments>
+        </NavigationPage>
+
         <NavigationPage >
             <!--Title="{translator:Translate MainPage.Search}"-->
             <!-- Title="Desideri" lista desideri-->
@@ -39,14 +51,14 @@
             </x:Arguments>
         </NavigationPage>
 
-        <NavigationPage ><!--Title="Eventi"-->
-            <!--tutti eventi-->
+        <NavigationPage ><!--Title="Profilo"-->
+            <!--amici-->
             <NavigationPage.IconImageSource>
-                <FontImageSource  FontFamily="{x:StaticResource FA-Solid}" Glyph="&#xf073;" Size="25"/>
+                <FontImageSource  FontFamily="{x:StaticResource FA-Solid}" Glyph="&#xf0fe;" Size="25"/>
             </NavigationPage.IconImageSource>
             <x:Arguments>
-                <views:Home Title="">
-                </views:Home>
+                <views:AddPage>
+                </views:AddPage>
             </x:Arguments>
         </NavigationPage>
 
@@ -66,7 +78,7 @@
         <NavigationPage ><!--Title="Impostazioni"-->
             <!--mio profilo e miei eventi-->
             <NavigationPage.IconImageSource>
-                <FontImageSource  FontFamily="{x:StaticResource FA-Solid}" Glyph="&#xf013;" Size="25"/>
+                <FontImageSource  FontFamily="{x:StaticResource FA-Solid}" Glyph="&#xf0c9;" Size="25"/>
             </NavigationPage.IconImageSource>
             <x:Arguments>
                 <views:Impostazioni>
