@@ -66,8 +66,11 @@
                                         VerticalOptions="FillAndExpand"
                                         SelectionMode="Single"
                                  ><!--SelectionChanged=""-->
-                            <CollectionView.ItemsLayout>
+                            <!--<CollectionView.ItemsLayout>
                                 <LinearItemsLayout Orientation="Horizontal" />
+                            </CollectionView.ItemsLayout>-->
+                            <CollectionView.ItemsLayout>
+                                <GridItemsLayout Orientation="Vertical" Span="2" />
                             </CollectionView.ItemsLayout>
                             <CollectionView.ItemTemplate>
                                 <DataTemplate>

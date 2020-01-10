@@ -35,6 +35,12 @@
     <Compile Update="Views\Account\FacebookLogout.xaml.cs">
       <DependentUpon>FacebookLogout.xaml</DependentUpon>
     </Compile>
+    <Compile Update="Views\Amici2.xaml.cs">
+      <DependentUpon>Amici2.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\Impostazioni.xaml.cs">
+      <DependentUpon>Impostazioni.xaml</DependentUpon>
+    </Compile>
     <Compile Update="Views\EventiPersonali.xaml.cs">
       <DependentUpon>EventiPersonali.xaml</DependentUpon>
     </Compile>

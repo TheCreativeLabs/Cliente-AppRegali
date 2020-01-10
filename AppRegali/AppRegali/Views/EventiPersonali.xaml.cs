@@ -15,6 +15,7 @@ using Api;
 using AppRegali.Api;
 using AppRegali.Utility;
 using System.Collections.ObjectModel;
+using System.IO;
 
 namespace AppRegali.Views
 {
@@ -24,6 +25,9 @@ namespace AppRegali.Views
     public partial class EventiPersonali : ContentPage
     {
         EventiViewModel viewModel;
+        UserInfoDto userInfoDto;
+        List<UserInfoDto> amiciPreviewList = new List<UserInfoDto>();
+
         //static Helpers.TranslateExtension translate = new Helpers.TranslateExtension();
         //private EventoClient eventoClient = new EventoClient(ApiHelper.GetApiClient());
 
@@ -55,7 +59,7 @@ namespace AppRegali.Views
             await Navigation.PushModalAsync(new NavigationPage(new EventoInserisci()));
         }
 
-        protected override void OnAppearing()
+        protected async override void OnAppearing()
         {
             base.OnAppearing();
 
@@ -89,13 +93,95 @@ namespace AppRegali.Views
             {
                 viewModel.LoadItemsCommand.Execute(null);
             }
+
+            AmiciClient amiciClient = new AmiciClient(await ApiHelper.GetApiClient());
+            ICollection<UserInfoDto> collect = await amiciClient.GetAmiciCurrentUserPreviewAsync();
+            amiciPreviewList = collect.ToList();
+            AmiciPreviewListView.ItemsSource = amiciPreviewList;
+
+            await SetUserInfo();
+        }
+
+        private async Task SetUserInfo()
+        {
+            try
+            {
+                UserInfoDto userInfo = await ApiHelper.GetUserInfo();
+
+                if (userInfo != null)
+                {
+                    userInfoDto = userInfo;
+
+                    if (userInfoDto.FotoProfilo != null)
+                    {
+                        Stream stream = new MemoryStream(userInfo.FotoProfilo);
+                        imgFotoUtente.Source = ImageSource.FromStream(() => { return stream; });
+                    }
+                    else if (userInfoDto.PhotoUrl != null)
+                    {
+                        imgFotoUtente.Source = ImageSource.FromUri(new Uri(userInfoDto.PhotoUrl));
+                    }
+
+                    lblNomeCognome.Text = $"{userInfo.Nome} {userInfo.Cognome}";
+                    lblEmail.Text = userInfo.Email;
+                }
+            }
+            catch (Exception ex)
+            {
+                //Navigo alla pagina d'errore.
+                await Navigation.PushAsync(new NavigationPage(new ErrorPage()));
+            }
+        }
+
+        
+        async void OnAmiciViewSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var item = e.CurrentSelection.FirstOrDefault() as UserInfoDto;
+
+            if (item == null)
+                return;
+
+            //await Navigation.PushModalAsync(new NavigationPage(new RegaloPersonaleDettaglio(item)));
+            await Navigation.PushModalAsync(new NavigationPage(new AmiciProfilo(item)));
+
+        }
+
+        private async void TapAllFriends_Tapped(object sender, EventArgs e)
+        {
+            try
+            {
+                await Navigation.PushAsync(new Amici2());
+
+            }
+            catch (Exception ex)
+            {
+                //Navigo alla pagina d'errore.
+                Application.Current.MainPage = new ErrorPage();
+            }
+        }
+
+
+
+        private async void btn_ModificaAccountClicked(object sender, EventArgs e)
+        {
+            try
+            {
+                await Navigation.PushAsync(new Account.Account(userInfoDto));
+
+
+            }
+            catch (Exception ex)
+            {
+                //Navigo alla pagina d'errore.
+                Application.Current.MainPage = new ErrorPage();
+            }
         }
 
         //private async void lblComandiRapidi_Tapped(object sender, EventArgs e)
         //{
         //    try
         //    {
-                
+
         //        string action = await DisplayActionSheet(Helpers.TranslateExtension.ResMgr.Value.GetString("EventiPersonali.ComandiRapidi", translate.ci),
         //                                                 Helpers.TranslateExtension.ResMgr.Value.GetString("EventiPersonali.Annulla", translate.ci), null,
         //                                                 textModifica,

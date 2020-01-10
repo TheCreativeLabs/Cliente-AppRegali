@@ -20,7 +20,8 @@ namespace AppRegali.Views
         private void btnTornaAllaHome_Clicked(object sender, EventArgs e)
         {
             //torno alla pagina di login.
-            Application.Current.MainPage = new NavigationPage(new Login.Login());
+            //Application.Current.MainPage = new NavigationPage(new Login.Login());
+            Application.Current.MainPage = new Login.Login();
         }
     }
 }

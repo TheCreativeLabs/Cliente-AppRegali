@@ -16,7 +16,8 @@ namespace AppRegali.Views
         public Amici()
         {
             InitializeComponent();
-            On<Xamarin.Forms.PlatformConfiguration.Android>().SetToolbarPlacement(ToolbarPlacement.Bottom);
+
+            On<Xamarin.Forms.PlatformConfiguration.Android>().SetToolbarPlacement(ToolbarPlacement.Top);
         }
     }
 }

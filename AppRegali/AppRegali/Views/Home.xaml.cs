@@ -55,12 +55,13 @@ namespace AppRegali.Views
         {
 
             base.OnAppearing();
+            appName.FontFamily = Device.RuntimePlatform == Device.Android ? "Lobster-Regular.ttf#Lobster-Regular" : null;
 
             if (!categorie.Any())
             {
                 categorie = await ApiHelper.GetCategorie();
                 categorie.Insert(0, new EventoCategoria() { Id = null, Codice = "ALL_CATEGORIES"});
-                pkCategoria.ItemsSource = categorie;
+                //pkCategoria.ItemsSource = categorie;
             }
 
             if (viewModel.Items.Count == 0)
@@ -74,18 +75,18 @@ namespace AppRegali.Views
 
         private void pkCategoria_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if(pkCategoria.SelectedItem != null)
-            {
-                EventoCategoria categoriaSelected = (EventoCategoria)pkCategoria.SelectedItem;
-                viewModel.Categoria = categoriaSelected;
-                viewModel.CurrentPage = 1;
-                viewModel.LoadItemsCommand.Execute(null);
-            }
+            //if(pkCategoria.SelectedItem != null)
+            //{
+            //    EventoCategoria categoriaSelected = (EventoCategoria)pkCategoria.SelectedItem;
+            //    viewModel.Categoria = categoriaSelected;
+            //    viewModel.CurrentPage = 1;
+            //    viewModel.LoadItemsCommand.Execute(null);
+            //}
         }
 
         private void entCategoria_Focused(object sender, FocusEventArgs e)
         {
-            pkCategoria.Focus();
+            //pkCategoria.Focus();
         }
     }
 }

@@ -21,7 +21,7 @@ namespace AppRegali.ViewModels
 
         public Command LoadItemsFilteredCommand { get; set; }
 
-        private bool SoloAccettati { get; set; }
+        public bool SoloAccettati { get; set; }
 
         //private string Filter { get; set; }
 

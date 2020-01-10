@@ -1,27 +1,87 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<MasterDetailPage xmlns="http://xamarin.com/schemas/2014/forms"
-            xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-            xmlns:d="http://xamarin.com/schemas/2014/forms/design"
-            xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-            mc:Ignorable="d"
+<TabbedPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
             xmlns:views="clr-namespace:AppRegali.Views"
-            x:Class="AppRegali.Views.MainPage">
+                        xmlns:account="clr-namespace:AppRegali.Views.Account"
 
-    <MasterDetailPage.Master>
-        <views:MenuPage/>
-    </MasterDetailPage.Master>
+            mc:Ignorable="d"
+            x:Class="AppRegali.Views.MainPage"
+            xmlns:android="clr-namespace:Xamarin.Forms.PlatformConfiguration.AndroidSpecific;assembly=Xamarin.Forms.Core"
+            android:TabbedPage.IsSwipePagingEnabled="true"
+            xmlns:views11="clr-namespace:AppRegali.Views.Account"
+            xmlns:translator="clr-namespace:AppRegali.Helpers"
+            xmlns:conv="clr-namespace:AppRegali.Converter"
+            SelectedTabColor="{x:StaticResource DarkColor}"
+            UnselectedTabColor="{x:StaticResource GrayColor}"
+            NavigationPage.HasNavigationBar="False"
+            BackgroundColor="{OnPlatform Android=White, iOS=White}">
 
-    <MasterDetailPage.Detail>
-        <NavigationPage>
-            <NavigationPage.Icon>
-                <OnPlatform x:TypeArguments="FileImageSource">
-                    <On Platform="iOS" Value="tab_feed.png"/>
-                </OnPlatform>
-            </NavigationPage.Icon>
+    <!---->
+
+    <!--<TabbedPage.Resources>
+        <ResourceDictionary>
+            <conv:BadgeColorConverter x:Key="BadgeColorConverter"></conv:BadgeColorConverter>
+        </ResourceDictionary>
+    </TabbedPage.Resources>-->
+
+    <TabbedPage.Children>
+        <NavigationPage >
+            <!--Title="{translator:Translate MainPage.Search}"-->
+            <!-- Title="Desideri" lista desideri-->
+            <NavigationPage.IconImageSource>
+                <FontImageSource  FontFamily="{x:StaticResource FA-Solid}" Glyph="&#xf06b;" Size="25"/>
+            </NavigationPage.IconImageSource>
             <x:Arguments>
-                <views:Home />
+                <views:Home Title="">
+                </views:Home>
             </x:Arguments>
         </NavigationPage>
-    </MasterDetailPage.Detail>
-    
-</MasterDetailPage>
+
+        <NavigationPage ><!--Title="Eventi"-->
+            <!--tutti eventi-->
+            <NavigationPage.IconImageSource>
+                <FontImageSource  FontFamily="{x:StaticResource FA-Solid}" Glyph="&#xf073;" Size="25"/>
+            </NavigationPage.IconImageSource>
+            <x:Arguments>
+                <views:Home Title="">
+                </views:Home>
+            </x:Arguments>
+        </NavigationPage>
+
+        <NavigationPage ><!--Title="Profilo"-->
+            <!--amici-->
+            <NavigationPage.IconImageSource>
+                <FontImageSource  FontFamily="{x:StaticResource FA-Solid}" Glyph="&#xf007;" Size="25"/>
+            </NavigationPage.IconImageSource>
+            <x:Arguments>
+                <views:EventiPersonali>
+                </views:EventiPersonali>
+            </x:Arguments>
+        </NavigationPage>
+
+
+
+        <NavigationPage ><!--Title="Impostazioni"-->
+            <!--mio profilo e miei eventi-->
+            <NavigationPage.IconImageSource>
+                <FontImageSource  FontFamily="{x:StaticResource FA-Solid}" Glyph="&#xf013;" Size="25"/>
+            </NavigationPage.IconImageSource>
+            <x:Arguments>
+                <views:Impostazioni>
+                </views:Impostazioni>
+            </x:Arguments>
+        </NavigationPage>
+
+        <!--<NavigationPage x:Name="tabAccount" Title="{translator:Translate MainPage.Account}">
+            <NavigationPage.IconImageSource>
+                <FontImageSource  FontFamily="{x:StaticResource FA-Solid}" Glyph="&#xf007;" Size="25"/>
+            </NavigationPage.IconImageSource>
+            <x:Arguments>
+                <views11:Account>
+                </views11:Account>
+            </x:Arguments>
+        </NavigationPage>-->
+    </TabbedPage.Children>
+</TabbedPage>

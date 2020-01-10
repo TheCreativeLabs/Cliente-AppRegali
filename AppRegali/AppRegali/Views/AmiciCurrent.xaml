@@ -9,6 +9,7 @@
              x:Class="AppRegali.Views.AmiciCurrent"
              Title="Contacts"
              BackgroundColor="{x:StaticResource SfondoColor}"
+             NavigationPage.HasNavigationBar="False"
              >
     
     <ContentPage.Resources>

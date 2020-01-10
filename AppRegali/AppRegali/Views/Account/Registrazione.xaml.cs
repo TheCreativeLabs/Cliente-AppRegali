@@ -32,6 +32,16 @@ namespace AppRegali.Views.Login
             {
                 bool formIsValid = true;
 
+                if (!Regex.IsMatch(entPassword.Text, Utility.Utility.PasswordRegex))
+                {
+                    await DisplayAlert("Attenzione", "La password deve essere lunga almeno 8 caratteri e contentere una maiuscola, una minuscola, un numero e un carattere speciale.", "OK");
+                }
+
+                if (!Regex.IsMatch(entEmail.Text, Utility.Utility.EmailRegex))
+                {
+                    await DisplayAlert("Attenzione", "Inserire la mail nel formato corretto", "OK");
+                }
+
                 //Controllo validità del nome.
                 if (String.IsNullOrEmpty(entNome.Text))
                 {
@@ -52,7 +62,7 @@ namespace AppRegali.Views.Login
                 }
 
                 //Controllo validità della mail.
-                if (String.IsNullOrEmpty(entEmail.Text) || !Regex.IsMatch(entEmail.Text, Utility.Utility.EmailRegex))
+                if (String.IsNullOrEmpty(entEmail.Text))
                 {
                     formIsValid = false;
                     //entEmail.BackgroundColor = Color.FromRgb(255, 175, 173);
@@ -60,7 +70,7 @@ namespace AppRegali.Views.Login
                 }
 
                 //Controllo validità della password.
-                if (String.IsNullOrEmpty(entPassword.Text) ||  !Regex.IsMatch(entPassword.Text, Utility.Utility.PasswordRegex))
+                if (String.IsNullOrEmpty(entPassword.Text))
                 {
                     formIsValid = false;
                     //entPassword.BackgroundColor = Color.FromRgb(255, 175, 173);

@@ -22,7 +22,8 @@
             <StackLayout Orientation="Horizontal">
                 <!--<Label FontSize="35" HorizontalTextAlignment="Center" Margin="20,0,0,0" VerticalTextAlignment="Center" HorizontalOptions="CenterAndExpand"  FontFamily="{x:StaticResource FA-Solid}" TextColor="White" FontAttributes="Bold" Text="&#xf06b;"></Label>-->
 
-            <Image Source="logobianco.png" HeightRequest="50" Margin="0,0,0,0" IsVisible="true" HorizontalOptions="CenterAndExpand"></Image>
+            <Image Source="logobianco.png" HeightRequest="50" Margin="0,0,0,0" IsVisible="true" HorizontalOptions="Start"></Image>
+            <Label Text="Gift Fulfill" x:Name="appName" IsVisible="true" HorizontalOptions="StartAndExpand" VerticalTextAlignment="Center" TextColor="White"  HeightRequest="50"></Label>
 
             <Button x:Name="btnAbilitaRicerca"  Clicked="btnAbilitaRicerca_Clicked" BackgroundColor="Transparent" FontSize="Medium" TextColor="White" HorizontalOptions="End" Text="&#xf002;" FontFamily="{StaticResource FA-Solid}" Margin="0,0,-15,0">
                 </Button>
@@ -30,13 +31,13 @@
             </StackLayout>
     </NavigationPage.TitleView>
 
-    <StackLayout Margin="20,20,20,20">
+    <StackLayout Margin="20,0,20,0">
         
-        <Grid HeightRequest="45">
+        <!--<Grid HeightRequest="45">
          <Picker Grid.Row="0" Grid.Column="0"  x:Name="pkCategoria" IsVisible="true" 
               ItemDisplayBinding="{Binding Codice, Converter={StaticResource TranslateConverter}}" Title="{translator:Translate Home.SelectCategory}" SelectedIndexChanged="pkCategoria_SelectedIndexChanged"></Picker>
          <Label Grid.Row="0" Grid.Column="0" Margin="0,0,20,0" Style="{x:StaticResource AdTitle}"  HorizontalOptions="End"  VerticalTextAlignment="Center" FontFamily="{x:StaticResource FA-Solid}" Text="&#xf107;"></Label>
-        </Grid>
+        </Grid>-->
      
         <ListView 
             x:Name="EventiListView"

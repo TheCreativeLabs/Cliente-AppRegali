@@ -121,7 +121,7 @@ namespace AppRegali.Views
                 }
                 else
                 {
-                    await RootPage.NavigateFromMenu((int)homeMenuItem.Id, homeMenuItem.Model);
+                    //await RootPage.NavigateFromMenu((int)homeMenuItem.Id, homeMenuItem.Model);
                 }
             };
         }

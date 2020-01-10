@@ -28,6 +28,9 @@ namespace AppRegali.ViewModels
         private int PageSize = 5;
 
 
+        public int ListHeight { get; set; }
+
+
         private bool SoloPersonali { get; set; }
 
         public EventiViewModel(bool SoloEventiPersonali)
@@ -153,6 +156,9 @@ namespace AppRegali.ViewModels
             if (SoloPersonali)
             {
                 listaEventi = await eventoClient.GetEventoCurrentUserAsync();
+                if (listaEventi != null && listaEventi.Count > 0) {
+                    ListHeight = 250 * (listaEventi.Count);
+                }
             }
             else
             {

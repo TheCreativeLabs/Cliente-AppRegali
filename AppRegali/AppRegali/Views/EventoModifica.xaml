@@ -115,6 +115,9 @@
                                         </StackLayout>
                                 </DataTemplate>
                             </CollectionView.ItemTemplate>
+                            <CollectionView.Footer>
+                                <Label></Label>
+                            </CollectionView.Footer>
                             </CollectionView>
                     
                     </StackLayout>

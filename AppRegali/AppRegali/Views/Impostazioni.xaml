@@ -1,0 +1,71 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             xmlns:cnv="clr-namespace:AppRegali.Converter;assembly=AppRegali"
+             xmlns:conv="clr-namespace:AppRegali.Converter;assembly=AppRegali"
+             xmlns:translator="clr-namespace:AppRegali.Helpers"
+             x:Class="AppRegali.Views.Impostazioni"
+             NavigationPage.HasNavigationBar="False"
+            BackgroundColor="{x:StaticResource SfondoColor}">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <conv:ByteArrayToImageSourceConverter x:Key="ByteArrayToImage" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <ContentPage.Content>
+        <StackLayout>
+            <!--<appappartamenti:ShadowFrame  CornerRadius="0" HeightRequest="100" HasShadow="True" Padding="15" VerticalOptions="Center">
+                <StackLayout Orientation="Horizontal" Margin="0,20,0,0" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" >
+                    <Frame CornerRadius="35"
+                           Margin="0,5,0,0"
+                           HeightRequest="70"
+                           WidthRequest="70"
+                           IsClippedToBounds="True"
+                           HasShadow="False"
+                           HorizontalOptions="Center"
+                           VerticalOptions="Center"
+                           Padding="0">
+                        <Image x:Name="imgFotoUtente"
+                                Aspect="AspectFill"></Image>
+                    </Frame>
+
+                    <StackLayout VerticalOptions="Center">
+                        <StackLayout Orientation="Horizontal">
+                            <Label Style="{x:StaticResource Subtitle}" Text="{Binding Nome}"></Label>
+                            <Label Style="{x:StaticResource Subtitle}" Text="{Binding Cognome}"></Label>
+                        </StackLayout>
+                        <Label Style="{x:StaticResource Subtitle}" FontSize="17"  Text="{Binding Email}"></Label>
+                    </StackLayout>
+                </StackLayout>
+            </appappartamenti:ShadowFrame>-->
+
+            <ListView  x:Name="listView" Margin="0,-3,0,0" SelectionMode="None" RowHeight="60" SeparatorColor="LightGray" ItemTapped="OnItemTapped"><!---->
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Grid Padding="20,10,20,10">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="90*" />
+                                    <ColumnDefinition Width="10*" />
+                                </Grid.ColumnDefinitions>
+                                <Label Grid.Column="0"
+                                           Text="{Binding DisplayName}" VerticalTextAlignment="Center" HorizontalOptions="StartAndExpand" VerticalOptions="Center"/>
+                                <Label FontFamily="{x:StaticResource FA-Solid}"
+                                           Grid.Column="1"
+                                           Text="{Binding Icona}" FontSize="Large" HorizontalOptions="EndAndExpand" VerticalOptions="Center" HorizontalTextAlignment="End"/>
+                            </Grid>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+                <ListView.Footer>
+                    <Label />
+                </ListView.Footer>
+            </ListView>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

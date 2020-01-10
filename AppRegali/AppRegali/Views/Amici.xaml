@@ -7,30 +7,39 @@
             xmlns:views="clr-namespace:AppRegali.Views"
             mc:Ignorable="d"
              x:Class="AppRegali.Views.Amici"
+             xmlns:controls="clr-namespace:AppRegali.ContentViews"
             xmlns:views1="clr-namespace:AppRegali.Views.Account"
             xmlns:views11="clr-namespace:AppRegali.Views.Account"
             xmlns:translator="clr-namespace:AppRegali.Helpers"
-            BackgroundColor="White"
-            BarBackgroundColor="White"
-            NavigationPage.HasNavigationBar="False"
+            BackgroundColor="{x:StaticResource PrimaryColor}"
+            BarBackgroundColor="{x:StaticResource PrimaryColor}"
+            android:TabbedPage.IsSwipePagingEnabled="False"
+            NavigationPage.HasNavigationBar="True"
+            NavigationPage.HasBackButton="False"
             SelectedTabColor="{x:StaticResource DarkColor}"
-            UnselectedTabColor="{x:StaticResource GrayColor}">
+            UnselectedTabColor="{x:StaticResource GrayColor}"
+            
+>
+
+    <NavigationPage.TitleView>
+        <controls:ProfileBackButton HeightRequest="40" HorizontalOptions="StartAndExpand"/>
+    </NavigationPage.TitleView>
 
     <TabbedPage.Children>
-        <NavigationPage Title="{translator:Translate Amici.Contatti}">
-            <NavigationPage.IconImageSource>
-                <FontImageSource  FontFamily="{x:StaticResource FA-Solid}" Glyph="&#xf0c0;"/>
-            </NavigationPage.IconImageSource>
+        <NavigationPage Title="{translator:Translate Amici.Contatti}" >
+            <!--<NavigationPage.IconImageSource>
+                <FontImageSource  FontFamily="{x:StaticResource FA-Solid}" Glyph="&#xf0c0;" Size="25"/>
+            </NavigationPage.IconImageSource>-->
             <x:Arguments>
                 <views:AmiciCurrent Title="{translator:Translate Amici.Contatti}">
                 </views:AmiciCurrent>
             </x:Arguments>
         </NavigationPage>
 
-        <NavigationPage Title="{translator:Translate Amici.Richieste}">
-            <NavigationPage.IconImageSource>
-                <FontImageSource  FontFamily="{x:StaticResource FA-Solid}" Glyph="&#xf4fc;"/>
-            </NavigationPage.IconImageSource>
+        <NavigationPage Title="{translator:Translate Amici.Richieste}" >
+            <!--<NavigationPage.IconImageSource>
+                <FontImageSource  FontFamily="{x:StaticResource FA-Solid}" Glyph="&#xf4fc;"  Size="25"/>
+            </NavigationPage.IconImageSource>-->
             <x:Arguments>
                 <views:AmiciRichieste Title="{translator:Translate Amici.Richieste}">
                 </views:AmiciRichieste>

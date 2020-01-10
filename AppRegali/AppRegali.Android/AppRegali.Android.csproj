@@ -45,6 +45,7 @@
     <EnableLLVM>false</EnableLLVM>
     <AndroidEnableProfiledAot>false</AndroidEnableProfiledAot>
     <BundleAssemblies>false</BundleAssemblies>
+    <EmbedAssembliesIntoApk>true</EmbedAssembliesIntoApk>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Mono.Android" />
@@ -85,6 +86,7 @@
     <AndroidAsset Include="Assets\Montserrat-Light.ttf" />
     <AndroidAsset Include="Assets\MyriadPro-Light.otf" />
     <AndroidAsset Include="Assets\MyriadPro-Regular.otf" />
+    <AndroidAsset Include="Assets\Lobster-Regular.ttf" />
     <None Include="Resources\AboutResources.txt" />
     <None Include="Assets\AboutAssets.txt" />
     <None Include="Properties\AndroidManifest.xml" />
@@ -176,6 +178,11 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\mipmap-mdpi\icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Resources\layout\Widget.axml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
 </Project>

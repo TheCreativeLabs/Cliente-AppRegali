@@ -1,0 +1,108 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
+    xmlns:android="clr-namespace:Xamarin.Forms.PlatformConfiguration.AndroidSpecific;assembly=Xamarin.Forms.Core"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+            xmlns:views="clr-namespace:AppRegali.Views"
+            mc:Ignorable="d"
+             x:Class="AppRegali.Views.Amici2"
+             xmlns:controls="clr-namespace:AppRegali.ContentViews"
+             xmlns:conv="clr-namespace:AppRegali.Converter;assembly=AppRegali"
+            xmlns:views1="clr-namespace:AppRegali.Views.Account"
+            xmlns:translator="clr-namespace:AppRegali.Helpers"
+            android:TabbedPage.IsSwipePagingEnabled="False"
+            NavigationPage.HasNavigationBar="False"
+            NavigationPage.HasBackButton="False"
+>
+
+    <!--<NavigationPage.TitleView>
+        <controls:ProfileBackButton HeightRequest="40" HorizontalOptions="StartAndExpand"/>
+    </NavigationPage.TitleView>-->
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <conv:ByteArrayToImageSourceConverter x:Key="ByteArrayToImage" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <ContentPage.Content>
+        <StackLayout>
+            <controls:ProfileBackButton HeightRequest="40" HorizontalOptions="StartAndExpand" Margin="20"/>
+            <Grid HeightRequest="70" HorizontalOptions="FillAndExpand">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="50*" ></ColumnDefinition>
+                    <ColumnDefinition Width="50*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Button Grid.Column="0" HorizontalOptions="CenterAndExpand" Text="Contatti" Clicked="ShowContacts" x:Name="btnContact" CornerRadius="20" Margin="5" Padding="1" TextColor="White" BackgroundColor="{StaticResource PrimaryColor}" HeightRequest="40">
+
+                </Button>
+                <Button Grid.Column="1" HorizontalOptions="CenterAndExpand" Text="Richieste"  Clicked="ShowRequests" x:Name="btnRequests" CornerRadius="20" Margin="5"  TextColor="{StaticResource PrimaryColor}" BackgroundColor="White"  Padding="1"  HeightRequest="40">
+
+                </Button>
+            </Grid>
+
+            <StackLayout x:Name="stkContatti" IsVisible="True">
+                <ActivityIndicator IsRunning="{Binding IsLoading}" IsVisible="{Binding IsLoading}"/>
+                <CollectionView x:Name="ContattiCollectionView"
+                ItemsSource="{Binding Items}"
+                SelectionMode="Single"
+                SelectionChanged="OnContattiSelectionChanged">
+
+                    <CollectionView.ItemsLayout>
+                        <GridItemsLayout Orientation="Vertical" Span="3" />
+                    </CollectionView.ItemsLayout>
+
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <StackLayout Padding="10">
+                                <Frame HasShadow="True"  CornerRadius="10" HeightRequest="170" Padding="0" IsClippedToBounds="True">
+                                    <StackLayout>
+                                        <Image x:Name="imgContatto" HeightRequest="100" Aspect="AspectFill"
+                                               Source="{Binding FotoProfilo, Converter={StaticResource ByteArrayToImage}}" ></Image>
+
+                                        <Label Text="{Binding Nome}" Margin="10,0,0,0" Style="{x:StaticResource AdSubtitle}"/>
+                                        <Label Text="{Binding Cognome}" Margin="10,0,0,0" Style="{x:StaticResource AdSubtitle}"/>
+                                    </StackLayout>
+                                </Frame>
+                            </StackLayout>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </StackLayout>
+
+            <!--<StackLayout x:Name="stkRequests">
+                <ActivityIndicator IsRunning="{Binding IsLoading}" IsVisible="{Binding IsLoading}"/>
+                <CollectionView x:Name="RichiesteCollectionView"
+                ItemsSource="{Binding Items}"
+                SelectionMode="Single"
+                SelectionChanged="OnRichiesteSelectionChanged">
+
+                    <CollectionView.ItemsLayout>
+                        <GridItemsLayout Orientation="Vertical" Span="3" />
+                    </CollectionView.ItemsLayout>
+
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <StackLayout Padding="10">
+                                <Frame HasShadow="True"  CornerRadius="10" HeightRequest="170" Padding="0" IsClippedToBounds="True">
+                                    <StackLayout>
+                                        <Image x:Name="imgContatto" HeightRequest="100" Aspect="AspectFill"
+                                               Source="{Binding FotoProfilo, Converter={StaticResource ByteArrayToImage}}" ></Image>
+
+                                        <Label Text="{Binding Nome}" Margin="10,0,0,0" Style="{x:StaticResource AdSubtitle}"/>
+                                        <Label Text="{Binding Cognome}" Margin="10,0,0,0" Style="{x:StaticResource AdSubtitle}"/>
+                                    </StackLayout>
+                                </Frame>
+                            </StackLayout>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </StackLayout>-->
+
+        </StackLayout>
+
+
+
+    </ContentPage.Content>
+</ContentPage>
