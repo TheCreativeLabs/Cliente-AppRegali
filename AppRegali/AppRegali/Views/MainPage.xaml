@@ -46,13 +46,14 @@
                 <FontImageSource  FontFamily="{x:StaticResource FA-Solid}" Glyph="&#xf06b;" Size="25"/>
             </NavigationPage.IconImageSource>
             <x:Arguments>
+                <!-- TODO -->
                 <views:Home Title="">
                 </views:Home>
             </x:Arguments>
         </NavigationPage>
 
         <NavigationPage ><!--Title="Profilo"-->
-            <!--amici-->
+            <!--aggiungi-->
             <NavigationPage.IconImageSource>
                 <FontImageSource  FontFamily="{x:StaticResource FA-Solid}" Glyph="&#xf0fe;" Size="25"/>
             </NavigationPage.IconImageSource>
@@ -63,7 +64,7 @@
         </NavigationPage>
 
         <NavigationPage ><!--Title="Profilo"-->
-            <!--amici-->
+            <!--i miei eventi-->
             <NavigationPage.IconImageSource>
                 <FontImageSource  FontFamily="{x:StaticResource FA-Solid}" Glyph="&#xf007;" Size="25"/>
             </NavigationPage.IconImageSource>

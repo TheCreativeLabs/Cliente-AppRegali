@@ -44,7 +44,7 @@
                 </StackLayout>
             </appappartamenti:ShadowFrame>-->
 
-            <ListView  x:Name="listView" Margin="0,-3,0,0" SelectionMode="None" RowHeight="60" SeparatorColor="LightGray" ItemTapped="OnItemTapped">
+            <ListView  x:Name="listViewImpostazioni" Margin="0,-3,0,0" SelectionMode="None" RowHeight="60" SeparatorColor="LightGray" ItemTapped="OnItemTapped">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>

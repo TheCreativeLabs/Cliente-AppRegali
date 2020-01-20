@@ -45,7 +45,7 @@ namespace AppRegali.Views
             items.Add(new MenuItem() { Id = 5, DisplayName = "Logout", Icona = "\uf2f5", RedirectPage = null });
 
 
-            listView.ItemsSource = items;
+            listViewImpostazioni.ItemsSource = items;
         }
 
         async void OnItemTapped(object obj, ItemTappedEventArgs e)
@@ -55,12 +55,12 @@ namespace AppRegali.Views
             if (item == null)
                 return;
 
-            listView.SelectedItem = null;
+            listViewImpostazioni.SelectedItem = null;
 
             if (item.Id == 3)
             {
                 //pkLanguage.Focus();
-                listView.SelectedItem = null;
+                listViewImpostazioni.SelectedItem = null;
             }
             else if (item.Id == 5)
             {
