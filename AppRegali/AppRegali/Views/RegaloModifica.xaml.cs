@@ -61,43 +61,51 @@ namespace AppRegali.Views
 
         }
 
-        //private async void Delete_Clicked(object sender, EventArgs e)
-        //{
-        //    try
-        //    {
-        //        bool answer = await DisplayAlert("Attenzione", "Vuoi davvero eliminare il regalo?", "Yes", "No");
-        //        if (answer)
-        //        {
-        //            try
-        //            {
-        //                RegaloModificaActivityIndicator.IsVisible = true;
+        private async void Delete_Clicked(object sender, EventArgs e)
+        {
+            try
+            {
+                bool answer = await DisplayAlert("Attenzione", "Vuoi davvero eliminare il regalo?", "Yes", "No");
+                if (answer)
+                {
+                    try
+                    {
+                        RegaloModificaActivityIndicator.IsVisible = true;
 
-        //                EventoClient eventoClient = new EventoClient(await ApiHelper.GetApiClient());
-        //                await eventoClient.DeleteRegaloAsync(new Guid(viewModel.Item.Id));
+                        EventoClient eventoClient = new EventoClient(await ApiHelper.GetApiClient());
+                        await eventoClient.DeleteRegaloAsync(new Guid(viewModel.Item.Id));
 
-        //                MessagingCenter.Send(this, "RefreshListaRegaliPersonaliElimina", "OK");
+                        MessagingCenter.Send(this, "RefreshListaRegaliPersonaliModifica", "OK");
 
-        //                await DisplayAlert(null, "Regalo eliminato", "Ok");
-        //                //torno indietro alla lista degli eventi personali
-        //                await Navigation.PopAsync();
-        //                await Navigation.PopModalAsync();
-        //            }
-        //            catch
-        //            {
-        //                await DisplayAlert(null, "Errore durante l'eliminazione del regalo", "Ok");
-        //            }
-        //            finally
-        //            {
-        //                RegaloModificaActivityIndicator.IsVisible = false;
-        //            }
-        //        }
+                        await DisplayAlert(null, "Regalo eliminato", "Ok");
 
-        //    }
-        //    catch (Exception)
-        //    {
-        //        throw;
-        //    }
-        //}
+
+                        var i = Navigation.NavigationStack[Navigation.NavigationStack.Count -2];
+                        Navigation.RemovePage(i);
+
+                        //var i2 = Navigation.NavigationStack[Navigation.NavigationStack.Count - 1];
+
+                        //Navigation.RemovePage(i2);
+
+                        //torno indietro alla lista degli eventi personali
+                        await Navigation.PopAsync();
+                    }
+                    catch
+                    {
+                        await DisplayAlert(null, "Errore durante l'eliminazione del regalo", "Ok");
+                    }
+                    finally
+                    {
+                        RegaloModificaActivityIndicator.IsVisible = false;
+                    }
+                }
+
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
 
         async void OnPickPhotoButtonClicked(object sender, EventArgs e)
         {
@@ -129,5 +137,73 @@ namespace AppRegali.Views
             }
         }
 
+        async void TapGestureRecognizer_Tapped(System.Object sender, System.EventArgs e)
+        {
+            RegaloModificaActivityIndicator.IsVisible = true;
+
+            RegaloDtoInput regaloDtoInput = new RegaloDtoInput()
+            {
+                Cancellato = viewModel.Item.Cancellato,
+                Descrizione = viewModel.Item.Descrizione,
+                IdEvento = viewModel.Item.IdEvento,
+                ImmagineRegalo = viewModel.Item.ImmagineRegalo,
+                ImportoCollezionato = viewModel.Item.ImportoCollezionato,
+                Prezzo = viewModel.Item.Prezzo,
+                Titolo = viewModel.Item.Titolo
+            };
+
+            Guid id = new Guid(viewModel.Item.Id);
+            //Faccio update del regalo
+            //var regaloAggiornato =
+
+            EventoClient eventoClient = new EventoClient(await ApiHelper.GetApiClient());
+            await eventoClient.UpdateRegaloAsync(id, regaloDtoInput);
+            MessagingCenter.Send(this, "RefreshListaRegaliPersonaliModifica", "OK");
+
+            RegaloModificaActivityIndicator.IsVisible = false;
+
+            await DisplayAlert(null,
+                Helpers.TranslateExtension.ResMgr.Value.GetString("RegaloModifica.SalvataggioOk", CurrentCulture.Ci),
+                Helpers.TranslateExtension.ResMgr.Value.GetString("RegaloModifica.Ok", CurrentCulture.Ci));
+            //TODO APPENA RIPUBBLICO API this.viewModel = new EventoDetailViewModel(eventoInserito);
+
+        }
+
+        async void ToolbarItem_Clicked(System.Object sender, System.EventArgs e)
+        {
+            RegaloModificaActivityIndicator.IsVisible = true;
+
+            RegaloDtoInput regaloDtoInput = new RegaloDtoInput()
+            {
+                Cancellato = viewModel.Item.Cancellato,
+                Descrizione = viewModel.Item.Descrizione,
+                IdEvento = viewModel.Item.IdEvento,
+                ImmagineRegalo = viewModel.Item.ImmagineRegalo,
+                ImportoCollezionato = viewModel.Item.ImportoCollezionato,
+                Prezzo = viewModel.Item.Prezzo,
+                Titolo = viewModel.Item.Titolo
+            };
+
+            Guid id = new Guid(viewModel.Item.Id);
+            //Faccio update del regalo
+            //var regaloAggiornato =
+
+            EventoClient eventoClient = new EventoClient(await ApiHelper.GetApiClient());
+            await eventoClient.UpdateRegaloAsync(id, regaloDtoInput);
+            MessagingCenter.Send(this, "RefreshListaRegaliPersonaliModifica", "OK");
+
+            RegaloModificaActivityIndicator.IsVisible = false;
+
+            await DisplayAlert(null,
+                Helpers.TranslateExtension.ResMgr.Value.GetString("RegaloModifica.SalvataggioOk", CurrentCulture.Ci),
+                Helpers.TranslateExtension.ResMgr.Value.GetString("RegaloModifica.Ok", CurrentCulture.Ci));
+            //TODO APPENA RIPUBBLICO API this.viewModel = new EventoDetailViewModel(eventoInserito);
+
+        }
+
+        void TapGestureRecognizer_Tapped_1(System.Object sender, System.EventArgs e)
+        {
+            PickPhoto();
+        }
     }
 }

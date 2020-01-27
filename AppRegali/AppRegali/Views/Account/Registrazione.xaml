@@ -5,8 +5,10 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
              x:Class="AppRegali.Views.Login.Registrazione"
-             xmlns:translator="clr-namespace:AppRegali.Helpers" xmlns:controls="clr-namespace:AppRegali.ContentViews" xmlns:appregali="clr-namespace:AppRegali"
-             NavigationPage.HasNavigationBar="False">
+             xmlns:translator="clr-namespace:AppRegali.Helpers"
+             xmlns:controls="clr-namespace:AppRegali.ContentViews" xmlns:appregali="clr-namespace:AppRegali"
+             NavigationPage.HasNavigationBar="False"
+             BackgroundColor="{x:StaticResource SfondoColor}">
 
     <NavigationPage.TitleView>
         <StackLayout Orientation="Horizontal">

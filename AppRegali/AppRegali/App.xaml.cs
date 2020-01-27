@@ -25,7 +25,7 @@ namespace AppRegali
         {
             if (await ApiHelper.GetToken() != null)
             {
-                MainPage = new MainPage();
+                MainPage = new NavigationPage(new Home());
             } else
             {
                 MainPage = new NavigationPage(new Login());

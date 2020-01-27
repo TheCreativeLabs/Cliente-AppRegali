@@ -6,4 +6,6 @@
   <color name="colorAccent">#ff6b6b</color>
   <color name="ListViewSelected">#fff</color>
   <color name="ListViewHighlighted">#fff</color>
+<color name="DarkColor">#343a40</color>
+ <color name="splash_background">#046ea8</color>
 </resources>

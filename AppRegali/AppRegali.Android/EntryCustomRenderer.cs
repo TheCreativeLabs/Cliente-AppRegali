@@ -28,6 +28,8 @@ using Color = Xamarin.Forms.Color;
 [assembly: ExportRenderer(typeof(SearchEntry), typeof(SearchEntryRenderer))]
 [assembly: ExportRenderer(typeof(Picker), typeof(CustomPickerRenderer))]
 [assembly: ExportRenderer(typeof(DatePickerCtrl), typeof(DatePickerCtrlRenderer))]
+[assembly: ExportRenderer(typeof(DatePickerBorderCtrl), typeof(DatePickerBorderCtrlRenderer))]
+
 
 namespace CustomRenderer
 {
@@ -186,6 +188,49 @@ namespace CustomRenderer
                 this.Control.SetTextColor(Android.Graphics.Color.Gray);
                 Control.Text = element.Placeholder;
             }
+            this.Control.TextChanged += (sender, arg) => {
+                var selectedDate = arg.Text.ToString();
+                if (selectedDate == element.Placeholder)
+                {
+                    Control.Text = DateTime.Now.ToString("dd/MM/yyyy");
+                    //this.Control.SetTextColor(Android.Graphics.Color.Gray);
+                }
+            };
+        }
+    }
+
+    public class DatePickerBorderCtrlRenderer : DatePickerRenderer
+    {
+        public DatePickerBorderCtrlRenderer(Context context) : base(context)
+        {
+        }
+
+        protected override void OnElementChanged(ElementChangedEventArgs<Xamarin.Forms.DatePicker> e)
+        {
+            base.OnElementChanged(e);
+
+           
+
+
+            RoundRectShape i = new RoundRectShape(
+                         new float[] { 15, 15, 15, 15, 15, 15, 15, 15 },
+                         null,
+                         new float[] { 15, 15, 15, 15, 15, 15, 15, 15 });
+
+            var shape = new ShapeDrawable(i);
+            shape.Paint.Color = Xamarin.Forms.Color.White.ToAndroid();
+            shape.Paint.SetStyle(Paint.Style.Stroke);
+            Control.Background = shape;
+            Control.SetPadding(15, 15, 15, 15);
+
+            DatePickerBorderCtrl element = Element as DatePickerBorderCtrl;
+
+            if (!string.IsNullOrWhiteSpace(element.Placeholder))
+            {
+                this.Control.SetTextColor(Android.Graphics.Color.Gray);
+                Control.Text = element.Placeholder;
+            }
+
             this.Control.TextChanged += (sender, arg) => {
                 var selectedDate = arg.Text.ToString();
                 if (selectedDate == element.Placeholder)

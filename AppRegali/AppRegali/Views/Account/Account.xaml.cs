@@ -22,7 +22,7 @@ namespace AppRegali.Views.Account
         UserInfoDto viewModel;
         byte[] img;
 
-        public Account( UserInfoDto Model)
+        public Account(UserInfoDto Model)
         {
             InitializeComponent();
 
@@ -48,7 +48,7 @@ namespace AppRegali.Views.Account
                     }
                 }
 
-                if(viewModel.DataDiNascita != null)
+                if (viewModel.DataDiNascita != null)
                 {
                     dpDataNascita.Date = viewModel.DataDiNascita.Value.Date;
                 }
@@ -75,7 +75,7 @@ namespace AppRegali.Views.Account
                 //    btnRegistrati.IsEnabled = false;
                 //}
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 //Navigo alla pagina d'errore.
                 await Navigation.PushAsync(new ErrorPage());
@@ -86,7 +86,7 @@ namespace AppRegali.Views.Account
         {
             try
             {
-                if(!string.IsNullOrEmpty(entCognome.Text) && !string.IsNullOrEmpty(entNome.Text))
+                if (!string.IsNullOrEmpty(entCognome.Text) && !string.IsNullOrEmpty(entNome.Text))
                 {
                     AccountClient accountClient = new AccountClient(await Api.ApiHelper.GetApiClient());
                     UpdateUserBindingModel updateUserBindingModel = new UpdateUserBindingModel()
@@ -96,7 +96,7 @@ namespace AppRegali.Views.Account
                         BirthName = entNome.Text,
                         //DataNascita = pkDataNascita.Date,
                         DataNascita = dpDataNascita.Date,
-                    ImmagineProfilo = viewModel.FotoProfilo,
+                        ImmagineProfilo = viewModel.FotoProfilo,
                         Email = viewModel.Email
                     };
 
@@ -174,12 +174,76 @@ namespace AppRegali.Views.Account
             }
         }
 
-        //private void entDataNascita_Focused(object sender, FocusEventArgs e)
+        async void TapGestureRecognizer_Tapped(System.Object sender, System.EventArgs e)
+        {
+            if (!string.IsNullOrEmpty(entCognome.Text) && !string.IsNullOrEmpty(entNome.Text))
+            {
+                AccountClient accountClient = new AccountClient(await Api.ApiHelper.GetApiClient());
+                UpdateUserBindingModel updateUserBindingModel = new UpdateUserBindingModel()
+                {
+                    Name = entNome.Text,
+                    Surname = entCognome.Text,
+                    BirthName = entNome.Text,
+                    //DataNascita = pkDataNascita.Date,
+                    DataNascita = dpDataNascita.Date,
+                    ImmagineProfilo = viewModel.FotoProfilo,
+                    Email = viewModel.Email
+                };
+
+                //TODO: gestire la modifica della Email.
+                await accountClient.UpdateUserAsync(updateUserBindingModel);
+
+                ApiHelper.RemoveUserInfo();
+
+                //Refresh del menu
+                MenuPage menuPage = (MenuPage)((MasterDetailPage)Application.Current.MainPage).Master;
+                await menuPage.UpdateMenuData(Models.MenuItemType.Account);
+
+                await DisplayAlert(null, "Salvataggio effettuato", "OK");
+            }
+            else
+            {
+                await DisplayAlert("Attenzione", "è necessario compilare tutti i campi", "OK");
+            }
+        }
+
+       async  void ToolbarItem_Clicked(System.Object sender, System.EventArgs e)
+        {
+            if (!string.IsNullOrEmpty(entCognome.Text) && !string.IsNullOrEmpty(entNome.Text))
+            {
+                AccountClient accountClient = new AccountClient(await Api.ApiHelper.GetApiClient());
+                UpdateUserBindingModel updateUserBindingModel = new UpdateUserBindingModel()
+                {
+                    Name = entNome.Text,
+                    Surname = entCognome.Text,
+                    BirthName = entNome.Text,
+                    //DataNascita = pkDataNascita.Date,
+                    DataNascita = dpDataNascita.Date,
+                    ImmagineProfilo = viewModel.FotoProfilo,
+                    Email = viewModel.Email
+                };
+
+                //TODO: gestire la modifica della Email.
+                await accountClient.UpdateUserAsync(updateUserBindingModel);
+
+                ApiHelper.RemoveUserInfo();
+
+                //Refresh del menu
+                MenuPage menuPage = (MenuPage)((MasterDetailPage)Application.Current.MainPage).Master;
+                await menuPage.UpdateMenuData(Models.MenuItemType.Account);
+
+                await DisplayAlert(null, "Salvataggio effettuato", "OK");
+            }
+            else
+            {
+                await DisplayAlert("Attenzione", "è necessario compilare tutti i campi", "OK");
+            }
+        }        //private void entDataNascita_Focused(object sender, FocusEventArgs e)
         //{
         //    entDataNascita.Unfocus();
         //    dpDataNascita.Focus();
         //}
-        
+
 
     }
 }

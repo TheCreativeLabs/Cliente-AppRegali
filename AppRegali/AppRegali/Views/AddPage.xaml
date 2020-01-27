@@ -1,5 +1,68 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="AppRegali.Views.AddPage">
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:forms="clr-namespace:Lottie.Forms;assembly=Lottie.Forms"
+             x:Class="AppRegali.Views.AddPage"
+             NavigationPage.HasBackButton="False"
+             BackgroundColor="{x:StaticResource SfondoColor}">
+
+    <NavigationPage.TitleView>
+        <Grid Margin="0,0,15,0" VerticalOptions="Center">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"></ColumnDefinition>
+                <ColumnDefinition Width="1*"></ColumnDefinition>
+                <ColumnDefinition Width="1*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+
+            <Label Grid.Column="0" FontSize="16" Style="{x:StaticResource AdSubtitle}" VerticalTextAlignment="Center" HorizontalTextAlignment="left" Text="Annulla">
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped"></TapGestureRecognizer>
+                </Label.GestureRecognizers>
+            </Label>
+
+            <Label Grid.Column="1" FontSize="16" Style="{x:StaticResource AdTitle}" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" Text="Aggiungi"></Label>
+        </Grid>
+    </NavigationPage.TitleView>
     <ContentPage.Content>
+        <StackLayout Padding="20">
+            <Frame HeightRequest="80" BorderColor="DarkGray" HasShadow="False" CornerRadius="10">
+                <StackLayout Orientation="Horizontal">
+                    <forms:AnimationView
+	                        x:Name="animationView" 
+	                        Animation="present.json"
+                            HorizontalOptions="Start" VerticalOptions="Center"
+	                        Loop="True" HeightRequest="50"
+	                        AutoPlay="True" WidthRequest="50"/>
+                    <StackLayout  VerticalOptions="Center">
+                         <Label Style="{x:StaticResource AdTitle}" Text="Aggiungi un nuovo desiderio"></Label>
+                        <Label Style="{x:StaticResource AdSubtitle}" Text="Aggiungi un desiderio alla tua lista"></Label>
+                    </StackLayout>
+                       
+                </StackLayout>
+
+                <Frame.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="FrameNuovoDesiderioRecognizer_Tapped"></TapGestureRecognizer>
+                </Frame.GestureRecognizers>
+            </Frame>
+
+            <Frame Margin="0,20,0,0" HeightRequest="80" BorderColor="DarkGray" HasShadow="False" CornerRadius="10">
+                 <StackLayout Orientation="Horizontal">
+                    <forms:AnimationView 
+	                        x:Name="animationView2" 
+	                        Animation="birthday.json" 
+	                           HorizontalOptions="Start" VerticalOptions="Center"
+	                        Loop="True" HeightRequest="50"
+	                        AutoPlay="True" WidthRequest="50"/>
+
+                      <StackLayout  VerticalOptions="Center">
+                    <Label Style="{x:StaticResource AdTitle}" Text="Aggiungi un nuovo evento"></Label>
+                    <Label Style="{x:StaticResource AdSubtitle}" Text="Aggiungi un nuovo evento e condividilo con i tuoi amici"></Label>
+                </StackLayout>
+                </StackLayout>
+
+                <Frame.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="FrameNuovoEventoRecognizer_Tapped"></TapGestureRecognizer>
+                </Frame.GestureRecognizers>
+            </Frame>
+        </StackLayout>
     </ContentPage.Content>
 </ContentPage>

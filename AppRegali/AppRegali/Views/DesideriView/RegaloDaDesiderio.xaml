@@ -1,0 +1,84 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:forms="http://xamarin.com/schemas/2014/forms"
+             xmlns:controls="clr-namespace:AppRegali.ContentViews"
+             xmlns:conv="clr-namespace:AppRegali.Converter"
+             xmlns:forms1="clr-namespace:Lottie.Forms;assembly=Lottie.Forms"
+             x:Class="AppRegali.Views.DesideriView.RegaloDaDesiderio"
+             NavigationPage.HasNavigationBar="True"
+             NavigationPage.HasBackButton="True"
+             Title="I miei desideri"
+             BackgroundColor="{x:StaticResource SfondoColor}">
+
+
+     <ContentPage.Resources>
+        <ResourceDictionary>
+            <conv:ByteArrayToImageSourceConverter x:Key="ByteArrayToImage" />
+            <conv:KeyToTranslateConverter x:Key="TranslateConverter" />
+
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <ContentPage.Content>
+        <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <StackLayout Grid.Row="0" HorizontalOptions="CenterAndExpand" VerticalOptions="Center" IsVisible="{Binding IsEmpty}">
+             <forms1:AnimationView
+	                        x:Name="animationView" 
+	                        Animation="present.json"
+                            HorizontalOptions="Center" VerticalOptions="Center"
+	                        Loop="True" HeightRequest="150"
+	                        AutoPlay="True" WidthRequest="150"/>
+                <Label Text="Non hai ancora aggiunto nessun desiderio"></Label>
+                <Button Text="Aggiungi un nuovo desiderio" CornerRadius="20" BackgroundColor="{x:StaticResource PrimaryColor}" TextColor="White" HorizontalOptions="Center" Clicked="ToolbarItem_Clicked">
+                </Button>
+        </StackLayout>
+
+        <ListView Grid.Row="0" x:Name="MyListView"
+              ItemsSource="{Binding Items}"
+              HasUnevenRows="True"
+              SeparatorVisibility="Default"
+              SeparatorColor="LightGray"
+              Margin="20,0,20,0"
+              ItemTapped="MyListView_ItemTapped"
+
+              >
+        <ListView.ItemTemplate>
+          <DataTemplate>
+            <ViewCell>
+              <StackLayout Orientation="Horizontal" Margin="0,20,0,20">
+                    <Frame Grid.Column="0" HorizontalOptions="Start" VerticalOptions="CenterAndExpand"
+                           HeightRequest="80" WidthRequest="80" Padding="0" CornerRadius="0" IsClippedToBounds="True">
+                        <Image Aspect="AspectFill"
+                            Source="{Binding ImmagineDesiderio, Converter={StaticResource ByteArrayToImage}}"></Image>
+
+
+                    </Frame>
+
+                    <StackLayout VerticalOptions="Center" Margin="20,0,0,0">
+                        <Label Text="{Binding Titolo}" Style="{x:StaticResource AdTitle}"></Label>
+                        <Label Text="{Binding Descrizione}"></Label>
+                    </StackLayout>
+              </StackLayout>
+            </ViewCell>
+          </DataTemplate>
+        </ListView.ItemTemplate>
+    
+    </ListView>
+
+         <StackLayout Grid.Row="0" VerticalOptions="FillAndExpand"  IsVisible="{Binding IsBusy}">
+            <forms1:AnimationView
+	                        x:Name="animationView2" 
+	                        Animation="loader.json"
+                            HorizontalOptions="Center" VerticalOptions="CenterAndExpand"
+	                        Loop="True" HeightRequest="180"
+	                        AutoPlay="True" WidthRequest="180"/>
+        </StackLayout>
+
+         </Grid>
+    </ContentPage.Content>
+</ContentPage>

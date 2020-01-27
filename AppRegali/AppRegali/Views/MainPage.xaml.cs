@@ -85,6 +85,43 @@ namespace AppRegali.Views
         protected override void OnAppearing()
         {
             base.OnAppearing();
+
+            this.Children.Add(new ContentPage
+            {
+                Title = "Text",
+                Content = new StackLayout
+                {
+                    Padding = 20,
+                    VerticalOptions = LayoutOptions.FillAndExpand,
+                    Children =
+                {
+                    new Image
+                    {
+                        Source = ImageSource.FromFile("monkeyicon.png")
+                    },
+                    new Label
+                    {
+                        TextColor = Color.FromHex("#5F5A5A"),
+                        FontSize = 16,
+                        Text = "Other text"
+                    }
+             }
+                }
+            });
+            this.Children.Add(new ContentPage
+            {
+                Title = "Button",
+                Content = new StackLayout
+                {
+                    Children ={
+              new Xamarin.Forms.Button{
+                ImageSource = ImageSource.FromFile("logobiancobluombra.png"),
+                BackgroundColor = Color.Transparent
+
+                }
+             }
+                }
+            });
         }
 
         protected override void OnDisappearing()

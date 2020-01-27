@@ -11,7 +11,7 @@
             <!-- Colors -->
             <!--<Color x:Key="PrimaryColor">#ff6b6b</Color>-->
             <Color x:Key="PrimaryColor">#046ea8</Color>
-            <Color x:Key="DarkColor">#343a40</Color>
+            <Color x:Key="DarkColor">#3d4852</Color>
             <Color x:Key="GrayColor">#868e96</Color>
             <Color x:Key="SuccessColor">#20c997</Color>
             <Color x:Key="DangerColor">#dc3545</Color>
@@ -56,29 +56,26 @@
             </Style>
 
             <OnPlatform x:TypeArguments="x:String" x:Key="BodyFont">
-                <On Platform="Android" Value="Roboto-Regular.ttf#Roboto" />
-                <On Platform="iOS" Value="Roboto-Regular" />
+                <On Platform="Android" Value="OpenSans-Light.ttf#OpenSans Light" />
             </OnPlatform>
 
              <OnPlatform x:TypeArguments="x:String" x:Key="SubtitleFont">
-                <On Platform="Android" Value="Roboto-Regular.ttf#Roboto Medium" />
-                <On Platform="iOS" Value="Roboto-Medium" />
+                <On Platform="Android" Value="OpenSans-Regular.ttf#OpenSans" />
             </OnPlatform>
 
             <OnPlatform x:TypeArguments="x:String" x:Key="TitleFont">
-                <On Platform="Android" Value="Roboto-Bold.ttf#Roboto Bold" />
-                <On Platform="iOS" Value="Roboto-Bold" />
+                <On Platform="Android" Value="OpenSans-Bold.ttf#OpenSans Bold" />
             </OnPlatform>
 
             <OnPlatform x:TypeArguments="x:String" x:Key="BoldFont">
-                <On Platform="Android" Value="Montserrat-Light.ttf#Montserrat Light" />
-                <On Platform="iOS" Value="Montserrat-Light" />
+                <On Platform="Android" Value="OpenSans-Light.ttf#OpenSans Light" />
+                <On Platform="iOS" Value="OpenSans-Light" />
             </OnPlatform>
 
 
             <OnPlatform x:TypeArguments="x:String" x:Key="BoldFont2">
-                <On Platform="Android" Value="MyriadPro-Regular.otf#MyriadPro Regular" />
-                <On Platform="iOS" Value="MyriadPro-Regular" />
+                <On Platform="Android" Value="OpenSans-Regular.ttf#OpenSans" />
+                <On Platform="iOS" Value="OpenSans-Regular" />
             </OnPlatform>
 
             <Style TargetType="Entry">

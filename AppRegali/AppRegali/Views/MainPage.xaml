@@ -4,8 +4,7 @@
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
             xmlns:views="clr-namespace:AppRegali.Views"
-                        xmlns:account="clr-namespace:AppRegali.Views.Account"
-
+            xmlns:account="clr-namespace:AppRegali.Views.Account"
             mc:Ignorable="d"
             x:Class="AppRegali.Views.MainPage"
             xmlns:android="clr-namespace:Xamarin.Forms.PlatformConfiguration.AndroidSpecific;assembly=Xamarin.Forms.Core"
@@ -17,7 +16,11 @@
             UnselectedTabColor="{x:StaticResource GrayColor}"
             NavigationPage.HasNavigationBar="False"
             android:TabbedPage.IsSmoothScrollEnabled="false"
-            BackgroundColor="{OnPlatform Android=White, iOS=White}">
+            BackgroundColor="{OnPlatform Android=White, iOS=White}"
+            IconImageSource="monkeyicon.png">
+
+
+    
 
     <!---->
 
@@ -28,7 +31,7 @@
     </TabbedPage.Resources>-->
 
     <TabbedPage.Children>
-        <NavigationPage ><!--Title="Eventi"-->
+        <NavigationPage>
             <!--tutti eventi-->
             <NavigationPage.IconImageSource>
                 <FontImageSource  FontFamily="{x:StaticResource FA-Solid}" Glyph="&#xf015;" Size="25"/>
@@ -39,34 +42,38 @@
             </x:Arguments>
         </NavigationPage>
 
-        <NavigationPage >
+        <ContentPage>
             <!--Title="{translator:Translate MainPage.Search}"-->
             <!-- Title="Desideri" lista desideri-->
-            <NavigationPage.IconImageSource>
-                <FontImageSource  FontFamily="{x:StaticResource FA-Solid}" Glyph="&#xf06b;" Size="25"/>
-            </NavigationPage.IconImageSource>
-            <x:Arguments>
-                <!-- TODO -->
-                <views:Home Title="">
-                </views:Home>
-            </x:Arguments>
-        </NavigationPage>
-
-        <NavigationPage ><!--Title="Profilo"-->
+            <ContentPage.ControlTemplate>
+                <ControlTemplate>
+                    <Frame HeightRequest="50" WidthRequest="50" BackgroundColor="red">
+                    </Frame>
+                </ControlTemplate>
+            </ContentPage.ControlTemplate>
+        </ContentPage>
+     <!--Title="Profilo"-->
+            <!--FontFamily="{x:StaticResource FA-Solid}" Glyph="&#xf0fe;" Size="25"  File="logobiancoblu.png"/>-->
             <!--aggiungi-->
-            <NavigationPage.IconImageSource>
-                <FontImageSource  FontFamily="{x:StaticResource FA-Solid}" Glyph="&#xf0fe;" Size="25"/>
-            </NavigationPage.IconImageSource>
+
+        <!--<NavigationPage Title="Test" IconImageSource="monkeyicon.png">
+            <NavigationPage.TitleView>
+                <StackLayout>
+                    <Label Text="ciao"></Label>
+                </StackLayout>
+            </NavigationPage.TitleView>
             <x:Arguments>
                 <views:AddPage>
                 </views:AddPage>
             </x:Arguments>
-        </NavigationPage>
+        </NavigationPage>-->
+
+        
 
         <NavigationPage ><!--Title="Profilo"-->
             <!--i miei eventi-->
             <NavigationPage.IconImageSource>
-                <FontImageSource  FontFamily="{x:StaticResource FA-Solid}" Glyph="&#xf007;" Size="25"/>
+                <FontImageSource  FontFamily="{x:StaticResource FA-Solid}" Glyph="&#xf007;" Size="25" Color="red"/>
             </NavigationPage.IconImageSource>
             <x:Arguments>
                 <views:EventiPersonali>
@@ -76,8 +83,8 @@
 
 
 
-        <NavigationPage ><!--Title="Impostazioni"-->
-            <!--mio profilo e miei eventi-->
+        <!--<NavigationPage >Title="Impostazioni"
+            mio profilo e miei eventi
             <NavigationPage.IconImageSource>
                 <FontImageSource  FontFamily="{x:StaticResource FA-Solid}" Glyph="&#xf0c9;" Size="25"/>
             </NavigationPage.IconImageSource>
@@ -85,7 +92,7 @@
                 <views:Impostazioni>
                 </views:Impostazioni>
             </x:Arguments>
-        </NavigationPage>
+        </NavigationPage>-->
 
         <!--<NavigationPage x:Name="tabAccount" Title="{translator:Translate MainPage.Account}">
             <NavigationPage.IconImageSource>

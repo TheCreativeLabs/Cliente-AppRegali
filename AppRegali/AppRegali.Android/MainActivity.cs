@@ -11,12 +11,17 @@ using System.Threading.Tasks;
 using System.IO;
 using Android.Content;
 using Plugin.CurrentActivity;
+using Android.Support.V7.App;
 
 namespace AppRegali.Droid
 {
-    [Activity(Label = "Gift Fulfill", Icon = "@drawable/icon", Theme = "@style/MainTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
+
+
+    [Activity(Label = "Gift Fulfill", Icon = "@drawable/icon", Theme = "@style/MainTheme", MainLauncher = false, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
     public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
     {
+        static readonly string TAG = "MainActivity";
+
         internal static MainActivity Instance { get; private set; }
 
         protected override void OnCreate(Bundle savedInstanceState)
@@ -65,6 +70,35 @@ namespace AppRegali.Droid
                     PickImageTaskCompletionSource.SetResult(null);
                 }
             }
+        }
+    }
+
+
+    [Activity(Theme = "@style/MyTheme.Splash", MainLauncher = true, NoHistory = true)]
+    public class SplashActivity : AppCompatActivity
+    {
+        static readonly string TAG = "X:" + typeof(SplashActivity).Name;
+
+        public override void OnCreate(Bundle savedInstanceState, PersistableBundle persistentState)
+        {
+            base.OnCreate(savedInstanceState, persistentState);
+        }
+
+        // Launches the startup task
+        protected override void OnResume()
+        {
+            base.OnResume();
+            StartActivity(new Intent(ApplicationContext, typeof(MainActivity)));
+            //Task startupWork = new Task(() => { Startup(); });
+            //startupWork.Start();
+        }
+
+        // Simulates background work that happens behind the splash screen
+        async void Startup()
+        {
+            //ApiHelper.GetListaMessaggi(true);
+            //ApiHelper.GetListaAnnunciRecenti(true);
+            //ApiHelper.GetUserInfo(true);
         }
     }
 }

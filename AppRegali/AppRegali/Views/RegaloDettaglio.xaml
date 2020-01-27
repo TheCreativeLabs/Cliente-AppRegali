@@ -2,8 +2,27 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:conv="clr-namespace:AppRegali.Converter"
-             xmlns:controls="clr-namespace:AppRegali.ContentViews"
-             x:Class="AppRegali.Views.RegaloDettaglio">
+             xmlns:controls="clr-namespace:AppRegali.ContentViews" xmlns:appregali="clr-namespace:AppRegali"
+             x:Class="AppRegali.Views.RegaloDettaglio"
+             Title="{Binding Titolo}"
+             >
+
+      <!--<ContentPage.ToolbarItems>
+    <ToolbarItem Text="Salva"
+                 Order="Primary" Clicked="ToolbarItem_Clicked"
+                 Priority="0" />
+          </ContentPage.ToolbarItems>-->
+    
+    <!--<NavigationPage.TitleView>
+        <Grid Margin="0,0,70,0" VerticalOptions="Center">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+
+            <Label Grid.Column="0" FontSize="16" Style="{x:StaticResource AdTitle}" VerticalTextAlignment="Center" HorizontalTextAlignment="Center"
+                   FontAttributes="Bold"  Text="{Binding Titolo}"></Label>
+        </Grid>
+    </NavigationPage.TitleView>-->
 
      <ContentPage.Resources>
         <ResourceDictionary>
@@ -14,18 +33,15 @@
 
 
     <ContentPage.Content>
-       <StackLayout VerticalOptions="FillAndExpand">
+        <ScrollView>
+            <StackLayout VerticalOptions="FillAndExpand">
 
-            <controls:ProfileBackButton Margin="10"  HorizontalOptions="Start"/>
+                        <Image HeightRequest="200" Aspect="AspectFill" Source="{Binding ImmagineRegalo, Converter={StaticResource ByteArrayToImage}}"></Image>
 
-            <Frame  Margin="20" HasShadow="True" CornerRadius="10" Padding="0" VerticalOptions="FillAndExpand" IsClippedToBounds="True">
-                <StackLayout>
-                    <Image Aspect="AspectFill" HeightRequest="200" Source="{Binding ImmagineRegalo, Converter={StaticResource ByteArrayToImage}}"></Image>
-
-                    <StackLayout Padding="10">
-                        <Label HorizontalTextAlignment="Center" Style="{x:StaticResource Subtitle}" Text="{Binding Titolo}">
+                    <StackLayout Padding="20">
+                        <Label HorizontalTextAlignment="Center" Style="{x:StaticResource Title}" Text="{Binding Titolo}">
                         </Label>
-                        <Label HorizontalTextAlignment="Center"  Text="{Binding Descrizione}"></Label>
+                        <Label HorizontalTextAlignment="Center"  Style="{x:StaticResource AdSubtitle}"  Text="{Binding Descrizione}"></Label>
 
                         <ProgressBar x:Name="ValueProgress">
                         </ProgressBar>
@@ -40,20 +56,28 @@
 
 
                         <StackLayout Margin="0,20,0,20" Orientation="Horizontal">
-                            <CheckBox x:Name="chkAnonimo"></CheckBox>
+                            <Switch x:Name="chkAnonimo"></Switch>
                             <Label VerticalTextAlignment="Center" Text="Voglio restare anonimo. Spuntando questa opzione, il festeggiato non visualizzerà il tuo nome tra i partecipanti al regalo fino alla data dell'evento."></Label>
                         </StackLayout>
 
-                        <Grid>
-                            <Entry x:Name="entDonazione" Grid.Column="0" Keyboard="Numeric" Placeholder="esempio: 20€"></Entry>
-                            <Label Grid.Column="0" HorizontalOptions="End" Margin="0,0,20,0" Text="€" VerticalTextAlignment="Center" Style="{x:StaticResource AdTitle}" HorizontalTextAlignment="End"></Label>
-                        </Grid>
+                        <StackLayout>
+                            <Label Margin="5,0,0,0" Text="Valore" Style="{x:StaticResource AdTitle}" FontSize="14"></Label>
+
+                             <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                    <appregali:ChatEntry x:Name="entDonazione" Grid.Column="0" Keyboard="Numeric" Placeholder="esempio: 20€"></appregali:ChatEntry>
+                                    <Label Grid.Column="0" VerticalTextAlignment="Center" Style="{x:StaticResource AdTitle}" HorizontalOptions="End" Margin="0,0,20,0" Text="€"></Label>
+                                </Grid>
+                           <BoxView Margin="5,10,0,20" Color="LightGray" BackgroundColor="Red" HeightRequest="1" VerticalOptions="Center"/>
+                        </StackLayout>
+
 
                         <Button x:Name="btnDonazione" Clicked="BtnDona_Clicked" Style="{x:StaticResource primaryButton}" Text="Dona">
                         </Button>
                     </StackLayout>
-                </StackLayout>
-            </Frame>
         </StackLayout>
+        </ScrollView>
     </ContentPage.Content>
 </ContentPage>

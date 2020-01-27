@@ -30,7 +30,7 @@ namespace AppRegali.Views.Login
             if (await ApiHelper.GetToken() != null)
             {
                 //ApiHelper.GetUserInfo();
-                Application.Current.MainPage = new MainPage();
+                Application.Current.MainPage = new Home();
             }
         }
 
@@ -58,7 +58,7 @@ namespace AppRegali.Views.Login
                 {
                     await ApiHelper.SetTokenAsync(entUsername.Text, entPassword.Text);
                     Api.ApiHelper.SetProvider(Api.ApiHelper.LoginProvider.Email);
-                    Application.Current.MainPage = new MainPage();
+                    Application.Current.MainPage = new NavigationPage(new Home());
 
                     //await DisplayAlert("Registrazioen avvenuta", "Verifica la tua email prima di accedere", "OK");
 

@@ -56,7 +56,7 @@ namespace AppRegali.Views
 
         async void AddItem_Clicked(object sender, EventArgs e)
         {
-            await Navigation.PushModalAsync(new NavigationPage(new EventoInserisci()));
+            await Navigation.PushAsync(new EventoInserisci());
         }
 
         protected async override void OnAppearing()
@@ -94,10 +94,14 @@ namespace AppRegali.Views
                 viewModel.LoadItemsCommand.Execute(null);
             }
 
-            AmiciClient amiciClient = new AmiciClient(await ApiHelper.GetApiClient());
-            ICollection<UserInfoDto> collect = await amiciClient.GetAmiciCurrentUserPreviewAsync();
-            amiciPreviewList = collect.ToList();
-            AmiciPreviewListView.ItemsSource = amiciPreviewList;
+            if(amiciPreviewList == null || !amiciPreviewList.Any())
+            {
+                AmiciClient amiciClient = new AmiciClient(await ApiHelper.GetApiClient());
+                ICollection<UserInfoDto> collect = await amiciClient.GetAmiciCurrentUserPreviewAsync();
+                amiciPreviewList = collect.ToList();
+                AmiciPreviewListView.ItemsSource = amiciPreviewList;
+            }
+
 
             await SetUserInfo();
         }
@@ -142,7 +146,7 @@ namespace AppRegali.Views
                 return;
 
             //await Navigation.PushModalAsync(new NavigationPage(new RegaloPersonaleDettaglio(item)));
-            await Navigation.PushModalAsync(new NavigationPage(new AmiciProfilo(item)));
+            await Navigation.PushAsync(new AmiciProfilo(item));
 
         }
 
@@ -160,15 +164,11 @@ namespace AppRegali.Views
             }
         }
 
-
-
         private async void btn_ModificaAccountClicked(object sender, EventArgs e)
         {
             try
             {
                 await Navigation.PushAsync(new Account.Account(userInfoDto));
-
-
             }
             catch (Exception ex)
             {
@@ -177,6 +177,10 @@ namespace AppRegali.Views
             }
         }
 
+        async void TapGestureRecognizer_Tapped(System.Object sender, System.EventArgs e)
+        {
+            await Navigation.PushAsync(new Account.Account(userInfoDto));
+        }
         //private async void lblComandiRapidi_Tapped(object sender, EventArgs e)
         //{
         //    try

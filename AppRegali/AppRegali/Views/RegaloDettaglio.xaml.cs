@@ -37,13 +37,17 @@ namespace AppRegali.Views
             }
 
             EventoClient eventoClient = new EventoClient(await ApiHelper.GetApiClient());
-            await eventoClient.InserisciPartecipazioneRegaloAsync(new Guid(Regalo.Id), double.Parse(entDonazione.Text), chkAnonimo.IsChecked);
+            await eventoClient.InserisciPartecipazioneRegaloAsync(new Guid(Regalo.Id), double.Parse(entDonazione.Text), chkAnonimo.IsToggled);
 
             await DisplayAlert("Complimenti", "la donazione è avvenuta con successo", "OK");
 
             MessagingCenter.Send(this, "RefreshListaRegaliDettaglio", "OK");
 
-            await Navigation.PopModalAsync();
+            await Navigation.PopAsync();
+        }
+
+        void ToolbarItem_Clicked(System.Object sender, System.EventArgs e)
+        {
         }
     }
 }

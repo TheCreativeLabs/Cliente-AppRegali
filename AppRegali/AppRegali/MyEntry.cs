@@ -26,4 +26,18 @@ namespace AppRegali
             set;
         }
     }
+
+    public class DatePickerBorderCtrl : DatePicker
+    {
+        public static readonly BindableProperty EnterTextProperty = BindableProperty.Create(propertyName: "Placeholder", returnType: typeof(string), declaringType: typeof(DatePickerBorderCtrl), defaultValue: default(string));
+        public string Placeholder
+        {
+            get;
+            set;
+        }
+    }
+
+    public class ChatEntry : Editor
+    {
+    }
 }

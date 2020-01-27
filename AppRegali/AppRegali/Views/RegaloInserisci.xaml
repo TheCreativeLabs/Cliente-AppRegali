@@ -6,8 +6,13 @@
              mc:Ignorable="d"
              xmlns:conv="clr-namespace:AppRegali.Converter"
              xmlns:translator="clr-namespace:AppRegali.Helpers"
+             xmlns:controls="clr-namespace:AppRegali.ContentViews"
+             xmlns:appregali="clr-namespace:AppRegali" xmlns:forms="clr-namespace:Lottie.Forms;assembly=Lottie.Forms"
              x:Class="AppRegali.Views.RegaloInserisci"
-             NavigationPage.HasNavigationBar="False"
+             NavigationPage.HasNavigationBar="True"
+             NavigationPage.HasBackButton="True"
+             Title="Nuovo regalo"
+           
              BackgroundColor="{x:StaticResource SfondoColor}">
 
     <ContentPage.Resources>
@@ -16,45 +21,90 @@
         </ResourceDictionary>
     </ContentPage.Resources>
 
-    <!--<NavigationPage.TitleView>
-        <StackLayout Orientation="Horizontal" Padding="5">
-            <Button Text="&#xf00d;" Style="{x:StaticResource ButtonCloseIconApplication}" Clicked="Cancel_Clicked">
-            </Button>
-
-            <Label FontSize="Large" HorizontalTextAlignment="Center" Margin="-50,0,0,0" VerticalTextAlignment="Center" HorizontalOptions="CenterAndExpand"  FontFamily="{x:StaticResource FA-Solid}" TextColor="White" FontAttributes="Bold" Text="{translator:Translate RegaloInserisci.Title}"></Label>
-        </StackLayout>
-    </NavigationPage.TitleView>-->
+      <ContentPage.ToolbarItems>
+    <ToolbarItem Text="Salva"
+                 Order="Primary" Clicked="ToolbarItem_Clicked"
+                 Priority="0" />
+</ContentPage.ToolbarItems>
 
     <ContentPage.Content>
+         <ScrollView>
         <Grid>
             <StackLayout Padding="20">
 
-            <Button Text="&#xf00d;" Margin="-15" Style="{x:StaticResource ButtonCloseIconApplication}" HorizontalOptions="EndAndExpand" Clicked="Cancel_Clicked">
-            </Button>
+            <!--<Button Text="&#xf00d;" Margin="-15" Style="{x:StaticResource ButtonCloseIconApplication}" HorizontalOptions="EndAndExpand" Clicked="Cancel_Clicked">
+            </Button>-->
             
-            <Label Style="{x:StaticResource Title}" Text="Aggiungi un regalo"></Label>
+            <!--<Label Style="{x:StaticResource Title}" Text="Aggiungi un regalo"></Label>-->
 
-                    <Frame CornerRadius="10" BackgroundColor="{x:StaticResource PrimaryColor}"  HeightRequest="200" IsClippedToBounds="True" Padding="0" HasShadow="True" Visual="Material">
+                    <Frame Margin="-20,-20,-20,0" CornerRadius="0" BackgroundColor="LightGray"  HeightRequest="200" IsClippedToBounds="True" Padding="0" HasShadow="True" Visual="Material">
                         <Image x:Name="imgRegaloModifica"  Aspect="AspectFill"></Image> <!--Source="{Binding Item.ImmagineRegalo, Converter={StaticResource ByteArrayToImage}}"-->
                     </Frame>
 
                     <Button Clicked="OnPickPhotoButtonClicked" TextColor="white" Visual="Default"  Margin="0,-125,0,90" BackgroundColor="Transparent" Style="{x:StaticResource PhotoButton}">
                 </Button>
 
-                    <Entry x:Name="entTitoloRegalo" Placeholder="{translator:Translate RegaloInserisci.Titolo}" Text="{Binding Item.Titolo}"></Entry>
+                    <StackLayout>
+                        <Label Margin="5,0,0,0" Text="Titolo" Style="{x:StaticResource AdTitle}" FontSize="14"></Label>
+                        <appregali:ChatEntry x:Name="entTitoloRegalo" Placeholder="{translator:Translate RegaloInserisci.Titolo}"></appregali:ChatEntry>
+                        <BoxView Margin="5,10,0,20" Color="LightGray" BackgroundColor="Red" HeightRequest="1" VerticalOptions="Center"/>
+                    </StackLayout>
 
-                    <Entry x:Name="entPrezzoRegalo"  Placeholder="{translator:Translate RegaloInserisci.Prezzo}" Text="{Binding Item.Prezzo}"></Entry>
+                    <StackLayout>
+                        <Label Margin="5,0,0,0" Text="Titolo" Style="{x:StaticResource AdTitle}" FontSize="14"></Label>
 
-                    <Entry x:Name="entDescrizioneRegalo"  Placeholder="{translator:Translate RegaloInserisci.Descrizione}" Text="{Binding Item.Descrizione}"></Entry>
+                        <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                            <appregali:ChatEntry Grid.Column="0"  x:Name="entPrezzoRegalo" Placeholder="{translator:Translate RegaloInserisci.Prezzo}"  Keyboard="Numeric"></appregali:ChatEntry>
+                            <Label Grid.Column="0" VerticalTextAlignment="Center" Style="{x:StaticResource AdTitle}" HorizontalOptions="End" Margin="0,0,20,0" Text="€"></Label>
+                        </Grid>
+                        <BoxView Margin="5,10,0,20" Color="LightGray" BackgroundColor="Red" HeightRequest="1" VerticalOptions="Center"/>
+                    </StackLayout>
 
-                    <Button Style="{x:StaticResource primaryButton}"  Text="{translator:Translate RegaloInserisci.CreaNuovo}" x:Name="btnSalva" Clicked="Create_Clicked"></Button>
-        </StackLayout>
+                    <StackLayout>
+                        <Label Margin="5,0,0,0" Text="Titolo" Style="{x:StaticResource AdTitle}" FontSize="14"></Label>
+                        <appregali:ChatEntry AutoSize="TextChanges" x:Name="entDescrizioneRegalo" Placeholder="{translator:Translate RegaloInserisci.Descrizione}" ></appregali:ChatEntry>
+                        <BoxView Margin="5,10,0,20" Color="LightGray" BackgroundColor="Red" HeightRequest="1" VerticalOptions="Center"/>
+                    </StackLayout>
 
-            <ContentView IsVisible="false" x:Name="RegaloInserisciActivityIndicator" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" BackgroundColor="LightGray" Opacity="0.5">
+                    <StackLayout>
+                        <Frame HeightRequest="80" Padding="10,5,10,5" BorderColor="DarkGray" HasShadow="False" CornerRadius="10">
+                <StackLayout Orientation="Horizontal">
+                    <forms:AnimationView
+	                        x:Name="animationView" 
+	                        Animation="present.json"
+                            HorizontalOptions="Start" VerticalOptions="Center"
+	                        Loop="True" HeightRequest="50"
+	                        AutoPlay="True" WidthRequest="40"/>
+                    <StackLayout  VerticalOptions="Center">
+                         <Label Style="{x:StaticResource AdTitle}" Text="I miei desideri"></Label>
+                        <Label Style="{x:StaticResource AdSubtitle}" Text="Crea un regalo selezionando un tuo desiderio!"></Label>
+                    </StackLayout>
+                        <Label Text="&#xf054;" VerticalTextAlignment="Center" FontFamily="{StaticResource FA-Solid}"></Label>
+                       
+                </StackLayout>
+
+                <Frame.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped_1"></TapGestureRecognizer>
+                </Frame.GestureRecognizers>
+            </Frame>
+                    </StackLayout>
+                    
+            </StackLayout>
+
+            <ContentView IsVisible="false" x:Name="RegaloInserisciActivityIndicator" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
                 <StackLayout VerticalOptions="Center">
-                    <ActivityIndicator IsRunning="true"  HeightRequest="50" />
+                    <forms:AnimationView
+	                        x:Name="animationView2" 
+	                        Animation="loader.json"
+                            HorizontalOptions="Center" VerticalOptions="Center"
+	                        Loop="True" HeightRequest="150"
+	                        AutoPlay="True" WidthRequest="150"/>
                 </StackLayout>
             </ContentView>
         </Grid>
+         </ScrollView>
     </ContentPage.Content>
 </ContentPage>

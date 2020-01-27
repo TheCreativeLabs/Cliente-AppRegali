@@ -56,12 +56,15 @@
     <PackageReference Include="Plugin.Multilingual">
       <Version>1.0.2</Version>
     </PackageReference>
-    <PackageReference Include="Xamarin.Forms" Version="4.4.0.991265" />
+    <PackageReference Include="Xamarin.Forms" Version="4.4.0.991477" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
     <PackageReference Include="Xamarin.Android.Support.Core.Utils" Version="28.0.0.3" />
     <PackageReference Include="Xamarin.Essentials" Version="1.3.1" />
     <PackageReference Include="Xamarin.Forms.Visual.Material">
-      <Version>4.2.0.848062</Version>
+      <Version>4.4.0.991477</Version>
+    </PackageReference>
+    <PackageReference Include="Com.Airbnb.Xamarin.Forms.Lottie">
+      <Version>3.0.3</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
@@ -80,7 +83,9 @@
     <AndroidAsset Include="Assets\Font Awesome 5 Free-Regular-400.otf" />
     <AndroidAsset Include="Assets\Font Awesome 5 Free-Solid-900.otf" />
     <None Include=".editorconfig" />
-    <AndroidAsset Include="Assets\Montserrat-Light.ttf" />
+    <AndroidAsset Include="Assets\Montserrat-Light.ttf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </AndroidAsset>
     <AndroidAsset Include="Assets\MyriadPro-Light.otf" />
     <AndroidAsset Include="Assets\MyriadPro-Regular.otf" />
     <AndroidAsset Include="Assets\Lobster-Regular.ttf" />
@@ -94,6 +99,39 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </AndroidAsset>
     <AndroidAsset Include="Assets\Roboto-Bold.ttf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </AndroidAsset>
+    <AndroidAsset Include="Assets\OpenSans-Light.ttf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </AndroidAsset>
+    <AndroidAsset Include="Assets\OpenSans-Bold.ttf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </AndroidAsset>
+    <AndroidAsset Include="Assets\OpenSans-Regular.ttf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </AndroidAsset>
+    <AndroidAsset Include="Assets\Montserrat-Bold.ttf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </AndroidAsset>
+    <AndroidAsset Include="Assets\Montserrat-Regular.ttf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </AndroidAsset>
+    <AndroidAsset Include="Assets\Raleway-Regular.ttf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </AndroidAsset>
+    <AndroidAsset Include="Assets\Raleway-Light.ttf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </AndroidAsset>
+    <AndroidAsset Include="Assets\Raleway-Bold.ttf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </AndroidAsset>
+    <AndroidAsset Include="Assets\present.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </AndroidAsset>
+    <AndroidAsset Include="Assets\birthday.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </AndroidAsset>
+    <AndroidAsset Include="Assets\loader.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </AndroidAsset>
   </ItemGroup>
@@ -120,6 +158,59 @@
       <Generator></Generator>
     </AndroidResource>
     <AndroidResource Include="Resources\layout\view_shadow.axml">
+      <SubType></SubType>
+      <Generator></Generator>
+    </AndroidResource>
+    <AndroidResource Include="Resources\drawable\monkeyicon.png">
+      <SubType></SubType>
+      <Generator></Generator>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </AndroidResource>
+    <AndroidResource Include="Resources\drawable\shape.xml">
+      <SubType></SubType>
+      <Generator></Generator>
+    </AndroidResource>
+    <AndroidResource Include="Resources\drawable\logobiancobluombra.png">
+      <SubType></SubType>
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </AndroidResource>
+    <AndroidResource Include="Resources\drawable\biancobluombradef.png">
+      <SubType></SubType>
+      <Generator></Generator>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </AndroidResource>
+    <AndroidResource Include="Resources\drawable\homesolid.png">
+      <SubType></SubType>
+      <Generator></Generator>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </AndroidResource>
+    <AndroidResource Include="Resources\drawable\giftsolid.png">
+      <SubType></SubType>
+      <Generator></Generator>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </AndroidResource>
+    <AndroidResource Include="Resources\drawable\menusolid.png">
+      <SubType></SubType>
+      <Generator></Generator>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </AndroidResource>
+    <AndroidResource Include="Resources\drawable\usersolid.png">
+      <SubType></SubType>
+      <Generator></Generator>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </AndroidResource>
+    <AndroidResource Include="Resources\drawable\menusolidtoolbar.png">
+      <SubType></SubType>
+      <Generator></Generator>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </AndroidResource>
+    <AndroidResource Include="Resources\drawable\plussolid.png">
+      <SubType></SubType>
+      <Generator></Generator>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </AndroidResource>
+    <AndroidResource Include="Resources\drawable\splash_screen.xml">
       <SubType></SubType>
       <Generator></Generator>
     </AndroidResource>
@@ -170,7 +261,9 @@
     <AndroidResource Include="Resources\drawable\logoneroblu.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable\logobiancoblu.png" />
+    <AndroidResource Include="Resources\drawable\logobiancoblu.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </AndroidResource>
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\it.png" />

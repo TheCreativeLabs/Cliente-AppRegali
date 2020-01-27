@@ -1,0 +1,81 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:appregali="clr-namespace:AppRegali"
+             x:Class="AppRegali.Views.DesideriView.DesideriModifica"
+             xmlns:translator="clr-namespace:AppRegali.Helpers" xmlns:conv="clr-namespace:AppRegali.Converter"
+             NavigationPage.HasBackButton="True"
+             BackgroundColor="{x:StaticResource SfondoColor}"
+             Title="{Binding Titolo}">
+
+     <ContentPage.Resources>
+        <ResourceDictionary>
+            <conv:ByteArrayToImageSourceConverter x:Key="ByteArrayToImage" />
+            <conv:KeyToTranslateConverter x:Key="TranslateConverter" />
+
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+      <ContentPage.ToolbarItems>
+    <ToolbarItem Text="Salva"
+                 Order="Primary" Clicked="ToolbarItem_Clicked"
+                 Priority="0" />
+</ContentPage.ToolbarItems>
+
+    <ContentPage.Content>
+        <ScrollView>
+         <Grid>
+             <Grid.RowDefinitions>
+                 <RowDefinition Height="*"></RowDefinition>
+                 <RowDefinition Height="auto"></RowDefinition>
+             </Grid.RowDefinitions>
+            <StackLayout Grid.Row="0" Padding="20">
+
+            <!--<Button Text="&#xf00d;" Margin="-15" Style="{x:StaticResource ButtonCloseIconApplication}" HorizontalOptions="EndAndExpand" Clicked="Cancel_Clicked">
+            </Button>-->
+            
+            <!--<Label Style="{x:StaticResource Title}" Text="Aggiungi un regalo"></Label>-->
+
+                <Frame Margin="-20,-20,-20,0" CornerRadius="0" BackgroundColor="LightGray"  HeightRequest="200" IsClippedToBounds="True" Padding="0" HasShadow="True" Visual="Material">
+                    <Image x:Name="imgRegaloModifica"  Aspect="AspectFill" Source="{Binding ImmagineDesiderio, Converter={StaticResource ByteArrayToImage}}"></Image> <!--Source="{Binding Item.ImmagineRegalo, Converter={StaticResource ByteArrayToImage}}"-->
+                </Frame>
+
+                <Button Clicked="OnPickPhotoButtonClicked"  TextColor="white" Visual="Default"  Margin="0,-125,0,90" BackgroundColor="Transparent" Style="{x:StaticResource PhotoButton}">
+                </Button>
+
+                <StackLayout>
+                    <Label Margin="5,0,0,0" Text="Titolo" Style="{x:StaticResource AdTitle}" FontSize="14"></Label>
+                    <appregali:ChatEntry x:Name="entTitoloRegalo" Text="{Binding Titolo}" Placeholder="{translator:Translate RegaloInserisci.Titolo}"></appregali:ChatEntry>
+                    <BoxView Margin="5,10,0,20" Color="LightGray" BackgroundColor="Red" HeightRequest="1" VerticalOptions="Center"/>
+
+                </StackLayout>
+
+
+                <StackLayout>
+                    <Label Margin="5,0,0,0" Text="{translator:Translate RegaloInserisci.Prezzo}" Style="{x:StaticResource AdTitle}" FontSize="16"></Label>
+
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <appregali:ChatEntry Grid.Column="0" x:Name="entPrezzoRegalo"  Text="{Binding Prezzo}" Placeholder="{translator:Translate RegaloInserisci.Prezzo}"  Keyboard="Numeric"></appregali:ChatEntry>
+                        <Label Grid.Column="0" VerticalTextAlignment="Center" Style="{x:StaticResource AdTitle}" HorizontalOptions="End" Margin="0,0,20,0" Text="€"></Label>
+                    </Grid>
+
+                    <BoxView Margin="5,10,0,20" Color="LightGray" BackgroundColor="Red" HeightRequest="1" VerticalOptions="Center"/>
+                </StackLayout>
+                    
+
+                <StackLayout>
+                    <Label Margin="5,0,0,0" Text="{translator:Translate RegaloInserisci.Descrizione}" Style="{x:StaticResource AdTitle}" FontSize="16"></Label>
+                     <appregali:ChatEntry AutoSize="TextChanges" Text="{Binding Descrizione}" x:Name="entDescrizioneRegalo" Placeholder="{translator:Translate RegaloInserisci.Descrizione}" ></appregali:ChatEntry>
+                </StackLayout>
+            </StackLayout>
+
+             <Frame Grid.Row="1" HeightRequest="60" Padding="5">
+                 <Button Text="Elimina desiderio" Clicked="Button_Clicked" VerticalOptions="Center" BackgroundColor="{x:StaticResource DangerColor}" TextColor="White"></Button>
+             </Frame>
+        </Grid>
+            </ScrollView>
+    </ContentPage.Content>
+</ContentPage>

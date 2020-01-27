@@ -5,23 +5,50 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
              x:Class="AppRegali.Views.EventoInserisci"
-             Title="Crea un evento"
              xmlns:conv="clr-namespace:AppRegali.Converter"
              xmlns:translator="clr-namespace:AppRegali.Helpers"
              xmlns:controls="clr-namespace:AppRegali.ContentViews"
-             NavigationPage.HasNavigationBar="False"
-             xmlns:appregali="clr-namespace:AppRegali"
-             BackgroundColor="{x:StaticResource SfondoColor}">
+             NavigationPage.HasNavigationBar="True"
+             xmlns:appregali="clr-namespace:AppRegali" xmlns:forms1="clr-namespace:Lottie.Forms;assembly=Lottie.Forms"
+             BackgroundColor="{x:StaticResource SfondoColor}"
+             Title="{translator:Translate EventoInserisci.Title}">
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Salva"
+                     Order="Primary" Clicked="TapGestureRecognizer_Tapped"
+                     Priority="0" />
+    </ContentPage.ToolbarItems>
 
 
-    <NavigationPage.TitleView>
+    <!--<NavigationPage.TitleView>
+        <Grid Margin="0,0,15,0" VerticalOptions="Center">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"></ColumnDefinition>
+                <ColumnDefinition Width="3*"></ColumnDefinition>
+                <ColumnDefinition Width="1*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+
+            <controls:ModalCancelButton Grid.Column="0"/>
+
+            <Label Grid.Column="1" FontSize="20" Style="{x:StaticResource AdTitle}" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" FontAttributes="Bold"  Text="{translator:Translate EventoInserisci.Title}"></Label>
+
+            <Label Grid.Column="2" FontSize="16"
+                   TextColor="{x:StaticResource PrimaryColor}" VerticalTextAlignment="Center" FontAttributes="Bold" HorizontalTextAlignment="End" Text="Salva">
+               <Label.GestureRecognizers>
+                   <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped"></TapGestureRecognizer>
+               </Label.GestureRecognizers>
+            </Label>
+        </Grid>
+    </NavigationPage.TitleView>-->
+
+    <!--<NavigationPage.TitleView>
         <StackLayout Orientation="Horizontal" Padding="5">
             <Button Text="&#xf00d;" Style="{x:StaticResource ButtonCloseIconApplication}" HorizontalOptions="EndAndExpand" Clicked="Cancel_Clicked">
             </Button>
 
-            <!--<Label FontSize="Large" HorizontalTextAlignment="Center" Margin="-50,0,0,0" VerticalTextAlignment="Center" HorizontalOptions="CenterAndExpand"  FontFamily="{x:StaticResource FA-Solid}" TextColor="White" FontAttributes="Bold" Text="{translator:Translate EventoInserisci.Title}"></Label>-->
+            <Label FontSize="Large" HorizontalTextAlignment="Center" Margin="-50,0,0,0" VerticalTextAlignment="Center" HorizontalOptions="CenterAndExpand"  FontFamily="{x:StaticResource FA-Solid}" TextColor="White" FontAttributes="Bold" Text="{translator:Translate EventoInserisci.Title}"></Label>
         </StackLayout>
-    </NavigationPage.TitleView>
+    </NavigationPage.TitleView>-->
 
     <ContentPage.Resources>
         <ResourceDictionary>
@@ -35,47 +62,71 @@
             <ScrollView>
             
             <StackLayout>
-            <Button Text="&#xf00d;" Margin="5" Style="{x:StaticResource ButtonCloseIconApplication}" HorizontalOptions="EndAndExpand" Clicked="Cancel_Clicked">
-            </Button>
+            <!--<Button Text="&#xf00d;" Margin="5" Style="{x:StaticResource ButtonCloseIconApplication}" HorizontalOptions="EndAndExpand" Clicked="Cancel_Clicked">
+            </Button>-->
                 
             <ActivityIndicator x:Name="LoadingEventoInserirsci" IsVisible="False"/>
             <StackLayout Padding="20" x:Name="StackContent" IsVisible="False">
                 
                      <!--<controls:ProfileBackButton HeightRequest="40" HorizontalOptions="Start"/>-->
 
-                    <Label Style="{x:StaticResource Title}" VerticalTextAlignment="Center" Text="{translator:Translate EventoInserisci.Title}"></Label>
+                    <!--<Label Style="{x:StaticResource Title}" VerticalTextAlignment="Center" Text="{translator:Translate EventoInserisci.Title}"></Label>-->
 
-                    <Frame   BackgroundColor="{x:StaticResource PrimaryColor}" CornerRadius="10"  HeightRequest="200" IsClippedToBounds="True" Padding="0" HasShadow="True" Visual="Material">
-                    <Image x:Name="imgTest" Aspect="AspectFill"></Image>
-                </Frame>
+                    <Frame  Margin="-20,-20,-20,0" BackgroundColor="LightGray" CornerRadius="0"  HeightRequest="200" IsClippedToBounds="True" Padding="0" HasShadow="True" Visual="Material">
+                        <Image x:Name="imgTest" Aspect="AspectFill"></Image>
+                    </Frame>
 
-                <Button Clicked="OnPickPhotoButtonClicked" TextColor="white" Visual="Default"  Margin="0,-125,0,90" BackgroundColor="Transparent" Style="{x:StaticResource PhotoButton}">
-                </Button>
+                    <Button Clicked="OnPickPhotoButtonClicked" TextColor="white" Visual="Default"  Margin="0,-125,0,90" BackgroundColor="Transparent" Style="{x:StaticResource PhotoButton}">
+                    </Button>
                 
 
-                    <Entry x:Name="entTitolo" Placeholder="Titolo" TextChanged="ent_TextChanged"></Entry>
+                    <StackLayout>
+                        <Label Margin="5,0,0,0" Text="Titolo" Style="{x:StaticResource AdTitle}" FontSize="14"></Label>
+                          <appregali:ChatEntry x:Name="entTitolo" Placeholder="{translator:Translate RegaloInserisci.Titolo}" TextChanged="ent_TextChanged"></appregali:ChatEntry>
+                         <BoxView Margin="5,10,0,20" Color="LightGray" BackgroundColor="Red" HeightRequest="1" VerticalOptions="Center"/>
+                    </StackLayout>
 
-                    <Entry x:Name="entDataEvento" Placeholder="Data evento" Focused="entDataEvento_Focused" TextChanged="ent_TextChanged"></Entry>
+                    <Entry x:Name="entDataEvento" IsVisible="False" Placeholder="Data evento" Focused="entDataEvento_Focused" TextChanged="ent_TextChanged"></Entry>
+
+                    <StackLayout>
+                        <Label Margin="5,0,0,0" Text="Data evento" Style="{x:StaticResource AdTitle}" FontSize="14"></Label>
+                        <appregali:DatePickerBorderCtrl Format="dd/MM/yyyy" Placeholder="Data evento" HeightRequest="40" x:Name="dpDataEvento" IsVisible="true" DateSelected="dpDataEvento_DateSelected"></appregali:DatePickerBorderCtrl>
+                        <BoxView Margin="5,10,0,20" Color="LightGray" BackgroundColor="Red" HeightRequest="1" VerticalOptions="Center"/>
+                    </StackLayout>
+
 
                     <!--<DatePicker x:Name="dpDataEvento" IsVisible="False"  Visual="Material" DateSelected="dpDataEvento_DateSelected" ></DatePicker>-->
-                    <appregali:DatePickerCtrl Format="dd/MM/yyyy" HeightRequest="40" x:Name="dpDataEvento" IsVisible="False" DateSelected="dpDataEvento_DateSelected"></appregali:DatePickerCtrl>
 
-
-                    <Entry x:Name="entCategoria" Placeholder="Categoria" Focused="entCategoria_Focused" TextChanged="ent_TextChanged"></Entry>
+                    <StackLayout>
+                        <Label Margin="5,0,0,0" Text="Categoria" Style="{x:StaticResource AdTitle}" FontSize="14"></Label>
+                        <appregali:ChatEntry x:Name="entCategoria" Placeholder="Categoria" Focused="entCategoria_Focused" TextChanged="ent_TextChanged"></appregali:ChatEntry>
+                        <BoxView Margin="5,10,0,20" Color="LightGray" BackgroundColor="Red" HeightRequest="1" VerticalOptions="Center"/>
+                    </StackLayout>
                     
                     <Picker x:Name="pkCategoria" IsVisible="False" ItemsSource="{Binding Items}"
                         ItemDisplayBinding="{Binding Codice, Converter={StaticResource TranslateConverter}}" Title="Seleziona categoria" SelectedIndexChanged="pkCategoria_SelectedIndexChanged"></Picker>
 
-                    <Entry x:Name="edDescrizione" TextChanged="ent_TextChanged" Placeholder="Descrizione"></Entry> <!--Keyboard="Chat" AutoSize="TextChanges"-->
+                    <!--<Entry x:Name="edDescrizione" Placeholder="Descrizione"></Entry>--> <!--Keyboard="Chat" AutoSize="TextChanges"-->
 
-                <Button Style="{x:StaticResource primaryButton}" Text="{translator:Translate EventoInserisci.CreaNuovo}" x:Name="btnSalva" Clicked="Save_Clicked" ></Button>
+                    <StackLayout>
+                        <Label Margin="5,0,0,0" Text="{translator:Translate RegaloInserisci.Descrizione}" Style="{x:StaticResource AdTitle}" FontSize="16"></Label>
+                                                 <appregali:ChatEntry AutoSize="TextChanges" TextChanged="ent_TextChanged"  x:Name="edDescrizione" Placeholder="Descrizione" ></appregali:ChatEntry>
+                    </StackLayout>
+                    
+                    <Button Style="{x:StaticResource primaryButton}" IsVisible="false" Text="{translator:Translate EventoInserisci.CreaNuovo}" x:Name="btnSalva" Clicked="Save_Clicked" ></Button>
             </StackLayout>
             </StackLayout>
         </ScrollView>
 
-            <ContentView IsVisible="false" x:Name="EventoInserisciActivityIndicator" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" BackgroundColor="LightGray" Opacity="0.5">
+            <ContentView IsVisible="false" x:Name="EventoInserisciActivityIndicator" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
                 <StackLayout VerticalOptions="Center">
-                    <ActivityIndicator IsRunning="true"  HeightRequest="50" />
+                    <forms1:AnimationView
+	                                                    x:Name="RegaliActivityIndicator" 
+	                                                    Animation="loader.json"
+                                                        HorizontalOptions="Center" VerticalOptions="CenterAndExpand"
+	                                                    Loop="True" HeightRequest="180"
+	                                                    AutoPlay="True" WidthRequest="180"/>
+             
                 </StackLayout>
             </ContentView>
         </Grid>

@@ -10,15 +10,24 @@
              xmlns:controls="clr-namespace:AppRegali.ContentViews"
              xmlns:conv="clr-namespace:AppRegali.Converter;assembly=AppRegali"
             xmlns:views1="clr-namespace:AppRegali.Views.Account"
-            xmlns:translator="clr-namespace:AppRegali.Helpers"
+            xmlns:translator="clr-namespace:AppRegali.Helpers" xmlns:forms1="clr-namespace:Lottie.Forms;assembly=Lottie.Forms"
             android:TabbedPage.IsSwipePagingEnabled="False"
             NavigationPage.HasNavigationBar="True"
-            NavigationPage.HasBackButton="False"
->
+            NavigationPage.HasBackButton="True"
+             BackgroundColor="{x:StaticResource SfondoColor}"
+            Title="Amici">
 
-    <NavigationPage.TitleView>
-        <controls:ProfileBackButton HeightRequest="40" HorizontalOptions="StartAndExpand"/>
-    </NavigationPage.TitleView>
+    <!--<NavigationPage.TitleView>
+         <Grid Margin="0,0,70,0" VerticalOptions="Center">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+
+            <Label x:Name="lblNomeCognome" Style="{x:StaticResource AdTitle}" Grid.Column="0" Text="Amici"
+                   FontSize="16" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" FontAttributes="Bold">
+            </Label>
+        </Grid>
+    </NavigationPage.TitleView>-->
 
     <ContentPage.Resources>
         <ResourceDictionary>
@@ -28,48 +37,64 @@
 
     <ContentPage.Content>
         <StackLayout>
-            <Grid Margin="0,10,0,10" HeightRequest="70" HorizontalOptions="FillAndExpand">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="1*" ></ColumnDefinition>
-                    <ColumnDefinition Width="1*"></ColumnDefinition>
-                </Grid.ColumnDefinitions>
-                <Frame Grid.Column="0"  HasShadow="True" HorizontalOptions="EndAndExpand" Padding="0" CornerRadius="20">
-                    <Button HorizontalOptions="EndAndExpand" Text="Contatti" Clicked="ShowContacts" x:Name="btnContact" CornerRadius="20" Margin="0" Padding="1" TextColor="White" BackgroundColor="{StaticResource PrimaryColor}" HeightRequest="40">
+           <StackLayout Margin="20" Orientation="Horizontal">
+                    <Button Text="Contatti"
+                            HeightRequest="50" WidthRequest="100" CornerRadius="75" Clicked="ShowContacts"
+                            x:Name="btnContact" Margin="0" Padding="1"
+                            TextColor="White" BackgroundColor="{StaticResource PrimaryColor}" VerticalOptions="Center"
+                             android:Button.UseDefaultPadding="true"
+                android:Button.UseDefaultShadow="true">
                     </Button>
-                </Frame>
-                <Frame Grid.Column="1"  HasShadow="True" Padding="0"  HorizontalOptions="StartAndExpand" CornerRadius="20">
-                    <Button HorizontalOptions="StartAndExpand" Text="Richieste"  Clicked="ShowRequests" x:Name="btnRequests" CornerRadius="20" Margin="0"  TextColor="{StaticResource PrimaryColor}" BackgroundColor="White"  Padding="1"  HeightRequest="40">
+                    <Button
+                            HorizontalOptions="StartAndExpand" Text="Richieste"  Clicked="ShowRequests" x:Name="btnRequests"
+                             Margin="0" VerticalOptions="Center"  TextColor="{StaticResource DarkColor}" 
+                            Padding="1"  HeightRequest="50" WidthRequest="100" CornerRadius="75"
+                             android:Button.UseDefaultPadding="true" BackgroundColor="{x:StaticResource LightColor}"
+                android:Button.UseDefaultShadow="true"
+                            >
                     </Button>
-                </Frame>
-            </Grid>
+            </StackLayout>
 
             <StackLayout x:Name="stkContatti" IsVisible="True">
-                <ActivityIndicator IsRunning="{Binding IsLoading}" IsVisible="{Binding IsLoading}"/>
-                <CollectionView x:Name="ContattiCollectionView"
+                <forms1:AnimationView
+	                    x:Name="RegaliActivityIndicator" 
+	                    Animation="loader.json" IsVisible="{Binding IsLoading}"
+                        HorizontalOptions="Center" VerticalOptions="CenterAndExpand"
+	                    Loop="True" HeightRequest="180"
+	                    AutoPlay="True" WidthRequest="180"/>
+
+                <ListView x:Name="ContattiCollectionView"
                 ItemsSource="{Binding Items}"
-                SelectionMode="Single"
-                SelectionChanged="OnContattiSelectionChanged">
+                SelectionMode="Single" HasUnevenRows="True"
+                          SeparatorColor="LightGray"
+                          SeparatorVisibility="Default"
+                ItemSelected="ContattiCollectionView_ItemSelected">
 
-                    <CollectionView.ItemsLayout>
-                        <GridItemsLayout Orientation="Vertical" Span="3" />
-                    </CollectionView.ItemsLayout>
+                    <ListView.ItemTemplate>
 
-                    <CollectionView.ItemTemplate>
                         <DataTemplate>
-                            <StackLayout Padding="10">
-                                <Frame HasShadow="True"  CornerRadius="10" HeightRequest="170" Padding="0" IsClippedToBounds="True">
-                                    <StackLayout>
-                                        <Image x:Name="imgContatto" HeightRequest="100" Aspect="AspectFill"
+                              <ViewCell>
+                            <StackLayout HeightRequest="70" Padding="20,10,20,10" Orientation="Horizontal">
+                                <Frame HasShadow="False"  CornerRadius="60"
+                                       VerticalOptions="Center" HeightRequest="60" WidthRequest="60" Padding="0" IsClippedToBounds="True">
+                                        <Image x:Name="imgContatto" Aspect="AspectFill"
                                                Source="{Binding FotoProfilo, Converter={StaticResource ByteArrayToImage}}" ></Image>
-
-                                        <Label Text="{Binding Nome}" Margin="10,0,0,0" Style="{x:StaticResource AdSubtitle}"/>
-                                        <Label Text="{Binding Cognome}" Margin="10,0,0,0" Style="{x:StaticResource AdSubtitle}"/>
-                                    </StackLayout>
                                 </Frame>
+
+                                <Label Margin="10,0,0,0" VerticalTextAlignment="Center" Style="{x:StaticResource AdSubtitle}">
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span Text="{Binding Nome}" />
+                                        <Span Text=" " />
+                                        <Span Text="{Binding Cognome}" />
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
                             </StackLayout>
+                                  </ViewCell>
                         </DataTemplate>
-                    </CollectionView.ItemTemplate>
-                </CollectionView>
+                    </ListView.ItemTemplate>
+                </ListView>
             </StackLayout>
 
             <!--<StackLayout x:Name="stkRequests">

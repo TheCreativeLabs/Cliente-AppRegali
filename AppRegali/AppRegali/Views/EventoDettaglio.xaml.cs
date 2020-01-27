@@ -43,14 +43,17 @@ namespace AppRegali.Views
 
             if (viewModel.Item.Regali == null || !viewModel.Item.Regali.Any())
             {
-                RegaliActivityIndicator.IsRunning = true;
-                RegaliActivityIndicator.IsVisible = true;
+                //RegaliActivityIndicator.IsRunning = true;
+                //RegaliActivityIndicator.IsVisible = true;
 
                 EventoClient eventoClient = new EventoClient(await ApiHelper.GetApiClient());
                 var item = await eventoClient.GetEventoByIdAsync(new Guid(viewModel.Item.Id));
                 viewModel.Item.CodiceCategoriaEvento = item.CodiceCategoriaEvento;
+                //
+
                 FrameTitle.IsVisible = true;
                 viewModel.Item.Regali = item.Regali;
+                stkActivityIndicator.IsVisible = false;
             }
 
             RegaliDettaglioListView.ItemsSource = viewModel.Item.Regali;
@@ -60,8 +63,8 @@ namespace AppRegali.Views
             //    // RegaliDettaglioListView.HeightRequest = ((140) * eventoDettaglio.Regali.Count) + 70;
             //}
 
-            RegaliActivityIndicator.IsRunning = false;
-            RegaliActivityIndicator.IsVisible = false;
+            //RegaliActivityIndicator.IsRunning = false;
+            //RegaliActivityIndicator.IsVisible = false;
         }
 
         async void OnCollectionViewSelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -71,7 +74,7 @@ namespace AppRegali.Views
             if (item == null || item.Id == null)
                 return;
 
-            await Navigation.PushModalAsync(new RegaloDettaglio(item));
+            await Navigation.PushAsync(new RegaloDettaglio(item));
 
             RegaliDettaglioListView.SelectedItem = null;
         }   

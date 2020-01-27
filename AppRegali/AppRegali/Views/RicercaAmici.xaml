@@ -8,8 +8,10 @@
              xmlns:conv="clr-namespace:AppRegali.Converter;assembly=AppRegali"
              x:Class="AppRegali.Views.RicercaAmici"
              xmlns:translator="clr-namespace:AppRegali.Helpers"
-             xmlns:controls="clr-namespace:AppRegali.ContentViews"
-             NavigationPage.HasNavigationBar="False"
+             xmlns:controls="clr-namespace:AppRegali.ContentViews" xmlns:forms1="clr-namespace:Lottie.Forms;assembly=Lottie.Forms"
+             NavigationPage.HasNavigationBar="True"
+             Title="Ricerca amici"
+             NavigationPage.HasBackButton="True"
              BackgroundColor="{x:StaticResource SfondoColor}">
 
     <ContentPage.Resources>
@@ -18,58 +20,89 @@
         </ResourceDictionary>
     </ContentPage.Resources>
 
+
+    <NavigationPage.TitleView>
+       <Frame Margin="0,0,20,0" IsClippedToBounds="True" HasShadow="False" Padding="0" HeightRequest="40" BackgroundColor="{x:StaticResource LightColor}" CornerRadius="20">
+             <SearchBar x:Name="searchbar" Placeholder="Cerca una persona" SearchButtonPressed="SearchBar_SearchButtonPressed">
+        </SearchBar>
+
+       </Frame>
+    </NavigationPage.TitleView>
+
     <ContentPage.Content>
-        <StackLayout Padding="20">
+
 
             <!--<Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition></ColumnDefinition>
-                    <ColumnDefinition></ColumnDefinition>
-                </Grid.ColumnDefinitions>-->
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="auto"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
                 <controls:ProfileBackButton Grid.Column="0" HeightRequest="40" HorizontalOptions="FillAndExpand"/>
 
-                <Frame Grid.Column="1" HasShadow="True" Padding="10,5,5,5" HorizontalOptions="FillAndExpand" >
+                <Frame BackgroundColor="{x:StaticResource LightColor}" Grid.Column="0" HasShadow="False" CornerRadius="15" Padding="10,0,0,0" HorizontalOptions="FillAndExpand" >
                     <StackLayout Orientation="Horizontal">
                      <Label FontSize="17" VerticalTextAlignment="Center" FontFamily="{x:StaticResource FA-Solid}" TextColor="{x:StaticResource GrayColor}" Text="&#xf002;"></Label>
 
                          <appregali:SearchEntry2 HorizontalOptions="FillAndExpand" 
                                             Placeholder="{translator:Translate RicercaAmici.SearchBar}" 
-                                            x:Name="entRicerca"
+                                            x:Name="entRicerca" HeightRequest="50"
                                             Visual="Default"/>
+
+                    
                     </StackLayout>
                 </Frame>
-            <!--</Grid>-->
 
+                
 
-            <ActivityIndicator IsRunning="{Binding IsLoading}" IsVisible="{Binding IsLoading}"/>
+               <Label Grid.Column="1" FontSize="17" Style="{x:StaticResource AdTitle}" VerticalTextAlignment="Center"  TextColor="{x:StaticResource DarkColor}" Text="Annulla">
+                   <Label.GestureRecognizers>
+                       <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped"></TapGestureRecognizer>
+                   </Label.GestureRecognizers>
+               </Label>
 
-            <CollectionView x:Name="RichiesteCollectionView"
+            </Grid>-->
+
+            <!--<ActivityIndicator IsRunning="{Binding IsLoading}" IsVisible="{Binding IsLoading}"/>-->
+        <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+            <ListView x:Name="RichiesteCollectionView"
                 ItemsSource="{Binding Items}"
                 SelectionMode="Single"
-                SelectionChanged="OnPeopleSelectionChanged"
+                      HasUnevenRows="True"
+                      SeparatorColor="LightGray"
+                    ItemTapped="RichiesteCollectionView_ItemTapped"
                 >
-                <CollectionView.ItemsLayout>
-                    <GridItemsLayout Orientation="Vertical"/>
-                </CollectionView.ItemsLayout>
 
-                <CollectionView.ItemTemplate>
+                <ListView.ItemTemplate>
                     <DataTemplate>
-                        <StackLayout Padding="1" Margin="0,20,0,0">
-                            <Frame HasShadow="True"  CornerRadius="10" Padding="10">
+                        <ViewCell>
+                        <StackLayout Padding="20">
                                 <StackLayout Orientation="Horizontal" VerticalOptions="CenterAndExpand">
-                                    <Frame HasShadow="False" Padding="0" CornerRadius="10" HeightRequest="80" WidthRequest="80" IsClippedToBounds="True">
-                                        <Image x:Name="imgContatto"  Aspect="AspectFill"
+                                    <Frame HasShadow="False" Padding="0" CornerRadius="25" HeightRequest="50" WidthRequest="50" IsClippedToBounds="True">
+                                        <Image x:Name="imgContatto" Aspect="AspectFill"
                                                Source="{Binding FotoProfilo, Converter={StaticResource ByteArrayToImage}}" ></Image>
                                     </Frame>
                                    
                                     <Label Text="{Binding Nome}" Style="{x:StaticResource AdSubtitle}" VerticalTextAlignment="Center"/>
                                     <Label Text="{Binding Cognome}" Style="{x:StaticResource AdSubtitle}" VerticalTextAlignment="Center"/>
                                 </StackLayout>
-                            </Frame>
                        </StackLayout>
+                            </ViewCell>
                     </DataTemplate>
-                </CollectionView.ItemTemplate>
-            </CollectionView>
-            </StackLayout>
+                </ListView.ItemTemplate>
+            </ListView>
+
+              <StackLayout Grid.Row="0" VerticalOptions="FillAndExpand"  IsVisible="{Binding IsBusy}">
+                <forms1:AnimationView
+	                        x:Name="animationView2" 
+	                        Animation="loader.json"
+                            HorizontalOptions="Center" VerticalOptions="CenterAndExpand"
+	                        Loop="True" HeightRequest="180"
+	                        AutoPlay="True" WidthRequest="180"/>
+              </StackLayout>
+
+         </Grid>
       </ContentPage.Content>
 </ContentPage>

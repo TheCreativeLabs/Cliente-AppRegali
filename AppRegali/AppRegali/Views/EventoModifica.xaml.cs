@@ -88,9 +88,10 @@ namespace AppRegali.Views
                     viewModel.Item = null;
                 }
             });
-            
 
-            if (this.viewModel.Item == null) { 
+
+            if (this.viewModel.Item == null)
+            {
                 eventoClient = new EventoClient(await ApiHelper.GetApiClient());
 
                 this.viewModel = new EventoDetailViewModel();
@@ -163,7 +164,7 @@ namespace AppRegali.Views
                     Helpers.TranslateExtension.ResMgr.Value.GetString("EventoModifica.ConfirmDelete", CurrentCulture.Ci),
                     Helpers.TranslateExtension.ResMgr.Value.GetString("EventoModifica.Yes", CurrentCulture.Ci),
                     Helpers.TranslateExtension.ResMgr.Value.GetString("EventoModifica.No", CurrentCulture.Ci));
-                
+
                 if (answer)
                 {
                     try
@@ -189,7 +190,7 @@ namespace AppRegali.Views
                             Helpers.TranslateExtension.ResMgr.Value.GetString("EventoModifica.Ok", CurrentCulture.Ci)); //FIXME
                     }
                 }
-                
+
             }
             catch (Exception)
             {
@@ -215,7 +216,7 @@ namespace AppRegali.Views
         {
             RegaloDtoOutput regaloNew = new RegaloDtoOutput();
             regaloNew.IdEvento = new Guid(viewModel.Item.Id);
-            await Navigation.PushModalAsync(new NavigationPage(new RegaloInserisci(new RegaloDetailViewModel(regaloNew))));
+            await Navigation.PushAsync(new RegaloInserisci(new RegaloDetailViewModel(regaloNew)));
         }
 
         async void OnRegaloSelected(object sender, SelectedItemChangedEventArgs args)
@@ -280,9 +281,49 @@ namespace AppRegali.Views
             if (item == null || item.Id == null)
                 return;
 
-            await Navigation.PushModalAsync(new NavigationPage(new RegaloPersonaleDettaglio(item)));
+            await Navigation.PushAsync(new RegaloPersonaleDettaglio(item));
 
             RegaliModificaListView.SelectedItem = null;
+        }
+
+        async void TapGestureRecognizer_Tapped(System.Object sender, System.EventArgs e)
+        {
+            RegaloDtoOutput regaloNew = new RegaloDtoOutput();
+            regaloNew.IdEvento = new Guid(viewModel.Item.Id);
+            await Navigation.PushAsync(new RegaloInserisci(new RegaloDetailViewModel(regaloNew)));
+
+        }
+
+        async void ToolbarItem_Clicked(System.Object sender, System.EventArgs e)
+        {
+            EventoModificaActivityIndicator.IsVisible = true;
+
+            EventoDtoInput eventoDtoInput = new EventoDtoInput()
+            {
+                Cancellato = viewModel.Item.Cancellato,
+                DataEvento = viewModel.Item.DataEvento,
+                Descrizione = viewModel.Item.Descrizione,
+                IdCategoriaEvento = viewModel.Item.IdCategoriaEvento,
+                ImmagineEvento = viewModel.Item.ImmagineEvento,
+                Titolo = viewModel.Item.Titolo
+            };
+
+            Guid id = new Guid(viewModel.Item.Id);
+
+            //Faccio update dell'evento
+            var eventoInserito = await eventoClient.UpdateEventoAsync(new Guid(viewModel.Item.Id), eventoDtoInput);
+
+            MessagingCenter.Send(this, "RefreshListaEventiPersonaliModifica", "OK");
+
+            EventoModificaActivityIndicator.IsVisible = false;
+            await DisplayAlert(null,
+                Helpers.TranslateExtension.ResMgr.Value.GetString("EventoModifica.SalvataggioOk", CurrentCulture.Ci),
+                Helpers.TranslateExtension.ResMgr.Value.GetString("EventoModifica.Ok", CurrentCulture.Ci));
+        }
+
+        async void TapGestureRecognizer_Tapped_1(System.Object sender, System.EventArgs e)
+        {
+            PickPhoto();
         }
     }
 }

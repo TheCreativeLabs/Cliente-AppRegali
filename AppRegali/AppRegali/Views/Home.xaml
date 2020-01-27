@@ -9,14 +9,14 @@
               xmlns:controls="clr-namespace:AppRegali.ContentViews"
              x:Name="BrowseItemsPage"
              xmlns:translator="clr-namespace:AppRegali.Helpers" xmlns:b="clr-namespace:AppRegali.Behaviors"
-             xmlns:android="clr-namespace:Xamarin.Forms.PlatformConfiguration.AndroidSpecific.AppCompat;assembly=Xamarin.Forms.Core"
-             android:NavigationPage.BarHeight="450"
+             xmlns:android="clr-namespace:Xamarin.Forms.PlatformConfiguration.AndroidSpecific.AppCompat;assembly=Xamarin.Forms.Core" xmlns:tabs="clr-namespace:Sharpnado.Presentation.Forms.CustomViews.Tabs;assembly=Sharpnado.Presentation.Forms" xmlns:forms="clr-namespace:Lottie.Forms;assembly=Lottie.Forms"
              BackgroundColor="{x:StaticResource SfondoColor}">
 
     <ContentPage.Resources>
         <ResourceDictionary>
             <conv:ByteArrayToImageSourceConverter x:Key="ByteArrayToImage" />
             <conv:KeyToTranslateConverter x:Key="TranslateConverter" />
+
         </ResourceDictionary>
     </ContentPage.Resources>
 
@@ -32,23 +32,21 @@
 
             </StackLayout>
     </NavigationPage.TitleView>
+     <!--IsRefreshing="{Binding IsBusy}"-->
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+        </Grid.RowDefinitions>
 
-    <StackLayout>
-        
-        <!--<Grid HeightRequest="45">
-         <Picker Grid.Row="0" Grid.Column="0"  x:Name="pkCategoria" IsVisible="true" 
-              ItemDisplayBinding="{Binding Codice, Converter={StaticResource TranslateConverter}}" Title="{translator:Translate Home.SelectCategory}" SelectedIndexChanged="pkCategoria_SelectedIndexChanged"></Picker>
-         <Label Grid.Row="0" Grid.Column="0" Margin="0,0,20,0" Style="{x:StaticResource AdTitle}"  HorizontalOptions="End"  VerticalTextAlignment="Center" FontFamily="{x:StaticResource FA-Solid}" Text="&#xf107;"></Label>
-        </Grid>-->
-     
-        <ListView 
+
+        <ListView Grid.Row="0" 
             x:Name="EventiListView"
                 ItemsSource="{Binding Items}"
                 VerticalOptions="FillAndExpand"
                 HasUnevenRows="true"
                 RefreshCommand="{Binding LoadItemsCommand}"
                 IsPullToRefreshEnabled="true"
-                IsRefreshing="{Binding IsBusy}"
                 ItemSelected="OnItemSelected"
                 SeparatorVisibility="None"
             VerticalScrollBarVisibility="Never"
@@ -72,16 +70,25 @@
                                                     Source="{Binding ImmagineUserCreatoreEvento, Converter={StaticResource ByteArrayToImage}}"></Image>
                                         </Frame>
                                     <StackLayout Grid.Column="1">
-                                            <Label Text="{Binding NomeUserCreatoreEvento}" 
-                                            LineBreakMode="NoWrap" Style="{x:StaticResource AdTitle}"/>
+                                        <Label LineBreakMode="NoWrap" 
+                                                   Style="{x:StaticResource AdTitle}">
+                                                <Label.FormattedText>
+                                                    <FormattedString>
+                                                        <Span Text="{Binding NomeUserCreatoreEvento}" />
+                                                        <Span Text=" "/>
+                                                        <Span Text="{Binding CognomeUserCreatoreEvento}"
+                                                              />
+                                                    </FormattedString>
+                                                </Label.FormattedText>
+                                            </Label>
 
-                                                 <Label Text="{Binding DataEvento, StringFormat='{0:dd/MM/yyyy}'}" FontSize="13"
+                                         <Label Text="{Binding DataEvento, StringFormat='{0:ddd dd MMMM}'}" FontSize="13"
                                             LineBreakMode="NoWrap" Style="{x:StaticResource HelpText}" Margin="0,-5,0,0" TextColor="{x:StaticResource GrayColor}"/>
 
                                         </StackLayout>
                                 </Grid>
 
-                                <Frame Grid.Row="0" HasShadow="False" Padding="0" HeightRequest="210" CornerRadius="0" IsClippedToBounds="True">
+                                <Frame Grid.Row="0" HasShadow="False" Padding="0" HeightRequest="230" CornerRadius="0" IsClippedToBounds="True">
                                     <Image Aspect="AspectFill"
                                            Source="{Binding ImmagineEvento, Converter={StaticResource ByteArrayToImage}}"></Image>
                                 </Frame>
@@ -99,6 +106,17 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
-    </StackLayout>
+
+        <StackLayout Grid.Row="0" VerticalOptions="FillAndExpand"  IsVisible="{Binding IsBusy}">
+            <forms:AnimationView
+	                        x:Name="animationView" 
+	                        Animation="loader.json"
+                            HorizontalOptions="Center" VerticalOptions="CenterAndExpand"
+	                        Loop="True" HeightRequest="180"
+	                        AutoPlay="True" WidthRequest="180"/>
+        </StackLayout>
+        
+        <controls:CustomTabPage Grid.Row="1" CurrentIndex="1"/>
+    </Grid>
 
 </ContentPage>

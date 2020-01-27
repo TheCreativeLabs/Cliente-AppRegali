@@ -28,8 +28,8 @@ namespace AppRegali.Views
         {
             base.OnAppearing();
 
-            EventoClient eventoClient = new EventoClient(await  ApiHelper.GetApiClient());
-            PartecipazioneDtoOutput partecipazione =  await eventoClient.GetPartecipazioniRegaloAsync(new Guid(Regalo.Id));
+            EventoClient eventoClient = new EventoClient(await ApiHelper.GetApiClient());
+            PartecipazioneDtoOutput partecipazione = await eventoClient.GetPartecipazioniRegaloAsync(new Guid(Regalo.Id));
             lvPartecipanti.ItemsSource = partecipazione.UtentiPartecipanti.ToList();
             if (partecipazione.NumeroAnonimi.HasValue && partecipazione.NumeroAnonimi.Value > 0)
             {
@@ -59,7 +59,6 @@ namespace AppRegali.Views
                 {
                     try
                     {
-                        RegaloPersonaleDettaglioActivityIndicator.IsVisible = true;
 
                         EventoClient eventoClient = new EventoClient(await ApiHelper.GetApiClient());
                         await eventoClient.DeleteRegaloAsync(new Guid(Regalo.Id));
@@ -77,7 +76,6 @@ namespace AppRegali.Views
                     }
                     finally
                     {
-                        RegaloPersonaleDettaglioActivityIndicator.IsVisible = false;
                     }
                 }
 
@@ -85,6 +83,45 @@ namespace AppRegali.Views
             catch (Exception)
             {
                 throw;
+            }
+        }
+
+       async void ToolbarItem_Clicked(System.Object sender, System.EventArgs e)
+        {
+            string action = await DisplayActionSheet(null, "Annulla", "Elimina", "Modifica");
+
+            if (action == "Elimina")
+            {
+                bool answer = await DisplayAlert("Attenzione", "Vuoi davvero eliminare il regalo?", "Yes", "No");
+                if (answer)
+                {
+                    try
+                    {
+                        //RegaloPersonaleDettaglioActivityIndicator.IsVisible = true;
+
+                        EventoClient eventoClient = new EventoClient(await ApiHelper.GetApiClient());
+                        await eventoClient.DeleteRegaloAsync(new Guid(Regalo.Id));
+
+                        MessagingCenter.Send(this, "RefreshListaRegaliPersonaliElimina", "OK");
+
+                        await DisplayAlert(null, "Regalo eliminato", "Ok");
+                        //torno indietro alla lista degli eventi personali
+                        await Navigation.PopAsync();
+                        await Navigation.PopModalAsync();
+                    }
+                    catch
+                    {
+                        await DisplayAlert(null, "Errore durante l'eliminazione del regalo", "Ok");
+                    }
+                    finally
+                    {
+                        //RegaloPersonaleDettaglioActivityIndicator.IsVisible = false;
+                    }
+                }
+            }
+            else if (action == "Modifica")
+            {
+                await Navigation.PushAsync(new RegaloModifica(new RegaloDetailViewModel(Regalo)));
             }
         }
     }

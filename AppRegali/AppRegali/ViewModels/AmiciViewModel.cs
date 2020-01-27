@@ -77,14 +77,14 @@ namespace AppRegali.ViewModels
 
                 foreach (var user in listaUsers)
                 {
-                    if (user.PhotoUrl != null)
-                    {
-                        using (var webClient = new WebClient())
-                        {
-                            byte[] imageBytes = webClient.DownloadData(user.PhotoUrl);
-                            user.FotoProfilo = imageBytes;
-                        }
-                    }
+                    //if (user.PhotoUrl != null)
+                    //{
+                    //    using (var webClient = new WebClient())
+                    //    {
+                    //        byte[] imageBytes = webClient.DownloadData(user.PhotoUrl);
+                    //        user.FotoProfilo = imageBytes;
+                    //    }
+                    //}
                     Items.Add(user);
                 }
             }

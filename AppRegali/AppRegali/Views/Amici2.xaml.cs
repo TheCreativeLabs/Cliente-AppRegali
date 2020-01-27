@@ -37,8 +37,8 @@ namespace AppRegali.Views
         {
             btnContact.BackgroundColor = (Color)App.Current.Resources["PrimaryColor"];
             btnContact.TextColor = Color.White;
-            btnRequests.BackgroundColor = Color.White;//(Color)App.Current.Resources["LightColor"];
-            btnRequests.TextColor = (Color)App.Current.Resources["PrimaryColor"];
+            btnRequests.BackgroundColor = (Color)App.Current.Resources["LightColor"];//(Color)App.Current.Resources["LightColor"];
+            btnRequests.TextColor = (Color)App.Current.Resources["DarkColor"];
             viewModel.SoloAccettati = true;
             viewModel.LoadItemsCommand.Execute(null);
             //stkContatti.IsVisible = true;
@@ -47,8 +47,8 @@ namespace AppRegali.Views
 
         void ShowRequests(object sender, EventArgs e)
         {
-            btnContact.BackgroundColor = Color.White;
-            btnContact.TextColor = (Color)App.Current.Resources["PrimaryColor"];
+            btnContact.BackgroundColor = (Color)App.Current.Resources["LightColor"];
+            btnContact.TextColor = (Color)App.Current.Resources["DarkColor"];
             btnRequests.BackgroundColor = (Color)App.Current.Resources["PrimaryColor"];
             btnRequests.TextColor = Color.White;
             viewModel.SoloAccettati = false;
@@ -75,6 +75,16 @@ namespace AppRegali.Views
                 return;
 
             await Navigation.PushModalAsync(new AmiciProfilo(current));
+        }
+
+        async void ContattiCollectionView_ItemSelected(System.Object sender, Xamarin.Forms.SelectedItemChangedEventArgs e)
+        {
+            if (e.SelectedItem == null)
+                return;
+
+            UserInfoDto current = (e.SelectedItem as UserInfoDto);
+
+            await Navigation.PushAsync(new AmiciProfilo(current));
         }
     }
 }

@@ -7,15 +7,35 @@
              xmlns:conv="clr-namespace:AppRegali.Converter"
              xmlns:translator="clr-namespace:AppRegali.Helpers" xmlns:controls="clr-namespace:AppRegali.ContentViews"
              x:Class="AppRegali.Views.EventoModifica"
-             xmlns:appregali="clr-namespace:AppRegali"
-             NavigationPage.HasNavigationBar="False"
+             xmlns:appregali="clr-namespace:AppRegali" xmlns:forms1="clr-namespace:Lottie.Forms;assembly=Lottie.Forms"
+             NavigationPage.HasNavigationBar="True"
+             NavigationPage.HasBackButton="True"
+             Title="Modifica evento"
              BackgroundColor="{x:StaticResource SfondoColor}">
-    
+
+     <ContentPage.ToolbarItems>
+    <ToolbarItem Text="Salva"
+                 Order="Primary" Clicked="ToolbarItem_Clicked"
+                 Priority="0" />
+</ContentPage.ToolbarItems>
+
     <!--<NavigationPage.TitleView>
-        <StackLayout Orientation="Horizontal">
-            <Label Text="{Binding Item.Titolo}" TextColor="White" HorizontalOptions="StartAndExpand" VerticalTextAlignment="Center" FontAttributes="Bold" FontSize="Large"></Label>
-            <Button Text="Salva" TextColor="White" BackgroundColor="Transparent"  HorizontalOptions="EndAndExpand"  Clicked="Update_Clicked"></Button>
-        </StackLayout>
+        <Grid Margin="0,0,0,0" VerticalOptions="Center">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="7*"></ColumnDefinition>
+                <ColumnDefinition Width="2*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+
+            <Label Grid.Column="0" FontSize="16" Style="{x:StaticResource AdTitle}" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" FontAttributes="Bold"
+                   Text="Modifica evento"></Label>
+
+            <Label Grid.Column="1" FontSize="16"
+                   TextColor="{x:StaticResource PrimaryColor}" Style="{x:StaticResource AdTitle}" VerticalTextAlignment="Center" FontAttributes="Bold" HorizontalTextAlignment="Center" Text="Salva">
+               <Label.GestureRecognizers>
+                   <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped"></TapGestureRecognizer>
+               </Label.GestureRecognizers>
+            </Label>
+        </Grid>
     </NavigationPage.TitleView>-->
 
     <ContentPage.Resources>
@@ -31,68 +51,128 @@
     <ContentPage.Content>
 
         <Grid>
-            <StackLayout VerticalOptions="FillAndExpand">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="auto"></RowDefinition>
+            </Grid.RowDefinitions>
+            <StackLayout Grid.Row="0" VerticalOptions="FillAndExpand">
                 <!--<ActivityIndicator x:Name="EventoModificaActivityIndicator" VerticalOptions="CenterAndExpand" IsRunning="False" IsVisible="False"/>-->
 
                 <ScrollView x:Name="ScrollViewEventoModifica" IsVisible="False">
                     <StackLayout Padding="20">
-                        <StackLayout Orientation="Horizontal">
+                        <!--<StackLayout Orientation="Horizontal" IsVisible="false">
                             <controls:ProfileBackButton HeightRequest="40" HorizontalOptions="StartAndExpand"/>
 
                             <Button BackgroundColor="Transparent" WidthRequest="80" BorderWidth="2" BorderColor="{x:StaticResource DangerColor}"  TextColor="{x:StaticResource DangerColor}"  Text="{translator:Translate EventoModifica.Elimina}" x:Name="btnDelete" Clicked="Delete_Clicked" ></Button>
                             <Button BackgroundColor="Transparent" WidthRequest="60" BorderWidth="2" TextColor="{x:StaticResource PrimaryColor}" Text="{translator:Translate EventoModifica.Save}" x:Name="btnSave" Clicked="Update_Clicked" ></Button>
-                        </StackLayout>
+                        </StackLayout>-->
 
 
-                        <Label Style="{x:StaticResource Title}" Margin="0,20,0,0"  Text="Modifica il tuo evento"></Label>
+                        <!--<Label IsVisible="False" Style="{x:StaticResource Title}" Margin="0,20,0,0"  Text="Modifica il tuo evento"></Label>-->
 
-                         <Grid>
+                         <Grid Margin="-20,-20,-20,20">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="200"/>
                             </Grid.RowDefinitions>
                                 <Frame Grid.Row="0" CornerRadius="0"  HeightRequest="200" IsClippedToBounds="True" Padding="0" HasShadow="True" Visual="Material">
                                         <Image x:Name="imgEventoModifica" Source="{Binding Item.ImmagineEvento, Converter={StaticResource ByteArrayToImage}}" Aspect="AspectFill"></Image>
                                 </Frame>
-                                <AbsoluteLayout Grid.Row="0" Padding="5" HorizontalOptions="EndAndExpand" VerticalOptions="End">
-                                    <Button HorizontalOptions="End" Clicked="OnPickPhotoButtonClicked" BackgroundColor="White" Style="{x:StaticResource PhotoButton}">
-                                        <!--Clicked="OnPickPhotoButtonClicked"-->
-                                    </Button>
-                                </AbsoluteLayout>
+                                <Frame Grid.Row="0" BackgroundColor="{x:StaticResource LightColor}" Opacity="0.9" Padding="10" HorizontalOptions="FillAndExpand" VerticalOptions="End">
+                                     <Label Style="{x:StaticResource AdTitle}"  FontSize="15" HorizontalOptions="EndAndExpand"
+                                            HorizontalTextAlignment="End" VerticalOptions="Center">
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span Text="Aggiorna immagine  " />
+                                        <Span Text="&#xf030;" FontFamily="{StaticResource FA-Solid}" />
+                                    </FormattedString>
+                                </Label.FormattedText>
+                                         
+                            </Label>
+                                <Frame.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped_1"></TapGestureRecognizer>
+                                </Frame.GestureRecognizers>
+
+                                <!--<Button Clicked="OnPickPhotoButtonClicked" Style="{x:StaticResource PhotoButton}"
+                                        BackgroundColor="LightGray" Padding='0' Margin="5">
+                                </Button>-->
+                            </Frame>
                         </Grid>
 
 
-                            <Entry x:Name="entTitoloEvento" Placeholder="Titolo" VerticalOptions="Center" Text="{Binding Item.Titolo}" ></Entry>
+                        <StackLayout>
+                            <Label Margin="5,0,0,0" Text="Titolo" Style="{x:StaticResource AdTitle}" FontSize="14"></Label>
+                             <appregali:ChatEntry x:Name="entTitolo" Text="{Binding Item.Titolo}" Placeholder="{translator:Translate RegaloInserisci.Titolo}"></appregali:ChatEntry>
+                       
+                            <BoxView Margin="5,10,0,20" Color="LightGray" BackgroundColor="Red" HeightRequest="1" VerticalOptions="Center"/>
+                        </StackLayout>
 
-                        <Entry x:Name="entDataEvento" Placeholder="Data Evento" Focused="entDataEvento_Focused"  VerticalOptions="Center" Text="{Binding Item.DataEvento, StringFormat='{0:dd/MM/yyyy}'}" ></Entry>
+                        <Entry IsVisible="false" x:Name="entDataEvento" Placeholder="Data Evento" Focused="entDataEvento_Focused"  VerticalOptions="Center" Text="{Binding Item.DataEvento, StringFormat='{0:dd/MM/yyyy}'}" ></Entry>
+
+                        <StackLayout>
+                                <Label Margin="5,0,0,0" Text="Data evento" Style="{x:StaticResource AdTitle}" FontSize="14"></Label>
+                                <appregali:DatePickerBorderCtrl Format="dd/MM/yyyy" HeightRequest="40" x:Name="dpDataEvento" IsVisible="true" Date="{Binding Item.DataEvento, StringFormat='{0:dd/MM/yyyy}'}" DateSelected="dpDataEvento_DateSelected"></appregali:DatePickerBorderCtrl>
+
+                                <BoxView Margin="5,10,0,20" Color="LightGray" BackgroundColor="Red" HeightRequest="1" VerticalOptions="Center"/>
+                        </StackLayout>
 
                             <!--<DatePicker x:Name="dpDataEvento" IsVisible="False"  Visual="Material" DateSelected="dpDataEvento_DateSelected" ></DatePicker>-->
-                        <appregali:DatePickerCtrl Format="dd/MM/yyyy" HeightRequest="40" x:Name="dpDataEvento" IsVisible="False" DateSelected="dpDataEvento_DateSelected"></appregali:DatePickerCtrl>
+                        <StackLayout>
+                            <Label Margin="5,0,0,0" Text="Categoria" Style="{x:StaticResource AdTitle}" FontSize="14"></Label>
+                            <appregali:ChatEntry x:Name="entCategoria" Text="{Binding item.Categoria.Descrizione}" Placeholder="Categoria" Focused="entCategoria_Focused"></appregali:ChatEntry>
+                            <BoxView Margin="5,10,0,20" Color="LightGray" BackgroundColor="Red" HeightRequest="1" VerticalOptions="Center"/>
+                        </StackLayout>
 
-
-                        <Entry x:Name="entCategoria"  Placeholder="Categoria" Focused="entCategoria_Focused"></Entry>
-                    
-                            <Picker x:Name="pkCategoria" IsVisible="False" ItemDisplayBinding="{Binding Codice, Converter={StaticResource TranslateConverter}}"
+                        
+                        <Picker x:Name="pkCategoria" IsVisible="False" ItemDisplayBinding="{Binding Codice, Converter={StaticResource TranslateConverter}}"
                                     SelectedItem="{Binding Id}" Title="{translator:Translate EventoModifca.SelezionaCategoria}" SelectedIndexChanged="pkCategoria_SelectedIndexChanged"></Picker>
 
-                            <Entry Placeholder="Descrizione" VerticalOptions="Center" Text="{Binding Item.Descrizione}" ></Entry>
+                         <StackLayout>
+                            <Label Margin="5,0,0,0" Text="Descrizione" Style="{x:StaticResource AdTitle}" FontSize="14"></Label>
+                            <appregali:ChatEntry Text="{Binding Item.Descrizione}" AutoSize="TextChanges" x:Name="edDescrizione" Placeholder="Descrizione" ></appregali:ChatEntry>
+                        </StackLayout>
+                            <!--<Entry Placeholder="Descrizione" VerticalOptions="Center" Text="{Binding Item.Descrizione}" ></Entry>-->
 
-                            <StackLayout Orientation="Horizontal" Margin="0,20,0,0">
-                                <Label Style="{x:StaticResource Title}" Text="{translator:Translate EventoInserisci.SezioneRegali}" />
-                                <Button WidthRequest="50" BackgroundColor="Transparent" FontSize="Medium" Margin="0,0,-15,0" TextColor="{StaticResource PrimaryColor}" HorizontalOptions="EndAndExpand" Text="&#xf067;" FontFamily="{StaticResource FA-Solid}" Clicked="AddRegalo_Clicked">
-                                </Button>
+                        <StackLayout Orientation="Horizontal" Margin="0,30,0,10">
+                            <Label VerticalTextAlignment="Center" Style="{x:StaticResource Title}" FontSize="20" Text="{translator:Translate EventoInserisci.SezioneRegali}" />
+
+                            <Button IsVisible="false" WidthRequest="50" BackgroundColor="Transparent" FontSize="Medium" Margin="0,0,-15,0" TextColor="{StaticResource PrimaryColor}" HorizontalOptions="EndAndExpand" Text="&#xf067;" FontFamily="{StaticResource FA-Solid}" Clicked="AddRegalo_Clicked">
+                            </Button>
+
+
+                            <StackLayout HorizontalOptions="EndAndExpand" > 
+                                 <Frame  Padding="5" BackgroundColor="{x:StaticResource LightColor}" HasShadow="False" HeightRequest="30" CornerRadius="15">
+                          
+                                     <Label x:Name="lblAdd"  HorizontalOptions="EndAndExpand" HorizontalTextAlignment="End" VerticalOptions="Center">
+                                            <Label.FormattedText>
+                                                <FormattedString>
+                                                    <Span Text="Aggiungi un regalo " />
+                                                    <Span Text="&#xf054;" FontFamily="{StaticResource FA-Solid}" />
+                                                </FormattedString>
+                                            </Label.FormattedText>
+                                        </Label>
+
+                                         <Frame.GestureRecognizers>
+                                             <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped"></TapGestureRecognizer>
+                                         </Frame.GestureRecognizers>
+
+                                </Frame>
                             </StackLayout>
+                           
+                            
+                        </StackLayout>
 
-                        <CollectionView SelectionChanged="OnCollectionViewSelectionChanged" SelectionMode="Single" x:Name="RegaliModificaListView">
+                        <CollectionView Margin="-5" SelectionChanged="OnCollectionViewSelectionChanged" SelectionMode="Single"
+                                        x:Name="RegaliModificaListView">
                             <CollectionView.ItemsLayout>
                                 <GridItemsLayout Orientation="Vertical" Span="2" />
                             </CollectionView.ItemsLayout>
                             <CollectionView.ItemTemplate>
                                 <DataTemplate>
-                                    <StackLayout Padding="10" WidthRequest="250" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+                                    <StackLayout Padding="5" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
                                                 <Frame HasShadow="True" Padding="0" CornerRadius="10" IsClippedToBounds="True">
                                             <StackLayout>
 
-                                                <Image x:Name="imgFotoUtente" HeightRequest="180" Aspect="AspectFill" Source="{Binding ImmagineRegalo, Converter={StaticResource ByteArrayToImage}}" ></Image>
+                                                <Image x:Name="imgFotoUtente" HeightRequest="130" Aspect="AspectFill" Source="{Binding ImmagineRegalo, Converter={StaticResource ByteArrayToImage}}" ></Image>
 
 
                                                 <StackLayout Padding="10">
@@ -124,12 +204,19 @@
                 </ScrollView>
             </StackLayout>
 
-            <ContentView IsVisible="false" x:Name="EventoModificaActivityIndicator" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" BackgroundColor="LightGray" Opacity="0.5">
+            <Frame Padding="10" Grid.Row="1" HeightRequest="50" CornerRadius="0" HorizontalOptions="FillAndExpand" HasShadow="True">
+                 <Button BackgroundColor="{x:StaticResource DangerColor}" TextColor="White"  Text="{translator:Translate EventoModifica.Elimina}" x:Name="btnDelete" Clicked="Delete_Clicked" ></Button>
+            </Frame>
+            <ContentView IsVisible="false" x:Name="EventoModificaActivityIndicator" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" >
                 <StackLayout VerticalOptions="Center">
-                    <ActivityIndicator IsRunning="true"  HeightRequest="50" />
+                     <forms1:AnimationView
+	                                                    x:Name="RegaliActivityIndicator" 
+	                                                    Animation="loader.json"
+                                                        HorizontalOptions="Center" VerticalOptions="CenterAndExpand"
+	                                                    Loop="True" HeightRequest="180"
+	                                                    AutoPlay="True" WidthRequest="180"/>
                 </StackLayout>
             </ContentView>
-
         </Grid>
     </ContentPage.Content>
 </ContentPage>

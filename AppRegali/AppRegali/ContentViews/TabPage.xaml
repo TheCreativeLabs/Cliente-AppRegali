@@ -1,0 +1,92 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:tabs="clr-namespace:Sharpnado.Presentation.Forms.CustomViews.Tabs;assembly=Sharpnado.Presentation.Forms" xmlns:conv="clr-namespace:AppRegali.Converter" xmlns:forms="clr-namespace:Lottie.Forms;assembly=Lottie.Forms"
+             x:Class="AppRegali.ContentViews.CustomTabPage">
+
+        <ContentView.Resources>
+                <ResourceDictionary>
+                    <conv:ByteArrayToImageSourceConverter x:Key="ByteArrayToImage" />
+                    <conv:KeyToTranslateConverter x:Key="TranslateConverter" />
+                    <conv:TabColorConverter x:Key="TabColorConverter" />
+                </ResourceDictionary>
+            </ContentView.Resources>
+
+    <ContentView.Content>
+
+
+       
+
+        <tabs:TabHostView x:Name="TabHostTest"
+                    BackgroundColor="White"
+                    ShadowType="Top" HeightRequest="70" SelectedTabIndexChanged="TabHost_SelectedTabIndexChanged"
+                    TabType="Fixed">
+                    <tabs:TabHostView.Tabs>
+
+                    <tabs:BottomTabItem x:Name="HomeTab" IconImageSource="homesolid.png" VerticalOptions="End" IconSize="26">
+                             <tabs:BottomTabItem.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="Home_Tapped">
+                            </TapGestureRecognizer>
+                        </tabs:BottomTabItem.GestureRecognizers>
+                    </tabs:BottomTabItem>
+
+                    <tabs:BottomTabItem x:Name="GiftTab" IconImageSource="giftsolid.png" VerticalOptions="End" IconSize="25">
+                        <!--<tabs:BottomTabItem.ControlTemplate>
+                            <ControlTemplate>
+                                <StackLayout HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
+                                    <Label x:Name="lblTest" FontFamily="{x:StaticResource FA-Solid}" Text="&#xf06b;" FontSize="24"></Label>
+                                </StackLayout>
+                            </ControlTemplate>
+                        </tabs:BottomTabItem.ControlTemplate>-->
+
+                        <tabs:BottomTabItem.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="Desire_Tapped">
+                            </TapGestureRecognizer>
+                        </tabs:BottomTabItem.GestureRecognizers>
+                    </tabs:BottomTabItem>
+        
+
+                    <!--  Circle button ButtonCircleSize="70" HeightRequest="110"  WidthRequest="80"  -->
+                    <tabs:TabButton  ButtonCircleSize="50" ButtonBackgroundColor="Red" HeightRequest="100"
+                                    WidthRequest="100"
+                                    IconImageSource="biancobluombradef.png"
+                                    Scale="1"
+                                    TranslationY="-15">
+                        <tabs:TabButton.ControlTemplate>
+                            <ControlTemplate>
+                                <Frame HasShadow="True" HorizontalOptions="Center" VerticalOptions="CenterAndExpand"
+                                       HeightRequest="70" WidthRequest="70"
+                                       CornerRadius="35" Padding="-5" IsClippedToBounds="True">
+                                     <Image Source="logobiancoblu.png" Aspect="AspectFill"></Image>
+                                    <!--<forms:AnimationView 
+	                        x:Name="animationView2" 
+	                        Animation="present.json" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand"
+	                        Loop="True" 
+	                        AutoPlay="True" />-->
+                                    <Frame.GestureRecognizers>
+                                        <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped"></TapGestureRecognizer>
+                                    </Frame.GestureRecognizers>
+                                </Frame>
+                            </ControlTemplate>
+                        </tabs:TabButton.ControlTemplate>
+                    </tabs:TabButton>
+
+                    <tabs:BottomTabItem x:Name="AccountTab" IconImageSource="usersolid.png" VerticalOptions="End" IconSize="24">
+
+                            <tabs:BottomTabItem.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="Account_Tapped">
+                            </TapGestureRecognizer>
+                        </tabs:BottomTabItem.GestureRecognizers>
+                    </tabs:BottomTabItem>
+
+           
+                    <tabs:BottomTabItem x:Name="SettingTab" IconImageSource="menusolid.png" VerticalOptions="End" IconSize="24">
+                            <tabs:BottomTabItem.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="Setting_Tapped">
+                            </TapGestureRecognizer>
+                        </tabs:BottomTabItem.GestureRecognizers>
+                    </tabs:BottomTabItem>
+                </tabs:TabHostView.Tabs>
+            </tabs:TabHostView>
+    </ContentView.Content>
+</ContentView>

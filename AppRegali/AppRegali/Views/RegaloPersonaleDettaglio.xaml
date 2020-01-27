@@ -4,7 +4,38 @@
              xmlns:controls="clr-namespace:AppRegali.ContentViews" xmlns:conv="clr-namespace:AppRegali.Converter"
              x:Class="AppRegali.Views.RegaloPersonaleDettaglio"
              xmlns:translator="clr-namespace:AppRegali.Helpers"
-             NavigationPage.HasNavigationBar="False">
+             NavigationPage.HasNavigationBar="True"
+             NavigationPage.HasBackButton="True"
+             BackgroundColor="{x:StaticResource SfondoColor}"
+             Title="{Binding Titolo}">
+
+
+    <ContentPage.ToolbarItems>
+    <ToolbarItem IconImageSource="menusolidtoolbar.png"
+                 Order="Primary" Clicked="ToolbarItem_Clicked"
+                 Priority="0" />
+          </ContentPage.ToolbarItems>
+    <!--<NavigationPage.TitleView>
+     <Grid Margin="0,0,0,0" VerticalOptions="Center">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="0*"></ColumnDefinition>
+                <ColumnDefinition Width="8*"></ColumnDefinition>
+                <ColumnDefinition Width="2*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+
+            <Label x:Name="lblNomeCognome" Text="{Binding Titolo}"
+                   Style="{x:StaticResource AdTitle}" Grid.Column="1" FontSize="16" VerticalTextAlignment="Center"
+                   HorizontalTextAlignment="Center" FontAttributes="Bold">
+
+            </Label>
+
+            <Label x:Name="btnSetting" Text="&#xf142;" FontSize="16" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" Grid.Column="2"  FontFamily="{x:StaticResource FA-Solid}" >
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped"></TapGestureRecognizer>
+                </Label.GestureRecognizers>
+            </Label>
+        </Grid>
+        </NavigationPage.TitleView>-->
 
     <ContentPage.Resources>
         <ResourceDictionary>
@@ -14,31 +45,18 @@
     </ContentPage.Resources>
 
     <ContentPage.Content>
-        <Grid>
-            <StackLayout Padding="20" VerticalOptions="FillAndExpand">
+                        
+           <ListView x:Name="lvPartecipanti" SeparatorVisibility="None" IsVisible="True" HasUnevenRows="True" >
+                            <ListView.Header>
 
-             
-            <controls:ProfileBackButton HorizontalOptions="Start" />
+                                <StackLayout Padding="20">
+                    <Image Aspect="AspectFill" Margin="-20,-20,-20,0" HeightRequest="200" Source="{Binding ImmagineRegalo, Converter={StaticResource ByteArrayToImage}}"></Image>
 
-            <ScrollView>
-
-            <Frame HasShadow="True" CornerRadius="10" Padding="0" VerticalOptions="FillAndExpand" IsClippedToBounds="True">
-                <StackLayout>
-                    <Image Aspect="AspectFill" HeightRequest="200" Source="{Binding ImmagineRegalo, Converter={StaticResource ByteArrayToImage}}"></Image>
-
-                    <StackLayout Padding="10">
-                        <Label HorizontalTextAlignment="Center" Style="{x:StaticResource Subtitle}" Text="{Binding Titolo}">
+                                    <Label HorizontalTextAlignment="Center" Style="{x:StaticResource Subtitle}" Text="{Binding Titolo}">
                         </Label>
                         <Label HorizontalTextAlignment="Center"  Text="{Binding Descrizione}"></Label>
 
-                            <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
-                                <Button BackgroundColor="Transparent" WidthRequest="80" BorderWidth="2" BorderColor="{x:StaticResource DangerColor}"  TextColor="{x:StaticResource DangerColor}"  Text="{translator:Translate RegaloModifica.Elimina}" x:Name="btnDelete" Clicked="Delete_Clicked" ></Button>
-
-                                    <Button Clicked="BtnModificaRegalo_Clicked" Text="Modifica" Style="{x:StaticResource SecondaryButton}"  >
-                                    </Button>
-                                </StackLayout>
-
-                            <ProgressBar x:Name="ValueProgress">
+                         <ProgressBar x:Name="ValueProgress">
                         </ProgressBar>
 
                         <StackLayout Orientation="Horizontal">
@@ -49,7 +67,7 @@
                         </StackLayout>
 
 
-                        <Label Style="{x:StaticResource AdTitle}" Margin="0,20,0,10" Text="Partecipanti"></Label>
+                        <Label Style="{x:StaticResource AdTitle}" Margin="0,20,0,0" Text="Partecipanti"></Label>
 
                         <Label x:Name="LabelAnonimi" IsVisible="False">
                             <Label.FormattedText>
@@ -60,11 +78,12 @@
                                 </FormattedString>
                             </Label.FormattedText>
                         </Label>
-                        <ListView x:Name="lvPartecipanti" SeparatorVisibility="None" IsVisible="True" HasUnevenRows="True" >
+                                </StackLayout>
+                            </ListView.Header>
                             <ListView.ItemTemplate>
                                 <DataTemplate>
                                     <ViewCell>
-                                        <StackLayout Orientation="Horizontal">
+                                        <StackLayout Orientation="Horizontal" Margin="20,0,0,0">
                                             <Label Style="{x:StaticResource AdSubtitle}"  Text="{Binding NomePartecipante}"></Label>
                                             <Label Style="{x:StaticResource AdSubtitle}"  Text="{Binding CognomePartecipante}"></Label>
                                         </StackLayout>
@@ -75,27 +94,7 @@
                                     <Label></Label>
                                 </ListView.Footer>
                         </ListView>
-                        <!--<CollectionView x:Name="lvPartecipanti" >
-                            <CollectionView.ItemTemplate>
-                                <DataTemplate>
-                                        <StackLayout Orientation="Horizontal">
-                                            <Label Style="{x:StaticResource AdSubtitle}"  Text="{Binding NomePartecipante}"></Label>
-                                            <Label Style="{x:StaticResource AdSubtitle}"  Text="{Binding CognomePartecipante}"></Label>
-                                        </StackLayout>
-                                </DataTemplate>
-                            </CollectionView.ItemTemplate>
-                        </CollectionView>-->
-                    </StackLayout>
-                </StackLayout>
-            </Frame>
-            </ScrollView>
-        </StackLayout>
-
-            <ContentView IsVisible="false" x:Name="RegaloPersonaleDettaglioActivityIndicator" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" BackgroundColor="LightGray" Opacity="0.5">
-                <StackLayout VerticalOptions="Center">
-                    <ActivityIndicator IsRunning="true"  HeightRequest="50" />
-                </StackLayout>
-            </ContentView>
-        </Grid>
+                        
+                    
     </ContentPage.Content>
 </ContentPage>

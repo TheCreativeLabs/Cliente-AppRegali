@@ -7,6 +7,7 @@
              xmlns:cnv="clr-namespace:AppRegali.Converter;assembly=AppRegali"
              xmlns:conv="clr-namespace:AppRegali.Converter;assembly=AppRegali"
              xmlns:translator="clr-namespace:AppRegali.Helpers"
+             xmlns:controls="clr-namespace:AppRegali.ContentViews"
              x:Class="AppRegali.Views.Impostazioni"
              NavigationPage.HasNavigationBar="False"
             BackgroundColor="{x:StaticResource SfondoColor}">
@@ -14,11 +15,16 @@
     <ContentPage.Resources>
         <ResourceDictionary>
             <conv:ByteArrayToImageSourceConverter x:Key="ByteArrayToImage" />
+            <conv:KeyToTranslateConverter x:Key="TranslateConverter" />
         </ResourceDictionary>
     </ContentPage.Resources>
 
     <ContentPage.Content>
-        <StackLayout>
+             <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+        </Grid.RowDefinitions>
             <!--<appappartamenti:ShadowFrame  CornerRadius="0" HeightRequest="100" HasShadow="True" Padding="15" VerticalOptions="Center">
                 <StackLayout Orientation="Horizontal" Margin="0,20,0,0" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" >
                     <Frame CornerRadius="35"
@@ -44,7 +50,7 @@
                 </StackLayout>
             </appappartamenti:ShadowFrame>-->
 
-            <ListView  x:Name="listViewImpostazioni" Margin="0,-3,0,0" SelectionMode="None" RowHeight="60" SeparatorColor="LightGray" ItemTapped="OnItemTapped">
+            <ListView Grid.Row="0"  x:Name="listViewImpostazioni" Margin="0,-3,0,0" SelectionMode="None" RowHeight="70" SeparatorColor="LightGray" ItemTapped="OnItemTapped">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
@@ -63,7 +69,7 @@
                                 <Label Text="{Binding DisplayName}" d:Text="{Binding .}" FontSize="18"  VerticalTextAlignment="Center" />
                                 <Label Text="{Binding Icona}" FontSize="18" VerticalTextAlignment="Center"
                                        FontFamily="{x:StaticResource FA-Solid}" HorizontalOptions="EndAndExpand" IsVisible="{Binding Icon}" ></Label>
-                                <Image x:Name="imgEn" Source="{Binding Image}" HeightRequest="10" VerticalOptions="Center" IsVisible="{Binding Image}"></Image>
+                                <Image x:Name="imgEn" Source="{Binding Image}" Margin="-10,0,0,0" HeightRequest="10" VerticalOptions="Center" IsVisible="{Binding Image}"></Image>
                             </StackLayout>
                         </ViewCell>
                     </DataTemplate>
@@ -97,7 +103,12 @@
 
             <!--<Picker  x:Name="pkLanguage" IsVisible="False"   ItemDisplayBinding="{Binding Codice, Converter={StaticResource TranslateConverter}}" 
                       Title="{translator:Translate Menu.ChangeLanguage}" SelectedIndexChanged="pkLanguage_SelectedIndexChanged"></Picker>-->
-            
-        </StackLayout>
+
+                  <Picker  x:Name="pkLanguage" IsVisible="False"   ItemDisplayBinding="{Binding Codice, Converter={StaticResource TranslateConverter}}" 
+                      Title="{translator:Translate Menu.ChangeLanguage}" SelectedIndexChanged="pkLanguage_SelectedIndexChanged"></Picker>
+
+
+        <controls:CustomTabPage Grid.Row="1" CurrentIndex="4"/>
+    </Grid>
     </ContentPage.Content>
 </ContentPage>

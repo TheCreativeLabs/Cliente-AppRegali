@@ -25,7 +25,7 @@ namespace AppRegali.Views
         {
             InitializeComponent();
 
-            entRicerca.ReturnCommand = new Command(() => MyDisplayAlert());
+            //Sear.ReturnCommand = new Command(() => MyDisplayAlert());
 
             //entRicerca.Focus();
 
@@ -36,7 +36,7 @@ namespace AppRegali.Views
 
         protected override void OnAppearing()
         {
-            entRicerca.Focus();
+            searchbar.Focus();
         }
 
         public async void lblCancel_Tapped(object sender, EventArgs e) 
@@ -53,12 +53,12 @@ namespace AppRegali.Views
             }
         }
 
-        public async void MyDisplayAlert()
-        {
-            viewModel.LoadItemsFilteredCommand.Execute(entRicerca.Text);
-            //RichiesteCollectionView.IsVisible = true;
-            //await DisplayAlert("aa", "bb", "cc");
-        }
+        //public async void MyDisplayAlert()
+        //{
+        //    viewModel.LoadItemsFilteredCommand.Execute(entRicerca.Text);
+        //    //RichiesteCollectionView.IsVisible = true;
+        //    //await DisplayAlert("aa", "bb", "cc");
+        //}
 
         async void btnCerca_Clicked(object sender, EventArgs e)
         {
@@ -82,7 +82,28 @@ namespace AppRegali.Views
             if (current == null || current.IdAspNetUser == null)
                 return;
 
-            await Navigation.PushModalAsync(new AmiciProfilo(current));
+            await Navigation.PushAsync(new AmiciProfilo(current));
+        }
+
+        async void TapGestureRecognizer_Tapped(System.Object sender, System.EventArgs e)
+        {
+            await Navigation.PopAsync();
+        }
+
+        void SearchBar_SearchButtonPressed(System.Object sender, System.EventArgs e)
+        {
+            viewModel.LoadItemsFilteredCommand.Execute(searchbar.Text);
+
+        }
+
+        async void RichiesteCollectionView_ItemTapped(System.Object sender, Xamarin.Forms.ItemTappedEventArgs e)
+        {
+            UserInfoDto current = (e.Item as UserInfoDto);
+
+            if (current == null || current.IdAspNetUser == null)
+                return;
+
+            await Navigation.PushAsync(new AmiciProfilo(current));
         }
     }
 }

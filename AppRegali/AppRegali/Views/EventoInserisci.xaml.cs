@@ -34,7 +34,7 @@ namespace AppRegali.Views
             InitializeComponent();
 
             BindingContext = viewModel = new CategorieViewModel();
-                  
+
         }
 
         protected async override void OnAppearing()
@@ -84,7 +84,7 @@ namespace AppRegali.Views
             EventoInserisciActivityIndicator.IsVisible = false;
 
             //Torno alla pagina di lista
-            await Navigation.PopModalAsync();
+            await Navigation.PopAsync();
             //Redirect alla modifica dell'evento appena inserito, in questo modo l'utente può aggiungere regali
             //await Navigation.PushAsync(new EventoModifica(new EventoDetailViewModel(eventoInserito)));
         }
@@ -219,6 +219,48 @@ namespace AppRegali.Views
 
                 img = memoryStream.ToArray();
                 imgTest.Source = ImageSource.FromStream(() => { return new MemoryStream(img); });
+            }
+        }
+
+        async void TapGestureRecognizer_Tapped(System.Object sender, System.EventArgs e)
+        {
+
+            if (!(String.IsNullOrEmpty(entTitolo.Text)) && !(String.IsNullOrEmpty(edDescrizione.Text))
+                     && !(String.IsNullOrEmpty(entCategoria.Text)) && !(String.IsNullOrEmpty(entDataEvento.Text)))
+            {
+                EventoInserisciActivityIndicator.IsVisible = true;
+
+                EventoClient eventoClient = new EventoClient(await ApiHelper.GetApiClient());
+
+                if (img == null)
+                {
+                    EventoCategoria cat = (EventoCategoria)pkCategoria.SelectedItem;
+                    img = cat.Immagine;
+                }
+                //Costruisco l'evento
+                EventoDtoInput evento = new EventoDtoInput()
+                {
+                    Titolo = entTitolo.Text,
+                    Descrizione = edDescrizione.Text,
+                    IdCategoriaEvento = ((EventoCategoria)pkCategoria.SelectedItem).Id.Value,
+                    DataEvento = dpDataEvento.Date,
+                    ImmagineEvento = img
+                };
+
+                //Inserisco l'evento
+                EventoDtoOutput eventoInserito = await eventoClient.InserisciEventoAsync(evento);
+
+                MessagingCenter.Send(this, "RefreshListaEventiPersonaliInsert", "OK");
+                EventoInserisciActivityIndicator.IsVisible = false;
+
+                await DisplayAlert("Nuovo evento inserito", "Inserimento avvenuto con successo", "Ok");
+
+                //Torno alla pagina di lista
+                await Navigation.PopAsync();
+            }
+            else
+            {
+                await DisplayAlert("Campi obbligatori", "Devi valorizzare tutti i campi prima di inserire un nuovo evento", "Ok");
             }
         }
     }
